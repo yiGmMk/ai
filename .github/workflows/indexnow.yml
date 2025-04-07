@@ -1,0 +1,27 @@
+name: "IndexNow"
+on:
+  schedule:
+    # Scheduled in UTC.
+    - cron: "0 0,8 * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check-and-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: indexnow-action zh
+        uses: bojieyang/indexnow-action@v2
+        with:
+          sitemap-location: "https://ai.programnotes.cn/zh-cn/sitemap.xml"
+          since: 1
+          since-unit: "day"
+          key: ${{ secrets.INDEXNOW_KEY }}
+      - name: indexnow-action en
+        uses: bojieyang/indexnow-action@v2
+        with:
+          sitemap-location: "https://ai.programnotes.cn/en/sitemap.xml"
+          since: 1
+          since-unit: "day"
+          key: ${{ secrets.INDEXNOW_KEY }}

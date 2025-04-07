@@ -1,0 +1,32 @@
+# Change baseurl before deploy
+baseurl: "https://producthunt.programnotes.cn"
+title: "Producthunt daily"
+
+# Theme i18n support
+# Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
+defaultContentLanguage: "zh-cn"
+
+# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
+# This will make .Summary and .WordCount behave correctly for CJK languages.
+hasCJKLanguage: true
+
+# Change it to your Disqus shortname before using
+disqusShortname: "hugo-theme-stack"
+
+pagination:
+  pagerSize: 5
+
+# 配置了多语言会生成多份言的sitemap,类似这样
+# Sitemap: https://producthunt.programnotes.cn/sitemap.xml
+# Sitemap: https://producthunt.programnotes.cn/zh-cn/sitemap.xml
+# Sitemap: https://producthunt.programnotes.cn/en/sitemap.xml
+sitemap:
+  changefreq: "daily"
+  priority: 0.5
+
+# google分析 https://gohugo.io/templates/embedded/
+# 配置参考 https://morimit.github.io/2024/%E7%BB%99hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0google-analytics/
+# stack主题里如何配置 https://stack.jimmycai.com/config/header-footer,在layout创建custom.html里添加
+services:
+  googleAnalytics:
+    id: G-KGCNFWCDTR
