@@ -1,5 +1,5 @@
 ---
-title: "GPU 编程“改朝换代”：英伟达终为 CUDA 添加原生 Python 支持，百万用户变千万？"
+title: GPU 编程“改朝换代”：英伟达终为 CUDA 添加原生 Python 支持，百万用户变千万？
 date: 2025-04-08
 author: InfoQ
 ---
