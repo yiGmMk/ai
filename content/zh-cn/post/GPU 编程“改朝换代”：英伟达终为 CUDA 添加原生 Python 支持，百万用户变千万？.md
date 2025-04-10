@@ -3,12 +3,9 @@ title: GPU 编程“改朝换代”：英伟达终为 CUDA 添加原生 Python �
 date: 2025-04-08
 author: InfoQ
 ---
-
-![图片](https://ai.programnotes.cn/img/ai/7cccfbb98bf655a56e6fc2593a6afd7e.jpeg)  
-
 ![图片](https://ai.programnotes.cn/img/ai/5d8e3d8cb02bb33580aeefac6a437db4.gif)  
 
-编译 | 核子可乐、Tina  
+来源 | InfoQ  编译 | 核子可乐、Tina  
 
 今年，英伟达全力押注，明确表示要确保 Python 成为 CUDA 并行编程框架中的“一等公民”。
 
