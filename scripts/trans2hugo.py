@@ -17,7 +17,7 @@ def replace_local_links(markdown_content):
         encoded_filename = quote(os.path.basename(link_url))
         new_url = f"https://ai.programnotes.cn/img/ai/{encoded_filename}"
         print(f"Replacing with: {new_url}")  # Debugging
-        return f"[{link_text}]({new_url})"
+        return f"![{link_text}]({new_url})"
 
     # Regular expression to find markdown links and image links
     markdown_link_regex = r"!*\[([^\]]+)\]\(([^)]+)\)"
