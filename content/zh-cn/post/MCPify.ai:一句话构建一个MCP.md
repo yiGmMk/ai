@@ -7,7 +7,6 @@ description: "MCPify.ai是一个基于Model Context Protocol (MCP)构建的创�
 author: "QOK AI"
 image: https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png
 ---
-#  MCPify.ai:一句话构建一个MCP   
 
 **来源 | QOK AI**
 
