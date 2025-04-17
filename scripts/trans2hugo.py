@@ -134,27 +134,21 @@ def replace_title(content: str, header: str) -> str:
 
 
 def replace_author(content: str) -> str:
-    # 使用正则匹配以"#"开头的行作为标题
-    match = re.match(r"^原创 (.*)", content, re.MULTILINE)
+    """
+    Replaces the *first* occurrence of the substring '原创'
+    with '**源自** | ' in the given text.
 
-    if match:
-        # 获取匹配到的完整标题行（包括"# "）
-        author = match.group(0)
-        # 获取匹配到的标题内容（不包括"# "）
-        other_content = match.group(1)
+    Args:
+      text: The input string.
 
-        # 使用字符串的replace方法将匹配到的完整标题行替换为空字符串
-        result = content.replace(
-            author, "**源自** | " + author, 1
-        )  # count=1 确保只替换第一个匹配项
-
-        # 如果你只需要标题内容，可以使用 header_content
-        print(f"内容: {other_content}")
-        print(f"处理后的内容: {result}")
-        return result
-    else:
-        print("没有找到以'#'开头的标题")
-        return content
+    Returns:
+      The string with only the first replacement made.
+    """
+    # Use the string's replace method with the 'count' argument set to 1
+    # to substitute only the first occurrence of the target substring
+    # '原创' (original) with '**源自** | ' (sourced from | )
+    new_text = content.replace("原创", "**源自** | ", 1)
+    return new_text
 
 
 if __name__ == "__main__":
