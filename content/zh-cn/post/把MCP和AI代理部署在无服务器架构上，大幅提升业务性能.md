@@ -5,7 +5,7 @@ tags: ["MCP", "AI代理", "无服务器架构", "Serverless", "腾讯云", "云�
 categories: ["云计算", "人工智能"]
 description: 将MCP和AI代理部署在无服务器架构上，利用Serverless架构的弹性计算资源，解决AI代理的动态资源需求，提升业务性能并增强安全性。
 author: "maxlong"
-image: ""
+image: https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png
 ---
 **源自** | maxlong  腾讯云原生
   
