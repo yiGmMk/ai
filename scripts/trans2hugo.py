@@ -92,6 +92,9 @@ def main():
         header = call_openai(tran2hugo_prompt, modified_content)
         print("hugo header", header)
 
+        # 作者
+        modified_content = replace_author(modified_content)
+
         # 去除markdown的1级标题,将header与剩余部分拼在一起
         post = replace_title(modified_content, header)
         try:
@@ -123,6 +126,30 @@ def replace_title(content: str, header: str) -> str:
 
         # 如果你只需要标题内容，可以使用 header_content
         print(f"匹配到的标题内容: {header_content}")
+        print(f"处理后的内容: {result}")
+        return result
+    else:
+        print("没有找到以'#'开头的标题")
+        return content
+
+
+def replace_author(content: str) -> str:
+    # 使用正则匹配以"#"开头的行作为标题
+    match = re.match(r"^原创 (.*)", content, re.MULTILINE)
+
+    if match:
+        # 获取匹配到的完整标题行（包括"# "）
+        author = match.group(0)
+        # 获取匹配到的标题内容（不包括"# "）
+        other_content = match.group(1)
+
+        # 使用字符串的replace方法将匹配到的完整标题行替换为空字符串
+        result = content.replace(
+            author, "**源自** | " + author, 1
+        )  # count=1 确保只替换第一个匹配项
+
+        # 如果你只需要标题内容，可以使用 header_content
+        print(f"内容: {other_content}")
         print(f"处理后的内容: {result}")
         return result
     else:
