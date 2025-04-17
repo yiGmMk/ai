@@ -29,6 +29,9 @@ MCP玩家，又新增一员！这次还是全开源开放的！
 
 通过魔搭提供的免费云端资源部署，我们率先体验了这一MCP服务。
 首先，需要在MiniMax开放平台拿到一个API，然后在MCP广场找到MiniMax的MCP服务，填好后就可拿到SSE URL了。接着我们在魔搭的MCP Playground里，找到配置选项，将拿到的包含SSE URL的JSON文件粘贴下来就搞定了。
+
+![mcp Playground](https://ai.programnotes.cn/img/ai/640.png)
+
 配置成功后，就可以在实验场里看到我们刚刚配置好的MiniMax-MCP服务了。
 这样我们就能通过MCP服务用上MiniMax模型强大的多模态能力了。比如，让它念一首诗。无需提示，模型就会自己判断调用合适的MCP工具[MiniMax-MCP]text to audio，完成后就会在下面给出音频链接。生成过程很快，一次就成功了。整个的朗读效果也很流畅，还有一些感情的起伏。大家可以听一下效果。除了将诗歌读出来，大模型还可以调用[MiniMax-MCP]服务将李白的这首诗变成一张图像及视频。这种全新的调用多模态模型的方法，也展现了MCP更广阔的应用空间。开发效率倍增迈向AI互操作生态未来MCP全称是「模型上下文协议」（Model Context Protocol），被誉为「AI界的USB-C接口」。
 
