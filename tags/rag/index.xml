@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>RAG on AI</title>
+        <link>https://ai.programnotes.cn/tags/rag/</link>
+        <description>Recent content in RAG on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Wed, 02 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/rag/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</title>
+        <link>https://ai.programnotes.cn/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/</link>
+        <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | suke 技术源share&lt;/p&gt;
+&lt;p&gt;核心内容:
+- Agent是目标导向的项目经理/大脑，负责规划和协调任务执行。
+- RAG和Function Call是Agent的工具，RAG负责检索外部知识，Function Call负责调用外部函数。
+- MCP是标准化的通信协议，方便Agent与各种工具交互。&lt;/p&gt;
+&lt;p&gt;如今大语言模型（LLM）的风头一时无两，它们能写诗、能聊天、能编程，简直无所不能！但你有没有发现，有时候它们也挺“傻白甜”的？比如问它今天的天气，它可能给你一个“根据我的知识库&amp;hellip;”的过时答案；让它帮你整理本地文件，它只能表示爱莫能助。&lt;/p&gt;
+&lt;p&gt;这是因为 LLM 本身像一个博学但与世隔绝的大脑。为了让它真正变得实用、能干，连接现实世界，科技圈祭出了几大“法宝”：&lt;strong&gt;Agent（智能体）、RAG（检索增强生成）、Function Call（函数调用）&lt;/strong&gt;&lt;br&gt;
+，以及一个新晋的潜力股——&lt;strong&gt;MCP（模型上下文协议）&lt;/strong&gt;&lt;br&gt;
+。&lt;/p&gt;
+&lt;p&gt;今天，我们就用大白话+生动比喻，带你一次搞懂这四大金刚，看看它们是如何协同作战，让 AI 从“理论派”变身“实干家”的！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;🔗 懒人直看版&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;一图胜千言，我们用一个表格来总结下它们的关系和区别：&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));&#34;&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;特性&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;MCP (模型上下文协议)&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;RAG (检索增强生成)&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;Agent (智能体)&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;Function Call (函数调用)&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));&#34;&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;核心思想&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;标准化 AI 与外部数据/工具的&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;通信协议&lt;/span&gt;&lt;/strong&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;检索&lt;/span&gt;&lt;/strong&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;外部知识 + &lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;增强&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;提示 + &lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;生成&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;回答&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;LLM驱动的&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;自主决策&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;与&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;任务执行&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;系统&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;LLM&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;请求执行&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;外部预定义函数/工具的能力&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));&#34;&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;本质&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;协议/规范&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;技术框架/方法&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;系统/应用范式&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;模型能力/特性&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));&#34;&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;通俗比喻&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;标准化的 USB 接口&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;写论文前先查资料&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;能干的私人助理&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;助理按指令使用 App&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));&#34;&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;关系链&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;可作为 Agent 调用工具的&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;底层标准&lt;/span&gt;&lt;/strong&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;常被 Agent &lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;用作&lt;/span&gt;&lt;/strong&gt;&lt;span leaf=&#34;&#34;&gt;获取知识的手段&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;核心指挥官&lt;/span&gt;&lt;/strong&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;，使用 RAG/Function Call 等工具&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td style=&#34;box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34;&gt;Agent 执行具体动作的&lt;/span&gt;&lt;strong style=&#34;box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &amp;#34;PingFang SC&amp;#34;, Cambria, Cochin, Georgia, Times, &amp;#34;Times New Roman&amp;#34;, serif;font-size: inherit;color: rgb(15, 76, 129);&#34;&gt;&lt;span leaf=&#34;&#34;&gt;基本手段&lt;/span&gt;&lt;/strong&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;  
+&lt;p&gt;&lt;strong&gt;简单来说，它们的关系就像：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;Agent (智能体)&lt;/strong&gt;&lt;br&gt;
+ 是那个目标导向的&lt;strong&gt;项目经理/大脑&lt;/strong&gt;&lt;br&gt;
+。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;RAG&lt;/strong&gt;&lt;br&gt;
+ 和 &lt;strong&gt;Function Call&lt;/strong&gt;&lt;br&gt;
+ 是它工具箱里的&lt;strong&gt;得力工具&lt;/strong&gt;&lt;br&gt;
+：RAG 负责查资料、找依据；Function Call 负责执行具体操作、调用外部 API。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;MCP&lt;/strong&gt;&lt;br&gt;
+ 则致力于提供一个&lt;strong&gt;标准化的接口规范&lt;/strong&gt;&lt;br&gt;
+，让 Agent 能更方便、更统一地接入和使用各种工具（无论是 RAG 功能还是其他 Function Call 实现的工具）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;💡 Function Call：给AI装上“遥控器”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5eefbbbb74bc049c11ce49b0a322610f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;****- • &lt;strong&gt;这是啥？&lt;/strong&gt;&lt;br&gt;
+ Function Call 是 LLM 的一项内置“特异功能”。它允许 LLM 在需要的时候，&lt;strong&gt;请求&lt;/strong&gt;&lt;br&gt;
+外部程序帮它做点事。注意，是“请求”，不是“亲自做”。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;为啥要它？&lt;/strong&gt;&lt;br&gt;
+ 因为 LLM 自己查不了实时股价、订不了机票、发不了邮件。有了 Function Call，LLM 就能“指挥”其他工具来完成这些操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;通俗比喻：&lt;/strong&gt;&lt;br&gt;
+ 就像你让智能音箱帮你“查下今天北京天气”。音箱（LLM）自己感知不到天气，但它知道要去调用“天气查询”这个App（预定义的函数/工具）。它生成指令（“查北京天气”），App 执行后把结果（“晴，25度”）告诉音箱，音箱再用自然语言告诉你。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;简单例子：&lt;/strong&gt;&lt;br&gt;
+ 你问 AI：“AAPL 股价多少？” AI 判断需要查实时数据，于是生成一个“请求”：{调用函数: &amp;ldquo;查股价&amp;rdquo;, 参数: {&amp;ldquo;股票代码&amp;rdquo;: &amp;ldquo;AAPL&amp;rdquo;}}&lt;br&gt;
+。外部程序收到请求，查询API，返回结果 {&amp;ldquo;价格&amp;rdquo;: 180.50}&lt;br&gt;
+。AI 再根据这个结果回答你：“苹果当前股价是 180.50 美元。”&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;🔍 RAG：AI的“开卷考试”神器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d2165d86f96f781db449512a85b5a850.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;****- • &lt;strong&gt;这是啥？&lt;/strong&gt;&lt;br&gt;
+ RAG (Retrieval-Augmented Generation) 是一种让 AI 回答更靠谱的技术框架。简单说，就是在 AI 回答问题 &lt;br&gt;
+之前&lt;br&gt;
+，先让它去指定的资料库（比如公司内部文档、最新的行业报告）里&lt;strong&gt;查找 (Retrieval)&lt;/strong&gt;&lt;br&gt;
+ 相关信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;为啥要它？&lt;/strong&gt;&lt;br&gt;
+ 防止 AI一本正经地“胡说八道”（专业术语叫“幻觉”），让它的回答基于最新的、准确的、特定的事实依据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;通俗比喻：&lt;/strong&gt;&lt;br&gt;
+ 好比你写论文要引用最新数据。你不会光凭记忆（LLM 的内部知识）瞎写，而是会先去图书馆或数据库&lt;strong&gt;查资料 (检索)&lt;/strong&gt;&lt;br&gt;
+，把找到的关键信息&lt;strong&gt;整合 (增强)进你的论据里，最后才下笔写作 (生成)&lt;/strong&gt;&lt;br&gt;
+。RAG 就是让 AI 也学会这种“先查再答”的好习惯。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;简单例子：&lt;/strong&gt;&lt;br&gt;
+ 你问 AI：“我们公司最新的报销政策是啥？” RAG 系统先去公司内部知识库&lt;strong&gt;检索&lt;/strong&gt;&lt;br&gt;
+“报销政策”文档，找到相关段落。然后把这些段落和你的问题一起“喂”给 AI，AI &lt;strong&gt;参考&lt;/strong&gt;&lt;br&gt;
+着这些最新政策，给你一个准确的回答。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;🤖 Agent：AI界的“全能管家”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/725889adde5abec549897fa6f635e7a9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;****- • &lt;strong&gt;这是啥？&lt;/strong&gt;&lt;br&gt;
+ Agent（智能体）是一个更高级、更自主的 AI 系统。它以 LLM 作为核心“大脑”，不仅能理解你的目标，还能自己&lt;strong&gt;思考、规划步骤&lt;/strong&gt;&lt;br&gt;
+，并&lt;strong&gt;主动调用工具&lt;/strong&gt;&lt;br&gt;
+（比如上面说的 RAG 和 Function Call）来执行任务，与外部环境互动。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;为啥要它？&lt;/strong&gt;&lt;br&gt;
+ 为了完成那些光靠聊天解决不了的复杂任务，比如“帮我规划下周去上海的出差行程，包括订机票酒店，并把日程发给我”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;通俗比喻：&lt;/strong&gt;&lt;br&gt;
+ Agent 就像一个&lt;strong&gt;超级能干的私人助理&lt;/strong&gt;&lt;br&gt;
+。你给个目标，它自己就能拆解任务、查信息（可能用 RAG 查公司差旅标准，用 Function Call 查航班酒店）、做决策、执行操作（用 Function Call 调用预订 API），最后给你结果。它是有自主“行动力”的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;简单例子：&lt;/strong&gt;&lt;br&gt;
+ 你让 Agent：“分析一下竞品 X 的最新动态，写个简报。” Agent 会自己规划：① 搜索最新新闻（调用 Function Call）；② 查内部研究报告（调用 RAG）；③ 分析总结信息（LLM 大脑）；④ 生成简报（调用 Function Call）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;🔌 MCP：AI与工具间的“通用插座标准”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bfc6913e19e42985e80d9652c7fff906.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;****- • &lt;strong&gt;这是啥？&lt;/strong&gt;&lt;br&gt;
+ MCP (Model Context Protocol) 是 Anthropic 公司（就是搞出 Claude 那个）在 2024 年底提出并开源的一种&lt;strong&gt;标准化通信协议&lt;/strong&gt;&lt;br&gt;
+。它定义了一套规则，让 AI 应用（客户端）能以统一的方式，与各种外部数据源或工具（服务器）进行交互。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;为啥要它？&lt;/strong&gt;&lt;br&gt;
+ 想象一下，如果每个工具都有自己独特的接口，那 Agent 想用多个工具时，岂不是要学 N 种“方言”？MCP 就是想统一这个接口标准，让工具“即插即用”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;通俗比喻：&lt;/strong&gt;&lt;br&gt;
+ MCP 就像是给 AI 大脑和外部工具之间制定了一个&lt;strong&gt;通用的 USB 接口标准&lt;/strong&gt;&lt;br&gt;
+。无论是本地文件系统、数据库，还是 Slack、GitHub 这些应用，只要它们提供符合 MCP 标准的“服务器”，AI 应用（客户端）就能轻松连接并使用它们的功能，无需为每个工具单独适配。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;简单例子：&lt;/strong&gt;&lt;br&gt;
+ 在支持 MCP 的编辑器里，你可以让 AI“把我 /docs&lt;br&gt;
+ 目录最新的 Markdown 文件总结一下，发到 Slack 的 #general&lt;br&gt;
+ 频道”。编辑器（MCP 客户端）通过 MCP 协议，与本地的“文件系统 MCP 服务器”和“Slack MCP 服务器”沟通，协调完成整个任务。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;•&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;支持 MCP 的客户端/服务器:&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;客户端:&lt;/strong&gt;&lt;br&gt;
+  Claude Desktop App, Cursor, Windsurf, Cherry Studio 等 AI 编辑器或应用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;服务器:&lt;/strong&gt;&lt;br&gt;
+  Anthropic 官方和社区提供了针对 Google Drive, Slack, GitHub, Git, Postgres, Puppeteer, Milvus (向量数据库), Firecrawl (网页抓取) 等的开源 MCP 服务器实现。开发者也可以根据 MCP 规范自定义服务器。目前，为安全起见，MCP 服务器通常在本地运行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f8733b1bec1615f754bdfb7995db2a1f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

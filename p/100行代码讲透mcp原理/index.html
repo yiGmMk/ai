@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文通过100行Python代码，阐述了MCP(模型上下文协议)的核心原理，并探讨了其在异步编程和流计算中的应用。">
+<title>100行代码讲透MCP原理</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="100行代码讲透MCP原理">
+<meta property='og:description' content="本文通过100行Python代码，阐述了MCP(模型上下文协议)的核心原理，并探讨了其在异步编程和流计算中的应用。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='SSE' /><meta property='article:tag' content='Python' /><meta property='article:tag' content='RPC' /><meta property='article:tag' content='模型上下文协议' /><meta property='article:tag' content='异步编程' /><meta property='article:tag' content='流计算' /><meta property='article:tag' content='JSON-RPC' /><meta property='article:published_time' content='2025-04-17T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-17T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="100行代码讲透MCP原理">
+<meta name="twitter:description" content="本文通过100行Python代码，阐述了MCP(模型上下文协议)的核心原理，并探讨了其在异步编程和流计算中的应用。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#mcp的通信方式">MCP的通信方式</a>
+      <ol>
+        <li><a href="#mcp的sse通信流程">MCP的SSE通信流程</a></li>
+        <li><a href="#mcp的sse通信实现">MCP的SSE通信实现</a></li>
+      </ol>
+    </li>
+    <li><a href="#mcp的编程模型思考">MCP的编程模型思考</a></li>
+    <li><a href="#mcp服务的简单实现">MCP服务的简单实现</a></li>
+    <li><a href="#总结理解mcp的本质">总结：理解MCP的本质</a></li>
+    <li><a href="#参考材料">参考材料</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF/" >
+                技术
+            </a>
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/">100行代码讲透MCP原理</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文通过100行Python代码，阐述了MCP(模型上下文协议)的核心原理，并探讨了其在异步编程和流计算中的应用。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 17, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> |  炯思  阿里云开发者   2025-04-17 08:31</p>
+<p><img src="/img/ai/9d5e4c43d81acf36675e42b224deb65e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>本文通过100行代码看到MCP的核心原理并不复杂，但它的设计巧妙深入理解使我们能够超越简单的SDK使用，创建更强大、更灵活的AI应用集成方案。</p>
+<p>当我开始研究 Model Context Protocol (MCP)接入的时候，发现一个问题，绝大多数的文档都是以 @mcp.tool <br>
+这样注解的方式注入。但如果当前有很多异步的业务流程，接入会非常麻烦，它并没有一个代码实体的存在可以加注解。难道需要为一个个流程编写同步函数吗？</p>
+<p>好奇心驱使我进一步分析MCP的通信原理，看看是不是有什么办法能更方便地接入MCP，理解MCP的原理。</p>
+<h2 id="mcp的通信方式">MCP的通信方式
+</h2><p>MCP提供了STDIO和SSE两种传输协议，当前很多实验性的工具都是使用STDIO传输。不过如果提供服务的话，基本就是SSE（Server-Sent Events）。所以本文重点分析讨论SSE的MCP接入模式。</p>
+<p><img src="/img/ai/a7d01d7ae23ba086f98c4a5d9a3762a6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>在搜索SSE的时候，看到了阮一峰老师在2017年对于SSE的特点归纳：</p>
+<p>SSE 与 WebSocket 作用相似，都是建立浏览器与服务器之间的通信渠道，然后服务器向浏览器推送信息。</p>
+<p>总体来说，WebSocket 更强大和灵活。因为它是全双工通道，可以双向通信；SSE 是单向通道，只能服务器向浏览器发送，因为流信息本质上就是下载。如果浏览器向服务器发送信息，就变成了另一次 HTTP 请求。</p>
+<p>这个特点让我更加好奇了，stdio中可以使用stdin来进行输入，使用stdout来进行输出。但是SSE是单向通道，MCP要如何实现双向通信呢？是建立两根SSE通道吗？带着这个疑问，我开始了动手实践。</p>
+<h3 id="mcp的sse通信流程">MCP的SSE通信流程
+</h3><p>利用MCP官方提供的工具npx @modelcontextprotocol/inspector<br>
+ 可以比较方便地拉起一个验证MCP的管理页。针对这个管理页抓包就能发现一些SSE的通信端倪。</p>
+<p><img src="/img/ai/521c188ae16c548ddde40209efc26d40.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ol>
+<li>/sse<br>
+这个URL只负责推送信息，并不能发送信息，发送信息需要另外的URL。</li>
+</ol>
+<p>2.Client连接上/sse<br>
+这个地址的第一个Event就是告诉Client发送信息需要去哪个URL发，这个URL通常会带上唯一的会话ID。</p>
+<p>观察这个抓包情况，我们前面的双向通信疑问基本可以有答案了：</p>
+<p>1.只有一根SSE长连接，用来Server向Client推送数据，另外一个Client向Server发送请求的通道是使用普通的HTTP POST请求。</p>
+<p>2.Client向Server发送的HTTP POST请求中只使用2xx反馈是否收到指令，所有的数据返回是通过一开始的SSE长连接来推送。</p>
+<p>为了验证这个猜想，我还特地做一个实验，使用curl模拟了POST/messsage?sessionId=***<br>
+发送一个请求包，果不其然在SSE的事件流中多了一条事件。</p>
+<h3 id="mcp的sse通信实现">MCP的SSE通信实现
+</h3><p>通过上一个章节的抓包，我们基本摸清了MCP的SSE通信流程：</p>
+<ol>
+<li>/sse<br>
+ URL建立SSE长链之后先返回一个endpoint<br>
+(常见为/message<br>
+)，数据格式为纯文本的同域名URL字符串。</li>
+</ol>
+<p>2.client使用POST向endpoint(/message) 发送调用请求，POST中的body满足JSON-RPC规范，包含字段  jsonrpc 、method  、params  、id  。</p>
+<p>3.在 /sse  长连接中返回的event满足JSON-RPC规范，包含字段jsonrpc 、result  、id  、error(执行错误时)  。</p>
+<p>看起好像并不复杂，我们尝试用Python来实现一下（不使用MCP Python SDK）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">uuid</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sse_starlette.sse</span> <span class="kn">import</span> <span class="n">EventSourceResponse</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcpHub</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">McpRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jsonrpc</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MCPServer</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">      <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">def</span> <span class="nf">reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">event</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">event</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">McpRequest</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">payload</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&#34;initialize&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="o">..</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">payload</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&#34;tools/list&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@app.get</span><span class="p">(</span><span class="s2">&#34;/sse&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">sse</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">client_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcp</span> <span class="o">=</span> <span class="n">MCPServer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcpHub</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcp</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">mcp</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;endpoint&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;/message?client_id=</span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EventSourceResponse</span><span class="p">(</span><span class="n">mcp</span><span class="o">.</span><span class="n">reader</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@app.post</span><span class="p">(</span><span class="s2">&#34;/message&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">McpRequest</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">client_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;client_id&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">client_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mcpHub</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;no client&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">mcpHub</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;ok&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这段代码中，我们引入了这样几个设计：</p>
+<p>1.我们使用了asyncio.Queue()<br>
+来解耦业务流和MCP服务流。这个消息队列联动EventSourceResponse<br>
+的数据流。每往这个消息队列打一个消息，就会自动通过EventSourceResponse<br>
+的数据流向Client推送一条消息。这样Client在Server侧看起来就是一个标准的订阅MQ的消费者。</p>
+<p>2.在内存中维护一个client_id<br>
+映射消息队列的字典，这样一旦有消息进入就可以知晓使用的是哪个MQ，然后往对应的MQ里面投递消息。在分布式系统中，这个client_id<br>
+可以是消息队列的全局唯一标识，这样无论打到哪台机器上，都能够找到正确的队列。</p>
+<p>3.服务侧在处理之后，将消息投递回消息队列之后，Client就能感知。MCPServer和MCPClient保持长链之后，后方的业务系统侧理论上可以进行无限时长执行（如果Client侧不主动超时退出），一切均以消息投递回来为准。</p>
+<p><img src="/img/ai/fcdb4938d20086dcbaeaae3b0c196a3a.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>我们可以参考文档来看看有哪些method<br>
+需要被支持：</p>
+<p><img src="/img/ai/d0b5e910e3fef1f1ccc436024bd036d6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>MCP的订阅模式扩展思考</p>
+<p>在MCP的resource的method中，有个不起眼的resources/subcribe<br>
+引起了我的注意。首先。我们来看看什么是resource  ，官方给出的定义是：</p>
+<blockquote>
+<p>Resources represent any kind of data that an MCP server wants to make available to clients. This can include:File contents、Database records、API responses、Live system data、Screenshots and images、Log files、And more</p></blockquote>
+<p>所以，如果我们使用resources/subcribe  订阅一个Database  ，那么这个数据库的所有变动就会源源不断地推送过来，这就非常近似流计算的常见使用形态了。</p>
+<p>因为SSE已经让Server建立向Client的单向数据流，所以如果Client发起一个订阅，我们就创建一个Flink流计算任务向MQ打消息，就非常原生地实现了资源的订阅。我们可以扩展一下上面的这个拓扑结构。</p>
+<p><img src="/img/ai/88f7381e7410837527f1b63ee99dfc77.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>1.从大模型视角看流计算：基于MCP协议，大模型实际上能够非常优雅地接入流计算的能力，来完成复杂业务逻辑构建。</p>
+<p>2.从流计算视角看大模型：使用MCP协议之后，大模型似乎就变成了一个标准流计算处理节点，能够接收流式消息，也能给向另外的MQ投递消息。</p>
+<p>不得不说，这个确实就是MCP设计上的一个优势。感觉MCP有点像RPC，又有点像MQ，那么这到底是什么呢？我们不妨从编程模型的角度来思考一下。</p>
+<h2 id="mcp的编程模型思考">MCP的编程模型思考
+</h2><p>MCP从编程模型的角度来看，本质上是一种 有状态的双向RPC（远程过程调用）模型  ，结合了  事件驱动  和  请求-响应  的特性。这种混合模式使其在AI应用与外部系统集成方面具有独特优势。</p>
+<p>MCP的核心特征包括：</p>
+<ul>
+<li>有状态会话 ：<br>
+与传统无状态REST API不同，MCP维护会话状态，客户端和服务器之间建立长期连接，会话具有明确的生命周期。</li>
+<li>双向通信 ：<br>
+不仅客户端可以调用服务器（传统RPC模式），服务器也可以调用客户端（反向RPC）。例如，服务器可以请求客户端执行AI采样。</li>
+<li>基于能力的协商 ：<br>
+初始化阶段进行能力协商，动态发现可用功能，适应不同实现和版本。</li>
+<li>事件通知机制 ：<br>
+支持单向通知，资源变更订阅模式，异步事件处理。</li>
+<li>标准化接口：<br>
+定义了一组标准操作，使用JSON Schema定义参数和返回值，促进互操作性。</li>
+</ul>
+<p>为了更好地理解MCP的定位，我们可以将其与其他常见的编程模型进行比较：</p>
+<p><strong>MCP vs REST API</strong></p>
+<p><img src="/img/ai/c7c994386957d7e4aa2f947070a58ee4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<hr>
+<hr>
+<p><strong>MCP vs 消息队列（MQ）</strong></p>
+<p><img src="/img/ai/30e988c6244dd7f3c49638683721b952.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>MCP vs WebSocket</strong></p>
+<p><img src="/img/ai/9fe50dea8c04332128fe2c13d7a903ef.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>MCP在各种编程模型中占据了一个独特的位置：</p>
+<ul>
+<li>
+<p>比REST API更有状态和双向，但比消息队列更直接和轻量。</p>
+</li>
+<li>
+<p>比WebSocket更结构化和标准化，但比gRPC更灵活和易于理解。</p>
+</li>
+<li>
+<p>比GraphQL更专注于工具调用，但比RPC更关注资源和上下文。</p>
+</li>
+</ul>
+<p>同时，正因为MCP这样的一个独特的功能位，不要因为当前的一些能力局限性，就放弃了MCP的原生化的适配。异步任务、事件驱动等架构本身就应该能够原生对接MCP。</p>
+<h2 id="mcp服务的简单实现">MCP服务的简单实现
+</h2><p>既然MCP的整个运行原理并不复杂，我们就尝试自己实现一次，致敬一下这个优秀的设计。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sse_starlette.sse</span> <span class="kn">import</span> <span class="n">EventSourceResponse</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">asyncio</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">uuid</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">uvicorn</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">inspect</span>
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">mcpHub</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">McpRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jsonrpc</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MCPServer</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">message_path</span><span class="p">,</span> <span class="n">tools</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">message_path</span> <span class="o">=</span> <span class="n">message_path</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;protocolVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;2024-11-05&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;capabilities&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;experimental&#34;</span><span class="p">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;tools&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;listChanged&#34;</span><span class="p">:</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;serverInfo&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;1.6.0&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">tools</span> <span class="o">=</span> <span class="n">tools</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">list_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">toolInfo</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="n">tool</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;description&#34;</span><span class="p">:</span> <span class="n">tool</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;inputSchema&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;object&#34;</span><span class="p">,</span><span class="s2">&#34;properties&#34;</span><span class="p">:{}},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="n">toolInfo</span><span class="p">[</span><span class="s2">&#34;inputSchema&#34;</span><span class="p">][</span><span class="s2">&#34;properties&#34;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;title&#34;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toolInfo</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">result</span>
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">def</span> <span class="nf">reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">event</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">event</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@staticmethod</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;result&#34;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">message</span><span class="p">[</span><span class="s2">&#34;id&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">McpRequest</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&#34;initialize&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">id</span><span class="p">)})</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">req</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&#34;tools/list&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">({</span><span class="s2">&#34;tools&#34;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_tool</span><span class="p">()},</span> <span class="n">req</span><span class="o">.</span><span class="n">id</span><span class="p">)})</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">req</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&#34;tools/call&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;name&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool</span><span class="p">(</span><span class="o">**</span><span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;arguments&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;message&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">({</span><span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span> <span class="s2">&#34;isError&#34;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span> <span class="n">req</span><span class="o">.</span><span class="n">id</span><span class="p">)})</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    description
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;hi </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">+=</span> <span class="s2">&#34;!&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@app.get</span><span class="p">(</span><span class="s2">&#34;/receive_test&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">receive_test</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcp</span> <span class="o">=</span> <span class="n">MCPServer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;mcp-test&#34;</span><span class="p">,</span><span class="n">message_path</span><span class="o">=</span><span class="s2">&#34;/send_test&#34;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">test</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcpHub</span><span class="p">[</span><span class="n">mcp</span><span class="o">.</span><span class="n">client_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcp</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">mcp</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&#34;event&#34;</span><span class="p">:</span> <span class="s2">&#34;endpoint&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">mcp</span><span class="o">.</span><span class="n">message_path</span><span class="si">}</span><span class="s2">?client_id=</span><span class="si">{</span><span class="n">mcp</span><span class="o">.</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">EventSourceResponse</span><span class="p">(</span><span class="n">mcp</span><span class="o">.</span><span class="n">reader</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@app.post</span><span class="p">(</span><span class="s2">&#34;/send_test&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">send_test</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">McpRequest</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">client_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;client_id&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">client_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mcpHub</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;no client&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">mcpHub</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;ok&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&#34;0.0.0.0&#34;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8001</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上大概100行左右的代码，我们实现了一个简易版本的MCP服务，较官方的MCP Python SDK，我们获得了几个重要的特性优化：</p>
+<p>1.tool注册不再依赖@mcp.tool<br>
+这样的注解，完全可以动态传入，针对不同的场景，提供不同MCP URL，上面提供不同的Tool。</p>
+<p>2.编程模型为MQ驱动的服务，对接异步系统、事件驱动的系统或平台较为友好。参考该Python实现，转化成其他语言的版本也较为方便。</p>
+<p>3.不依赖 /sse /message 这些默认路由地址，也能正常运行，证明MCP的URL可以完全自定义。</p>
+<h2 id="总结理解mcp的本质">总结：理解MCP的本质
+</h2><p>本文深入探讨MCP的原理、通信机制和编程模型本质之后，我们看到MCP不仅仅是一个简单的API或SDK，而是一个精心设计的协议，它：</p>
+<p>1.采用client-host-server架构，支持多种服务器连接；</p>
+<p>2.实现了有状态的双向RPC模型，结合了事件驱动特性；</p>
+<p>3.提供了标准化的工具调用和资源访问机制；</p>
+<p>4.支持动态能力协商和功能发现；</p>
+<p>5.相比较MQ、API、WS，占据了独特的功能位置，专为AI应用与外部系统集成而优化；</p>
+<p>正如我们通过100行代码看到的，MCP的核心原理并不复杂，但它的设计巧妙，这种深入理解将使我们能够超越简单的SDK使用，创建更强大、更灵活的AI应用集成方案。</p>
+<h2 id="参考材料">参考材料
+</h2><ul>
+<li>
+<p>Model Context Protocol（MCP）详解和开发教程 <br>
+<a class="link" href="https://blog.csdn.net/ZYC88888/article/details/146414158"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/ZYC88888/article/details/146414158</a></p>
+</li>
+<li>
+<p>Server-Sent Events 教程 <br>
+<a class="link" href="https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html"  target="_blank" rel="noopener"
+    >https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/modelcontextprotocol/inspector"  target="_blank" rel="noopener"
+    >https://github.com/modelcontextprotocol/inspector</a></p>
+</li>
+<li>
+<p>(译) JSON-RPC 2.0 规范(中文版) <br>
+<a class="link" href="https://wiki.geekdream.com/Specification/json-rpc_2.0.html"  target="_blank" rel="noopener"
+    >https://wiki.geekdream.com/Specification/json-rpc_2.0.html</a></p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/sse/">SSE</a>
+        
+            <a href="/tags/python/">Python</a>
+        
+            <a href="/tags/rpc/">RPC</a>
+        
+            <a href="/tags/%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE/">模型上下文协议</a>
+        
+            <a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
+        
+            <a href="/tags/%E6%B5%81%E8%AE%A1%E7%AE%97/">流计算</a>
+        
+            <a href="/tags/json-rpc/">JSON-RPC</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E4%B8%80%E5%88%87%E9%83%BD%E5%87%BA%E9%94%99%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的一切都出错了</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%A2%ABai%E8%B0%83%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%BF%90%E8%90%A5%E5%B0%8F%E7%BA%A2%E4%B9%A6%E5%9B%BD%E5%86%85%E6%9C%80%E5%A4%A7mcp%E7%A4%BE%E5%8C%BA%E6%9D%A5%E4%BA%86%E5%BC%80%E5%8F%91%E8%80%85%E7%8B%82%E6%AC%A2/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/640.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/640.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">支付宝被AI调用，一句话运营小红书！国内最大MCP社区来了，开发者狂欢</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FunctionAI MCP 开发平台：助力AI应用连接数字生态</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
