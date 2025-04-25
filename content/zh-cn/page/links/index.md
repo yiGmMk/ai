@@ -17,6 +17,10 @@ links:
     description: 交流编程经验与AI工具使用心得,践行学、享、记之道
     website: https://programnotes.cn
     image: https://programnotes.cn/Image/logo.png
+  - title: MCP
+    description: MCP中文文档,模型上下文协议
+    website: https://mcp.programnotes.cn
+    image: https://mcp.programnotes.cn/logo.png
 menu:
     main: 
         weight: 4
