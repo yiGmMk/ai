@@ -5,7 +5,7 @@ tags: ["MCP", "AI", "协议", "模型上下文协议", "Agent", "工具", "资�
 categories: ["人工智能", "软件开发"]
 description: "本文是MCP协议发明者对MCP起源、架构优势和未来的详细解读，涵盖了MCP的设计理念、与OpenAPI的对比、快速构建MCP服务器的方法以及未来发展方向等方面。"
 author: "DataFunTalk"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"
 ---
 
 核心内容点：

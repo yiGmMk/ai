@@ -5,7 +5,7 @@ tags: ["阿里云", "MCP", "AI助手", "运维", "ECS", "RDS", "OOS", "Cline", "
 categories: ["云计算", "人工智能"]
 description: "本文介绍如何使用alibaba-cloud-ops-mcp-server和MCP实现AI助手对阿里云资源的复杂任务操作，涵盖ECS实例管理、VPC查询、云监控数据获取等运维任务。"
 author: "赵帅博(川林)"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"
 ---
 **源自** | 阿里云开发者 赵帅博(川林)  2025-04-23 18:00  
   
