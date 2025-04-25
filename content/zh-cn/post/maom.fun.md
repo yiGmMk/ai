@@ -5,7 +5,7 @@ tags: ["AI", "画画","猫"]
 categories: ["人工智能"]
 description: "用可爱的小猫轻松解释一切！只需输入你的问题，立刻获得简单有趣的小猫故事解答"
 author: "逸"
-image: ""
+image: "https://ai.programnotes.cn/img/maom.fun/解释为什么会有风。_6.png"
 ---
 
 「http://maom.fun」——用可爱的小猫轻松解释一切！只需输入你的问题，立刻获得简单有趣的小猫故事解答。
