@@ -22,3 +22,4 @@
 [√] MCP 实践：基于 MCP 架构实现知识库答疑系统.md 
 [√] MCP 正当时：FunctionAI MCP 开发平台来了！.md 
 [√] MCPify.ai:一句话构建一个MCP.md 
+[√] 禾赛盈利了，但激光雷达没有胜利.md
