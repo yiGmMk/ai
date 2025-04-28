@@ -1,7 +1,7 @@
 import sys
 import os
 import re
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, urlparse, unquote
 from prompt.tran2hugo import prompt as tran2hugo_prompt
 from xlib.gpt import call_openai
 
@@ -76,6 +76,14 @@ def main():
 
     markdown_file = sys.argv[1]
 
+    # Check if the file path is absolute or relative
+    if not os.path.isabs(markdown_file):
+        # If the file path is relative, convert it to an absolute path
+        markdown_file = os.path.abspath(markdown_file)
+
+    # URL decode the file path
+    markdown_file = unquote(markdown_file)
+
     try:
         with open(markdown_file, "r", encoding="utf-8") as f:
             markdown_content = f.read()
@@ -86,9 +94,9 @@ def main():
         print(f"Error reading file: {e}")
         sys.exit(1)
 
-    modified_content = replace_local_image_links(markdown_content)
-
     try:
+        modified_content = replace_local_image_links(markdown_content)
+
         header = call_openai(tran2hugo_prompt, modified_content)
         print("hugo header", header)
 
