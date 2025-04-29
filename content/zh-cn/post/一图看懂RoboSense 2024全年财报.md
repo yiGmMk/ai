@@ -5,7 +5,7 @@ tags: ["RoboSense", "财报", "2024年", "业绩", "激光雷达"]
 categories: ["公司财报", "科技行业"]
 description: "本文以图表形式解读RoboSense 2024年全年财报，清晰呈现公司业绩及发展状况。"
 author: "Unknown Author"
-image: ""
+image: "https://ai.programnotes.cn/img/lidar/速腾聚创.png"
 ---
 核心内容点1: 收入增长情况
 核心内容点2: 利润情况
