@@ -5,7 +5,7 @@ tags: ["MCP", "Serverless", "函数计算", "SSE", "STDIO", "JSON-RPC", "大模�
 categories: ["Serverless", "AI"]
 description: 本文深入解析 Model Context Protocol (MCP) 协议，比较 STDIO 和 SSE 两种传输方式，并探讨函数计算平台如何作为理想的 MCP Server 计算底座。
 author: "西流"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png"
 ---
 核心内容点1: MCP协议解析，包括STDIO和SSE两种传输方式的比较。
 核心内容点2: 函数计算平台作为MCP Server的优势，解决分布式系统复杂性、资源限制和安全挑战。
