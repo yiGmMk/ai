@@ -21,6 +21,14 @@ links:
     description: MCP中文文档,模型上下文协议
     website: https://mcp.programnotes.cn
     image: https://mcp.programnotes.cn/logo.png
+  - title: Deep Research
+    description: 使用Google Gemini搭建的Deep Research
+    website: https://research.u14.app/
+    image: https://mcp.programnotes.cn/logo.png
+  - title: 在线使用Google Gemini,免费大模型
+    description: Google Gemini,大模型,GPT,LLM
+    website: https://gemini.programnotes.cn/
+    image: https://gemini.programnotes.cn/logo.svg
 menu:
     main: 
         weight: 4
