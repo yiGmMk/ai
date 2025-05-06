@@ -2,7 +2,7 @@
 title: "MCP Practice: Building a Knowledge Base Question Answering System Based on MCP Architecture"
 date: "2025-04-21"
 tags: ["MCP", "Knowledge Base", "Question Answering System", "AI Agent", "RAG", "Vector Search", "Tablestore", "Large Model"]
-categories: ["AI Applications", "Technical Practice"]
+categories: ["AI Applications","MCP", "Technical Practice"]
 description: This article explores the practice of developing a question answering system that supports private knowledge bases based on the MCP architecture, covering knowledge base construction, retrieval, and question answering, and utilizes Tablestore for knowledge base storage.
 author: "Muluo"
 image: "https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other"
