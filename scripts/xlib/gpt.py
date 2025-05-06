@@ -6,7 +6,7 @@ base_url = os.getenv("OPENAI_BASE_URL")
 client = (
     OpenAI(api_key=api_key, base_url=base_url) if base_url else OpenAI(api_key=api_key)
 )
-model = "gemini-1.5-flash"
+model = "gemini-2.0-flash"
 
 
 def call_openai(prompt: str, content: str) -> str:
