@@ -12,7 +12,7 @@ image: "https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png"
 
 Nacos 3.0 正式版本发布啦！升级 MCP Registry，围绕着 MCP 服务管理，MCP 多种类型注册，包含 MCP Server 注册、编排、动态调试和管理，并且提供 Nacos-MCP-Router 可以进行 MCP 动态发现，可以自动安装、代理 MCP Server，全生态面向 AI Registry 进行升级；升级安全架构，默认开启鉴权，基础架构一系列升级，作为云原生时代的基础设施级产品，Nacos 3.0 不仅是技术能力的跃升，更是以更高效、安全的方式帮助用户构建云原生 AI 应用架构！
 
-一、Nacos 3.0 背景
+## 一、Nacos 3.0 背景
 
 **Nacos** /nɑ:kəʊs/是 Dynamic **Na**ming and **Co**nfiguration **S**ervice 的首字母简称，定位于一个更易于构建云原生 AI 应用的动态服务发现、配置管理和服务管理平台。从 2018 年 7 月开始宣布开源以来，已经走过了第六个年头，在这六年里，备受广大开源用户欢迎，收获许多社区大奖。Nacos 在社区共同的建设下不断成长，逐步的开始帮助用户解决实际问题，助力企业数字化转型，目前已经广泛的使用在国内的公司中，根据微服务领域调查问卷，Nacos 在注册配置中心领域已经成为**国内首选**，占有**50%+ 国内市场**份额，被**各行各业的头部企业**广泛使用！
 
@@ -25,7 +25,7 @@ Nacos 3.0 提升安全性，整体架构安全拆分，默认开启鉴权，并�
 ![](https://ai.programnotes.cn/img/ai/130f7e20500ab79fd1133ab1cb5aec80.png)
 # 
 
-二、Nacos 3.0 发布 MCP registry 
+## 二、Nacos 3.0 发布 MCP registry 
 
 Nacos 3.0 作为 MCP Registry ，主要定位在更易用的帮助管理 MCP 服务，动态管理 MCP 信息、Tools 描述和列表等，无需重启和运维，让 MCP 的调试更简单易用，并且支持将普通的 HTTP 或者 RPC 服务快速转化成一个 MCP 服务，Nacos 面相 MCP 可以汇总多种场景来源的 MCP 服务，包含 Local MCP Server、Remote MCP Server 以及 MCP 代理网关等场景，并且支持 Credentials 配置统一管理，Nacos 具备进行统一管理 MCP 上下游服务能力；
 
@@ -121,7 +121,7 @@ Nacos MCP Router 的 MCP 信息搜索能力，是基于向量数据库进行语�
 
 - **MCP 服务管理及健康检查：MCP 服务会越来越多，Nacos 有大规模服务管理能力，并且持续在迭代过程中，为 MCP 做健康检查、实时更新、负载均衡，起到 MCP 服务发现中心的托管作用。**
 
-三、Nacos 3.0 MCP 动手实践
+## 三、Nacos 3.0 MCP 动手实践
 
 ****
 **1. Nacos 3.0 部署和启动流程**
@@ -369,7 +369,7 @@ Nacos-MCP-Router 安装好后，可以路由匹配 Nacos MCP Registry 管理的 
 
 整体过程中，AI Agent 只配置 Nacos-MCP-Router ，就可以对 Nacos MCP Registry 所有 MCP 服务进行按需使用；
 
-四、3.0核心能力升级
+## 四、3.0核心能力升级
 
 ****
 **1. 安全部署架构**
@@ -461,7 +461,7 @@ ISSUE#10378[13]
 出于稳定性考虑，Nacos对模糊订阅的规则数量以及单个规则匹配的服务数量有上限保护。具体请参考
 使用手册[14]。
 
-五、Nacos3.0持续迭代演进和活动计划
+## 五、Nacos3.0持续迭代演进和活动计划
 
 ****
 **1. AI相关能力演进**
@@ -498,7 +498,7 @@ Nacos 3.X 计划为模型推理服务（如 MCP Servers 或 Agent to Agent）提
 在生态建设方面，我们将通过 Nacos Controller 的快速迭代，实现Kubernetes服务与配置的同步管理
 ，从而使云原生环境下的使用变得更加便捷。为用户提供更加丰富的功能选择与应用场景，努力构建一个高效、灵活的分布式协调平台。
 
-六、社区欢迎共建
+## 六、社区欢迎共建
 
 Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及AI管理。
 
