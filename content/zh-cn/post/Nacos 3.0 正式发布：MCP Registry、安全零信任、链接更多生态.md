@@ -5,7 +5,7 @@ tags: ["Nacos", "MCP", "服务发现", "配置管理", "服务治理", "AI原生
 categories: ["云原生", "微服务"]
 description: "Nacos 3.0 正式发布，升级 MCP Registry，增强安全性，支持多语言生态，并链接更多生态，助力构建云原生 AI 应用架构。"
 author: "于怀"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png"
 ---
 
 **源自** | 于怀阿里云开发者 2025-04-30 18:28

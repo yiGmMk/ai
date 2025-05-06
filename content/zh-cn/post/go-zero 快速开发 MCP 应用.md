@@ -5,7 +5,7 @@ tags: ["go-zero", "MCP", "AI", "微服务", "Server-Sent Events", "JSON-RPC", "S
 categories: ["Go", "AI 应用开发","MCP"]
 description: "go-zero 团队推出 MCP SDK，帮助开发者快速搭建支持 MCP 协议的 AI 应用，实现模型能力扩展、实时交互和持续对话。"
 author: "kevwan"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/21c4cf113c60e6811ba2e430cae9d8e7.jpeg"
 ---
 
 **源自** |  kevwan  微服务实践   2025-05-06 09:01  
