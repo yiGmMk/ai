@@ -157,3 +157,4 @@ invariantlabs 发布的[mcp 扫描工具,mcp-scan](https://invariantlabs.ai/blog
 ## 参考
 
 - [github,mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments?tab=readme-ov-file#whatsapp-takeover)
+- AI安全团队 invariantlabs 博客: https://invariantlabs.ai/blog
