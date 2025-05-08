@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文用大白话+生动比喻，解释了Agent、RAG、Function Call和MCP这四大AI核心概念，以及它们如何协同作战，让AI从“理论派”变身“实干家”。">
+<title>一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析">
+<meta property='og:description' content="本文用大白话+生动比喻，解释了Agent、RAG、Function Call和MCP这四大AI核心概念，以及它们如何协同作战，让AI从“理论派”变身“实干家”。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='Agent' /><meta property='article:tag' content='RAG' /><meta property='article:tag' content='Function Call' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='大语言模型' /><meta property='article:tag' content='LLM' /><meta property='article:tag' content='人工智能' /><meta property='article:published_time' content='2025-04-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-02T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析">
+<meta name="twitter:description" content="本文用大白话+生动比喻，解释了Agent、RAG、Function Call和MCP这四大AI核心概念，以及它们如何协同作战，让AI从“理论派”变身“实干家”。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF/" >
+                技术
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/">一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文用大白话&#43;生动比喻，解释了Agent、RAG、Function Call和MCP这四大AI核心概念，以及它们如何协同作战，让AI从“理论派”变身“实干家”。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 02, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> | suke 技术源share</p>
+<p>核心内容:
+- Agent是目标导向的项目经理/大脑，负责规划和协调任务执行。
+- RAG和Function Call是Agent的工具，RAG负责检索外部知识，Function Call负责调用外部函数。
+- MCP是标准化的通信协议，方便Agent与各种工具交互。</p>
+<p>如今大语言模型（LLM）的风头一时无两，它们能写诗、能聊天、能编程，简直无所不能！但你有没有发现，有时候它们也挺“傻白甜”的？比如问它今天的天气，它可能给你一个“根据我的知识库&hellip;”的过时答案；让它帮你整理本地文件，它只能表示爱莫能助。</p>
+<p>这是因为 LLM 本身像一个博学但与世隔绝的大脑。为了让它真正变得实用、能干，连接现实世界，科技圈祭出了几大“法宝”：<strong>Agent（智能体）、RAG（检索增强生成）、Function Call（函数调用）</strong><br>
+，以及一个新晋的潜力股——<strong>MCP（模型上下文协议）</strong><br>
+。</p>
+<p>今天，我们就用大白话+生动比喻，带你一次搞懂这四大金刚，看看它们是如何协同作战，让 AI 从“理论派”变身“实干家”的！</p>
+<p><strong>🔗 懒人直看版</strong></p>
+<p>一图胜千言，我们用一个表格来总结下它们的关系和区别：</p>
+<div class="table-wrapper"><table><thead><tr style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));"><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">特性</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">MCP (模型上下文协议)</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">RAG (检索增强生成)</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">Agent (智能体)</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">Function Call (函数调用)</span></section></td></tr></thead><tbody><tr style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));"><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">核心思想</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">标准化 AI 与外部数据/工具的</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">通信协议</span></strong></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">检索</span></strong><section><span leaf="">外部知识 + </span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">增强</span></strong><span leaf="">提示 + </span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">生成</span></strong><span leaf="">回答</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">LLM驱动的</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">自主决策</span></strong><span leaf="">与</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">任务执行</span></strong><span leaf="">系统</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">LLM</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">请求执行</span></strong><span leaf="">外部预定义函数/工具的能力</span></section></td></tr><tr style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));"><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">本质</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">协议/规范</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">技术框架/方法</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">系统/应用范式</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">模型能力/特性</span></strong></td></tr><tr style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));"><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">通俗比喻</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">标准化的 USB 接口</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">写论文前先查资料</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">能干的私人助理</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">助理按指令使用 App</span></section></td></tr><tr style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));"><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">关系链</span></strong></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">可作为 Agent 调用工具的</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">底层标准</span></strong></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">常被 Agent </span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">用作</span></strong><span leaf="">获取知识的手段</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">核心指挥官</span></strong><section><span leaf="">，使用 RAG/Function Call 等工具</span></section></td><td style="box-sizing: border-box;border: 1px solid rgb(223, 223, 223);text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: 14px;padding: 0.25em 0.5em;color: rgb(63, 63, 63);word-break: keep-all;"><section><span leaf="">Agent 执行具体动作的</span><strong style="box-sizing: border-box;border-width: 0px;border-style: solid;border-color: hsl(var(--border));font-weight: bold;text-align: left;line-height: 1.75;font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &#34;PingFang SC&#34;, Cambria, Cochin, Georgia, Times, &#34;Times New Roman&#34;, serif;font-size: inherit;color: rgb(15, 76, 129);"><span leaf="">基本手段</span></strong></section></td></tr></tbody></table></div>  
+<p><strong>简单来说，它们的关系就像：</strong></p>
+<ul>
+<li>
+<p>• <strong>Agent (智能体)</strong><br>
+ 是那个目标导向的<strong>项目经理/大脑</strong><br>
+。</p>
+</li>
+<li>
+<p>• <strong>RAG</strong><br>
+ 和 <strong>Function Call</strong><br>
+ 是它工具箱里的<strong>得力工具</strong><br>
+：RAG 负责查资料、找依据；Function Call 负责执行具体操作、调用外部 API。</p>
+</li>
+<li>
+<p>• <strong>MCP</strong><br>
+ 则致力于提供一个<strong>标准化的接口规范</strong><br>
+，让 Agent 能更方便、更统一地接入和使用各种工具（无论是 RAG 功能还是其他 Function Call 实现的工具）。</p>
+</li>
+</ul>
+<p><strong>💡 Function Call：给AI装上“遥控器”</strong></p>
+<p><img src="/img/ai/5eefbbbb74bc049c11ce49b0a322610f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>****- • <strong>这是啥？</strong><br>
+ Function Call 是 LLM 的一项内置“特异功能”。它允许 LLM 在需要的时候，<strong>请求</strong><br>
+外部程序帮它做点事。注意，是“请求”，不是“亲自做”。</p>
+<ul>
+<li>
+<p>• <strong>为啥要它？</strong><br>
+ 因为 LLM 自己查不了实时股价、订不了机票、发不了邮件。有了 Function Call，LLM 就能“指挥”其他工具来完成这些操作。</p>
+</li>
+<li>
+<p>• <strong>通俗比喻：</strong><br>
+ 就像你让智能音箱帮你“查下今天北京天气”。音箱（LLM）自己感知不到天气，但它知道要去调用“天气查询”这个App（预定义的函数/工具）。它生成指令（“查北京天气”），App 执行后把结果（“晴，25度”）告诉音箱，音箱再用自然语言告诉你。</p>
+</li>
+<li>
+<p>• <strong>简单例子：</strong><br>
+ 你问 AI：“AAPL 股价多少？” AI 判断需要查实时数据，于是生成一个“请求”：{调用函数: &ldquo;查股价&rdquo;, 参数: {&ldquo;股票代码&rdquo;: &ldquo;AAPL&rdquo;}}<br>
+。外部程序收到请求，查询API，返回结果 {&ldquo;价格&rdquo;: 180.50}<br>
+。AI 再根据这个结果回答你：“苹果当前股价是 180.50 美元。”</p>
+</li>
+</ul>
+<p><strong>🔍 RAG：AI的“开卷考试”神器</strong></p>
+<p><img src="/img/ai/d2165d86f96f781db449512a85b5a850.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>****- • <strong>这是啥？</strong><br>
+ RAG (Retrieval-Augmented Generation) 是一种让 AI 回答更靠谱的技术框架。简单说，就是在 AI 回答问题 <br>
+之前<br>
+，先让它去指定的资料库（比如公司内部文档、最新的行业报告）里<strong>查找 (Retrieval)</strong><br>
+ 相关信息。</p>
+<ul>
+<li>
+<p>• <strong>为啥要它？</strong><br>
+ 防止 AI一本正经地“胡说八道”（专业术语叫“幻觉”），让它的回答基于最新的、准确的、特定的事实依据。</p>
+</li>
+<li>
+<p>• <strong>通俗比喻：</strong><br>
+ 好比你写论文要引用最新数据。你不会光凭记忆（LLM 的内部知识）瞎写，而是会先去图书馆或数据库<strong>查资料 (检索)</strong><br>
+，把找到的关键信息<strong>整合 (增强)进你的论据里，最后才下笔写作 (生成)</strong><br>
+。RAG 就是让 AI 也学会这种“先查再答”的好习惯。</p>
+</li>
+<li>
+<p>• <strong>简单例子：</strong><br>
+ 你问 AI：“我们公司最新的报销政策是啥？” RAG 系统先去公司内部知识库<strong>检索</strong><br>
+“报销政策”文档，找到相关段落。然后把这些段落和你的问题一起“喂”给 AI，AI <strong>参考</strong><br>
+着这些最新政策，给你一个准确的回答。</p>
+</li>
+</ul>
+<p><strong>🤖 Agent：AI界的“全能管家”</strong></p>
+<p><img src="/img/ai/725889adde5abec549897fa6f635e7a9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>****- • <strong>这是啥？</strong><br>
+ Agent（智能体）是一个更高级、更自主的 AI 系统。它以 LLM 作为核心“大脑”，不仅能理解你的目标，还能自己<strong>思考、规划步骤</strong><br>
+，并<strong>主动调用工具</strong><br>
+（比如上面说的 RAG 和 Function Call）来执行任务，与外部环境互动。</p>
+<ul>
+<li>
+<p>• <strong>为啥要它？</strong><br>
+ 为了完成那些光靠聊天解决不了的复杂任务，比如“帮我规划下周去上海的出差行程，包括订机票酒店，并把日程发给我”。</p>
+</li>
+<li>
+<p>• <strong>通俗比喻：</strong><br>
+ Agent 就像一个<strong>超级能干的私人助理</strong><br>
+。你给个目标，它自己就能拆解任务、查信息（可能用 RAG 查公司差旅标准，用 Function Call 查航班酒店）、做决策、执行操作（用 Function Call 调用预订 API），最后给你结果。它是有自主“行动力”的。</p>
+</li>
+<li>
+<p>• <strong>简单例子：</strong><br>
+ 你让 Agent：“分析一下竞品 X 的最新动态，写个简报。” Agent 会自己规划：① 搜索最新新闻（调用 Function Call）；② 查内部研究报告（调用 RAG）；③ 分析总结信息（LLM 大脑）；④ 生成简报（调用 Function Call）。</p>
+</li>
+</ul>
+<p><strong>🔌 MCP：AI与工具间的“通用插座标准”</strong></p>
+<p><img src="/img/ai/bfc6913e19e42985e80d9652c7fff906.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>****- • <strong>这是啥？</strong><br>
+ MCP (Model Context Protocol) 是 Anthropic 公司（就是搞出 Claude 那个）在 2024 年底提出并开源的一种<strong>标准化通信协议</strong><br>
+。它定义了一套规则，让 AI 应用（客户端）能以统一的方式，与各种外部数据源或工具（服务器）进行交互。</p>
+<ul>
+<li>
+<p>• <strong>为啥要它？</strong><br>
+ 想象一下，如果每个工具都有自己独特的接口，那 Agent 想用多个工具时，岂不是要学 N 种“方言”？MCP 就是想统一这个接口标准，让工具“即插即用”。</p>
+</li>
+<li>
+<p>• <strong>通俗比喻：</strong><br>
+ MCP 就像是给 AI 大脑和外部工具之间制定了一个<strong>通用的 USB 接口标准</strong><br>
+。无论是本地文件系统、数据库，还是 Slack、GitHub 这些应用，只要它们提供符合 MCP 标准的“服务器”，AI 应用（客户端）就能轻松连接并使用它们的功能，无需为每个工具单独适配。</p>
+</li>
+<li>
+<p>• <strong>简单例子：</strong><br>
+ 在支持 MCP 的编辑器里，你可以让 AI“把我 /docs<br>
+ 目录最新的 Markdown 文件总结一下，发到 Slack 的 #general<br>
+ 频道”。编辑器（MCP 客户端）通过 MCP 协议，与本地的“文件系统 MCP 服务器”和“Slack MCP 服务器”沟通，协调完成整个任务。</p>
+</li>
+<li>
+<p>•</p>
+</li>
+<li>
+<p>• <strong>支持 MCP 的客户端/服务器:</strong></p>
+</li>
+<li>
+<p>• <strong>客户端:</strong><br>
+  Claude Desktop App, Cursor, Windsurf, Cherry Studio 等 AI 编辑器或应用。</p>
+</li>
+<li>
+<p>• <strong>服务器:</strong><br>
+  Anthropic 官方和社区提供了针对 Google Drive, Slack, GitHub, Git, Postgres, Puppeteer, Milvus (向量数据库), Firecrawl (网页抓取) 等的开源 MCP 服务器实现。开发者也可以根据 MCP 规范自定义服务器。目前，为安全起见，MCP 服务器通常在本地运行。</p>
+</li>
+<li>
+<p><img src="/img/ai/f8733b1bec1615f754bdfb7995db2a1f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/ai/">AI</a>
+        
+            <a href="/tags/agent/">Agent</a>
+        
+            <a href="/tags/rag/">RAG</a>
+        
+            <a href="/tags/function-call/">Function Call</a>
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">大语言模型</a>
+        
+            <a href="/tags/llm/">LLM</a>
+        
+            <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100行代码讲透MCP原理</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E4%B8%80%E5%88%87%E9%83%BD%E5%87%BA%E9%94%99%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的一切都出错了</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%BC%AB%E7%94%BB%E6%9C%80%E8%BF%91%E7%88%86%E7%81%AB%E7%9A%84mcp%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E5%95%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大模型漫画：最近爆火的MCP到底是个啥？</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

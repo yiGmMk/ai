@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文探讨了基于MCP架构开发一个支持私有知识库的问答系统的实践，涵盖知识库构建、检索和问答等环节，并利用Tablestore进行知识库存储。">
+<title>MCP 实践：基于 MCP 架构实现知识库答疑系统</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/mcp-%E5%AE%9E%E8%B7%B5%E5%9F%BA%E4%BA%8E-mcp-%E6%9E%B6%E6%9E%84%E5%AE%9E%E7%8E%B0%E7%9F%A5%E8%AF%86%E5%BA%93%E7%AD%94%E7%96%91%E7%B3%BB%E7%BB%9F/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="MCP 实践：基于 MCP 架构实现知识库答疑系统">
+<meta property='og:description' content="本文探讨了基于MCP架构开发一个支持私有知识库的问答系统的实践，涵盖知识库构建、检索和问答等环节，并利用Tablestore进行知识库存储。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/mcp-%E5%AE%9E%E8%B7%B5%E5%9F%BA%E4%BA%8E-mcp-%E6%9E%B6%E6%9E%84%E5%AE%9E%E7%8E%B0%E7%9F%A5%E8%AF%86%E5%BA%93%E7%AD%94%E7%96%91%E7%B3%BB%E7%BB%9F/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='知识库' /><meta property='article:tag' content='问答系统' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='RAG' /><meta property='article:tag' content='向量检索' /><meta property='article:tag' content='Tablestore' /><meta property='article:tag' content='大模型' /><meta property='article:published_time' content='2025-04-21T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-21T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other' />
+<meta name="twitter:title" content="MCP 实践：基于 MCP 架构实现知识库答疑系统">
+<meta name="twitter:description" content="本文探讨了基于MCP架构开发一个支持私有知识库的问答系统的实践，涵盖知识库构建、检索和问答等环节，并利用Tablestore进行知识库存储。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#整体流程设计">整体流程设计</a></li>
+    <li><a href="#agent-架构">Agent 架构</a></li>
+    <li><a href="#知识库存储"><strong>知识库存储</strong></a></li>
+    <li><a href="#mcp-server"><strong>MCP Server</strong></a></li>
+    <li><a href="#知识库构建"><strong>知识库构建</strong></a></li>
+    <li><a href="#知识库检索"><strong>知识库检索</strong></a></li>
+    <li><a href="#知识库问答"><strong>知识库问答</strong></a></li>
+    <li><a href="#最后">最后</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/mcp-%E5%AE%9E%E8%B7%B5%E5%9F%BA%E4%BA%8E-mcp-%E6%9E%B6%E6%9E%84%E5%AE%9E%E7%8E%B0%E7%9F%A5%E8%AF%86%E5%BA%93%E7%AD%94%E7%96%91%E7%B3%BB%E7%BB%9F/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other" loading="lazy" alt="Featured image of post MCP 实践：基于 MCP 架构实现知识库答疑系统" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai-%E5%BA%94%E7%94%A8/" >
+                AI 应用
+            </a>
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5/" >
+                技术实践
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/mcp-%E5%AE%9E%E8%B7%B5%E5%9F%BA%E4%BA%8E-mcp-%E6%9E%B6%E6%9E%84%E5%AE%9E%E7%8E%B0%E7%9F%A5%E8%AF%86%E5%BA%93%E7%AD%94%E7%96%91%E7%B3%BB%E7%BB%9F/">MCP 实践：基于 MCP 架构实现知识库答疑系统</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文探讨了基于MCP架构开发一个支持私有知识库的问答系统的实践，涵盖知识库构建、检索和问答等环节，并利用Tablestore进行知识库存储。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 21, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> |  木洛  阿里云开发者   2025-04-21 08:30</p>
+<p><img src="/img/ai/3fc021abc05c740356ba477775280a7e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>文章探讨了AI Agent的发展趋势，并通过一个实际案例展示了如何基于MCP（Model Context Protocol）开发一个支持私有知识库的问答系统。</p>
+<h2 id="前言">前言
+</h2><p>业界推测 2025 年是 AI Agent 的元年，从目前的技术发展速度看确实是有这个趋势。从年初 DeepSeek 的爆火开始，目前开源大模型的能力基本与商业大模型拉齐甚至是超越，完全开放的开源策略让大模型的使用彻底平权。这个可以说在某种程度上改变了 AI 应用的商业模式，基于自训练的闭源模型的优势被显著削弱，商业竞争从模型性能转向对应用场景的创新。</p>
+<p>AI 应用的形态不断演进，从早期的 Chat 到 RAG，再到现在的 Agent。参考 Web 2.0 和移动互联网时代的技术发展，当某种新形态的应用开发需求爆发式增长，会催生新的开发框架和新的标准的建立，AI 应用正在经历这个过程。</p>
+<p>目前开发框架还处于百花齐放的状态，Python 是否会成为主流开发语言，哪个开发框架会成为主流，这些都还未知，有待观望。但是近期比较火热的 MCP（Model Context Protocol）看起来已成事实标准，特别是近期 OpenAI 也官宣了对 MCP 的支持。</p>
+<p>关于 MCP 的介绍不在本文赘述，本着学习的目的，动手做了一个实践，主要为了体验如何基于 MCP 开发一个 Agent 应用。本次实践会实现一个目前最常见的一类 AI 应用即答疑系统，支持基于私有知识库的问答，会对知识库构建和 RAG 做一些优化。</p>
+<h2 id="整体流程设计">整体流程设计
+</h2><p><img src="/img/ai/f638b06be79e867e0b58aea871dbe210.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>主要分为两部分：知识库构建和检索。</p>
+<p>1.知识库构建</p>
+<p>a.文本切段：对文本进行切段，切段后的内容需要保证文本完整性以及语义完整性。</p>
+<p>b.提取 FAQ：根据文本内容提取 FAQ，作为知识库检索的一个补充，以提升检索效果。</p>
+<p>c.导入知识库：将文本和 FAQ 导入知识库，并进行 Embedding 后导入向量。</p>
+<p>2.知识检索（RAG）</p>
+<p>a.问题拆解：对输入问题进行拆解和重写，拆解为更原子的子问题。</p>
+<p>b.检索：针对每个子问题分别检索相关文本和 FAQ，针对文本采取向量检索，针对 FAQ 采取全文和向量混合检索。</p>
+<p>c.知识库内容筛选：针对检索出来的内容进行筛选，保留与问题最相关的内容进行参考回答。</p>
+<p>相比传统的 Naive RAG，在知识库构建和检索分别做了一些常见的优化，包括 Chunk 切分优化、提取 FAQ、Query Rewrite、混合检索等。</p>
+<h2 id="agent-架构">Agent 架构
+</h2><p><img src="/img/ai/91804ab66e9fd319dc43564e2bb76b9e.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>整体架构分为三个部分：</p>
+<p>1.知识库：内部包含 Knowledge Store 和 FAQ Store，分别存储文本内容和 FAQ 内容，支持向量和全文的混合检索。</p>
+<p>2.MCP Server：提供对 Knowledge Store 和 FAQ Store 的读写操作，总共提供 4 个 Tools。</p>
+<p>3.功能实现部分：完全通过 Prompt + LLM 来实现对知识库的导入、检索和问答这几个功能。</p>
+<p>具体实现</p>
+<p>所有代码开源在这里，分为两部分：</p>
+<p>1.Python 实现的 Client 端：实现了与大模型进行交互，通过 MCP Client 获取 Tools，根据大模型的反馈调用 Tools 等基本能力。通过 Prompt 实现了知识库构建、检索和问答三个主要功能。</p>
+<p>2.Java 实现的 Server 端：基于 Spring AI 框架实现 MCP Server，由于底层存储用的是 Tablestore，所以主体框架是基于这篇文章的代码进行改造。</p>
+<h2 id="知识库存储"><strong>知识库存储</strong>
+</h2><p>知识库存储选择 Tablestore（向量检索功能介绍），主要原因为：</p>
+<p>1.简单易用：仅一个创建实例步骤后即可开始使用，Serverless 模式无需管理容量和后续运维。</p>
+<p>2.低成本：完全按量计费，自动根据存储规模水平扩展，最大可扩展至 PB 级。当然如果采用本地知识库肯定是零成本，但这里实现的是一个企业级、可通过云共享的知识库。</p>
+<p>3.功能完备：支持全文、向量和标量等检索功能，支持混合检索。</p>
+<h2 id="mcp-server"><strong>MCP Server</strong>
+</h2><p>实现了 4 个 Tools（具体注册代码可参考 TablestoreMcp），相关描述如下：</p>
+<p><img src="/img/ai/af20093202c3d68e029c5226065a37f5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/b19d52ce3bd446bf4b2af7a3e289d3eb.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="知识库构建"><strong>知识库构建</strong>
+</h2><p>1、对文本进行切段并提取 FAQ</p>
+<p>完全通过提示词来完成，可根据自己的要求进行调优。</p>
+<p><img src="/img/ai/02866b7b0db46ad6a861470e49e5b0d1.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/137ae3c8f93b6efc3762ede20bfd0a35.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/cd6243e70c4c925b44b5162e8dd56234.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>以上是一个示例，可以看到通过大模型能比较准确的对文本进行切段并提取 FAQ。这种方式的优势是切段的文本能保证完整性以及语义一致性，能够比较灵活的对格式做一些处理。提取的 FAQ 很全面，对于简单问题的问答通过直接搜索 FAQ 是最准确直接的。最大的缺点就是执行比较慢并且成本较高，一次会消耗大量的 Token，不过好在是一次性的投入。<br>
+2、写入知识库和 FAQ 库</p>
+<p>这一步也是通过提示词来完成，基于 MCP 架构可以非常简单的实现，样例如下：</p>
+<p><img src="/img/ai/bd78cf1ba477ac92ee1c41cafbe9db61.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="知识库检索"><strong>知识库检索</strong>
+</h2><p>同样这一步也是通过提示词加 MCP 来实现，非常的简单，样例如下：</p>
+<p><img src="/img/ai/6275fc2275e1fd0f7a441f54e33049a1.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>通过提示词描述实现了一个稍微复杂点的检索：</p>
+<p>1.先对问题进行拆解，拆解为更原子的子问题。</p>
+<p>2.每个子问题分别检索知识库和 FAQ，检索结果汇总后筛选留下与问题最相关的内容。</p>
+<p>3.按照格式返回结果。</p>
+<h2 id="知识库问答"><strong>知识库问答</strong>
+</h2><p>直接看下提示词和效果</p>
+<p><img src="/img/ai/7b5962d794b305bc6241925af02cb004.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>从 MCP Server 的 Log 内可以看到自动调用了知识库和 FAQ 的检索工具，并能根据之前导入的内容进行回答。</p>
+<p>演示</p>
+<p><strong>1、创建知识库存储实例</strong></p>
+<p>可通过命令行工具（<br>
+下载地址<br>
+）来创建 Tablestore 实例，参考<br>
+这个文档<br>
+先进行配置。</p>
+<p>配置成功后执行以下命令进行实例创建，实例名自行选择，需要保证 Region 内唯一。</p>
+<p><img src="/img/ai/af1cc9d9876626a858877e2e42b9d070.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>2、启动 MCP Server</strong></p>
+<p>启动前需要在环境变量内配置如下几个参数：</p>
+<p><img src="/img/ai/944292e4d4cf3c1b9a8583cdcf96a9b9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>可参考代码库 README 内的步骤进行启动，也可将项目导入 IDE 后直接运行 App 这个类，启动后会自动初始化表和索引。</p>
+<p><strong>3、导入知识库</strong></p>
+<p>这一步需要执行代码库内的 knowledge_manager.py 工具，执行前需要先配置访问大模型的 API-KEY，默认采用 qwen-max。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">LLM_API_KEY</span><span class="o">=</span><span class="n">sk</span><span class="o">-</span><span class="n">xxxxxx</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>请自行准备知识库文档，使用 markdown 格式，执行如下：</p>
+<p><img src="/img/ai/a093c838ba94f16a2f4100f106b95766.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>4、检索知识库</strong></p>
+<p>执行如下：</p>
+<p><img src="/img/ai/49f4093840580d3e46826e8fb096eb7a.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>5、基于知识库进行问答</strong></p>
+<p><img src="/img/ai/827427675199578dbb949d3c2c1c285d.other"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="最后">最后
+</h2><p>对应前言部分的观点，这一轮技术革命可以参考 Web 2.0 和移动互联网时代的技术发展，当某种新形态的应用开发需求爆发式增长，一定会催生新的开发框架和新的标准的建立。AI 应用的技术是能够完全构建在当前的技术框架之上，所以发展迭代的速度非常之快，很期待未来的发展。</p>
+<hr>
+<p><strong>构建OLAP全场景，揭秘实时/离线数仓一体化架构</strong></p>
+<p>随着企业的业务数据量和数据源不断增加，分析的难度和复杂度显著提升。AnalyticDB MySQL 提供了一个能整合多类型数据源，确保数据的一致性和完整性、高效的数据分析平台， 支持复杂查询和分析需求，能够快速洞察数据价值，更好地支撑业务决策。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/">知识库</a>
+        
+            <a href="/tags/%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/">问答系统</a>
+        
+            <a href="/tags/ai-agent/">AI Agent</a>
+        
+            <a href="/tags/rag/">RAG</a>
+        
+            <a href="/tags/%E5%90%91%E9%87%8F%E6%A3%80%E7%B4%A2/">向量检索</a>
+        
+            <a href="/tags/tablestore/">Tablestore</a>
+        
+            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ai-agent%E7%A0%B4%E5%B1%80mcp%E4%B8%8Ea2a%E5%AE%9A%E4%B9%89%E5%AE%89%E5%85%A8%E6%96%B0%E8%BE%B9%E7%95%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent破局：MCP与A2A定义安全新边界</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%BC%AB%E7%94%BB%E6%9C%80%E8%BF%91%E7%88%86%E7%81%AB%E7%9A%84mcp%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E5%95%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大模型漫画：最近爆火的MCP到底是个啥？</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

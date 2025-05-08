@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="将MCP和AI代理部署在无服务器架构上，利用Serverless架构的弹性计算资源，解决AI代理的动态资源需求，提升业务性能并增强安全性。">
+<title>把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="把MCP和AI代理部署在无服务器架构上，大幅提升业务性能">
+<meta property='og:description' content="将MCP和AI代理部署在无服务器架构上，利用Serverless架构的弹性计算资源，解决AI代理的动态资源需求，提升业务性能并增强安全性。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='AI代理' /><meta property='article:tag' content='无服务器架构' /><meta property='article:tag' content='Serverless' /><meta property='article:tag' content='腾讯云' /><meta property='article:tag' content='云函数' /><meta property='article:tag' content='模型上下文协议' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='弹性计算' /><meta property='article:tag' content='安全容器' /><meta property='article:tag' content='Cube' /><meta property='article:published_time' content='2025-04-08T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-08T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png' />
+<meta name="twitter:title" content="把MCP和AI代理部署在无服务器架构上，大幅提升业务性能">
+<meta name="twitter:description" content="将MCP和AI代理部署在无服务器架构上，利用Serverless架构的弹性计算资源，解决AI代理的动态资源需求，提升业务性能并增强安全性。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1-mcp">1. MCP</a>
+          <ol>
+            <li><a href="#11简介">1.1. 简介</a></li>
+            <li><a href="#12为什么用mcp">1.2. 为什么用MCP</a></li>
+            <li><a href="#13总体架构">1.3. 总体架构</a></li>
+          </ol>
+        </li>
+        <li><a href="#2mcpserveronserverless">2. MCPServerOnServerless</a>
+          <ol>
+            <li><a href="#21效果展示">2.1. 效果展示</a></li>
+            <li><a href="#22-天气查询mcp-server代码">2.2. 天气查询MCP Server代码</a></li>
+            <li><a href="#23相关依赖">2.3. 相关依赖</a></li>
+            <li><a href="#24部署到云函数">2.4. 部署到云函数</a></li>
+            <li><a href="#25使用云函数的收益">2.5. 使用云函数的收益</a></li>
+            <li><a href="#26ai-on-serverless">2.6. AI On Serverless</a></li>
+            <li><a href="#27应用场景">2.7. 应用场景</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" loading="lazy" alt="Featured image of post 把MCP和AI代理部署在无服务器架构上，大幅提升业务性能" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" >
+                云计算
+            </a>
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            将MCP和AI代理部署在无服务器架构上，利用Serverless架构的弹性计算资源，解决AI代理的动态资源需求，提升业务性能并增强安全性。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 08, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 15 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> | maxlong  腾讯云原生</p>
+<p>MCP协议通过标准化接口实现AI模型与外部工具的无缝连接，而Serverless架构提供弹性计算资源，两者结合可解决AI代理的动态资源需求。例如，企业内大量AI智能体（如千人规模）的实时调度，可通过Serverless函数动态部署MCP服务器，按需扩展计算能力。这种模式尤其适用于低频但需快速响应的场景（如临时视频处理、数据查询），避免传统软件采购的高昂成本。同时在 Serverless 环境中，每个函数执行都有独立的执行环境，这种隔离性确保了不同 AI 代理之间的安全性。通过精细的权限控制和资源访问管理，可以有效防止数据泄露和未经授权的访问，增强系统的安全性。</p>
+<h3 id="1-mcp">1. MCP
+</h3><h4 id="11简介">1.1. 简介
+</h4><p>模型上下文协议（Model Context Protocol，简称 MCP）是由 Anthropic 推动的一项开放标准，它标准化了应用程序向 LLM 提供上下文的方式。可以将 MCP 视为 AI 应用程序的 USB-C 端口。正如 USB-C 提供了一种将设备连接到各种外围设备和配件的标准化方式一样，MCP 提供了一种将 AI 模型连接到不同数据源和工具的标准化方式。</p>
+<p>近期，OpenAI 对其 Agent SDK 进行了重大更新，正式支持 MCP 协议。这一举措使开发者能够在统一的接口标准下，快速集成多种工具，极大地扩展了 AI 模型的能力。这一变化标志着 MCP 协议在业界的广泛认可和应用，进一步推动了人工智能技术的发展。</p>
+<h4 id="12为什么用mcp">1.2. 为什么用MCP
+</h4><p>MCP可以帮助我们在LLM之上构建Agent或者复杂的工作流，对于一些经常需要与数据和工具集成的场景，MCP协议提供以下功能：</p>
+<ol>
+<li>
+<p>基于协议实现的集成数据集或工具可以以插件方式快速连接到LLM。</p>
+</li>
+<li>
+<p>解耦工具和LLM，使得应用可以在多个LLM提供商切换。</p>
+</li>
+<li>
+<p>数据和工具不需要上传远端，保护数据隐私。</p>
+</li>
+</ol>
+<h4 id="13总体架构">1.3. 总体架构
+</h4><p>MCP 的核心是客户端-服务器架构，其中主机应用程序可以连接到多个服务器：</p>
+<p><img src="/img/ai/eece5d1ae0f8710e55457ee03acb53de.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>● MCP 主机：希望通过 MCP 访问数据的程序，例如 Claude Desktop、IDE 或 AI 工具</p>
+<p>● MCP 客户端：与服务器保持 1:1 连接的协议客户端</p>
+<p>● MCP 服务器：轻量级程序，每个程序都通过标准化模型上下文协议公开特定功能</p>
+<p>● 本地数据源：MCP 服务器可以安全访问的您的计算机文件、数据库和服务</p>
+<p>● 远程服务：MCP 服务器可通过互联网（例如通过 API）连接到的外部系统</p>
+<h3 id="2mcpserveronserverless">2. MCPServerOnServerless
+</h3><h4 id="21效果展示">2.1. 效果展示
+</h4><p>先看看效果，模仿mcp 官方server例子开发一个天气查询的mcp server，同时部署到腾讯云云函数。</p>
+<p><img src="/img/ai/c5e2e4e2d1cd92eaad5b2ebf0473722a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h4 id="22-天气查询mcp-server代码">2.2. 天气查询MCP Server代码
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">from</span> <span class="n">mcp</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">fastmcp</span> <span class="n">import</span> <span class="n">FastMCPimport</span> <span class="n">osimport</span> <span class="n">loggingimport</span> <span class="n">httpximport</span> <span class="n">json</span><span class="c1"># Initialize FastMCP servermcp = FastMCP(&#34;weather&#34;, host=&#34;0.0.0.0&#34;, port=9000)# Constants# 天气API地址 设置对应天气api接口地址 如腾讯天气api接口地址https://apis.map.qq.com/ws/weather/v1/NWS_API_BASE = &#34;api url&#34;USER_AGENT = &#34;weather-app/1.0&#34;API_KEY = &#34;api key&#34;#以下为腾讯天气api接口伪代码，需要自行完善@mcp.tool()def get_weather(city: str) -&gt; str:    &#34;&#34;&#34;    获取某个城市的天气    Args:    city: 城市    &#34;&#34;&#34;        try:        # 使用 HTTPS 协议并验证 SSL        client = httpx.Client(verify=True)                # 构建请求参数        params = {            &#34;key&#34;: API_KEY,            &#34;city&#34;: city,            &#34;output&#34;: &#34;json&#34;        }                # 使用新的天气API地址        response = client.get(            &#34;https://apis.map.qq.com/ws/weather/v1/&#34;,            params=params,            timeout=10        )                # 打印响应状态和内容以便调试        logging.info(f&#34;Status Code: {response.status_code}&#34;)        logging.info(f&#34;Response: {response.text}&#34;)                weather_data = response.json()                if weather_data.get(&#34;status&#34;) != 0:            returnf&#34;获取天气信息失败: {weather_data.get(&#39;message&#39;, &#39;未知错误&#39;)}&#34;                    # 获取实时天气数据        data = weather_data.get(&#34;result&#34;, {})        observe = data.get(&#34;realtime&#34;, {})        infos = data.get(&#34;infos&#34;, {})                ifnot observe:            return&#34;无法获取天气信息: 数据为空&#34;                    # 返回格式化的天气信息        weather_info = f&#34;&#34;&#34;            天气: {infos.get(&#39;weather&#39;, &#39;&#39;)}            温度: {infos.get(&#39;temperature&#39;, &#39;&#39;)}°C            湿度: {infos.get(&#39;humidity&#39;, &#39;&#39;)}%            风力: {infos.get(&#39;wind_power&#39;, &#39;&#39;)}级        &#34;&#34;&#34;        return weather_info            except httpx.HTTPError as e:        error_msg = f&#34;HTTP请求失败: {str(e)}&#34;        logging.error(error_msg)        return error_msg    except Exception as e:        error_msg = f&#34;获取天气信息失败: {str(e)}&#34;        logging.error(error_msg)        return error_msg    finally:        if&#39;client&#39;in locals():            client.close()if __name__ == &#39;__main__&#39;:    logging.basicConfig(level=logging.INFO)    mcp.run(transport=&#39;sse&#39;)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>特别注意的地方是函数镜像或者web代码都需要设置9000的监听端口，所以代码要设置server 端口为9000</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mcp = FastMCP(&#34;weather&#34;, host=&#34;0.0.0.0&#34;, port=9000)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="23相关依赖">2.3. 相关依赖
+</h4><p>requirements.txt</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">httpxmcp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="24部署到云函数">2.4. 部署到云函数
+</h4><p><strong>Remote MCP Server VS Local MCP Server</strong></p>
+<p><img src="/img/ai/23d0067d60a3138eaf17af6dd92d2233.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h5 id="241通过镜像部署云函数">2.4.1. 通过镜像部署云函数
+</h5><p>Dockerfile内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 使用官方的 Python 3.13 镜像作为基础镜像FROM python:3.13.2-slim# 设置工作目录WORKDIR /app# 复制当前目录下的所有文件到工作目录COPY . /app# 安装依赖RUN pip install --no-cache-dir .# 暴露端口EXPOSE 9000# 运行应用CMD [&#34;python&#34;, &#34;weather.py&#34;]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>``</p>
+<p>构建好Docker镜像，将Docker进行push到tcr镜像仓库</p>
+<p>tcr镜像仓库详见：<br>
+ https://cloud.tencent.com/document/product/1141</p>
+<p>web镜像函数：<br>
+ https://cloud.tencent.com/document/product/583/56051</p>
+<p>上传好镜像之后，可以开始创建云函数，选择使用<strong>容器镜像</strong><br>
+，函数类型<strong>选择Web函数</strong></p>
+<p><img src="/img/ai/b2b3b40923f2906a68469544c512a4a8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>选择<strong>函数镜像</strong></p>
+<p><img src="/img/ai/d04975d6f7667fc1c1a3108e06119bee.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>在高级配置中需要<strong>设置超时时间</strong><br>
+为较长时间，比如120s，因为sse服务需要进行长连接，如果时间太短，连接会被快速断开。</p>
+<p><img src="/img/ai/1a980411da4722c593cf20c8ceff4723.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>同时需要设置函数支持<strong>请求多并发。</strong></p>
+<p><img src="/img/ai/ad40b3314af401f11c9517856e15845a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>【保存】</strong><br>
+之后就完成了mcp server函数的创建</p>
+<p>最后一步<strong>创建函数的URL</strong><br>
+，使用该URL提供给mcp client进行sse方式的访问：</p>
+<p><img src="/img/ai/31a5b8736fcca6e112afea7baa82867b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>同时使用<strong>镜像加速，</strong><br>
+云函数拉取镜像会比较快：</p>
+<p><img src="/img/ai/125b8cd25723570ec8f331f8f0c57caf.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>最后在cursor mcp中设置好函数的url即可进行mcp tools的使用了</p>
+<h5 id="242通过代码函数部署">2.4.2. 通过代码函数部署
+</h5><p>区别于镜像方式部署，通过代码部署的云函数拉取代码的耗时会比镜像耗时小</p>
+<p>创建函数的方式以下图例子方式创建即可，其它步骤同镜像部署</p>
+<p><img src="/img/ai/fb824ab3f171b3d09f763eb217d43fe1.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>app.py代码使用前面的代码范例即可</p>
+<p><strong>使用云函数的CLI工具能更快速（秒级）的部署MCP Server服务，相对于tke或者CVM部署速度和管理成本极低</strong></p>
+<p><strong>云函数也支持java，go，nodejs，php的代码</strong></p>
+<h4 id="25使用云函数的收益">2.5. 使用云函数的收益
+</h4><h5 id="251云函数相比k8s优势">2.5.1. 云函数相比K8S优势
+</h5><p>腾讯云云函数（SCF, Serverless Cloud Function）和 Kubernetes（K8s）相比，也有一些明显的优势，尤其是在特定的应用场景下。以下是腾讯云云函数相对于 Kubernetes 的一些优势：</p>
+<p><strong>1. 无服务器架构 (Serverless)</strong></p>
+<p>● <strong>无需管理基础设施</strong><br>
+：腾讯云云函数是完全托管的计算服务，用户不需要关注底层服务器、虚拟机、容器集群等基础设施的管理。与此相比，Kubernetes 需要管理集群中的节点、容器生命周期以及各种资源调度。</p>
+<p>● <strong>自动扩展和缩减</strong><br>
+：云函数会根据实际的事件或请求数量自动扩展和缩减，用户无需手动配置和调整。Kubernetes 的扩展则需要配置 Horizontal Pod Autoscaling（HPA）或 Vertical Pod Autoscaling（VPA），并且通常还需要设置资源池和负载均衡策略。</p>
+<p><strong>2. 按需计费</strong></p>
+<p>● <strong>按请求和执行时间计费</strong><br>
+：腾讯云云函数是按请求数和执行时间计费的，用户只需为实际使用的计算资源付费。相比之下，Kubernetes 中通常需要为整个集群中的节点付费，即使节点没有承载任何负载也需要支付固定费用，可能导致资源的浪费。</p>
+<p>● <strong>零资源消耗</strong><br>
+：当没有请求时，云函数不会消耗任何计算资源，而 Kubernetes 需要至少保持最小的节点运行状态，即使没有容器或任务需要处理。</p>
+<p><strong>3. 简化的运维和管理</strong></p>
+<p>● <strong>自动化运维</strong><br>
+：腾讯云云函数完全托管，自动管理所有的计算资源和基础设施，包括计算、存储和网络资源，减少了运维负担。相比之下，Kubernetes 需要用户自己管理集群、节点、负载均衡、网络配置等，增加了运维复杂度。</p>
+<p>● <strong>无需管理容器或集群</strong><br>
+：云函数抽象了底层容器或虚拟机的管理，用户只需关注业务逻辑，而 Kubernetes 则需要开发者管理容器化应用的构建、镜像推送、容器调度、服务暴露等。</p>
+<p><strong>4. 快速部署和启动</strong></p>
+<p>● <strong>快速响应时间</strong><br>
+：腾讯云云函数是事件驱动的，可以在几毫秒内响应并启动，特别适合短时间、瞬时计算的任务。Kubernetes 的容器虽然也支持快速启动，但仍然需要更多的时间来调度和运行，尤其是涉及到节点的资源分配和容器的启动。</p>
+<p>● <strong>简化的部署流程</strong><br>
+：云函数支持从代码直接部署，不需要预先构建和管理镜像，而 Kubernetes 通常要求将应用打包为容器镜像，推送到容器注册表并进行部署。</p>
+<p><strong>5. 事件驱动</strong></p>
+<p>● <strong>无缝与事件源集成</strong><br>
+：腾讯云云函数能够直接与腾讯云其他服务（如对象存储 COS、消息队列 CKafka、数据库等）进行事件驱动的集成，支持自动触发，简化了应用架构的设计。Kubernetes 虽然也能与事件源进行集成，但通常需要额外的配置和工具（如通过消息队列或触发器调度 Pod）。</p>
+<p>● <strong>自动触发</strong><br>
+：腾讯云云函数可以轻松响应云端各种事件，如文件上传、数据库变更、HTTP 请求等，而 Kubernetes 通常需要设置外部系统来触发容器启动或服务处理。</p>
+<p><strong>6. 自动弹性伸缩</strong></p>
+<p>● <strong>无限扩展</strong><br>
+：腾讯云云函数能够根据请求自动扩展，支持从零到上千个实例的快速扩展，用户无需担心如何管理资源的扩展和缩减。Kubernetes 需要手动配置集群的资源池，并根据需要调整节点或Pod数量。</p>
+<p>● <strong>零延迟扩展</strong><br>
+：云函数可以非常迅速地应对突发流量，Kubernetes 可能需要一定的时间来扩展节点并启动新容器，特别是在大规模应用中，可能会受到集群资源的限制。</p>
+<p><strong>7. 低成本和高效能</strong></p>
+<p>● <strong>精细的资源使用</strong><br>
+：由于按执行时间和请求数计费，云函数的资源利用率非常高，能够确保不浪费资源。在 Kubernetes 中，虽然容器也可以相对轻量化，但资源消耗依赖于集群中配置的节点大小和容器数量。</p>
+<p>● <strong>无闲置成本</strong><br>
+：Kubernetes 集群中即使没有请求，节点也可能保持活动，用户仍然需要为空闲的资源支付费用。而云函数在没有请求时完全不消耗资源，从而降低了成本。</p>
+<p><strong>8. 开发和调试简化</strong></p>
+<p>● <strong>简单的开发流程</strong><br>
+：开发者只需要关注代码的实现，上传到腾讯云云函数即可，开发和部署非常快速。而 Kubernetes 通常要求开发者将应用容器化，构建镜像、推送到容器注册表，并配置复杂的部署管道。</p>
+<p>● <strong>内置集成调试工具</strong><br>
+：腾讯云云函数提供了调试和日志功能，能够方便地查看函数执行过程中的详细日志，帮助开发者快速定位问题。而 Kubernetes 的调试通常涉及到容器日志、Pod 状态和容器的网络配置，调试可能更为复杂。</p>
+<p><strong>9. 简化的 CI/CD 流程</strong></p>
+<p>● <strong>无缝与 CI/CD 集成</strong><br>
+：腾讯云云函数可以直接与 CI/CD 工具集成（例如腾讯云开发工具、GitHub 等），实现自动化的代码部署。Kubernetes 则需要手动配置持续集成和持续交付流程，并且通常需要更多的工具和管理。</p>
+<p>● <strong>快速更新</strong><br>
+：云函数支持快速更新和版本管理，开发者可以轻松更新代码并部署。Kubernetes 则需要通过滚动更新或蓝绿部署等方式来更新容器中的应用，管理相对更复杂。</p>
+<p><strong>总结</strong></p>
+<p><strong>腾讯云云函数</strong><br>
+ 的优势在于完全托管的无服务器架构、按需计费、快速启动和事件驱动架构，使得它非常适合用于轻量级、事件驱动的应用场景，尤其是那些短时间、瞬时任务和弹性伸缩需求较高的场景。与此相比，<strong>Kubernetes</strong><br>
+ 更适合需要大规模、高度可配置、容器化管理的长时间运行的应用，尤其是在复杂的微服务架构中，Kubernetes 提供了更高的控制权和灵活性，但也增加了更多的管理复杂度。</p>
+<p>如果你需要快速部署、低成本、简单运维的应用，云函数可能是更好的选择；如果你需要更复杂的应用架构、容器编排和集群管理，Kubernetes 则可能更适合。</p>
+<h5 id="252基于cube底座的云函数">2.5.2. 基于Cube底座的云函数
+</h5><p>云函数是基于Cube安全容器来打造的Serverless服务，Cube 提供了高并发，高密度部署的运行环境，使Serverless场景下的安全容器的交付更加迅速，并在有限空间内提供高性能、低开销的解决方案。</p>
+<p><img src="/img/ai/e49fc3e97cd18ab192c66b0818555428.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>并且通过CubeGW打通云函数和用户VPC网络，用户可以使用MCP来操作VPC内资源，比如数据库的操作，内部系统的访问等等。</p>
+<p><img src="/img/ai/adec5a3f4c4eebd72e134dca3a8f5fa9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>使用基于Cube底座的云函数，具备强隔离的安全性，灵活的规格可以支撑0.1C64M的MCP Server实例，启动速度在100ms以内（不包括mcp server启动时间）。</p>
+<p><img src="/img/ai/433dcd034b83471c276ff4f4ee479128.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h5 id="253cube安全容器优势">2.5.3. Cube安全容器优势
+</h5><p><strong>Cube****安全容器</strong><br>
+在 AI 代理（AI Agent）和 MCP（模型上下文协议）方面，相较于传统的 Kubernetes (K8s) 和虚拟机 (VM)，具有以下优势：</p>
+<p>**1.**<strong>更高的安全性和隔离性</strong></p>
+<p>● <strong>Cube</strong><br>
+使用安全容器技术，提供比传统容器更强的隔离性。每个容器都运行在独立的安全环境中，能够有效防止容器之间的攻击或数据泄漏，特别是在多租户环境中。对于 AI 代理和 MCP 服务器，这种强隔离能够确保不同代理或工具之间的操作不会互相影响，减少了潜在的安全风险。</p>
+<p>● 相比之下，<strong>Kubernetes</strong><br>
+ 和传统的虚拟机通常需要额外的配置来实现类似的隔离效果。Kubernetes 在多租户场景下的容器隔离依赖于操作系统的安全性，而虚拟机虽然提供更强的隔离，但由于资源消耗较大，可能无法高效处理大量小规模的容器化任务。</p>
+<p>**2.**<strong>更轻量的资源消耗</strong></p>
+<p>● <strong>Cube安全容器</strong><br>
+比传统虚拟机轻量，具有虚拟机的隔离性，但启动时间和资源消耗接近容器。这使得它特别适合用于那些需要高度并发和快速响应的 AI 代理和 MCP 服务器场景，例如短期的推理请求、实时数据处理等。相对于虚拟机，Cube 容器能更高效地利用计算资源，减少开销。</p>
+<p>● 在 <strong>Kubernetes</strong><br>
+ 和 <strong>虚拟机</strong><br>
+ 中，虚拟机的资源消耗较高，启动时间较长，尤其是在多实例部署的场景下，K8s 集群的扩展可能会受到资源瓶颈的限制。而 Cube 的轻量级特性使得在这些场景中更具优势，尤其是对于需要弹性扩展的应用。</p>
+<p>**3.**<strong>快速启动和高效扩展</strong></p>
+<p>● <strong>Cube****安全容器</strong><br>
+ 提供接近容器的启动速度，但又具有虚拟机级别的隔离性，非常适合动态扩展的需求，例如 AI 代理需要快速启动多个实例来处理突发流量或大规模请求。在 Serverless 架构中，这种快速扩展的能力尤为重要，可以减少冷启动延迟，提高响应速度。</p>
+<p>● 与传统的 <strong>Kubernetes</strong><br>
+ 或 <strong>虚拟机</strong><br>
+ 相比，Cube 容器的启动时间远远快于虚拟机，能够在高负载和高并发场景中提供更好的性能表现。</p>
+<p>**4.**<strong>容器与虚拟化的完美平衡</strong></p>
+<p>● <strong>Cube****安全容器</strong><br>
+ 提供了容器的轻量级特性和虚拟机的隔离性，弥补了传统容器的不足。AI 代理和 MCP 服务器通常需要频繁与外部工具和数据源交互，容器化方式能够提高服务部署和管理的效率，Cube 的虚拟化特性进一步确保了在复杂场景下的高安全性和稳定性。</p>
+<p>● <strong>虚拟机</strong><br>
+ 虽然提供更强的隔离，但其资源开销较大，启动速度较慢，通常不适合用来处理高频、短时任务。而 <strong>Kubernetes</strong><br>
+ 本身并不提供虚拟化隔离，它依赖于容器和节点来提供服务，这会在某些高安全要求的场景中带来风险，尤其是当多个用户或服务共享同一 Kubernetes 集群时。</p>
+<p>**5.**<strong>与 AI 和 MCP 的集成优势</strong></p>
+<p>● <strong>AI 代理和 MCP 服务器</strong><br>
+ 需要快速处理大量数据并进行实时推理，尤其是在 AI 推理请求和数据交互密集的场景中。<strong>Cube****安全容器</strong><br>
+ 能够为这些任务提供快速响应和动态扩展，同时保留虚拟机级别的安全隔离特性，从而提供更好的服务质量。</p>
+<p>● <strong>Kubernetes</strong><br>
+ 在大规模分布式部署和容器管理方面的优势毋庸置疑，但对于需要更高隔离性和快速响应的场景，<strong>Cube 安全容器</strong><br>
+ 提供了更好的选择。特别是在处理敏感数据或需要高安全性和资源隔离的任务时，Cube 提供了容器和虚拟机的最佳平衡。</p>
+<p>**6.**<strong>更好的资源调度与成本优化</strong></p>
+<p>● <strong>Cube****安全容器</strong><br>
+ 能够高效地调度资源并优化成本，它在提供虚拟机隔离的同时，减少了虚拟机带来的资源消耗和成本。对于需要频繁扩展和收缩的 AI 代理和 MCP 服务器场景，Cube 容器提供了较传统虚拟机或 Kubernetes 更加高效的解决方案，减少了因过度预分配资源而产生的浪费。</p>
+<p>● 传统的 <strong>Kubernetes</strong><br>
+ 需要配置和管理节点，并且节点上常常有较多的资源冗余，造成资源浪费。而 <strong>Cube 容器</strong><br>
+ 能够在提供虚拟机级别的隔离的同时，减少这些冗余。</p>
+<p>**7.**<strong>容器化与虚拟化的一体化管理</strong></p>
+<p>● <strong>Cube****安全容器</strong><br>
+ 提供了统一的容器化与虚拟化管理体验，简化了基础设施的管理和运维。相比于 Kubernetes 需要通过多个组件来管理容器和虚拟机，Cube 可以提供一体化的解决方案，降低管理复杂度，尤其适合多租户的 AI 和 MCP 部署。</p>
+<p><strong>总结：Cube<strong><strong>安全容器</strong></strong>在 AI 代理与 MCP 部署中的优势</strong></p>
+<p><strong>Cube****安全容器</strong><br>
+ 是一种高效、轻量、安全的容器化技术，特别适合 AI 代理和 MCP 服务器的动态扩展与快速响应需求。它在提供容器的灵活性和虚拟机的隔离性方面找到了完美的平衡，能够在多租户、高安全性需求的场景中提供显著优势。相比于传统的 <strong>Kubernetes</strong><br>
+ 和 <strong>虚拟机</strong><br>
+，Cube 更适合处理那些需要快速扩展、低延迟、强隔离的任务，特别是在 Serverless 架构下，能够为 AI 和 MCP 提供更高效、可靠和安全的运行环境。</p>
+<h4 id="26ai-on-serverless">2.6. AI On Serverless
+</h4><p>将<strong>模型上下文协议（MCP）</strong><br>
+ 与 <strong>AI 代理（AI Agent）</strong><br>
+ 部署在无服务器（Serverless）架构上，展现出显著的优势：</p>
+<p><strong>1. 模型上下文协议（MCP）与无服务器架构的结合</strong></p>
+<p>MCP 旨在为大型语言模型（LLM）提供标准化的接口，使其能够连接和交互外部数据源和工具。在无服务器架构中，MCP 服务器可以作为轻量级的执行单元，动态处理 AI 代理的请求。这种结合带来了以下好处：</p>
+<p>● <strong>弹性扩展</strong><br>
+：无服务器平台根据需求自动分配资源，确保 MCP 服务器在高负载时能够扩展，满足大量并发请求的处理需求。</p>
+<p>● <strong>按需计费</strong><br>
+：用户仅为实际使用的计算资源付费，避免了资源闲置带来的成本浪费。</p>
+<p>● <strong>简化运维</strong><br>
+：无服务器架构由云服务商管理基础设施，开发者专注于业务逻辑的实现，减少了运维复杂度。</p>
+<p><strong>2. AI 代理与无服务器架构的结合</strong></p>
+<p>AI 代理是能够自主执行任务的智能实体，需要频繁访问外部工具和数据源。无服务器架构为 AI 代理提供了以下优势：</p>
+<p>● <strong>高可用性</strong><br>
+：无服务器平台通常具备高可用性和容错性，确保 AI 代理在各种条件下稳定运行。</p>
+<p>● <strong>快速响应</strong><br>
+：无服务器函数的快速启动时间有助于 AI 代理及时响应外部事件和请求。</p>
+<p>● <strong>灵活性</strong><br>
+：无服务器架构支持事件驱动的执行模型，AI 代理可以根据不同事件触发相应的功能，提高系统的灵活性。</p>
+<p><strong>3. MCP 和 AI 代理在无服务器架构中的协同作用</strong></p>
+<p>将 MCP 与 AI 代理部署在无服务器架构中，二者相互补充，优势互补：</p>
+<p>● <strong>标准化通信</strong><br>
+：MCP 提供统一的通信协议，使 AI 代理能够高效地与各种数据源和工具交互。</p>
+<p>● <strong>动态资源分配</strong><br>
+：无服务器平台根据实际需求动态分配资源，确保 MCP 服务器和 AI 代理在高负载时获得足够的计算能力。</p>
+<p>● <strong>简化开发流程</strong><br>
+：开发者可以专注于业务逻辑的实现，无需关心基础设施的管理，提高了开发效率。</p>
+<p><strong>4. 适用场景</strong></p>
+<p>将 MCP 和 AI 代理部署在无服务器架构上，适用于以下场景：</p>
+<p>● <strong>动态生成 AI 代理</strong><br>
+：随着业务需求变化，动态生成和部署大量 AI 代理，利用无服务器架构的弹性满足计算资源的波动需求。</p>
+<p>● <strong>工具和数据源集成</strong><br>
+：需要将 AI 代理与多种工具和数据源集成的场景，MCP 提供了标准化的集成方式，简化了开发和维护工作。</p>
+<p><strong>5. 结论</strong></p>
+<p>综合来看，将 MCP 和 AI 代理部署在无服务器架构上，是一种非常契合的组合，能够充分发挥各自的优势。这种架构在需要高弹性、动态扩展和简化运维的场景中，表现尤为出色。然而，具体的应用效果还需根据实际业务需求和技术环境进行评估和实施。</p>
+<h4 id="27应用场景">2.7. 应用场景
+</h4><p>1.访问数据库的MCP Server访问内部数据库进行数据分析</p>
+<p>2.通过云API的MCP Server管理资源</p>
+<p>3.通过CLS的MCP Server来进行日志的分析</p>
+<p>4.通过云监控的MCP Server分析系统运行状态</p>
+<p>5.通过云函数的MCP Server来调度云函数的Job以及各种ai agent服务</p>
+<p>6.基于云函数执行Puppeteer实现爬虫或者页面操作任务</p>
+<p><img src="/img/ai/e7c079505661a80e3f02e592471a5f49.gif"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/ai%E4%BB%A3%E7%90%86/">AI代理</a>
+        
+            <a href="/tags/%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84/">无服务器架构</a>
+        
+            <a href="/tags/serverless/">Serverless</a>
+        
+            <a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/">腾讯云</a>
+        
+            <a href="/tags/%E4%BA%91%E5%87%BD%E6%95%B0/">云函数</a>
+        
+            <a href="/tags/%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE/">模型上下文协议</a>
+        
+            <a href="/tags/ai-agent/">AI Agent</a>
+        
+            <a href="/tags/%E5%BC%B9%E6%80%A7%E8%AE%A1%E7%AE%97/">弹性计算</a>
+        
+            <a href="/tags/%E5%AE%89%E5%85%A8%E5%AE%B9%E5%99%A8/">安全容器</a>
+        
+            <a href="/tags/cube/">Cube</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FunctionAI MCP 开发平台：助力AI应用连接数字生态</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">当 MCP 遇上 Serverless，AI 时代的最佳搭档</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">阿里云 MCP Server 开箱即用！</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100行代码讲透MCP原理</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
