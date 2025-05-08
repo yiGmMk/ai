@@ -5,7 +5,7 @@ tags: ["AI Agent", "MCP", "A2A", "安全", "工具投毒"]
 categories: ["人工智能","MCP", "A2A", "安全"]
 description: "本文深入分析了MCP和A2A协议的安全风险与防护，为AI Agent的安全开发提供参考。"
 author: "Nicky，混元安全团队朱雀实验室"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"
 ---
 核心内容点:
 - MCP协议存在工具投毒、地毯式骗局、影子攻击等安全缺陷，可能导致AI Agent被劫持和数据泄露。
