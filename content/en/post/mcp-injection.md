@@ -8,7 +8,9 @@ author: "invariantlabs.ai"
 image: ""
 ---
 
-This repository contains a few experimental MCP server implementations, that attempt ot inject the MCP client/agent in use.
+Recently, MCP has been found to have risks such as "Tool Poisoning Attack" (TPA), which mainly affects MCP client users such as Cursor and Claude for Desktop. The core mechanism of the Tool Poisoning Attack is that attackers can embed malicious instructions in the tool descriptions within the MCP code comments. These instructions are not directly visible to users but are visible to the AI model. These hidden instructions can manipulate the AI Agent to perform unauthorized operations, such as reading sensitive files and leaking private data.
+
+Here contains a few experimental MCP server implementations, that attempt ot inject the MCP client/agent in use.
 
 For more details about the attack method, please see our [blog post](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks).
 
