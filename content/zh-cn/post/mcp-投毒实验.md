@@ -149,6 +149,11 @@ if __name__ == "__main__":
 
 你能发现数据泄露吗？ 在这里，恶意工具指令要求代理在许多空格后包含走私数据，这样，通过不可见的滚动条，用户看不到正在泄漏的数据。 只有当您一直滚动到最右侧时，才能找到数据泄露有效负载。
 
+
+## 防护措施
+
+invariantlabs 发布的[mcp 扫描工具,mcp-scan](https://invariantlabs.ai/blog/introducing-mcp-scan)
+
 ## 参考
 
 - [github,mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments?tab=readme-ov-file#whatsapp-takeover)
