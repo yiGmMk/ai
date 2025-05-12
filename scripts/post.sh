@@ -36,3 +36,5 @@
 [√] 福耀发布行业首款舱内隐藏式激光雷达前挡方案——智眸前挡玻璃.md
 [√] 激光雷达.md
 [√] AI Agent破局：MCP与A2A定义安全新边界.md
+[√] 使用 go-zero MCP 创建动态提示词.md
+[√] A2A（Agent2Agent） 简介.md
