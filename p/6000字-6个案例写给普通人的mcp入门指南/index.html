@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本指南详细介绍了MCP协议的概念、配置方法以及6个实用案例，帮助普通用户轻松入门并使用MCP提升AI使用效率。">
+<title>6000字&#43;6个案例：写给普通人的MCP入门指南</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="6000字+6个案例：写给普通人的MCP入门指南">
+<meta property='og:description' content="本指南详细介绍了MCP协议的概念、配置方法以及6个实用案例，帮助普通用户轻松入门并使用MCP提升AI使用效率。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='LLM' /><meta property='article:tag' content='AI工具' /><meta property='article:tag' content='ChatWise' /><meta property='article:tag' content='Windsurf' /><meta property='article:tag' content='教程' /><meta property='article:published_time' content='2025-04-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-02T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/2350f9eb8931846f12f8839acfc1eda7.png' />
+<meta name="twitter:title" content="6000字+6个案例：写给普通人的MCP入门指南">
+<meta name="twitter:description" content="本指南详细介绍了MCP协议的概念、配置方法以及6个实用案例，帮助普通用户轻松入门并使用MCP提升AI使用效率。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/2350f9eb8931846f12f8839acfc1eda7.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是-mcp">什么是 MCP</a></li>
+    <li><a href="#配置准备工作">配置准备工作</a></li>
+    <li><a href="#获取mcp">获取MCP</a></li>
+    <li></li>
+    <li><a href="#配置-mcp-windsurf">配置 MCP-Windsurf</a></li>
+    <li></li>
+    <li><a href="#配置-mcp-chatwise">配置 MCP-ChatWise</a></li>
+    <li></li>
+    <li><a href="#案例和参数">案例和参数</a>
+      <ol>
+        <li></li>
+        <li><a href="#从-figma-获取设计稿生成网页">从 Figma 获取设计稿生成网页</a></li>
+        <li></li>
+        <li><a href="#自己手搓-ai-搜索exatime">自己手搓 AI 搜索（Exa&amp;Time）</a></li>
+        <li></li>
+        <li><a href="#利用-mcp-搭建-obsidian-ai-知识库">利用 MCP 搭建 Obsidian AI 知识库</a></li>
+        <li></li>
+        <li><a href="#利用高德-mcp-检索附近咖啡馆并创建网页">利用高德 MCP 检索附近咖啡馆并创建网页</a></li>
+        <li><a href="#从-arxiv-检索和下载论文">从 arxiv 检索和下载论文</a></li>
+        <li></li>
+        <li><a href="#与-ai-对话快速创建-flomo-笔记">与 AI 对话快速创建 Flomo 笔记</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/2350f9eb8931846f12f8839acfc1eda7.png" loading="lazy" alt="Featured image of post 6000字&#43;6个案例：写给普通人的MCP入门指南" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/" >
+                工具教程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">6000字&#43;6个案例：写给普通人的MCP入门指南</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本指南详细介绍了MCP协议的概念、配置方法以及6个实用案例，帮助普通用户轻松入门并使用MCP提升AI使用效率。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 02, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> |歸藏的 AI 工具箱歸藏的AI工具箱 2025-04-02 15:22</p>
+<p>最近 MCP 协议很火，自己也发掘了一些玩法，但是目前来看 MCP 的配置还是过于繁琐了，对普通人门槛有点高。</p>
+<p>这几天终于摸索出来了一些方法让大家可以相对容易理解的方式配置 MCP 服务。</p>
+<p>后面我也会直接给你几个常用的案例，教你从配置到使用的全过程，希望这个教程看完能让你顺滑的使用 MCP。</p>
+<p>目前支持 MCP 服务的客户端主要是 Claude、Chatwise、Cherry Studio 这种聊天客户端或者是 Cursor、Windsurf 这种 AI 编程 IDE。</p>
+<p>由于我们面向的主要还是普通人，所以演示部分我主要演示Chatwise的操作，配置部分我会讲ChatWise 和Windsurf的操作。</p>
+<h2 id="什么是-mcp">什么是 MCP
+</h2><p>这里不过多解释，毕竟我们只是使用而不是实现。</p>
+<p>简单来说 LLM使用不同工具时，以前需要同时修改模型和工具，
+因为各工具的API数据格式不统一，导致适配成本高、功能添加慢
+。</p>
+<p>MCP协议统一了数据格式标准，规定了应用向LLM传输数据的方式。任何模型只要兼容MCP协议，就能与所有支持MCP的应用交互
+。</p>
+<p>这将适配工作从双向简化为单向（仅应用端），且对于已有API的应用，第三方开发者也可基于其API进行MCP封装适配，无需官方支持。</p>
+<p>可以看下面 Claude 画的这个图，虽然糙但是也可以理解了，哈哈。</p>
+<p><img src="/img/ai/76272f7136d921964e47bc9924fc4d40.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p><img src="/img/ai/b138191945435dfdf4b8d4c5dc2664ee.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="配置准备工作">配置准备工作
+</h2><p>注意：Windows 在环境配置和网络上的问题比 Mac 多很多，所以如果你没有编程经验并且是 Windows 电脑，出错不是你的问题，实在无法修复的话就算了。</p>
+<p>MCP 现在一共有两种模式：</p>
+<ul>
+<li>Stdio：主要用在本地服务上，操作你本地的软件或者本地的文件，比如 Blender 这种就只能用 Stdio 因为他没有在线服务</li>
+<li>SSE ：主要用在远程服务上，这个服务本身就有在线的 API，比如访问你的谷歌邮件，谷歌日历等。
+SEE 的配置方式非常简单基本上就一个链接就行，这个不需要教，如果你找到的是 SEE 的直接复制他的链接填上就行，而且现在使用 SEE 配置的 MCP 非常少，基本上都是 Stdio 的方式。</li>
+</ul>
+<p>Stdio 的配置比较复杂，我们需要做些准备工作，你需要提前安装需要的命令行工具。</p>
+<p>Stdio 主要需要两个开始的命令一个是 uvx 一个是 npx。</p>
+<p>其中 uvx 我们需要安装 uv：如果你是 Windows 的话可以按“Win”键，点击搜索后输入&quot;PowerShell&quot;，然后右键选择“以管理员身份运行”，粘贴下面的命令回车就行，运行完记得重启。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">powershell -ExecutionPolicy ByPass -c &#34;irm https://astral.sh/uv/install.ps1 | iex&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你是 Mac 的话只需要点击你的“启动台”搜索“终端”应用，然后输入下面的代码回车就行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl -LsSf https://astral.sh/uv/install.sh | sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来是 upx，这个简单我们只需要安装 Node.js 就行，访问官网（
+<a class="link" href="https://nodejs.org/"  target="_blank" rel="noopener"
+    >https://nodejs.org/</a>
+）点击下载正常安装就行。</p>
+<p><img src="/img/ai/d8d84c126baeb58b2ce5ab9ece4417e6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="获取mcp">获取MCP
+</h2><p>随着 MCP 的爆火已经有了很多 MCP 聚合网站，比如逗哥的 MCP.so 和 
+<a class="link" href="https://smithery.ai/"  target="_blank" rel="noopener"
+    >https://smithery.ai/</a>
+ 。</p>
+<p>他们的使用也大同小异，一般在左侧输入这个 MCP 必要的 API 之后就可以帮你生成各种导入的 Json 命令了。</p>
+<p>API 如何获取一般在左侧的介绍部分也有有写，我后面的案例部分也会帮你介绍我用的几个常见 MCP 的 API 获取地址。</p>
+<p><img src="/img/ai/2350f9eb8931846f12f8839acfc1eda7.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>下面的配置部分分别是 Windsurf 和 chatwise 的可以根据你使用的客户端选择查看。</p>
+<h2 id="">
+</h2><h2 id="配置-mcp-windsurf">配置 MCP-Windsurf
+</h2><p>完之后我们就得配置了，如果你用的是 Windsurf 的话，可以在右上角头像部分打开“Windsurf Settings”在里面找到</p>
+<p>MCP Servers 点击右边的“Add Server”按钮添加。</p>
+<p><img src="/img/ai/a8c124fa91eceba0210f8649320800db.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>Windsurf 好的是他内置了一些常用的的 MCP 服务你可以直接用，同时由于是常见的 IDE 所以很多 MCP 网站都有适配命令很好找，上面获取 MCP 的部分我们已经说过了。</p>
+<p>如果默认配置的没有你想要的 MCP 可以点击「Add custom sever」</p>
+<p><img src="/img/ai/d6dd6a96163fd8aa3fd82c09ecae9394.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>之后你会发现他打开了一个文件，你只需要将从网站复制的 Json 填写进去保存就行。</p>
+<p>这里需要注意的是，当你需要配置第二个的时候，不要将网站给你的 Json 直接放在第一个下面，只需要将下面代码块的部分去掉，将剩下的部分放到原来剩下那部分结束就行。</p>
+<p>如果你实在不会，你可以把你的整个配置文件复制给 AI 让 AI 帮你改，只需要说“这个 Json 写法有什么问题吗？如果有帮我修复”就行，然后将 AI 帮你修复的复制进去，记得保存修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;mcpServers&#34;: {
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/70bbe238713d4102bf2d280cd106d16e.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>如果你配置无误的话应该会看到右边图示位置出现了你配置的 MCP 服务的名字，同时前面有个绿点，如果配置有问题的话就是红色的点。</p>
+<p><img src="/img/ai/c4cdc2ef063d244faaf73db6bff2143b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>一旦你添加成功使用就很方便了，直接在右侧跟 AI 对话提出要求就好了，比如我这里就让他直接往我的 Flomo 笔记里面增加了一条笔记。</p>
+<p><img src="/img/ai/34f0225305f6ffdce86f1bdab32bdb96.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="">
+</h2><h2 id="配置-mcp-chatwise">配置 MCP-ChatWise
+</h2><p>麻了，我昨天吭哧瘪肚教大家吧 Json 转成正常命令，结果今天 Chatwise 支持了一个新功能，可以直接从 Json 新建 MCP 了。</p>
+<p>在新建的时候左下角加号点击后选择「从剪切板导入 Json」就可以直接导入你从 Windsurf 或者 MCP 网站复制来的 Json 了，省事很多朋友们。</p>
+<p><img src="/img/ai/131da557cef1db758d46fd5baeb90842.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>接下来就是使用了，ChatWise 可以在输入框点击锤子图标后开启来开启 MCP 服务的使用，需要注意的是，在开启开关后还需要单独点击需要启用的 MCP 服务，有了对号代表着启用了。</p>
+<p><img src="/img/ai/9eebe82c9e4c77695068581be178748d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>这个时候我们可以直接在聊天窗口用自然语言跟模型对话，需要的时候他自然就会启动对应的 MCP 获取信息。</p>
+<p>比如我下面这个问题他先调用时间 MCP 获取到了当前时间，然后调用 Exa 的搜索 MCP 搜索到了 Open AI最近的新闻。</p>
+<p><img src="/img/ai/ba74c82e6a85aec3ae0f18a292620831.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>当然你还是可以看下面正常的添加流程。</p>
+<p>AI IDE 对于普通人来说还是有点复杂，我们更多了解的还是 Chatwise 这种跟 AI 对话的工具，ChatWise 的配置比 windsurf 好找，难的是命令行。</p>
+<p>点击左下角头像，然后在设置里面找到工具，在点击左下角的加号就可以添加。</p>
+<p>可以看到我们需要填写四个东西：类型、ID、命令、环境变量。</p>
+<p>类型这里一般如果 MCP 网站给的是上面的 Json 格式而不是网址的话就选 Stdio 就行。</p>
+<p>ID 这个你可以自己起名字，一般标识一下这个 MCP 的服务名字就行。</p>
+<p><img src="/img/ai/3c905bbf3cf6e4a93193c04c76118425.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>接下来的命令和环境变量，这里我之前也发愁怎么办，但后来我想了一个好办法，我们不是可以从 MCP 网站可以获取到 Json 代码吗。</p>
+<p>只需要将 json 代码发给 AI 模型（Claude 或者 Deepseek）然后让他将这个 Json 转换为正常的命令，同时将环境变量单列出来
+就行，比如下面这个高德 MCP 的 Json 就成功的分离了，我们将命令和环境变量分别填写就行。</p>
+<p>然后我们可以点击下面的查看工具按钮，如果调试没问题，就会列出具体的工具，如果调试有问题就会列出返回的报错，这时候我们就可以将报错发给 AI 看应该如何修复，一般是命令缺少参数或者环境变量的 API Key 填错了。</p>
+<p>这个时候我们的 MCP 就配置好了，只需要点击右上角的开关就能启用，如果这个 MCP没有敏感风险的话，可以勾选自动执行工具，这样效率高点。</p>
+<p><img src="/img/ai/4d3d11ef58e6943f1f83f8ef937cd6ba.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p><img src="/img/ai/89d4df601cdccb34ddab74c50a29ad9c.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="">
+</h2><h2 id="案例和参数">案例和参数
+</h2><p>接下来就是案例的部分我在这里会介绍和演示一些我用着还行的 MCP 服务用法，另外也会写上他们的来源和 Chatwise 中对应的参数，你可以直接添加，这些都是我试过能跑的。</p>
+<h3 id="">
+</h3><h3 id="从-figma-获取设计稿生成网页">从 Figma 获取设计稿生成网页
+</h3><p>使用的 MCP 是 
+Framelink Figma MCP Server：
+<a class="link" href="https://mcp.so/server/Figma-Context-MCP/GLips"  target="_blank" rel="noopener"
+    >https://mcp.so/server/Figma-Context-MCP/GLips</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## ChatWise 参数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令：npx -y figma-developer-mcp --stdio --figma-api-key=粘贴获取到的Figma API Key替换
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里我们需要去Figma 软件里获取一下我们的API Token，具体的步骤是：</p>
+<ol>
+<li>
+<p>1. 
+点击左上角的头像找到设置（Settings）</p>
+</li>
+<li>
+<p>2. 
+然后找到安全（Seccurity）选项，找到创建新的 Token（Generat new Token）</p>
+</li>
+<li>
+<p>3. 
+之后File content选择只读，Dev resources也选择只读就行</p>
+</li>
+</ol>
+<p><img src="/img/ai/dd8bd7979befafb501caa2b36d64ac9d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p><img src="/img/ai/14b204937e4f46d32c4c3ce18bbfdc76.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>然后我们就可以在自己的 figma 设计稿里面找到一个画板然后在右键的复制里找到「复制到所选项的链接」。</p>
+<p><img src="/img/ai/4f4c78369b77ce86ca707400f5708792.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>最后在下面输入框中启用 Figma MCP 后把你复制的链接扔给他让他生成网页就行，这里推荐用 Gemini 2.5 Pro 或者 V3 0324，都可以白嫖。</p>
+<p>具体白嫖方法可以看我之前写的《
+<a class="link" href="https://mp.weixin.qq.com/s?__biz=MzU0MDk3NTUxMA==&amp;mid=2247487434&amp;idx=1&amp;sn=32bea665b4877f21280b6a30a9dc6153&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >顶级白嫖指南，教你低成本用上最好的 AI 模型，再加加上 AI 搜索和推理</a></p>
+<p>》</p>
+<p><img src="/img/ai/391106bd05e5954004c2e600e46fd611.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="自己手搓-ai-搜索exatime">自己手搓 AI 搜索（Exa&amp;Time）
+</h3><p>接下来教大家自己手搓一个 AI 搜索，需要用到两个插件首先是 Claude 的官方 MCP 时间获取服务，因为在不联网的情况下模型是不知道现在的时间的，在搜索类似这几天的新闻这种问题的时候他就会瞎选时间。</p>
+<p>下面就是 Time 这个服务的参数，很简单就是拉取服务，然后设置一下你的时区就行，我这里设置的上海。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## ChatWise 参数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令：uvx mcp-server-time --local-timezone Asia/Shanghai
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再然后就是 Exa 的 MCP 了，这个也需要一个 API，但还好 Exa 的 API 是免费的，你可以直接去这里点创建复制就行：
+<a class="link" href="https://dashboard.exa.ai/api-keys"  target="_blank" rel="noopener"
+    >https://dashboard.exa.ai/api-keys</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## ChatWise 参数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令：npx -y exa-mcp-server
+</span></span><span class="line"><span class="cl">环境变量：EXA_API_KEY=用你申请到的 API 替换这段文案
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>都配置好之后我们就可以在输入框的位置启动这两个 MCP，进行 AI 搜索了，我这里会让他先获取时间再获取搜索内容，但 Cluade 这种模型应该不需要提醒他获取时间，其他模型他自己不获取的话可以通过提示提醒他一下。</p>
+<p><img src="/img/ai/2086ea09470aa78a05e948f8d68bbc16.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="利用-mcp-搭建-obsidian-ai-知识库">利用 MCP 搭建 Obsidian AI 知识库
+</h3><p>这里我使用的是Obsidian Model Context Protocol（
+<a class="link" href="https://mcp.so/zh/server/mcp-obsidian/smithery-ai"  target="_blank" rel="noopener"
+    >https://mcp.so/zh/server/mcp-obsidian/smithery-ai</a>
+）这个服务，可以检索你的 Obsidian 知识库的笔记让 AI 分析。</p>
+<p>比较坑的是他们这个文档写的真实坑啥也没写，我好不容易才找到怎么用。</p>
+<p>这里我们需要做个准备工作，先去 Obsidian 的「第三方插件」-「社区插件市场」找到 Loccal Rest API 这个插件安装并且启用/</p>
+<p><img src="/img/ai/97f935f18059a034d73c0c18f59ec163.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>然后我们就可以在 Loccal Rest API 这个插件的设置里面看到我们的 API Key 了。</p>
+<p><img src="/img/ai/ab7aa0595b040b4460766b338d808988.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>然后访问这个链接：
+<a class="link" href="https://coddingtonbear.github.io/obsidian-local-rest-api/"  target="_blank" rel="noopener"
+    >https://coddingtonbear.github.io/obsidian-local-rest-api/</a></p>
+<p>点击右下角的「Authorize」输入刚才的 API Key 启用服务就可以了。</p>
+<p><img src="/img/ai/de2a946debc3cb5e350dd1e4fd4da8d7.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>还需要准备一个东西就是你的 Obsidian 仓库本地文件位置，我们需要点击 Obsidian 左下角你的仓库这里的管理仓库。</p>
+<p><img src="/img/ai/0bbd8e2311b90e281a9ffcb21916e9eb.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>然后选择在「访达中显示仓库文件夹」，找到文件夹之后按住「Option」键右键选择复制这个文件夹的路径，记下来备用。</p>
+<p><img src="/img/ai/52a759b64986282495a24eacf0f6b897.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>这时候我们终于可以回到 Chatwise 中了，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1">## ChatWise 参数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">命令：</span><span class="n">uv</span> <span class="k">tool</span> <span class="n">run</span> <span class="n">mcp</span><span class="o">-</span><span class="n">obsidian</span> <span class="o">--</span><span class="n">vault</span><span class="o">-</span><span class="n">path</span> <span class="err">替换为你</span><span class="n">Obsidian仓库的文件路径</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">环境变量：</span><span class="n">OBSIDIAN_API_KEY</span><span class="o">=</span><span class="err">用你</span><span class="n">Loccal</span> <span class="n">Rest</span> <span class="n">API插件中的Key替换这段文案</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后在 Chatwise 输入框启用 MCP 服务后就可以让任何 AI 模型检索你的内容了，比如我这里让他在指定文件夹查找关于 MCP 的文章，然后可以基于这些文章做 AI 知识库。</p>
+<p><img src="/img/ai/b3674a3395f12aa14926fe1b571d126b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="利用高德-mcp-检索附近咖啡馆并创建网页">利用高德 MCP 检索附近咖啡馆并创建网页
+</h3><p>接下来我们用高德的 MCP 搜索一下家附近的咖啡馆，而且用我之前的网页生成提示词给搜索结果做的展示的网页，点子主要来自
+ @AI产品黄叔 。</p>
+<p>首先我们需要去高德（
+<a class="link" href="https://console.amap.com/dev/key/app"  target="_blank" rel="noopener"
+    >https://console.amap.com/dev/key/app</a>
+）申请一个个人的 API，需要按要求完成个人开发者的认证。</p>
+<p>之后在控制台的「我的应用」这里创建应用就行，创建完成之后选择需要创建 Key 的应用，点击【
+添加 Key
+】，表单中的服务平台选择【
+Web 服务
+】，之后复制你的 Key 备用。</p>
+<p><img src="/img/ai/551ec3ae02b9a2124691639057ff1aec.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>接下来就是在 ChatWIse 填写下面的命令和环境变量，注意在环境变量这里填写你申请的 Key。</p>
+<p><img src="/img/ai/c04fd0b2c5c523477925eb803e3cf793.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## ChatWise 参数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令：npx -y @amap/amap-maps-mcp-server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">环境变量：AMAP_MAPS_API_KEY=&#34;用你申请的高德API Key替换这段文字&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在聊天窗口开启高德的 MCP，先让他获取你家附近的经纬度，然后让他获取附近的咖啡馆的详细信息。</p>
+<p>之后我们就可以用我在《
+<a class="link" href="https://mp.weixin.qq.com/s?__biz=MzU0MDk3NTUxMA==&amp;mid=2247487756&amp;idx=1&amp;sn=7855c80ee6e4dae521081745de90e95d&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >为了让大家一键生成更漂亮的可视化网页，我写了个工具！</a></p>
+<p>》写的提示词让他生成一个家附近的咖啡馆展示网页了。</p>
+<h3 id="从-arxiv-检索和下载论文">从 arxiv 检索和下载论文
+</h3><p>AI 从业者应该都会经常看论文，那天发现arxiv都有 MCP 了，而且除了查询之外还可以自动下载论文的 PDF 版本。</p>
+<p>这个直接使用命令就行，不需要环境变量，
+Windows 用户注意需要把 Path 的路径换成你想要保存论文的文件夹
+。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1">## ChatWise 参数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">命令：</span><span class="n">uv</span> <span class="k">tool</span> <span class="n">run</span> <span class="n">arxiv</span><span class="o">-</span><span class="n">mcp</span><span class="o">-</span><span class="n">server</span> <span class="o">--</span><span class="n">storage</span><span class="o">-</span><span class="n">path</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">paper</span><span class="o">/</span><span class="n">storage</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后我们就可以愉快的检索和下载论文了，比如这里我们就让 MCP 从 arxiv 获取最近的 10 篇 AI 相关论文和介绍。</p>
+<p><img src="/img/ai/7da0235eaa3eeefb519f9a20b612261b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="与-ai-对话快速创建-flomo-笔记">与 AI 对话快速创建 Flomo 笔记
+</h3><p>虽然有很多笔记软件一些短的笔记还是用 Flomo 用的顺手，那天看到逗哥写了一个 Flomo 的 MCP 服务。</p>
+<p>这样跟 AI 对胡生成的很多不错的结果都可以直接保存了，而且可以结合其他 MCP 使用，比如将上面 Exa 的搜索结果直接保存到我们的 Flomo 账号。</p>
+<p>我们需要提前从你的 Flomo 设置里复制你的 API 链接，准备配置的时候放到环境变量里面，直接在这个页面复制就行：
+<a class="link" href="https://v.flomoapp.com/mine?source=incoming_webhook"  target="_blank" rel="noopener"
+    >https://v.flomoapp.com/mine?source=incoming_webhook</a></p>
+<p><img src="/img/ai/6f6442c0e69ee5400eb98054c7339eb3.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>然后就是在 Chatwise 填写对应的命令和环境变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## ChatWise 参数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令：npx -y @chatmcp/mcp-server-flomo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">环境变量：FLOMO_API_URL=更换为你从Flomo获取的API链接
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>你还可以要求 AI 在保存 Flomo 的时候带上你对应的标签方便管理，麻了我标签字打错了。</p>
+<p><img src="/img/ai/8eb94eb46041091c69be58db22b74654.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>好了今天的教程就到这里了。</p>
+<p>MCP协议的出现，标志着AI工具生态正从&quot;封闭花园&quot;走向&quot;开放广场&quot;。</p>
+<p>如同互联网的HTTP协议统一了网页访问标准，MCP正在统一AI与工具的交互方式。这种统一不仅是技术层面的进步，更是AI使用范式的革命。</p>
+<p>MCP的意义在于将AI从&quot;被服务&quot;的角色转变为&quot;主动服务&quot;的角色，让普通用户也能定制专属的AI工作流。</p>
+<p>半年前，只有大公司才能打造的AI能力，现在正逐步开放给每一位有一点技术思维的普通人。</p>
+<p>然而，MCP目前面临的困境也值得我们思考：技术的民主化与易用性之间总是存在矛盾。一方面我们希望技术足够开放和灵活，另一方面又希望它足够简单直观。</p>
+<p>这种矛盾在每一项新兴技术发展初期都会出现，但随着生态的成熟，这种矛盾终将被解决。</p>
+<p>希望今年能看到只需在AI助手中点击&quot;安装工具&quot;，能能使用的 MCP。</p>
+<p>作为用户，不妨现在就开始尝试这些看似复杂的技术。即使过程有些曲折，这种尝试本身就是对未来的一种投资。</p>
+<p>在AI时代，熟练使用工具将成为我们的核心竞争力，而了解底层原理将让你比他人更早一步掌握未来。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/llm/">LLM</a>
+        
+            <a href="/tags/ai%E5%B7%A5%E5%85%B7/">AI工具</a>
+        
+            <a href="/tags/chatwise/">ChatWise</a>
+        
+            <a href="/tags/windsurf/">Windsurf</a>
+        
+            <a href="/tags/%E6%95%99%E7%A8%8B/">教程</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP-Scan 介绍：使用不变量保护 MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84-mcp-%E8%9E%8D%E5%90%88%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E6%96%BD%E8%B7%AF%E7%BA%BF%E6%8E%A2%E8%AE%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络安全场景中的 MCP 融合：技术架构与实施路线探讨</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcpify.ai%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAmcp/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCPify.ai:一句话构建一个MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

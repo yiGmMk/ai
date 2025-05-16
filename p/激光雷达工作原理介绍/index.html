@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文介绍了激光雷达的系统组成、模块构成、不同类型的激光雷达以及各种激光雷达的工作原理，包括机械脉冲式、相位式、MEMS、Flash、OPA激光雷达和GNSS与INS组合原理。">
+<title>激光雷达工作原理介绍</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="激光雷达工作原理介绍">
+<meta property='og:description' content="本文介绍了激光雷达的系统组成、模块构成、不同类型的激光雷达以及各种激光雷达的工作原理，包括机械脉冲式、相位式、MEMS、Flash、OPA激光雷达和GNSS与INS组合原理。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='激光雷达' /><meta property='article:tag' content='LiDAR' /><meta property='article:tag' content='三维成像' /><meta property='article:tag' content='点云数据' /><meta property='article:tag' content='GNSS' /><meta property='article:tag' content='INS' /><meta property='article:published_time' content='2025-02-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-02-27T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/c257bdd59ce6b6e6dcc779ebceb39b5d.jpeg' />
+<meta name="twitter:title" content="激光雷达工作原理介绍">
+<meta name="twitter:description" content="本文介绍了激光雷达的系统组成、模块构成、不同类型的激光雷达以及各种激光雷达的工作原理，包括机械脉冲式、相位式、MEMS、Flash、OPA激光雷达和GNSS与INS组合原理。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/c257bdd59ce6b6e6dcc779ebceb39b5d.jpeg' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1激光雷达系统组成">1.激光雷达系统组成</a></li>
+    <li><a href="#2激光雷达模块">2.激光雷达模块</a></li>
+    <li><a href="#3激光雷达分类">3.激光雷达分类</a></li>
+    <li><a href="#4激光雷达工作原理">4.激光雷达工作原理</a>
+      <ol>
+        <li><a href="#1机械脉冲式激光雷达工作原理">（1）机械脉冲式激光雷达工作原理</a></li>
+        <li><a href="#2相位式激光雷达工作原理">（2）相位式激光雷达工作原理</a></li>
+        <li><a href="#3微震镜mems激光雷达工作原理">（3）微震镜（MEMS）激光雷达工作原理</a></li>
+        <li><a href="#4flash激光雷达工作原理">（4）FLASH激光雷达工作原理</a></li>
+        <li><a href="#5opa激光雷达工作原理">（5）OPA激光雷达工作原理</a></li>
+        <li><a href="#6gnss与ins组合原理">（6）GNSS与INS组合原理</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/c257bdd59ce6b6e6dcc779ebceb39b5d.jpeg" loading="lazy" alt="Featured image of post 激光雷达工作原理介绍" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8A%80%E6%9C%AF/" >
+                传感器技术
+            </a>
+        
+            <a href="/categories/%E6%B5%8B%E9%87%8F%E6%8A%80%E6%9C%AF/" >
+                测量技术
+            </a>
+        
+            <a href="/categories/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/" style="background-color: #2a9d8f; color: #fff;">
+                激光雷达
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">激光雷达工作原理介绍</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文介绍了激光雷达的系统组成、模块构成、不同类型的激光雷达以及各种激光雷达的工作原理，包括机械脉冲式、相位式、MEMS、Flash、OPA激光雷达和GNSS与INS组合原理。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 27, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容点:</p>
+<ul>
+<li>激光雷达系统由激光扫描仪、GPS和INS组成，通过测量激光脉冲的往返时间计算距离。</li>
+<li>激光雷达按扫描方式分为机械式、固态和半固态，按其他方式还可分为多种类型。</li>
+<li>本文详细解释了机械脉冲式、相位式、MEMS、Flash、OPA激光雷达以及GNSS与INS组合的工作原理。</li>
+</ul>
+<p><strong>源自</strong> |  珞珈山  珞珈山   2025-02-27 10:59</p>
+<h2 id="1激光雷达系统组成">1.激光雷达系统组成
+</h2><p>激光雷达系统由集激光扫描仪、全球定位系统（GPS）和惯性导航系统（INS）组成。激光扫描仪包括一个单束窄带激光器和一个接收系统。激光器产生并发射一束光脉冲，打在物体上并反射回来，最终被接收器所接收。光速是已知的，根据发射和接收时间差就可以测量距离。结合激光器的高度，激光扫描角度，从GNSS得到的激光器的位置和从INS得到的激光发射方向（姿态角度），就可以准确地计算出每一个地面光斑的坐标X，Y，Z。</p>
+<p><img src="/img/ai/bf1e1c5353f13aab8b209c85e34bfd0c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="2激光雷达模块">2.激光雷达模块
+</h2><p>激光雷达模块包括激光发射器、准直镜头、扫描镜、光电探测器、模数转换器、滤光片、旋转电机等。</p>
+<p><img src="/img/ai/55b78198fe07db9345b0243aae2f9a7d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="3激光雷达分类">3.激光雷达分类
+</h2><p>激光雷达按照激光器扫描方式分为机械式、固态和半固态激光雷达，固态激光雷达包括<br>
+MEMS模式、棱镜模式、转镜模式；半固态激光雷达OPA模式、Flash模式等。</p>
+<p><img src="/img/ai/efa4ebf4893500f3f92db36f1716494c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>按照其他分类方式还可以有以下的分类：</p>
+<p><img src="/img/ai/78c35a07eac1a53d994d2c76a374fab9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="4激光雷达工作原理">4.激光雷达工作原理
+</h2><h3 id="1机械脉冲式激光雷达工作原理">（1）机械脉冲式激光雷达工作原理
+</h3><p>激光脉冲发射器周期地驱动激光二极管发射激光脉冲，由接收透镜接受目标表面后向反射信号，产生接收信号，利用稳定的石英时钟对发射与接收时间差作计数，最后由微电脑通过软件，按照算法处理原始数据，从中计算出采样点的空间距离 ;通过传动装置的扫描运动，完成对物体的全方位扫描;然后进行数据整理从而获取目标表面的点云数据。</p>
+<p><img src="/img/ai/26c351f587fe481301b87816807513e7.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="2相位式激光雷达工作原理">（2）相位式激光雷达工作原理
+</h3><p>相位式激光雷达是用无线电波段的频率对激光束进行幅度调制并测定调制光往返测量一次所产生的相位延迟。再根据调制光的波长换算此相位延迟所代表的距离，即用间接方法测定出光经往返测线所需的时间，设备记录本身在水平和垂直方向的旋转角度，通过软件计算出三维数据。</p>
+<p><img src="/img/ai/9f4e921d7b6e839dee6c78079c18cd14.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="3微震镜mems激光雷达工作原理">（3）微震镜（MEMS）激光雷达工作原理
+</h3><p>MEMS振镜是一种基于微机电系统(MEMS,Micro-Electro-Mechanical System)技术制作而成的微小可驱动反射镜。镜面直径通常只有几毫米。MEMS微振镜由微型梁和微型镜组成，可以通过电机或电磁场控制改变方向，从而改变激光束的扫描方向。</p>
+<p><img src="/img/ai/cbdd8a271d511b8adb07e1b626580331.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="4flash激光雷达工作原理">（4）FLASH激光雷达工作原理
+</h3><p>Flash激光雷达采用了全息干涉技术，其工作原理与普通的激光雷达有所不同。它由一个微型激光器和一个微型相机组成，激光器向外发射光线，光线经过一系列的反射、折射等过程后，再次通过激光器的反射镜反射回来，并通过一个光学系统进入相机。相机接收到的光线经过处理后，就能够得到物体的三维坐标信息。</p>
+<p>Flash固态激光雷达，也可以说是非扫描式，它可以在短时间直接发射出一大片覆盖探测区域的激光，利用光阵构建图像，就像是照相机，快速记录整个场景。</p>
+<p><img src="/img/ai/9ebc255424b7266a7e87f916303c6dc6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="5opa激光雷达工作原理">（5）OPA激光雷达工作原理
+</h3><p>OPA固态激光雷达完全没有摆动固件，利用多个光源组成阵列，合成特定方向的光束，实现对不同方向的扫描。
+它具有扫描速度快、精度高、可控性好、体积小、易形成旁瓣等特点。</p>
+<p><img src="/img/ai/fc1aafc2b7ef02f5ee9152296ebd073f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="6gnss与ins组合原理">（6）GNSS与INS组合原理
+</h3><p>组合导航系统利用高精度的  GNSS  信息作为外部量测信息输入，在运动过程中修正  INS  ，以控制其误差随着时间的累积；而短时间内高精度的  INS  结果又可以帮助解决  GNSS  动态环境中信号失锁和周跳问题；<br>
+INS  还可以辅助  GNSS  接收机增强抗干扰能力，提高捕获和跟踪卫星信号的能力。</p>
+<p><img src="/img/ai/7e6fb54cbb67597b921c151fc9abadde.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>组合导航分为松耦合、紧耦合和深耦合导航算法。</p>
+<p>松、紧组合导航中的 INS  GNSS  信息融合不参与 GNSS  信号接收，深耦合将 INS  信息转化为 GNSS  接收机内部跟踪环路算法的一部分，形成相互辅助模式；</p>
+<p>松、紧组合导航采用标量跟踪方式，跟踪与导航解算分两步。深耦合为矢量跟踪，将跟踪与定位合并为一步，利用各个通道的信息的联合集中处理，获取共同的跟踪参数，对数控振荡器（ NCO ）进行控制，闭合跟踪环路，适应弱信号、低信噪比环境；</p>
+<p>松、紧组合导航内部各通道独立，通道内部完成跟踪过程，深耦合中所有通道的信息输入到一个滤波器，并反馈给  NCO  形成控制，完成跟踪过程，所有通道耦合在一起，提高通道信息利用率并实现相互辅助。</p>
+<p><img src="/img/ai/9d34370b2f2b74f8378ab4b3a79b66e1.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/">激光雷达</a>
+        
+            <a href="/tags/lidar/">LiDAR</a>
+        
+            <a href="/tags/%E4%B8%89%E7%BB%B4%E6%88%90%E5%83%8F/">三维成像</a>
+        
+            <a href="/tags/%E7%82%B9%E4%BA%91%E6%95%B0%E6%8D%AE/">点云数据</a>
+        
+            <a href="/tags/gnss/">GNSS</a>
+        
+            <a href="/tags/ins/">INS</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E8%A1%8C%E4%B8%9A%E5%9B%9B%E5%A4%A7%E5%8F%91%E5%B1%95%E6%96%B9%E5%90%91%E8%A7%A3%E6%9E%90%E7%9C%8B%E9%BE%99%E5%A4%B4%E4%BC%81%E4%B8%9A%E5%A6%82%E4%BD%95%E6%8A%A2%E5%8D%A0%E6%8A%80%E6%9C%AF%E9%AB%98%E5%9C%B0%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%85%88%E6%9C%BA/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/1529506d7e9f619f26dd67405e774301.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/1529506d7e9f619f26dd67405e774301.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">激光雷达行业四大发展方向解析：看龙头企业如何抢占技术高地与市场先机</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%A6%8F%E8%80%80%E5%8F%91%E5%B8%83%E8%A1%8C%E4%B8%9A%E9%A6%96%E6%AC%BE%E8%88%B1%E5%86%85%E9%9A%90%E8%97%8F%E5%BC%8F%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%89%8D%E6%8C%A1%E6%96%B9%E6%A1%88%E6%99%BA%E7%9C%B8%E5%89%8D%E6%8C%A1%E7%8E%BB%E7%92%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">福耀发布行业首款舱内隐藏式激光雷达前挡方案——智眸前挡玻璃</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%9C%AA%E6%9D%A5%E5%8F%91%E5%B1%95%E4%B8%8E%E8%82%A1%E4%BB%B7%E5%B1%95%E6%9C%9B%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">速腾聚创激光雷达未来发展与股价展望深度分析报告</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%89%8D%E6%B2%BF%E8%A7%86%E9%87%8E-%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E8%A1%8C%E4%B8%9A%E7%A0%94%E7%A9%B6%E5%88%86%E4%BA%AB/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/daa05201d9e9e002a87cc2d678c9250c.jpeg" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/daa05201d9e9e002a87cc2d678c9250c.jpeg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">前沿视野 | 激光雷达的行业研究分享</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
