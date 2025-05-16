@@ -38,3 +38,4 @@
 [√] AI Agent破局：MCP与A2A定义安全新边界.md
 [√] 使用 go-zero MCP 创建动态提示词.md
 [√] A2A（Agent2Agent） 简介.md
+[√] MCP终极指南.md
