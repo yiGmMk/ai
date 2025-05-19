@@ -5,7 +5,7 @@ tags: ["AEB", "激光雷达", "RoboSense", "自动驾驶", "新国标"]
 categories: ["汽车","激光雷达", "RoboSense", "自动驾驶", "科技"]
 description: "AEB新国标将强制推行，激光雷达凭借其卓越的感知能力，成为提升AEB系统性能的关键。"
 author: "RoboSense"
-image: ""
+image: "https://ai.programnotes.cn/img/lidar/640.webp"
 ---
 
 核心内容:
