@@ -45,3 +45,4 @@
 [√] 手撸 MCP 管理 GitHub 项目.md
 [√] 使用 go-zero MCP 读取资源.md
 [√] Codex-OpenAI最强智能体上线ChatGPT.md
+[√] AEB强制性标准加速落地，激光雷达成为解题关键.md
