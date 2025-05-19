@@ -39,3 +39,4 @@
 [√] 使用 go-zero MCP 创建动态提示词.md
 [√] A2A（Agent2Agent） 简介.md
 [√] MCP终极指南.md
+[√] codex.md
