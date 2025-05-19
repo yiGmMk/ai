@@ -44,3 +44,4 @@
 [√] OpenAI祭出代码杀器，Codex代理横空出世，1.5美元∕百万token血洗编程界.md
 [√] 手撸 MCP 管理 GitHub 项目.md
 [√] 使用 go-zero MCP 读取资源.md
+[√] Codex-OpenAI最强智能体上线ChatGPT.md
