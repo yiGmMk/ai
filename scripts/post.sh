@@ -40,3 +40,7 @@
 [√] A2A（Agent2Agent） 简介.md
 [√] MCP终极指南.md
 [√] codex.md
+[√] ThinkInAI Weekly AI周报VOL1：OpenAI、谷歌、腾讯等巨头最新技术突破全解析.md
+[√] OpenAI祭出代码杀器，Codex代理横空出世，1.5美元∕百万token血洗编程界.md
+[√] 手撸 MCP 管理 GitHub 项目.md
+[√] 使用 go-zero MCP 读取资源.md

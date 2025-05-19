@@ -1,4 +1,3 @@
-```yaml
 ---
 title: "使用 go-zero MCP 读取资源"
 date: "2025-05-18"
@@ -8,7 +7,6 @@ description: "本文介绍了如何使用 go-zero MCP SDK 来管理和使用 MCP
 author: "kevwan"
 image: ""
 ---
-```
 
 **核心内容点**:
 - 介绍了 MCP 资源的核心功能，包括访问最新数据、结构化处理和资源定位。
