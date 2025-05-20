@@ -59,3 +59,4 @@
 [√] continue.md
 [√] claude-desktop.md
 [√] 建议大家尽早开始搭建个人知识库.md
+[√] RoboSense与Mammotion库犸达成战略合作，120万台固态激光雷达刷新割草机器人行业记录.md
