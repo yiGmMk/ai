@@ -58,3 +58,4 @@
 [√] a2a-mcp.md
 [√] continue.md
 [√] claude-desktop.md
+[√] 建议大家尽早开始搭建个人知识库.md
