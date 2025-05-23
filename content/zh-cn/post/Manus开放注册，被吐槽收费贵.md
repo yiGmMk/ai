@@ -5,7 +5,7 @@ tags: ["AI Agent", "Manus", "智能体", "收费", "融资"]
 categories: ["人工智能", "科技"]
 description: "AI智能体平台Manus开放注册，引发关于其收费模式的讨论，并面临来自大型科技公司的竞争压力。"
 author: "胡含嫣"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/ca4905f840eb3f4f22e4fd91424dfc6c.png"
 ---
 
 核心内容点:

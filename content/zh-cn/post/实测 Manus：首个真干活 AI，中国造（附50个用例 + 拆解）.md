@@ -5,7 +5,7 @@ tags: ["Manus", "AI Agent", "通用智能体", "AI应用", "中国制造"]
 categories: ["人工智能","AI", "科技"]
 description: "评测中国制造的全球首款通用型Agent Manus，并附带50个实际应用案例。"
 author: "金色传说大聪明"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png"
 ---
 
 - **Manus是全球首款通用型Agent，中国制造，在GAIA基准测试中表现出色。**
