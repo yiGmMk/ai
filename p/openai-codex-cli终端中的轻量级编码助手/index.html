@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="OpenAI Codex CLI是一个在终端中运行的轻量级编码助手，支持代码解释、生成和修改。">
+<title>OpenAI Codex CLI：终端中的轻量级编码助手</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/openai-codex-cli%E7%BB%88%E7%AB%AF%E4%B8%AD%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BC%96%E7%A0%81%E5%8A%A9%E6%89%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="OpenAI Codex CLI：终端中的轻量级编码助手">
+<meta property='og:description' content="OpenAI Codex CLI是一个在终端中运行的轻量级编码助手，支持代码解释、生成和修改。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/openai-codex-cli%E7%BB%88%E7%AB%AF%E4%B8%AD%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BC%96%E7%A0%81%E5%8A%A9%E6%89%8B/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='OpenAI' /><meta property='article:tag' content='Codex' /><meta property='article:tag' content='CLI' /><meta property='article:tag' content='编码助手' /><meta property='article:tag' content='终端' /><meta property='article:published_time' content='2025-05-19T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-19T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/codex.gif' />
+<meta name="twitter:title" content="OpenAI Codex CLI：终端中的轻量级编码助手">
+<meta name="twitter:description" content="OpenAI Codex CLI是一个在终端中运行的轻量级编码助手，支持代码解释、生成和修改。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/codex.gif' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#快速入门">快速入门</a>
+      <ol>
+        <li><a href="#使用其他模型">使用其他模型</a></li>
+        <li><a href="#以交互方式运行">以交互方式运行</a></li>
+      </ol>
+    </li>
+    <li><a href="#为什么选择-codex">为什么选择 Codex？</a></li>
+    <li><a href="#安全模型--权限">安全模型 &amp; 权限</a>
+      <ol>
+        <li><a href="#平台沙盒细节">平台沙盒细节</a></li>
+      </ol>
+    </li>
+    <li><a href="#系统要求">系统要求</a></li>
+    <li><a href="#cli-参考">CLI 参考</a></li>
+    <li><a href="#内存--项目文档">内存 &amp; 项目文档</a></li>
+    <li><a href="#非交互式--ci-模式">非交互式 / CI 模式</a></li>
+    <li><a href="#追踪--详细日志">追踪 / 详细日志</a></li>
+    <li><a href="#使用示例">使用示例</a></li>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#配置指南">配置指南</a>
+      <ol>
+        <li><a href="#基本配置参数">基本配置参数</a></li>
+        <li><a href="#自定义-ai-提供商配置">自定义 AI 提供商配置</a></li>
+        <li><a href="#历史记录配置">历史记录配置</a></li>
+        <li><a href="#配置示例">配置示例</a></li>
+        <li><a href="#完整配置示例">完整配置示例</a></li>
+        <li><a href="#自定义指令">自定义指令</a></li>
+        <li><a href="#环境变量设置">环境变量设置</a></li>
+      </ol>
+    </li>
+    <li><a href="#常见问题解答">常见问题解答</a></li>
+    <li><a href="#零数据保留-zdr-用法">零数据保留 (ZDR) 用法</a></li>
+    <li><a href="#codex-开源基金">Codex 开源基金</a></li>
+    <li><a href="#贡献">贡献</a>
+      <ol>
+        <li><a href="#开发工作流程">开发工作流程</a></li>
+        <li><a href="#带有-husky-的-git-钩子">带有 Husky 的 Git 钩子</a></li>
+        <li><a href="#调试">调试</a></li>
+        <li><a href="#编写高影响力的代码更改">编写高影响力的代码更改</a></li>
+        <li><a href="#打开一个-pull-request">打开一个 Pull Request</a></li>
+        <li><a href="#审查流程">审查流程</a></li>
+        <li><a href="#社区价值观">社区价值观</a></li>
+        <li><a href="#获取帮助">获取帮助</a></li>
+        <li><a href="#贡献者许可协议-cla">贡献者许可协议 (CLA)</a>
+          <ol>
+            <li><a href="#快速修复">快速修复</a></li>
+          </ol>
+        </li>
+        <li><a href="#发布-codex">发布 <code>codex</code></a></li>
+        <li><a href="#替代构建选项">替代构建选项</a>
+          <ol>
+            <li><a href="#nix-flake-开发">Nix flake 开发</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/openai-codex-cli%E7%BB%88%E7%AB%AF%E4%B8%AD%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BC%96%E7%A0%81%E5%8A%A9%E6%89%8B/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/codex.gif" loading="lazy" alt="Featured image of post OpenAI Codex CLI：终端中的轻量级编码助手" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" >
+                开发工具
+            </a>
+        
+            <a href="/categories/codex/" >
+                Codex
+            </a>
+        
+            <a href="/categories/cli/" >
+                CLI
+            </a>
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/ai%E5%B7%A5%E5%85%B7/" >
+                AI工具
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/openai-codex-cli%E7%BB%88%E7%AB%AF%E4%B8%AD%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BC%96%E7%A0%81%E5%8A%A9%E6%89%8B/">OpenAI Codex CLI：终端中的轻量级编码助手</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            OpenAI Codex CLI是一个在终端中运行的轻量级编码助手，支持代码解释、生成和修改。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 19, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 12 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/en/p/openai-codex-cli-a-lightweight-coding-assistant-in-your-terminal/" class="link">English</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容:</p>
+<ul>
+<li>Codex CLI 是一个在终端中运行的编码助手，可以理解和执行您的存储库。</li>
+<li>它支持多种模型，包括 OpenAI、Azure、OpenRouter 等，并且可以通过配置文件进行灵活配置。</li>
+<li>Codex CLI 提供了不同的权限模式，可以在安全可靠的环境中自动运行，并具有详细的日志记录和调试功能。</li>
+</ul>
+<p><strong><a class="link" href="https://github.com/openai/codex"  target="_blank" rel="noopener"
+    >OpenAI Codex CLI</a>是轻量级的编码助手，可在您的终端中运行</strong></p>
+<p><img src="/img/ai/codex.gif"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Codex 演示 GIF，使用：codex “explain this codebase to me”"
+	
+	
+></p>
+<h2 id="快速入门">快速入门
+</h2><p>全局安装：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">npm install -g @openai/codex
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来，将 OpenAI API 密钥设置为环境变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&#34;your-api-key-here&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>注意：</strong> 此命令仅为当前终端会话设置密钥。您可以将 <code>export</code> 行添加到 shell 的配置文件（例如 <code>~/.zshrc</code>），但我们建议为会话设置。<strong>提示：</strong> 您还可以将 API 密钥放入项目根目录下的 <code>.env</code> 文件中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-env" data-lang="env"><span class="line"><span class="cl"><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-api-key-here
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>CLI 将自动从 <code>.env</code> 加载变量（通过 <code>dotenv/config</code>）。</p></blockquote>
+<h3 id="使用其他模型">使用其他模型
+</h3><blockquote>
+<p>Codex 还允许您使用支持 OpenAI Chat Completions API 的其他提供商。您可以在配置文件中设置提供商，或使用 <code>--provider</code> 标志。<code>--provider</code> 的可能选项包括：</p>
+<ul>
+<li>openai（默认）</li>
+<li>openrouter</li>
+<li>azure</li>
+<li>gemini</li>
+<li>ollama</li>
+<li>mistral</li>
+<li>deepseek</li>
+<li>xai</li>
+<li>groq</li>
+<li>arceeai</li>
+<li>任何其他与 OpenAI API 兼容的提供商</li>
+</ul>
+<p>如果您使用除 OpenAI 之外的提供商，您需要在配置文件或环境变量中设置提供商的 API 密钥，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> &lt;provider&gt;_API_KEY<span class="o">=</span><span class="s2">&#34;your-api-key-here&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果您使用上面未列出的提供商，您还必须设置提供商的基本 URL：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> &lt;provider&gt;_BASE_URL<span class="o">=</span><span class="s2">&#34;https://your-provider-api-base-url&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<h3 id="以交互方式运行">以交互方式运行
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">codex
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者，使用提示作为输入运行（可以选择以 <code>Full Auto</code> 模式运行）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">codex <span class="s2">&#34;explain this codebase to me&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">codex --approval-mode full-auto <span class="s2">&#34;create the fanciest todo-list app&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>就是这样 - Codex 将搭建一个文件，在沙盒中运行它，安装任何缺少的依赖项，并向您展示实时结果。批准更改后，它们将被提交到您的工作目录。</p>
+<hr>
+<h2 id="为什么选择-codex">为什么选择 Codex？
+</h2><p>Codex CLI 专为已经<strong>生活在终端中</strong>的开发人员而构建，他们希望获得 ChatGPT 级别的推理能力<strong>以及</strong>实际运行代码、操作文件和迭代的能力 - 所有这些都在版本控制之下。简而言之，它是一种_聊天驱动的开发_，可以理解和执行您的存储库。</p>
+<ul>
+<li><strong>零设置</strong> - 提供您的 OpenAI API 密钥即可使用！</li>
+<li><strong>完全自动批准，同时安全可靠</strong>，通过禁用网络和目录沙盒运行</li>
+<li><strong>多模式</strong> - 传入屏幕截图或图表以实现功能 ✨</li>
+</ul>
+<p>并且它是<strong>完全开源的</strong>，因此您可以查看并贡献其开发方式！</p>
+<hr>
+<h2 id="安全模型--权限">安全模型 &amp; 权限
+</h2><p>Codex 允许您通过 <code>--approval-mode</code> 标志（或交互式引导提示）来决定代理接收的_自主权_和自动批准策略：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>模式</th>
+          <th>代理在不询问的情况下可以做什么</th>
+          <th>仍然需要批准</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Suggest</strong> <br>(默认)</td>
+          <td><li>读取存储库中的任何文件</td>
+          <td><li><strong>所有</strong> 文件写入/补丁<li> <strong>任何</strong> 任意 shell 命令（除了读取文件）</td>
+      </tr>
+      <tr>
+          <td><strong>Auto Edit</strong></td>
+          <td><li>读取 <strong>并</strong> 将补丁写入文件</td>
+          <td><li><strong>所有</strong> shell 命令</td>
+      </tr>
+      <tr>
+          <td><strong>Full Auto</strong></td>
+          <td><li>读取/写入文件 <li> 执行 shell 命令（禁用网络，写入限制为您的工作目录）</td>
+          <td>-</td>
+      </tr>
+  </tbody>
+</table></div>
+<p>在 <strong>Full Auto</strong> 中，每个命令都以<strong>禁用网络</strong>运行，并限制在当前工作目录（加上临时文件）中，以实现深度防御。如果您在目录_未_被 Git 跟踪的情况下以 <strong>auto-edit</strong> 或 <strong>full-auto</strong> 启动，Codex 还会显示警告/确认，因此您始终有一个安全网。</p>
+<p>即将推出：一旦我们确信有额外的保障措施，您就可以将特定的命令列入白名单以自动执行，并启用网络。</p>
+<h3 id="平台沙盒细节">平台沙盒细节
+</h3><p>Codex 使用的强化机制取决于您的操作系统：</p>
+<ul>
+<li>
+<p><strong>macOS 12+</strong> - 命令使用 <strong>Apple Seatbelt</strong> (<code>sandbox-exec</code>) 包装。</p>
+<ul>
+<li>除了少量可写根目录（<code>$PWD</code>、<code>$TMPDIR</code>、<code>~/.codex</code> 等）外，所有内容都放置在只读监狱中。</li>
+<li>默认情况下，出站网络被_完全阻止_ - 即使子进程尝试 <code>curl</code> 某个地方，也会失败。</li>
+</ul>
+</li>
+<li>
+<p><strong>Linux</strong> - 默认情况下没有沙盒。
+我们建议使用 Docker 进行沙盒处理，其中 Codex 在<strong>最小容器镜像</strong>中启动自身，并将您的存储库以相同路径_读/写_挂载。自定义 <code>iptables</code>/<code>ipset</code> 防火墙脚本拒绝除 OpenAI API 之外的所有出口。这使您无需主机上的 root 即可进行确定性、可重现的运行。您可以使用 <a class="link" href="./codex-cli/scripts/run_in_container.sh" ><code>run_in_container.sh</code></a> 脚本来设置沙盒。</p>
+</li>
+</ul>
+<hr>
+<h2 id="系统要求">系统要求
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>要求</th>
+          <th>详细信息</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>操作系统</td>
+          <td>macOS 12+，Ubuntu 20.04+/Debian 10+，或 Windows 11 <strong>通过 WSL2</strong></td>
+      </tr>
+      <tr>
+          <td>Node.js</td>
+          <td><strong>22 或更高版本</strong>（推荐使用 LTS）</td>
+      </tr>
+      <tr>
+          <td>Git（可选，推荐）</td>
+          <td>2.23+，用于内置的 PR 助手</td>
+      </tr>
+      <tr>
+          <td>内存</td>
+          <td>最小 4-GB（推荐 8-GB）</td>
+      </tr>
+  </tbody>
+</table></div>
+<blockquote>
+<p>切勿运行 <code>sudo npm install -g</code>；请改为修复 npm 权限。</p></blockquote>
+<hr>
+<h2 id="cli-参考">CLI 参考
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>命令</th>
+          <th>目的</th>
+          <th>示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>codex</code></td>
+          <td>交互式 REPL</td>
+          <td><code>codex</code></td>
+      </tr>
+      <tr>
+          <td><code>codex &quot;...&quot;</code></td>
+          <td>交互式 REPL 的初始提示</td>
+          <td><code>codex &quot;fix lint errors&quot;</code></td>
+      </tr>
+      <tr>
+          <td><code>codex -q &quot;...&quot;</code></td>
+          <td>非交互式“安静模式”</td>
+          <td><code>codex -q --json &quot;explain utils.ts&quot;</code></td>
+      </tr>
+      <tr>
+          <td><code>codex completion &lt;bash|zsh|fish&gt;</code></td>
+          <td>打印 shell 补全脚本</td>
+          <td><code>codex completion bash</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<p>主要标志：<code>--model/-m</code>、<code>--approval-mode/-a</code>、<code>--quiet/-q</code> 和 <code>--notify</code>。</p>
+<hr>
+<h2 id="内存--项目文档">内存 &amp; 项目文档
+</h2><p>您可以使用 <code>AGENTS.md</code> 文件为 Codex 提供额外的指令和指导。Codex 在以下位置查找 <code>AGENTS.md</code> 文件，并自上而下合并它们：</p>
+<ol>
+<li><code>~/.codex/AGENTS.md</code> - 个人全局指导</li>
+<li>存储库根目录下的 <code>AGENTS.md</code> - 共享项目笔记</li>
+<li>当前工作目录中的 <code>AGENTS.md</code> - 子文件夹/功能特定信息</li>
+</ol>
+<p>使用 <code>--no-project-doc</code> 或环境变量 <code>CODEX_DISABLE_PROJECT_DOC=1</code> 禁用这些文件的加载。</p>
+<hr>
+<h2 id="非交互式--ci-模式">非交互式 / CI 模式
+</h2><p>在管道中以无头模式运行 Codex。GitHub Action 步骤示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Update changelog via Codex</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    npm install -g @openai/codex
+</span></span></span><span class="line"><span class="cl"><span class="sd">    export OPENAI_API_KEY=&#34;${{ secrets.OPENAI_KEY }}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">    codex -a auto-edit --quiet &#34;update CHANGELOG for next release&#34;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置 <code>CODEX_QUIET_MODE=1</code> 以消除交互式 UI 噪音。</p>
+<h2 id="追踪--详细日志">追踪 / 详细日志
+</h2><p>设置环境变量 <code>DEBUG=true</code> 会打印完整的 API 请求和响应详细信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span> codex
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="使用示例">使用示例
+</h2><p>以下是一些您可以复制粘贴的小示例。将引号中的文本替换为您自己的任务。请参阅 <a class="link" href="https://github.com/openai/codex/blob/main/codex-cli/examples/prompting_guide.md"  target="_blank" rel="noopener"
+    >提示指南</a> 了解更多提示和使用模式。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>✨</th>
+          <th>你输入的内容</th>
+          <th>发生的事情</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td><code>codex &quot;Refactor the Dashboard component to React Hooks&quot;</code></td>
+          <td>Codex 重写类组件，运行 <code>npm test</code>，并显示差异。</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td><code>codex &quot;Generate SQL migrations for adding a users table&quot;</code></td>
+          <td>推断您的 ORM，创建迁移文件，并在沙盒 DB 中运行它们。</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td><code>codex &quot;Write unit tests for utils/date.ts&quot;</code></td>
+          <td>生成测试，执行它们，并迭代直到它们通过。</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td><code>codex &quot;Bulk-rename *.jpeg -&gt; *.jpg with git mv&quot;</code></td>
+          <td>安全地重命名文件并更新导入/用法。</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td><code>codex &quot;Explain what this regex does: ^(?=.*[A-Z]).{8,}$&quot;</code></td>
+          <td>输出逐步的人工解释。</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td><code>codex &quot;Carefully review this repo, and propose 3 high impact well-scoped PRs&quot;</code></td>
+          <td>建议当前代码库中具有影响力的 PR。</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td><code>codex &quot;Look for vulnerabilities and create a security review report&quot;</code></td>
+          <td>查找并解释安全漏洞。</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="安装">安装
+</h2><details open>
+<summary><strong>从 npm 安装（推荐）</strong></summary>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install -g @openai/codex
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">yarn global add @openai/codex
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">bun install -g @openai/codex
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">pnpm add -g @openai/codex
+</span></span></code></pre></td></tr></table>
+</div>
+</div></details>
+<details>
+<summary><strong>从源代码构建</strong></summary>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 克隆存储库并导航到 CLI 包</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/openai/codex.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> codex/codex-cli
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启用 corepack</span>
+</span></span><span class="line"><span class="cl">corepack <span class="nb">enable</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装依赖项并构建</span>
+</span></span><span class="line"><span class="cl">pnpm install
+</span></span><span class="line"><span class="cl">pnpm build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 仅限 Linux：下载预构建的沙盒二进制文件（需要 gh 和 zstd）。</span>
+</span></span><span class="line"><span class="cl">./scripts/install_native_deps.sh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取用法和选项</span>
+</span></span><span class="line"><span class="cl">node ./dist/cli.js --help
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 直接运行本地构建的 CLI</span>
+</span></span><span class="line"><span class="cl">node ./dist/cli.js
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者为了方便起见，全局链接该命令</span>
+</span></span><span class="line"><span class="cl">pnpm link
+</span></span></code></pre></td></tr></table>
+</div>
+</div></details>
+<hr>
+<h2 id="配置指南">配置指南
+</h2><p>Codex 配置文件可以放置在 <code>~/.codex/</code> 目录中，支持 YAML 和 JSON 格式。</p>
+<h3 id="基本配置参数">基本配置参数
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>类型</th>
+          <th>默认值</th>
+          <th>描述</th>
+          <th>可用选项</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>model</code></td>
+          <td>string</td>
+          <td><code>o4-mini</code></td>
+          <td>要使用的 AI 模型</td>
+          <td>任何支持 OpenAI API 的模型名称</td>
+      </tr>
+      <tr>
+          <td><code>approvalMode</code></td>
+          <td>string</td>
+          <td><code>suggest</code></td>
+          <td>AI 助手的权限模式</td>
+          <td><code>suggest</code>（仅建议）<br><code>auto-edit</code>（自动编辑）<br><code>full-auto</code>（完全自动）</td>
+      </tr>
+      <tr>
+          <td><code>fullAutoErrorMode</code></td>
+          <td>string</td>
+          <td><code>ask-user</code></td>
+          <td>完全自动模式下的错误处理</td>
+          <td><code>ask-user</code>（提示用户输入）<br><code>ignore-and-continue</code>（忽略并继续）</td>
+      </tr>
+      <tr>
+          <td><code>notify</code></td>
+          <td>boolean</td>
+          <td><code>true</code></td>
+          <td>启用桌面通知</td>
+          <td><code>true</code>/<code>false</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="自定义-ai-提供商配置">自定义 AI 提供商配置
+</h3><p>在 <code>providers</code> 对象中，您可以配置多个 AI 服务提供商。每个提供商都需要以下参数：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>name</code></td>
+          <td>string</td>
+          <td>提供商的显示名称</td>
+          <td><code>&quot;OpenAI&quot;</code></td>
+      </tr>
+      <tr>
+          <td><code>baseURL</code></td>
+          <td>string</td>
+          <td>API 服务 URL</td>
+          <td><code>&quot;https://api.openai.com/v1&quot;</code></td>
+      </tr>
+      <tr>
+          <td><code>envKey</code></td>
+          <td>string</td>
+          <td>环境变量名称（用于 API 密钥）</td>
+          <td><code>&quot;OPENAI_API_KEY&quot;</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="历史记录配置">历史记录配置
+</h3><p>在 <code>history</code> 对象中，您可以配置对话历史记录设置：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>示例值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>maxSize</code></td>
+          <td>number</td>
+          <td>要保存的最大历史记录条目数</td>
+          <td><code>1000</code></td>
+      </tr>
+      <tr>
+          <td><code>saveHistory</code></td>
+          <td>boolean</td>
+          <td>是否保存历史记录</td>
+          <td><code>true</code></td>
+      </tr>
+      <tr>
+          <td><code>sensitivePatterns</code></td>
+          <td>array</td>
+          <td>要在历史记录中过滤的敏感信息模式</td>
+          <td><code>[]</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="配置示例">配置示例
+</h3><ol>
+<li>YAML 格式（另存为 <code>~/.codex/config.yaml</code>）：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l">o4-mini</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">approvalMode</span><span class="p">:</span><span class="w"> </span><span class="l">suggest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">fullAutoErrorMode</span><span class="p">:</span><span class="w"> </span><span class="l">ask-user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">notify</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>JSON 格式（另存为 <code>~/.codex/config.json</code>）：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;model&#34;</span><span class="p">:</span> <span class="s2">&#34;o4-mini&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;approvalMode&#34;</span><span class="p">:</span> <span class="s2">&#34;suggest&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;fullAutoErrorMode&#34;</span><span class="p">:</span> <span class="s2">&#34;ask-user&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;notify&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="完整配置示例">完整配置示例
+</h3><p>以下是包含多个自定义提供商的 <code>config.json</code> 的完整示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;model&#34;</span><span class="p">:</span> <span class="s2">&#34;o4-mini&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;provider&#34;</span><span class="p">:</span> <span class="s2">&#34;openai&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;providers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;openai&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;OpenAI&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.openai.com/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;OPENAI_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;azure&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;AzureOpenAI&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://YOUR_PROJECT_NAME.openai.azure.com/openai&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;AZURE_OPENAI_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;openrouter&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;OpenRouter&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://openrouter.ai/api/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;OPENROUTER_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;gemini&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Gemini&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://generativelanguage.googleapis.com/v1beta/openai&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;GEMINI_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;ollama&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Ollama&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;http://localhost:11434/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;OLLAMA_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;mistral&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Mistral&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.mistral.ai/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;MISTRAL_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;deepseek&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;DeepSeek&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.deepseek.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;DEEPSEEK_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;xai&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;xAI&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.x.ai/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;XAI_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;groq&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Groq&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.groq.com/openai/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;GROQ_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;arceeai&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ArceeAI&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;baseURL&#34;</span><span class="p">:</span> <span class="s2">&#34;https://conductor.arcee.ai/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;envKey&#34;</span><span class="p">:</span> <span class="s2">&#34;ARCEEAI_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;history&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;maxSize&#34;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;saveHistory&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sensitivePatterns&#34;</span><span class="p">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="自定义指令">自定义指令
+</h3><p>您可以创建一个 <code>~/.codex/AGENTS.md</code> 文件来为代理定义自定义指导：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="k">-</span> 始终用表情符号回复
+</span></span><span class="line"><span class="cl"><span class="k">-</span> 仅在明确要求时才使用 git 命令
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="环境变量设置">环境变量设置
+</h3><p>对于每个 AI 提供商，您需要在环境变量中设置相应的 API 密钥。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># OpenAI</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&#34;your-api-key-here&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Azure OpenAI</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AZURE_OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&#34;your-azure-api-key-here&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AZURE_OPENAI_API_VERSION</span><span class="o">=</span><span class="s2">&#34;2025-03-01-preview&#34;</span> <span class="o">(</span>可选<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># OpenRouter</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OPENROUTER_API_KEY</span><span class="o">=</span><span class="s2">&#34;your-openrouter-key-here&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 类似地，适用于其他提供商</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="常见问题解答">常见问题解答
+</h2><details>
+<summary>OpenAI 在 2021 年发布了一个名为 Codex 的模型 - 这两者有关联吗？</summary>
+<p>2021 年，OpenAI 发布了 Codex，这是一个旨在从自然语言提示生成代码的 AI 系统。最初的 Codex 模型已于 2023 年 3 月弃用，并且与 CLI 工具分开。</p>
+</details>
+<details>
+<summary>支持哪些模型？</summary>
+<p>任何可通过 <a class="link" href="https://platform.openai.com/docs/api-reference/responses"  target="_blank" rel="noopener"
+    >Responses API</a> 获得的模型。默认值为 <code>o4-mini</code>，但传递 <code>--model gpt-4.1</code> 或在您的配置文件中设置 <code>model: gpt-4.1</code> 以覆盖。</p>
+</details>
+<details>
+<summary>为什么 <code>o3</code> 或 <code>o4-mini</code> 对我不起作用？</summary>
+<p>您的 <a class="link" href="https://help.openai.com/en/articles/10910291-api-organization-verification"  target="_blank" rel="noopener"
+    >API 帐户可能需要经过验证</a>，才能开始流式传输响应并从 API 中查看思维链摘要。如果您仍然遇到问题，请告诉我们！</p>
+</details>
+<details>
+<summary>如何阻止 Codex 编辑我的文件？</summary>
+<p>Codex 在沙盒中运行模型生成的命令。如果建议的命令或文件更改看起来不正确，您可以简单地键入 <strong>n</strong> 来拒绝该命令或向模型提供反馈。</p>
+</details>
+<details>
+<summary>它可以在 Windows 上运行吗？</summary>
+<p>不能直接运行。它需要 <a class="link" href="https://learn.microsoft.com/en-us/windows/wsl/install"  target="_blank" rel="noopener"
+    >适用于 Linux 的 Windows 子系统 (WSL2)</a> - Codex 已在 macOS 和 Linux 上使用 Node 22 进行了测试。</p>
+</details>
+<hr>
+<h2 id="零数据保留-zdr-用法">零数据保留 (ZDR) 用法
+</h2><p>Codex CLI <strong>确实</strong>支持启用了 <a class="link" href="https://platform.openai.com/docs/guides/your-data#zero-data-retention"  target="_blank" rel="noopener"
+    >零数据保留 (ZDR)</a> 的 OpenAI 组织。如果您的 OpenAI 组织已启用零数据保留，但您仍然遇到如下错误：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">OpenAI rejected the request. Error details: Status: 400, Code: unsupported_parameter, Type: invalid_request_error, Message: 400 Previous response cannot be used for this organization due to Zero Data Retention.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>您可能需要使用以下命令升级到更新的版本：<code>npm i -g @openai/codex@latest</code></p>
+<hr>
+<h2 id="codex-开源基金">Codex 开源基金
+</h2><p>我们很高兴推出一项 <strong>100 万美元的计划</strong>，以支持使用 Codex CLI 和其他 OpenAI 模型的开源项目。</p>
+<ul>
+<li>资助金额最高为 <strong>25,000 美元</strong> API 积分。</li>
+<li>应用程序将<strong>滚动审查</strong>。</li>
+</ul>
+<p><strong>感兴趣？<a class="link" href="https://openai.com/form/codex-open-source-fund/"  target="_blank" rel="noopener"
+    >在此处申请</a>。</strong></p>
+<hr>
+<h2 id="贡献">贡献
+</h2><p>该项目正在积极开发中，代码可能会发生相当大的变化。一旦完成，我们将更新此消息！</p>
+<p>更广泛地说，我们欢迎贡献 - 无论您是打开您的第一个 pull request，还是您是经验丰富的维护人员。同时，我们关心可靠性和长期可维护性，因此合并代码的门槛有意<strong>很高</strong>。以下指南阐明了“高质量”在实践中的含义，并应使整个过程透明且友好。</p>
+<h3 id="开发工作流程">开发工作流程
+</h3><ul>
+<li>从 <code>main</code> 创建一个_主题分支_ - 例如 <code>feat/interactive-prompt</code>。</li>
+<li>保持您的更改集中。多个不相关的修复应作为单独的 PR 打开。</li>
+<li>在开发期间使用 <code>pnpm test:watch</code> 以获得超快的反馈。</li>
+<li>我们使用 <strong>Vitest</strong> 进行单元测试，使用 <strong>ESLint</strong> + <strong>Prettier</strong> 进行样式，使用 <strong>TypeScript</strong> 进行类型检查。</li>
+<li>在推送之前，运行完整的测试/类型/lint 套件：</li>
+</ul>
+<h3 id="带有-husky-的-git-钩子">带有 Husky 的 Git 钩子
+</h3><p>该项目使用 <a class="link" href="https://typicode.github.io/husky/"  target="_blank" rel="noopener"
+    >Husky</a> 来强制执行代码质量检查：</p>
+<ul>
+<li><strong>Pre-commit 钩子</strong>：在提交之前自动运行 lint-staged 以格式化和 lint 文件</li>
+<li><strong>Pre-push 钩子</strong>：在推送到远程之前运行测试和类型检查</li>
+</ul>
+<p>这些钩子有助于保持代码质量并防止推送具有失败测试的代码。有关更多详细信息，请参阅 <a class="link" href="./codex-cli/HUSKY.md" >HUSKY.md</a>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pnpm <span class="nb">test</span> <span class="o">&amp;&amp;</span> pnpm run lint <span class="o">&amp;&amp;</span> pnpm run typecheck
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>如果您<strong>尚未</strong>签署贡献者许可协议 (CLA)，请添加包含以下确切文本的 PR 评论</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">I have read the CLA Document and I hereby sign the CLA
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>CLA-Assistant 机器人将在所有作者都签名后将 PR 状态变为绿色。</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 观察模式（测试在更改时重新运行）</span>
+</span></span><span class="line"><span class="cl">pnpm test:watch
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 在不发出文件的情况下进行类型检查</span>
+</span></span><span class="line"><span class="cl">pnpm typecheck
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 自动修复 lint + prettier 问题</span>
+</span></span><span class="line"><span class="cl">pnpm lint:fix
+</span></span><span class="line"><span class="cl">pnpm format:fix
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="调试">调试
+</h3><p>要使用可视化调试器调试 CLI，请在 <code>codex-cli</code> 文件夹中执行以下操作：</p>
+<ul>
+<li>运行 <code>pnpm run build</code> 以构建 CLI，这将在 <code>dist</code> 文件夹中的 <code>cli.js</code> 旁边生成 <code>cli.js.map</code>。</li>
+<li>使用 <code>node --inspect-brk ./dist/cli.js</code> 运行 CLI。然后，程序会等到连接调试器后再继续。选项：
+<ul>
+<li>在 VS Code 中，从命令面板中选择<strong>Debug: Attach to Node Process</strong>，然后在下拉列表中选择调试端口 <code>9229</code> 的选项（可能是第一个选项）</li>
+<li>在 Chrome 中转到 <a class="link" href="chrome://inspect" >chrome://inspect</a>，找到 <strong>localhost:9229</strong>，然后单击<strong>trace</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="编写高影响力的代码更改">编写高影响力的代码更改
+</h3><ol>
+<li><strong>从 issue 开始。</strong> 打开一个新的 issue 或在现有的讨论中发表评论，以便我们在编写代码之前就解决方案达成一致。</li>
+<li><strong>添加或更新测试。</strong> 每个新功能或错误修复都应该附带测试覆盖，该测试覆盖在您的更改之前失败并在之后通过。不需要 100% 覆盖，但目标是进行有意义的断言。</li>
+<li><strong>记录行为。</strong> 如果您的更改会影响面向用户的行为，请更新 README、内联帮助 (<code>codex --help</code>) 或相关示例项目。</li>
+<li><strong>保持提交原子性。</strong> 每次提交都应该编译并且测试应该通过。这使得审查和潜在的回滚更容易。</li>
+</ol>
+<h3 id="打开一个-pull-request">打开一个 Pull Request
+</h3><ul>
+<li>填写 PR 模板（或包括类似信息）- <strong>什么？为什么？怎么做？</strong></li>
+<li>在本地运行<strong>所有</strong>检查 (<code>npm test &amp;&amp; npm run lint &amp;&amp; npm run typecheck</code>)。本可以在本地捕获的 CI 失败会减慢该过程。</li>
+<li>确保您的分支与 <code>main</code> 保持最新，并且您已解决合并冲突。</li>
+<li>仅当您认为 PR 处于可合并状态时，才将其标记为<strong>准备好审查</strong>。</li>
+</ul>
+<h3 id="审查流程">审查流程
+</h3><ol>
+<li>一位维护人员将被分配为主要审查员。</li>
+<li>我们可能会要求进行更改 - 请不要对此感到不快。我们重视工作，我们只是也重视一致性和长期可维护性。</li>
+<li>当达成共识认为 PR 符合标准时，维护人员将 squash-and-merge。</li>
+</ol>
+<h3 id="社区价值观">社区价值观
+</h3><ul>
+<li><strong>友善和包容。</strong> 尊重他人；我们遵循 <a class="link" href="https://www.contributor-covenant.org/"  target="_blank" rel="noopener"
+    >贡献者盟约</a>。</li>
+<li><strong>假设良好的意图。</strong> 书面沟通很难 - 倾向于慷慨。</li>
+<li><strong>教学与学习。</strong> 如果您发现任何令人困惑的事情，请打开一个 issue 或 PR 进行改进。</li>
+</ul>
+<h3 id="获取帮助">获取帮助
+</h3><p>如果您在设置项目时遇到问题，想要获得关于想法的反馈，或者只是想说 <em>hi</em> - 请打开一个讨论或跳到相关的 issue 中。我们很乐意提供帮助。</p>
+<p>我们可以一起使 Codex CLI 成为一个令人难以置信的工具。<strong>祝你黑客愉快！</strong> :rocket:</p>
+<h3 id="贡献者许可协议-cla">贡献者许可协议 (CLA)
+</h3><p>所有贡献者<strong>必须</strong>接受 CLA。该过程很简单：</p>
+<ol>
+<li>
+<p>打开您的 pull request。</p>
+</li>
+<li>
+<p>粘贴以下评论（如果您之前已签名，请回复 <code>recheck</code>）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">I have read the CLA Document and I hereby sign the CLA
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>CLA-Assistant 机器人会在存储库中记录您的签名并将状态检查标记为已通过。</p>
+</li>
+</ol>
+<p>不需要特殊的 Git 命令、电子邮件附件或提交脚注。</p>
+<h4 id="快速修复">快速修复
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>命令</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>修改上次提交</td>
+          <td><code>git commit --amend -s --no-edit &amp;&amp; git push -f</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<p><strong>DCO 检查</strong>会阻止合并，直到 PR 中的每次提交都带有脚注（通过 squash 这只是一个）。</p>
+<h3 id="发布-codex">发布 <code>codex</code>
+</h3><p>要发布 CLI 的新版本，您首先需要暂存 npm 包。<code>codex-cli/scripts/</code> 中的一个辅助脚本可以完成所有繁重的工作。在 <code>codex-cli</code> 文件夹中运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 经典、JS 实现，包括用于 Linux 沙盒的小型原生二进制文件。</span>
+</span></span><span class="line"><span class="cl">pnpm stage-release
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># （可选）指定在运行之间重用的临时目录。</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RELEASE_DIR</span><span class="o">=</span><span class="k">$(</span>mktemp -d<span class="k">)</span>
+</span></span><span class="line"><span class="cl">pnpm stage-release --tmp <span class="s2">&#34;</span><span class="nv">$RELEASE_DIR</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># “胖”包，另外捆绑了用于 Linux 的原生 Rust CLI 二进制文件。最终用户可以通过设置 CODEX_RUST=1 在运行时选择加入。</span>
+</span></span><span class="line"><span class="cl">pnpm stage-release --native
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>转到暂存发布版本的文件夹，并验证它是否按预期工作。如果是，请从临时文件夹中运行以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd &#34;$RELEASE_DIR&#34;
+</span></span><span class="line"><span class="cl">npm publish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="替代构建选项">替代构建选项
+</h3><h4 id="nix-flake-开发">Nix flake 开发
+</h4><p>先决条件：启用了 flakes 的 Nix &gt;= 2.4（<code>experimental-features = nix-command flakes</code> 在 <code>~/.config/nix/nix.conf</code> 中）。</p>
+<p>进入 Nix 开发 shell：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 根据要使用的实现，使用以下任一命令</span>
+</span></span><span class="line"><span class="cl">nix develop .#codex-cli <span class="c1"># 用于进入 codex-cli 特定 shell</span>
+</span></span><span class="line"><span class="cl">nix develop .#codex-rs <span class="c1"># 用于进入 codex-rs 特定 shell</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此 shell 包含 Node.js，安装依赖项，构建 CLI，并提供 <code>codex</code> 命令别名。</p>
+<p>直接构建并运行 CLI：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 根据要使用的实现，使用以下任一命令</span>
+</span></span><span class="line"><span class="cl">nix build .#codex-cli <span class="c1"># 用于构建 codex-cli</span>
+</span></span><span class="line"><span class="cl">nix build .#codex-rs <span class="c1"># 用于构建 codex-rs</span>
+</span></span><span class="line"><span class="cl">./result/bin/codex --help
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过 flake 应用程序运行 CLI：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 根据要使用的实现，使用以下任一命令</span>
+</span></span><span class="line"><span class="cl">nix run .#codex-cli <span class="c1"># 用于运行 codex-cli</span>
+</span></span><span class="line"><span class="cl">nix run .#codex-rs <span class="c1"># 用于运行 codex-rs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将 direnv 与 flakes 一起使用</p>
+<p>如果您已安装 direnv，则可以使用以下 <code>.envrc</code> 在您 <code>cd</code> 进入项目目录时自动进入 Nix shell：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> codex-rs
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;use flake ../flake.nix#codex-cli&#34;</span> &gt;&gt; .envrc <span class="o">&amp;&amp;</span> direnv allow
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> codex-cli
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;use flake ../flake.nix#codex-rs&#34;</span> &gt;&gt; .envrc <span class="o">&amp;&amp;</span> direnv allow
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/openai/">OpenAI</a>
+        
+            <a href="/tags/codex/">Codex</a>
+        
+            <a href="/tags/cli/">CLI</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A0%81%E5%8A%A9%E6%89%8B/">编码助手</a>
+        
+            <a href="/tags/%E7%BB%88%E7%AB%AF/">终端</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/openai-codexai%E7%BC%96%E7%A8%8B%E6%96%B0%E7%BA%AA%E5%85%83%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%8710%E5%80%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">OpenAI Codex：AI编程新纪元，效率提升10倍！</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%AE%9E%E6%B5%8B-manus%E9%A6%96%E4%B8%AA%E7%9C%9F%E5%B9%B2%E6%B4%BB-ai%E4%B8%AD%E5%9B%BD%E9%80%A0%E9%99%8450%E4%B8%AA%E7%94%A8%E4%BE%8B--%E6%8B%86%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">实测 Manus：首个真干活 AI，中国造（附50个用例 &#43; 拆解）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手撸 MCP 管理 GitHub 项目</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/openai%E7%A5%AD%E5%87%BA%E4%BB%A3%E7%A0%81%E6%9D%80%E5%99%A8codex%E4%BB%A3%E7%90%86%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%961.5%E7%BE%8E%E5%85%83/%E7%99%BE%E4%B8%87token%E8%A1%80%E6%B4%97%E7%BC%96%E7%A8%8B%E7%95%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/6aa0ff754bb7aeffa3ff7b58718d4831.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/6aa0ff754bb7aeffa3ff7b58718d4831.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">OpenAI祭出代码杀器，Codex代理横空出世，1.5美元/百万token血洗编程界</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-go-zero-mcp-%E8%AF%BB%E5%8F%96%E8%B5%84%E6%BA%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 go-zero MCP 读取资源</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
