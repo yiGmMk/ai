@@ -60,3 +60,4 @@
 [√] claude-desktop.md
 [√] 建议大家尽早开始搭建个人知识库.md
 [√] RoboSense与Mammotion库犸达成战略合作，120万台固态激光雷达刷新割草机器人行业记录.md
+[√] 实测 Manus：首个真干活 AI，中国造（附50个用例 + 拆解）.md
