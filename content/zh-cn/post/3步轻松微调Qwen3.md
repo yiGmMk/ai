@@ -5,7 +5,7 @@ tags: ["Qwen3", "微调", "Llama-factory", "Ollama", "本地部署"]
 categories: ["人工智能","AI", "机器学习"]
 description: "使用Llama-factory在本地轻松微调Qwen3，并导出到Ollama，实现个性化大模型应用。"
 author: "袋鼠帝"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png"
 ---
 - **核心内容点1**: 使用Llama-factory进行Qwen3的本地微调，无需代码，提供WebUI界面操作。
 - **核心内容点2**: 通过魔搭社区的角色扮演（甄嬛）数据集进行微调，展示了数据集准备和配置过程。

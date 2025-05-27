@@ -5,7 +5,7 @@ tags: ["pprof", "golang", "性能分析", "性能优化"]
 categories: ["Golang", "性能调优"]
 description: "本文深入探讨了 Golang pprof 的使用方法和底层实现原理，通过实战案例分析了 CPU、内存、阻塞、互斥锁和协程的性能分析流程。"
 author: "小徐先生1212"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/5ae3f1a827d48b1aa7401426044bfdfb.png"
 ---
 
 - **pprof 使用方法**：详细介绍了如何使用 pprof 进行 CPU、内存、阻塞、互斥锁和协程分析，并提供了实战案例。
