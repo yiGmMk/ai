@@ -64,4 +64,9 @@
 [√] Manus开放注册，被吐槽收费贵.md
 [√] 禾赛发布2025Q1财报.md
 [√] 3步轻松微调Qwen3.md
+[√] [√] Golang pprof 案例实战与原理解析.md
+[√] Index-AniSora技术升级开源：动漫视频生成强化学习.md
+[√] Introducing Index-1.9B.md
 [√] Golang pprof 案例实战与原理解析.md
+[√] bilibili的index-1.9B.md
+[√] 刚刚，SpaceX星舰第九次试飞失败∕小米总裁：SU7没有对手，一个能打的也没有∕腾讯客服辟谣朋友圈访客记录.md
