@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="FunctionAI基于阿里云函数计算构建，提供完整的MCP开发能力，解决本地化瓶颈、弹性困境和开发断层等问题，助力AI应用快速连接数字生态。">
+<title>FunctionAI MCP 开发平台：助力AI应用连接数字生态</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="FunctionAI MCP 开发平台：助力AI应用连接数字生态">
+<meta property='og:description' content="FunctionAI基于阿里云函数计算构建，提供完整的MCP开发能力，解决本地化瓶颈、弹性困境和开发断层等问题，助力AI应用快速连接数字生态。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='FunctionAI' /><meta property='article:tag' content='Serverless' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='云原生' /><meta property='article:tag' content='函数计算' /><meta property='article:tag' content='模型上下文协议' /><meta property='article:tag' content='ServerlessDevs' /><meta property='article:published_time' content='2025-04-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-14T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="FunctionAI MCP 开发平台：助力AI应用连接数字生态">
+<meta name="twitter:description" content="FunctionAI基于阿里云函数计算构建，提供完整的MCP开发能力，解决本地化瓶颈、弹性困境和开发断层等问题，助力AI应用快速连接数字生态。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1选择-mcp-模板">1. 选择 MCP 模板</a></li>
+        <li><a href="#2-填写模板配置部署项目">2. 填写模板配置，部署项目</a></li>
+        <li><a href="#3-查看部署进度">3. 查看部署进度</a></li>
+        <li><a href="#1创建空白项目">1. 创建空白项目</a></li>
+        <li><a href="#2创建-mcp-服务">2. 创建 MCP 服务</a></li>
+        <li><a href="#3编辑-mcp-服务配置完成后点击预览部署">3. 编辑 MCP 服务配置，完成后点击预览&amp;部署</a></li>
+        <li><a href="#4查看部署进度等待部署完成">4. 查看部署进度，等待部署完成</a></li>
+        <li><a href="#1安装-serverlessdevs-工具">1. 安装 ServerlessDevs 工具：</a></li>
+        <li><a href="#2初始化-mcp-项目">2. 初始化 MCP 项目</a></li>
+        <li><a href="#3查看-syaml">3. 查看 s.yaml</a></li>
+        <li><a href="#4执行部署">4. 执行部署</a></li>
+        <li></li>
+        <li><a href="#使用方式">使用方式</a></li>
+        <li></li>
+        <li></li>
+        <li><a href="#测试鉴权生效">测试鉴权生效</a></li>
+        <li><a href="#配置方式设置服务变量">配置方式：设置服务变量</a></li>
+        <li></li>
+        <li></li>
+        <li><a href="#加载方式-1环境变量">加载方式 1：环境变量</a></li>
+        <li></li>
+        <li></li>
+        <li><a href="#加载方式-2启动参数">加载方式 2：启动参数</a></li>
+        <li></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" >
+                云计算
+            </a>
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/">FunctionAI MCP 开发平台：助力AI应用连接数字生态</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            FunctionAI基于阿里云函数计算构建，提供完整的MCP开发能力，解决本地化瓶颈、弹性困境和开发断层等问题，助力AI应用快速连接数字生态。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 14, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> | 封崇  阿里云云原生   2025-04-14 18:02</p>
+<p><img src="/img/ai/087ee75c2a26ff67233996986126ecfa.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>MCP：AI 时代的“操作系统接口”,Cloud Native:</p>
+<p>2024 年 11 月，Anthropic 发布模型上下文协议（MCP），这一开放标准迅速引发开发者社区的&quot;协议觉醒&quot;。其本质是通过标准化接口实现 LLM 与外部世界的双向交互，正如 USB 协议统一外设接入，MCP 正成为 AI 应用连接数字生态的通用总线。随着 Cursor、Claude <br>
+Desktop <br>
+等开发工具相继集成，特别是 OpenAI 宣布全面兼容 MCP 协议，标志着 MCP 从技术实验迈入产业级标准，这一标准化接口正重塑 AI 与数字世界的交互范式。</p>
+<p>截至 2025 年 4 月，MCP.so【1】上已经已有超过 8000 个注册的 MCP Server，涵盖数据处理、文件系统、API 网关、聊天机器人、数据库等服务类别，这一数量还在迅速增长。</p>
+<p><strong>生态暴发期的痛点</strong></p>
+<p>尽管 MCP 生态呈现指数级增长，GitHub 仓库星标数半年突破 3.5 万，但生产级落地仍面临三重挑战：</p>
+<p><strong>1. 本地化瓶颈</strong><br>
+：当前绝大多数 MCP server 都采用传统 STDIO 模式，该模式没有鉴权能力（缺乏 OAuth 2.1 标准的双向认证机制、无法实现基于角色的访问控制），在复杂业务场景下暴露出调试困难、网络隔离性差等缺陷，难以实现访问内网环境的数据安全管控，内网穿透导致攻击面扩大；</p>
+<p><strong>2. 弹性困境</strong><br>
+：MCP 工具调用流量呈现显著的非稳态特征以及&quot;脉冲式&quot;波动，比如智能客服系统的峰谷效应非常明显，传统虚拟机部署造成大量资源浪费；</p>
+<p><strong>3. 开发断层</strong><br>
+：从本地调试到云端部署需要重构鉴权、变量管理、日志、中间件等基础组件，改造成本高，开发者大量的精力消耗在非业务代码的开发上；</p>
+<p><strong>Serverless 是 MCP 托管的最佳解决方案</strong></p>
+<p>我们观察到大部分的 MCP server 有以下特点：</p>
+<ol>
+<li>
+<p>稀疏调用，而且对算力的需求都比较小，0.5c/1G 的规格基本能够应对大部分场景；</p>
+</li>
+<li>
+<p>代码体积比较小（&lt;100MB），Node.js、Python 解释型语言是 MCP 的一等公民，大部分 MCP server 直接通过 npx、uv 就能一键运行；</p>
+</li>
+<li>
+<p>MCP server 的迭代非常快，新增、修改或弃用 MCP server 的场景会非常高频，对 MCP server 元数据管理的需求非常普遍；</p>
+</li>
+</ol>
+<p><strong>因此灵活部署、弹性扩展的运行时对于 MCP server 的托管非常契合，这恰恰是 Serverless 的最大优势。</strong><br>
+以阿里云函数计算为例：</p>
+<ol>
+<li>
+<p>天然的事件驱动模型，提供毫秒级弹性能力、按量付费、安全沙箱的运行时环境，完美解决了云上托管对于性能、成本、安全的需求；</p>
+</li>
+<li>
+<p>官方对于 Node.js、Python 运行时的支持完善，内置代码包加速能力以及层的扩展，大幅降低代码启动时间；</p>
+</li>
+<li>
+<p>控制台、SDK、ServerlessDevs 工具提供丰富的函数元数据的管理能力；</p>
+</li>
+</ol>
+<p>这些能力让 Serverless 正成为托管 MCP 的最优解。作为 MCP <br>
+的最佳运行时，函数计算已经支持阿里云百炼 MCP 服务【2】。</p>
+<p><a class="link" href="https://mp.weixin.qq.com/s?__biz=MzUzNzYxNjAzMg==&amp;mid=2247573406&amp;idx=1&amp;sn=a9e215ecbf675b6058bf5f726063a316&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    ></a></p>
+<p>Function AI 是基于函数计算构建的 Serverless AI 应用开发平台，基于函数计算的运行时能力上线了完整的 MCP 开发能力，成为真正意义上的 MCP 开发平台。您可以进入FunctionAI 控制台【3】，快速体验 MCP 服务的能力。</p>
+<p><strong>方式一：通过模板一键部署</strong></p>
+<h3 id="1选择-mcp-模板">1. 选择 MCP 模板
+</h3><p>进入FunctionAI 控制台【4】，选择探索-&gt;筛选应用模板（MCP Server），选择一个 MCP 模板进行部署<br>
+<img src="/img/ai/8eaac6393e6591a3066bc7b143fd0a95.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="2-填写模板配置部署项目">2. 填写模板配置，部署项目
+</h3><p><img src="/img/ai/a7fa62b44c44e08f70f71b3fc4504de4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="3-查看部署进度">3. 查看部署进度
+</h3><p><img src="/img/ai/cc0d4f2dd8f2833d543882bc611b63de.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>方式二：创建自定义 MCP 服务</strong></p>
+<h3 id="1创建空白项目">1. 创建空白项目
+</h3><p><img src="/img/ai/bb40530090e7acd185b2eb51ae8639e9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="2创建-mcp-服务">2. 创建 MCP 服务
+</h3><p><img src="/img/ai/62ee312927e0fcb139bb81cf658c8270.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="3编辑-mcp-服务配置完成后点击预览部署">3. 编辑 MCP 服务配置，完成后点击预览&amp;部署
+</h3><p><img src="/img/ai/1cc1b3db23afe5b9bdf7e12e76a8528c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="4查看部署进度等待部署完成">4. 查看部署进度，等待部署完成
+</h3><p><img src="/img/ai/0edb2bfd8a9cd1e90b3f95833401ee14.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>方式三：使用 ServerlessDevs 工具本地部署</strong></p>
+<p>FunctionAI 正式发布了 ServerlessDevs【5】工具的 MCP 组件，实现本地部署 MCP 工程到 FunctionAI 的能力</p>
+<h3 id="1安装-serverlessdevs-工具">1. 安装 ServerlessDevs 工具：
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install @serverless-devs/s -g
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2初始化-mcp-项目">2. 初始化 MCP 项目
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">s init start-fcai-mcp-nodejs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3查看-syaml">3. 查看 s.yaml
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">edition</span><span class="p">:</span> <span class="mf">3.0</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">name</span><span class="p">:</span> <span class="n">start</span><span class="o">-</span><span class="n">mcp</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">nodejs</span>
+</span></span><span class="line"><span class="cl"><span class="n">access</span><span class="p">:</span> <span class="s1">&#39;default&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">vars</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">region</span><span class="p">:</span> <span class="s1">&#39;cn-hangzhou&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">resources</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">nodejs</span><span class="o">-</span><span class="n">stdio</span><span class="o">-</span><span class="n">hello</span><span class="o">-</span><span class="n">world</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">component</span><span class="p">:</span> <span class="n">fcai</span><span class="o">-</span><span class="n">mcp</span><span class="o">-</span><span class="n">server</span>
+</span></span><span class="line"><span class="cl">    <span class="n">props</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">region</span><span class="p">:</span> <span class="o">$</span><span class="p">{</span><span class="n">vars</span><span class="o">.</span><span class="n">region</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">description</span><span class="p">:</span> <span class="n">mcp</span> <span class="n">server</span> <span class="n">deployed</span> <span class="n">by</span> <span class="n">devs</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transport</span><span class="p">:</span> <span class="n">stdio</span> <span class="c1"># stidio | sse</span>
+</span></span><span class="line"><span class="cl">      <span class="n">runtime</span><span class="p">:</span> <span class="n">nodejs20</span>
+</span></span><span class="line"><span class="cl">      <span class="n">cpu</span><span class="p">:</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="n">memorySize</span><span class="p">:</span> <span class="mi">1024</span>
+</span></span><span class="line"><span class="cl">      <span class="n">rootDir</span><span class="p">:</span> <span class="o">./</span><span class="n">code</span>
+</span></span><span class="line"><span class="cl">      <span class="n">source</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">oss</span><span class="p">:</span> <span class="n">auto</span>
+</span></span><span class="line"><span class="cl">      <span class="n">build</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">default</span><span class="p">:</span> <span class="c1">#默认构建器</span>
+</span></span><span class="line"><span class="cl">          <span class="c1"># 构建环境</span>
+</span></span><span class="line"><span class="cl">          <span class="n">languages</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="n">nodejs20</span>
+</span></span><span class="line"><span class="cl">          <span class="c1"># 执行步骤</span>
+</span></span><span class="line"><span class="cl">          <span class="n">steps</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">npm</span> <span class="n">install</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="n">run</span><span class="p">:</span> <span class="n">npm</span> <span class="n">run</span> <span class="n">build</span>
+</span></span><span class="line"><span class="cl">      <span class="n">startCommand</span><span class="p">:</span> <span class="s2">&#34;node ./dist/index.js&#34;</span> <span class="c1"># 启动命令</span>
+</span></span><span class="line"><span class="cl">      <span class="n">instanceQuota</span><span class="p">:</span> <span class="mi">1</span> <span class="c1"># 实例数配额</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4执行部署">4. 执行部署
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">s deploy
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="">
+</h3><p><img src="/img/ai/65cbedb605963231d21a24f01a6411a0.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>登录到控制台，可以查看云端的部署详情</p>
+<p><img src="/img/ai/9008afa9b766f18ec8870be548f7eca5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>FunctionAI 支持托管 STDIO/SSE 协议的 MCP server。如果 MCP server 代码采用 STDIO，FunctionAI 会启动一个 SSE 服务来代理 STDIO 的请求，客户端访问需要使用 SSE 方式。</p>
+<p>当 MCP 服务部署完成后，平台会生成一个 SSE 的连接地址，并且会生成 MCP server 的 schema 用于测试。</p>
+<p>用户可以直接在控制台上测试连接、测试工具，也可以使用官方的 Inspector 在本地进行测试。</p>
+<p><strong>方式 1：FunctionAI 控制台测试</strong></p>
+<p><img src="/img/ai/1b500d2ecbe51c3bd818ab0a2d241d31.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>查看日志和监控</p>
+<p><img src="/img/ai/64428131f50c544e1eb810049aa74148.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/625f7be471aa00cb5795a70448e9bdb4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>方式 2：Inspector 本地测试</strong></p>
+<p>复制 FunctionAI 生成的公网访问地址</p>
+<p><img src="/img/ai/827d8ce0c33c9ca0e0377d7e76adedd4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>本地启动 inspector，输入访问地址进行调试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npx @modelcontextprotocol/inspector
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/2fb2f7c95d741f82ad78f0ce8c95fdf5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>高阶能力</p>
+<p>Cloud Native</p>
+<p><strong>鉴权</strong></p>
+<p>MCP 的鉴权只适用于 SSE 的协议，而且必须遵循 OAuth2.1 协议标准，对于大量的 STDIO 的 MCP 服务托管的改造难度非常之高，企业落地 MCP 鉴权是一个非常痛点的问题。</p>
+<p>FunctionAI 提供了网关侧的 Bearer 鉴权能力，用户只需要开启鉴权功能，使用平台生成的 Bearer Token，就可以让 MCP 服务自带鉴权能力。</p>
+<h3 id="使用方式">使用方式
+</h3><h3 id="">
+</h3><p>编辑服务配置，点击开启鉴权，保存并且部署。开启后，平台会对服务生成一个只读的 Bearer Token。</p>
+<p><img src="/img/ai/176da26d1e64590fb48d8e7e9324fcc8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/9023eafd8409b7fe75ef35e317d59183.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="测试鉴权生效">测试鉴权生效
+</h3><p>使用平台生成的 Bearer Token，可以正常访问 MCP 服务</p>
+<p><img src="/img/ai/7d5c7f3aa4dc7d4fdeab04d14dbf5154.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>使用错误的 token 时，访问失败</p>
+<p><img src="/img/ai/f7d5043ba19bec75038798cf94fc5e8a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>使用本地的 Inspector，输入服务的 token，访问正常。</p>
+<p><img src="/img/ai/6807b4d0e56bbfc668a8d870fba77f27.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>变量管理</strong></p>
+<p>很多的 MCP Server 代码都需要访问第三方服务，比如高德地图、Github 等，需要持有用户的访问秘钥，比如 API-Key、AccessToken，这些秘钥通常以环境变量加载或者启动命令参数注入。</p>
+<p>FunctionAI 提供了变量管理能力，并且支持敏感变量托管，可以实现 MCP 服务访问秘钥的安全可靠管理。</p>
+<h3 id="配置方式设置服务变量">配置方式：设置服务变量
+</h3><h3 id="">
+</h3><p>选择服务-&gt;服务变量，添加服务变量的 Key 和 Value</p>
+<p><img src="/img/ai/15b09c554b6a7fbbc9bdd1ba2f2e310e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="加载方式-1环境变量">加载方式 1：环境变量
+</h3><h3 id="">
+</h3><p>FunctionAI 上配置的服务变量会默认注入到函数启动的环境变量中，MCP 服务代码可以直接通过系统环境变量读取</p>
+<p><img src="/img/ai/43ad2532377ad53c8c93e3cf34ccd342.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="">
+</h3><h3 id="加载方式-2启动参数">加载方式 2：启动参数
+</h3><h3 id="">
+</h3><p>FunctionAI 的服务变量支持通过 ${self.KEY_NAME} 的方式引用，可以在启动命令中修改命令行参数，使用变量的引用，在启动阶段注入变量的值。</p>
+<p><img src="/img/ai/11f9f30a1e47a380071e5affa1db4312.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/f074718d0e6abbc83b8cf03b356d8c67.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>绑定代码仓库进行持续部署</strong></p>
+<p>FunctionAI 的 MCP 服务面向开发态能力，提供以代码仓库托管 MCP 服务的能力。</p>
+<p>使用方式：</p>
+<ol>
+<li>
+<p>编辑 MCP 服务配置，选择代码仓库，目前支持了 Github、Gitee、Codeup、GitLab、OSS 代码仓库。</p>
+</li>
+<li>
+<p>选择仓库分支、MCP 工程在代码仓库中的根目录</p>
+</li>
+<li>
+<p>选择构建环境：对于多语言的工程，可以选择多个构建环境</p>
+</li>
+<li>
+<p>编辑构建命令：例如 npm build、pip install -r requirements.txt</p>
+</li>
+<li>
+<p>可选：开启构建缓存，缓存目录根据不同语言可以设置~/.npm（Node.js）、<del>/.cache（Python）、</del>/.m2、（Java）</p>
+</li>
+</ol>
+<p><img src="/img/ai/e22ee2e9b7cbfb185a2ba94c6cd73174.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>绑定 Git 仓库后，如果指定的分支有 push 操作，会自动触发服务的持续部署</p>
+<p><img src="/img/ai/0a0391910a8ba2fd0f98201c8ea7c8de.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>极速模式</strong></p>
+<p>对于延迟敏感性的业务，FunctionAI 提供了极速模式，可以提前预留指定数量的实例快照，降低频繁冷启动带来的开销，并且只有在有活跃请求时才会产生 vCPU 费用，可以实现性能和成本的平衡。</p>
+<p>另外由于 MCP SSE 请求的 session 机制，同一个 session id 访问到不同实例会导致上下文丢失，因此建议开启预置快照为 1 并且实例限额为 1，这样可以让 SSE 请求打到不同弹性实例的概率更小。</p>
+<p>FunctionAI 后面会上线会话亲和性能力，尽情期待。</p>
+<p><img src="/img/ai/66ea83970635dde4a3af53a4472379ab.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>开启后，可以在函数监控页面看到预留实例的个数</p>
+<p><img src="/img/ai/d5dacedc72983e325007e050a13c84c5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>FunctionAI 现在已经支持了完整的 MCP 开发能力，包括：</p>
+<ul>
+<li>
+<p>部署形式上，支持模板直接部署、自定义 MCP 服务、ServerlessDevs 工具本地部署</p>
+</li>
+<li>
+<p>托管能力上，支持 STDIO/SSE 的自动托管，无需业务改造既能生成可用于访问的 SSE 地址</p>
+</li>
+<li>
+<p>调试能力上，支持控制台直接调试以及 Inspector 本地调试</p>
+</li>
+<li>
+<p>二次开发能力上，支持变量管理、鉴权、绑定代码仓库进行持续部署</p>
+</li>
+<li>
+<p>可观测能力上，支持函数监控、实例监控以及日志</p>
+</li>
+<li>
+<p>弹性调度上，支持标准模式以及极速模式</p>
+</li>
+</ul>
+<p>MCP 的价值是统一了 Agent 和 LLM 之间的标准化接口，有了 MCP Server 的托管以及开发态能力只是第一步，接下来重要的是做好 MCP 和 Agent 的集成，FunctionAI 即将上线 Agent 开发能力，敬请期待。</p>
+<p>【1】MCP.so <a class="link" href="https://mcp.so/"  target="_blank" rel="noopener"
+    >https://mcp.so/</a><br>
+【2】Serverless MCP 运行时业界首发，函数计算让 AI 应用最后一公里提速<br>
+【3】FunctionAI 控制台 <a class="link" href="https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh"  target="_blank" rel="noopener"
+    >https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&clearRedirectCookie=1&lang=zh</a><br>
+【4】FunctionAI 控制台 <a class="link" href="https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh"  target="_blank" rel="noopener"
+    >https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&clearRedirectCookie=1&lang=zh</a><br>
+【5】ServerlessDevs  <a class="link" href="https://www.serverless-devs.com/"  target="_blank" rel="noopener"
+    >https://www.serverless-devs.com/</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/functionai/">FunctionAI</a>
+        
+            <a href="/tags/serverless/">Serverless</a>
+        
+            <a href="/tags/ai/">AI</a>
+        
+            <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a>
+        
+            <a href="/tags/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97/">函数计算</a>
+        
+            <a href="/tags/%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE/">模型上下文协议</a>
+        
+            <a href="/tags/serverlessdevs/">ServerlessDevs</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">当 MCP 遇上 Serverless，AI 时代的最佳搭档</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">阿里云 MCP Server 开箱即用！</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E4%B8%80%E5%88%87%E9%83%BD%E5%87%BA%E9%94%99%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的一切都出错了</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

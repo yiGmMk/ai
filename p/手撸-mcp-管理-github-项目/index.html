@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="使用 go-zero 开发 MCP Server，通过 Cline 插件与 GitHub 进行交互，实现 issue 和 PR 的管理。">
+<title>手撸 MCP 管理 GitHub 项目</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="手撸 MCP 管理 GitHub 项目">
+<meta property='og:description' content="使用 go-zero 开发 MCP Server，通过 Cline 插件与 GitHub 进行交互，实现 issue 和 PR 的管理。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='GitHub' /><meta property='article:tag' content='go-zero' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='Cline' /><meta property='article:published_time' content='2025-05-19T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-19T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="手撸 MCP 管理 GitHub 项目">
+<meta name="twitter:description" content="使用 go-zero 开发 MCP Server，通过 Cline 插件与 GitHub 进行交互，实现 issue 和 PR 的管理。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#zero-mcp-github-项目创建">zero-mcp-github 项目创建</a></li>
+    <li><a href="#入口">入口</a></li>
+    <li><a href="#资源初始化">资源初始化</a>
+      <ol>
+        <li><a href="#github-token获取">Github token获取</a></li>
+      </ol>
+    </li>
+    <li><a href="#注册tools">注册Tools</a></li>
+    <li><a href="#tool开发">Tool开发</a></li>
+    <li><a href="#启动mcp-server">启动MCP Server</a></li>
+    <li><a href="#llm配置">LLM配置</a></li>
+    <li><a href="#mcp-server配置">MCP Server配置</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#项目地址">项目地址</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/categories/go-zero/" >
+                Go-Zero
+            </a>
+        
+            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" >
+                微服务
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/">手撸 MCP 管理 GitHub 项目</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            使用 go-zero 开发 MCP Server，通过 Cline 插件与 GitHub 进行交互，实现 issue 和 PR 的管理。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 19, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容点:</p>
+<ul>
+<li>使用 go-zero 框架实现 MCP Server，用于管理 GitHub 项目，包括查看和创建 issue、查看 PR 等操作。</li>
+<li>通过 VSCode 插件 Cline 配置大模型和 MCP Server，实现自然语言与 GitHub 操作的结合。</li>
+<li>详细介绍了 MCP Server 的开发过程，包括工具注册、Tool 开发，以及如何通过 GitHub API 实现具体功能。</li>
+</ul>
+<p><strong>源自</strong> |  zhoushuguang  微服务实践   2025-05-19 09:18</p>
+<p>MCP（Model Context Protocol）最近真的非常火，OpenAI、谷歌、微软等顶级AI公司都陆续宣布了支持MCP协议。同时，go-zero在v1.8.3版本中也新增了对MCP Server的支持，本篇文章就是基于go-zero mcp的实战。go-zero一直以简单高效而为大家所熟知，通过本次实战大家也会感受到使用go-zero来实现MCP Server同样也非常简单高效。</p>
+<p>本篇文章是实战，相关的基础知识在这里就不再赘述，如果对MCP还不了解的话可以自行查阅相关资料学习。</p>
+<p>本次实战的场景是基于AI来实现GitHub相关的操作，比如查看issue、创建issue、查看pr等操作。</p>
+<p>下面是MCP的架构图，主要由两部分组成，MCP Host和MCP Server，MCP Host选择很多，比如Claude Desktop，各种IDE，Dify等AI工具都集成了MCP Client，本次实战MCP Host是基于Vscode的插件Cline，Cline是一个非常强大的AI编程辅助工具，同时对于MCP也有很好的支持，MCP Server基于go-zero的MCP功能实现。</p>
+<p><img src="/img/ai/836ceadb424e50318176e1568ffd3081.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="zero-mcp-github-项目创建">zero-mcp-github 项目创建
+</h2><p>MCP Server和Http或者Rpc服务的开发没什么太大的区别，区别是MCP Server的Transport一般是通过SSE或者Stdio来实现。goctl工具暂时还不支持生成MCP Server，在后续的版本会支持。所以本次实战的项目通过手动方式创建，结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── README.md
+</span></span><span class="line"><span class="cl">├── etc
+</span></span><span class="line"><span class="cl">│   └── zero-mcp-github.yaml
+</span></span><span class="line"><span class="cl">├── go.mod
+</span></span><span class="line"><span class="cl">├── go.sum
+</span></span><span class="line"><span class="cl">├── internal
+</span></span><span class="line"><span class="cl">│   ├── config
+</span></span><span class="line"><span class="cl">│   │   └── config.go
+</span></span><span class="line"><span class="cl">│   ├── svc
+</span></span><span class="line"><span class="cl">│   │   └── servicecontext.go
+</span></span><span class="line"><span class="cl">│   └── tools
+</span></span><span class="line"><span class="cl">│       ├── issues.go
+</span></span><span class="line"><span class="cl">│       ├── issues_test.go
+</span></span><span class="line"><span class="cl">│       ├── pullrequests.go
+</span></span><span class="line"><span class="cl">│       ├── pullrequests_test.go
+</span></span><span class="line"><span class="cl">│       ├── tool_test.go
+</span></span><span class="line"><span class="cl">│       └── tools.go
+</span></span><span class="line"><span class="cl">└── main.go
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>整体结构上和go-zero的标准结构基本一致，main.go是程序的入口，etc下为mcp server的配置文件，其他的代码都放在internal下，为mcp server的私有代码，svc主要是一些初始化，比如数据库连接的初始化，这个项目在这里主要做github client的初始化，tools是这个项目的核心，所有的mcp tool核心逻辑都在这个package下实现。</p>
+<h2 id="入口">入口
+</h2><p>创建和启动mcp server，调用tools.NewToolset(mcpSrv, svcCtx)，实现工具的注册。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">logx</span><span class="p">.</span><span class="nf">DisableStat</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">c</span> <span class="nx">config</span><span class="p">.</span><span class="nx">Config</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">conf</span><span class="p">.</span><span class="nf">MustLoad</span><span class="p">(</span><span class="o">*</span><span class="nx">configFile</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">mcpSrv</span> <span class="o">:=</span> <span class="nx">mcp</span><span class="p">.</span><span class="nf">NewMcpServer</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">McpConf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">svcCtx</span> <span class="o">:=</span> <span class="nx">svc</span><span class="p">.</span><span class="nf">NewServiceContext</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tools</span><span class="p">.</span><span class="nf">NewToolset</span><span class="p">(</span><span class="nx">mcpSrv</span><span class="p">,</span> <span class="nx">svcCtx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Starting MCP Server on %s:%d\n&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">McpConf</span><span class="p">.</span><span class="nx">Host</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">McpConf</span><span class="p">.</span><span class="nx">Port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="资源初始化">资源初始化
+</h2><p>这里主要是初始化github client。使用github.com/google/go-github/v69/github实现。初始化github client需要传入token。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ServiceContext</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Config</span>       <span class="nx">config</span><span class="p">.</span><span class="nx">Config</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">GithubClient</span> <span class="o">*</span><span class="nx">github</span><span class="p">.</span><span class="nx">Client</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewServiceContext</span><span class="p">(</span><span class="nx">c</span> <span class="nx">config</span><span class="p">.</span><span class="nx">Config</span><span class="p">)</span> <span class="o">*</span><span class="nx">ServiceContext</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">ServiceContext</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Config</span><span class="p">:</span>       <span class="nx">c</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">GithubClient</span><span class="p">:</span> <span class="nx">github</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="kc">nil</span><span class="p">).</span><span class="nf">WithAuthToken</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Github</span><span class="p">.</span><span class="nx">Token</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="github-token获取">Github token获取
+</h3><ol>
+<li>点击右上角头像，再点击Settings。</li>
+</ol>
+<p><img src="/img/ai/d081824a3a54e33ec2fbf8b8b9443b87.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ol start="2">
+<li>
+<p>进入到Settings页面后，点击Developer settings</p>
+<p><img src="/img/ai/36e59eeaa35639f6a43354944c31c09a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>点击Personal access tokens，选择Generate new token，添加描述，然后根据需求选择对应的权限和过期时间，点击Generate Token即可生成。</p>
+</li>
+</ol>
+<p><img src="/img/ai/77da52fcd1251386cfeb160700d0922b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/80d231cb6e84a5d82c295f46fd53735c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="注册tools">注册Tools
+</h2><p>在addTools方法中，通过调用RegisterTool方法注册自定义的工具，在这里可以扩展任意多的工具。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewToolset</span><span class="p">(</span><span class="nx">mcpSrv</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">McpServer</span><span class="p">,</span> <span class="nx">svcCtx</span> <span class="o">*</span><span class="nx">svc</span><span class="p">.</span><span class="nx">ServiceContext</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">toolSet</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Toolset</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">svcCtx</span><span class="p">:</span> <span class="nx">svcCtx</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">mcpSrv</span><span class="p">:</span> <span class="nx">mcpSrv</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">toolSet</span><span class="p">.</span><span class="nf">addTools</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">Toolset</span><span class="p">)</span> <span class="nf">addTools</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">RegisterTool</span><span class="p">(</span><span class="nf">listIssuesTool</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">svcCtx</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">RegisterTool</span><span class="p">(</span><span class="nf">getIssueTool</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">svcCtx</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">RegisterTool</span><span class="p">(</span><span class="nf">createIssueTool</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">svcCtx</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nx">mcpSrv</span><span class="p">.</span><span class="nf">RegisterTool</span><span class="p">(</span><span class="nf">listPullRequests</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">svcCtx</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="tool开发">Tool开发
+</h2><p>以list_issues工具为例，来看如何开发一个mcp tool。list_issues工具功能是查看某个repo下的issues，主要包含如下几个部分：</p>
+<ul>
+<li>
+<p>• 定义工具名称：list_issues</p>
+</li>
+<li>
+<p>• 定义的工具描述：List issues in a GitHub repository. （描述的越准确越有助于AI正确定位该工具）</p>
+</li>
+<li>
+<p>• 输入schema的定义：实现该工具需要依赖哪些参数，比如我们这个工具就需要owner、repo等必要的参数，还有state、sort、direction等非必要参数，这些都需要通过schema来描述。</p>
+</li>
+<li>
+<p>• Handler定义：真正实现工具的逻辑，在Handler中首先定义了参数，然后解析参数，如果参数解析错误就需要返回错误。到这里大家是不是觉得很神奇呢？以前开发业务接口的时候都是通过API文档和前端协商好需要传递哪些参数，而现在只需要增加参数的描述信息，然后AI就知道需要传递哪些参数，想知道内部的原理，后续的文章再做介绍。</p>
+</li>
+<li>
+<p>• Tool逻辑：核心就是解析到参数后，调用github sdk把参数传递进去，拿到结果，这里其实就是我们非常熟悉的传统的开发方式了。拿到结果后返回给AI，最好明确告诉AI结果是正确的还是错误的，以便于AI根据结果正确的输出内容。</p>
+</li>
+</ul>
+<p>通过以上简单的几个步骤就实现了一个MCP Tool，是不是非常简单呢？好像也没啥新东西，都是我们非常熟悉的知识。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">listIssuesTool</span><span class="p">(</span><span class="nx">svcCtx</span> <span class="o">*</span><span class="nx">svc</span><span class="p">.</span><span class="nx">ServiceContext</span><span class="p">)</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">Tool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">listIssuesTool</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">params</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">)</span> <span class="p">(</span><span class="kt">any</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">req</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Owner</span>     <span class="kt">string</span>   <span class="s">`json:&#34;owner&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Repo</span>      <span class="kt">string</span>   <span class="s">`json:&#34;repo&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">State</span>     <span class="kt">string</span>   <span class="s">`json:&#34;state,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Labels</span>    <span class="p">[]</span><span class="kt">string</span><span class="s">`json:&#34;labels,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Sort</span>      <span class="kt">string</span>   <span class="s">`json:&#34;sort,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Direction</span> <span class="kt">string</span>   <span class="s">`json:&#34;direction,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Since</span>     <span class="kt">string</span>   <span class="s">`json:&#34;since,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Page</span>      <span class="kt">float64</span><span class="s">`json:&#34;page,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">PerPage</span>   <span class="kt">float64</span><span class="s">`json:&#34;perPage,optional&#34;`</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">err</span> <span class="o">:=</span> <span class="nx">mcp</span><span class="p">.</span><span class="nf">ParseArguments</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">req</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">returnnil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to parse arguments: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">sinceTime</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Since</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">sinceTime</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nf">parseISOTimestamp</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">Since</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">returnnil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to parse timestamp: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">opts</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">github</span><span class="p">.</span><span class="nx">IssueListByRepoOptions</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">State</span><span class="p">:</span>     <span class="nx">req</span><span class="p">.</span><span class="nx">State</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Labels</span><span class="p">:</span>    <span class="nx">req</span><span class="p">.</span><span class="nx">Labels</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Sort</span><span class="p">:</span>      <span class="nx">req</span><span class="p">.</span><span class="nx">Sort</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Direction</span><span class="p">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Direction</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Since</span><span class="p">:</span>     <span class="nx">sinceTime</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">ListOptions</span><span class="p">:</span> <span class="nx">github</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">Page</span><span class="p">:</span>    <span class="nb">int</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">Page</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">PerPage</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">PerPage</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nx">issues</span><span class="p">,</span> <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">svcCtx</span><span class="p">.</span><span class="nx">GithubClient</span><span class="p">.</span><span class="nx">Issues</span><span class="p">.</span><span class="nf">ListByRepo</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Owner</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">Repo</span><span class="p">,</span> <span class="nx">opts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">returnnil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to list issues: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">deferfunc</span><span class="p">()</span> <span class="p">{</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span> <span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">!=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">body</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">returnnil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to read response body: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">CallToolResult</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">Content</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Error: %s&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))},</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">IsError</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Marshal</span><span class="p">(</span><span class="nx">issues</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">returnnil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to marshal issue: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">CallToolResult</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Content</span><span class="p">:</span> <span class="p">[]</span><span class="kt">any</span><span class="p">{</span><span class="nx">r</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">IsError</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">Tool</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Name</span><span class="p">:</span>        <span class="s">&#34;list_issues&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Description</span><span class="p">:</span> <span class="s">&#34;List issues in a GitHub repository.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">InputSchema</span><span class="p">:</span> <span class="nx">mcp</span><span class="p">.</span><span class="nx">InputSchema</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Properties</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;owner&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Repository owner&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;repo&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Repository name&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;state&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;TFilter by state&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;enum&#34;</span><span class="p">:</span>        <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;open&#34;</span><span class="p">,</span> <span class="s">&#34;closed&#34;</span><span class="p">,</span> <span class="s">&#34;all&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;labels&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;array&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Filter by labels&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;items&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="s">&#34;type&#34;</span><span class="p">:</span> <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;sort&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Sort order&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;enum&#34;</span><span class="p">:</span>        <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;created&#34;</span><span class="p">,</span> <span class="s">&#34;updated&#34;</span><span class="p">,</span> <span class="s">&#34;comments&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;direction&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Sort direction&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;enum&#34;</span><span class="p">:</span>        <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;asc&#34;</span><span class="p">,</span> <span class="s">&#34;desc&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;since&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Filter by date (ISO 8601 timestamp)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;page&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;number&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Page number for pagination (min 1)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;minimum&#34;</span><span class="p">:</span>     <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;perPage&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;type&#34;</span><span class="p">:</span>        <span class="s">&#34;number&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;description&#34;</span><span class="p">:</span> <span class="s">&#34;Results per page for pagination (min 1, max 100)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;minimum&#34;</span><span class="p">:</span>     <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s">&#34;maximum&#34;</span><span class="p">:</span>     <span class="mi">100</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">Required</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="s">&#34;repo&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Handler</span><span class="p">:</span> <span class="nx">listIssuesTool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启动mcp-server">启动MCP Server
+</h2><p>执行go run main.go启动服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Starting MCP Server on 0.0.0.0:8000
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;@timestamp&#34;</span>:<span class="s2">&#34;2025-05-10T13:39:48.001+08:00&#34;</span>,<span class="s2">&#34;caller&#34;</span>:<span class="s2">&#34;mcp/server.go:265&#34;</span>,<span class="s2">&#34;content&#34;</span>:<span class="s2">&#34;New SSE connection established for client fd55b8f8-73a9-4e8a-a00f-125bc14d41e2 (active clients: 1)&#34;</span>,<span class="s2">&#34;level&#34;</span>:<span class="s2">&#34;info&#34;</span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cline插件在Vscode中安装Cline插件，这个步骤非常简单，自行搜索教程即可。安装后在左侧导航栏会有Cline的图标。接下来需要做两个动作：一是要配置大模型，二是要配置MCP Server。</p>
+<h2 id="llm配置">LLM配置
+</h2><p>配置流程如下：</p>
+<ul>
+<li>
+<p>点击左侧导航栏的Cline图标</p>
+</li>
+<li>
+<p>在弹出的对话框中，点击右上角的设置图标</p>
+</li>
+<li>
+<p>点击API Provider，下拉框中有很多LLM可以选择，这里选择的是大家都非常熟悉的DeepSeek</p>
+</li>
+<li>
+<p>填入模型的API KEY即可，模型的API KEY获取请参考对应模型的文档</p>
+</li>
+<li>
+<p>点击右上角的Save按钮保存，配置完成</p>
+</li>
+</ul>
+<p><img src="/img/ai/5558f8b47a892b6f926696e8dbebd343.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="mcp-server配置">MCP Server配置
+</h2><p>配置流程如下：</p>
+<ul>
+<li>
+<p>点击对话框右上角的工具按钮</p>
+</li>
+<li>
+<p>在弹出的MCP Server页面中，选择Remote Servers</p>
+</li>
+<li>
+<p>点击Edit Configuration按钮，通过配置文件的方式添加MCP Server，文件中可以添加多个MCP Server</p>
+</li>
+<li>
+<p>定义个名称(github)，url为mcp server的地址，autoApprove可以输入对应的工具名称，要不然每次调用工具的时候都需要确认</p>
+</li>
+<li>
+<p>配置如下内容如下：</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;github&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span><span class="s2">&#34;http://localhost:8000/sse&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:{},</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;autoApprove&#34;</span><span class="p">:[],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;disabled&#34;</span><span class="p">:</span><span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/1c3bc432a6212e9b9873040a4892ea32.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>切换到Installed Tab下，可以看到已经安装的MCP Server，同时这里还会列出MCP Server提供的工具，以及参数信息等。通过点击红框出的按钮可以切换该MCP Server的启动和关闭状态。</p>
+<p><img src="/img/ai/2478909b70570862e08f13a3950775e9.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="效果验证">效果验证
+</h1><p>经过了MCP Server的开发，Cline大模型和MCP Server的配置后，终于可以来进行效果验证了。</p>
+<p>点击右上角的+号按钮，打开一个新的对话窗口，在聊天框中输入内容 “查看zhoushuguang/beyond这个repo下的issue” ，我们想查看这个仓库下有哪些issue。</p>
+<p>大模型自动识别出当前已经有github相关的工具list_issues，并且自动拼装了owner和repo参数，到这里会停住，需要我们手动确认调用该工具，如果默认允许调用的话勾选Auto-approve即可，后续就会自动调用。</p>
+<p><img src="/img/ai/431d0bca04834817336179b2ec01e895.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>大模型把工具返回的结果进行分析后返回给用户，包括了issue的id，创建时间，作者，甚至还贴出了链接，非常的人性化。</p>
+<p><img src="/img/ai/0ac14cf193c5487d6424a1526c399beb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>再试一下创建issue，内容是 “在zhoushuguang/beyond这个repo下创建一个issue，标题是：这是mcp-github测试的issue，内容是：这是mcp-github测试的issue”。</p>
+<p><img src="/img/ai/d7f0c18f0a65a6917d96b71e7abf7893.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>打开github仓库，查看issue，果然新创建了一个id为56的issue。</p>
+<p><img src="/img/ai/d1989dd8d8645c3d90146ef53da483ea.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="总结">总结
+</h1><p>本次实战和大家一起使用go-zero开发了一个关于github操作的mcp-server，并且借助cline验证了效果。MCP的出现使得大模型调用外部工具更加规范和方便，通过自然语言结合MCP就能够让大模型为我真正的工作，而不仅仅局限在和大模型聊天上。</p>
+<p>希望本次实战能给大家带来一点点收获，也感受到大模型和MCP的魅力，后续将持续分享AI相关技术。</p>
+<p>代码地址：https://github.com/zhoushuguang/zero-mcp-github</p>
+<h2 id="项目地址">项目地址
+</h2><p><a class="link" href="https://github.com/zeromicro/go-zero"  target="_blank" rel="noopener"
+    >https://github.com/zeromicro/go-zero</a></p>
+<p> </p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/github/">GitHub</a>
+        
+            <a href="/tags/go-zero/">Go-Zero</a>
+        
+            <a href="/tags/ai/">AI</a>
+        
+            <a href="/tags/cline/">Cline</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-go-zero-mcp-%E8%AF%BB%E5%8F%96%E8%B5%84%E6%BA%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 go-zero MCP 读取资源</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的新传输层 - Streamable HTTP 协议详解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP-Scan 介绍：使用不变量保护 MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/go-zero-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91-mcp-%E5%BA%94%E7%94%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/21c4cf113c60e6811ba2e430cae9d8e7.jpeg" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/21c4cf113c60e6811ba2e430cae9d8e7.jpeg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go-zero 快速开发 MCP 应用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/nacos-3.0-%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83mcp-registry%E5%AE%89%E5%85%A8%E9%9B%B6%E4%BF%A1%E4%BB%BB%E9%93%BE%E6%8E%A5%E6%9B%B4%E5%A4%9A%E7%94%9F%E6%80%81/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Nacos 3.0 正式发布：MCP Registry、安全零信任、链接更多生态</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="研究揭示了一种新的AI越狱方法，仅需20步以内即可攻破多个大模型，包括GPT-4。">
+<title>20步内越狱任意大模型！更多“奶奶漏洞”全自动发现</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/20%E6%AD%A5%E5%86%85%E8%B6%8A%E7%8B%B1%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9B%B4%E5%A4%9A%E5%A5%B6%E5%A5%B6%E6%BC%8F%E6%B4%9E%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="20步内越狱任意大模型！更多“奶奶漏洞”全自动发现">
+<meta property='og:description' content="研究揭示了一种新的AI越狱方法，仅需20步以内即可攻破多个大模型，包括GPT-4。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/20%E6%AD%A5%E5%86%85%E8%B6%8A%E7%8B%B1%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9B%B4%E5%A4%9A%E5%A5%B6%E5%A5%B6%E6%BC%8F%E6%B4%9E%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='大模型' /><meta property='article:tag' content='越狱' /><meta property='article:tag' content='AI安全' /><meta property='article:tag' content='PAIR算法' /><meta property='article:tag' content='漏洞' /><meta property='article:published_time' content='2023-11-05T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-11-05T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="20步内越狱任意大模型！更多“奶奶漏洞”全自动发现">
+<meta name="twitter:description" content="研究揭示了一种新的AI越狱方法，仅需20步以内即可攻破多个大模型，包括GPT-4。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#让大模型集体越狱">让大模型集体越狱</a></li>
+    <li><a href="#gpt-4也没能逃过">GPT-4也没能逃过</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+            <a href="/categories/%E5%AE%89%E5%85%A8/" >
+                安全
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/20%E6%AD%A5%E5%86%85%E8%B6%8A%E7%8B%B1%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9B%B4%E5%A4%9A%E5%A5%B6%E5%A5%B6%E6%BC%8F%E6%B4%9E%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/">20步内越狱任意大模型！更多“奶奶漏洞”全自动发现</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            研究揭示了一种新的AI越狱方法，仅需20步以内即可攻破多个大模型，包括GPT-4。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>核心内容:</strong></p>
+<ul>
+<li>PAIR算法通过两个黑盒模型的互动，实现AI自动攻陷AI，绕过安全限制。</li>
+<li>该方法无需人工参与，效率比传统token攻击提高5个量级，且攻击可解释性强。</li>
+<li>实验表明，PAIR算法能成功越狱包括GPT-3.5、GPT-4、Vicuna、PaLM-2等多个大模型，成功率高达60-100%。</li>
+</ul>
+<p><strong>源自</strong> |  量子位   2023-11-05 12:32</p>
+<p>1分钟不到、20步以内“越狱”任意大模型，绕过安全限制！</p>
+<p>而且不必知道模型内部细节——</p>
+<p>只需要两个<strong>黑盒模型</strong>互动，就能让AI全自动攻陷AI，说出危险内容。</p>
+<p><img src="/img/ai/818e202aee8e182094463d506d2c3e0e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>听说曾经红极一时的“奶奶漏洞”已经被修复了:</p>
+<p><img src="/img/ai/d16459758bbc4b405c7e337d807393d6.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>那么现在搬出“侦探漏洞”、“冒险家漏洞”、“作家漏洞”，AI又该如何应对？</p>
+<p><img src="/img/ai/bc7e8ca1015bdbb71e80c88f4a13a188.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>一波猛攻下来，GPT-4也遭不住，直接说出要给供水系统投毒只要……这样那样。</p>
+<p>关键这只是宾夕法尼亚大学研究团队晒出的一小波漏洞，而用上他们最新开发的算法，AI可以自动生成各种攻击提示。</p>
+<p>研究人员表示，这种方法相比于<a class="link" href="http://mp.weixin.qq.com/s?__biz=MzIzNjc1NzUzMw==&amp;mid=2247688503&amp;idx=5&amp;sn=2e15956311fb82db5d23d84663e48c77&amp;chksm=e8df5645dfa8df53817bf1d26aed8bb53607b9e295dc118c71beb1221424a4271dfb241a049e&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >现有的GCG等基于token的攻击方法</a> ，效率提高了5个量级。而且生成的攻击可解释性强，谁都能看懂，还能迁移到其它模型。</p>
+<p>无论是开源模型还是闭源模型，GPT-3.5、GPT-4、 Vicuna（Llama 2变种）、PaLM-2等，一个都跑不掉。</p>
+<p>成功率可达60-100%，拿下新SOTA。</p>
+<p>话说，这种对话模式好像有些似曾相识。多年前的初代AI，20个问题之内就能破解人类脑中想的是什么对象。</p>
+<p>如今轮到AI来破解AI了。<img src="/img/ai/1294ed15d618af41de3829845bf27141."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/f8748abd42991721f9790e31e7c3231e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="让大模型集体越狱">让大模型集体越狱
+</h2><p>目前主流越狱攻击方法有两类，一种是提示级攻击，一般需要人工策划，而且不可扩展；</p>
+<p>另一种是基于token的攻击，有的需要超十万次对话，且需要访问模型内部，<br>
+还包含“乱码”不可解释。</p>
+<p>宾夕法尼亚大学研究团队提出了一种叫<strong>PAIR</strong>（Prompt Automatic Iterative Refinement）的算法，不需要任何人工参与，是一种全自动提示攻击方法。</p>
+<p><img src="/img/ai/517dc876aef762c11a33262298005d4a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>PAIR涉及四个主要步骤：攻击生成、目标响应、越狱评分和迭代细化；主要用到两个黑盒模型：攻击模型、目标模型。</p>
+<p>具体来说，攻击模型需要自动生成语义级别的提示，来攻破目标模型的安全防线，迫使其生成有害内容。</p>
+<p>核心思路是让两个模型相互对抗、你来我往地交流。</p>
+<p>攻击模型会自动生成一个候选提示，然后输入到目标模型中，得到目标模型的回复。</p>
+<p>如果这次回复没有成功攻破目标模型，那么攻击模型会分析这次失败的原因，改进并生成一个新的提示，再输入到目标模型中。</p>
+<p><img src="/img/ai/89aae471cea507667c80f9036be9b345.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>这样持续交流多轮，攻击模型每次根据上一次的结果来迭代优化提示，直到生成一个成功的提示将目标模型攻破。</p>
+<p>此外，迭代过程还可以并行，也就是可以<strong>同时运行多个对话</strong>，从而产生多个候选越狱提示，进一步提高了效率。</p>
+<p>研究人员表示，由于两个模型都是黑盒模型，所以攻击者和目标对象可以用各种语言模型自由组合。</p>
+<p>PAIR不需要知道它们内部的具体结构和参数，只需要API即可，因此适用范围非常广。</p>
+<h2 id="gpt-4也没能逃过">GPT-4也没能逃过
+</h2><p>实验阶段，研究人员在有害行为数据集AdvBench中选出了一个具有代表性的、包含50个不同类型任务的测试集，在多种开源和闭源大语言模型上测试了PAIR算法。</p>
+<p>结果PAIR算法让Vicuna越狱成功率达到了100%，平均不到12步就能攻破。</p>
+<p><img src="/img/ai/7130e65dd6928487c394d372c9165400.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>闭源模型中，GPT-3.5和GPT-4越狱成功率在60%左右，平均用了不到20步。在PaLM-2上成功率达到72%，步数约为15步。</p>
+<p>但是PAIR在Llama-2和Claude上的效果较差，研究人员认为这可能是因为这些模型在安全防御上做了更为严格的微调。</p>
+<p>他们还比较了不同目标模型的可转移性。结果显示，PAIR的GPT-4提示在Vicuna和PaLM-2上转移效果较好。</p>
+<p><img src="/img/ai/c7f9bf4567a7fae1f2646992854656ec.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>研究人员认为，PAIR生成的语义攻击更能暴露语言模型固有的安全缺陷，而现有的安全措施更侧重防御基于token的攻击。</p>
+<p>就比如开发出GCG算法的团队，将研究结果分享给OpenAI、Anthropic和Google等大模型厂商后，相关模型修复了token级攻击漏洞。</p>
+<p><img src="/img/ai/becaa124c41374eabed946e727b9e4ab.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>大模型针对语义攻击的安全防御机制还有待完善。</p>
+<p>论文链接：https://arxiv.org/abs/2310.08419</p>
+<p>参考链接：https://x.com/llm_sec/status/1718932383959752869?s=20</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+        
+            <a href="/tags/%E8%B6%8A%E7%8B%B1/">越狱</a>
+        
+            <a href="/tags/ai%E5%AE%89%E5%85%A8/">AI安全</a>
+        
+            <a href="/tags/pair%E7%AE%97%E6%B3%95/">PAIR算法</a>
+        
+            <a href="/tags/%E6%BC%8F%E6%B4%9E/">漏洞</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E9%9B%86%E6%88%9011%E7%A7%8D%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95%E5%A4%8D%E6%97%A6%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BB%E6%A1%86%E6%9E%B6%E6%8F%AD%E7%A4%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E5%AE%89%E5%85%A8%E6%80%A7%E7%9A%84%E6%96%B0%E8%A7%84%E5%BE%8B/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">集成11种越狱攻击方法，复旦团队开发越狱攻击框架，揭示大模型参数量和安全性的新规律</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E4%B8%80%E5%88%87%E9%83%BD%E5%87%BA%E9%94%99%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的一切都出错了</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ai-agent%E7%A0%B4%E5%B1%80mcp%E4%B8%8Ea2a%E5%AE%9A%E4%B9%89%E5%AE%89%E5%85%A8%E6%96%B0%E8%BE%B9%E7%95%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent破局：MCP与A2A定义安全新边界</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP-Scan 介绍：使用不变量保护 MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%BC%AB%E7%94%BB%E6%9C%80%E8%BF%91%E7%88%86%E7%81%AB%E7%9A%84mcp%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E5%95%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大模型漫画：最近爆火的MCP到底是个啥？</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
