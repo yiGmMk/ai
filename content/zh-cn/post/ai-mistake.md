@@ -2,7 +2,7 @@
 title: "被AI误伤，我该怎么证明“我没有用AI作弊”？"
 date: "2025-05-26"
 tags: ["AI作弊", "学术诚信", "AI检测", "教育", "自证清白"]
-categories: ["教育", "人工智能"]
+categories: ["教育","AI", "人工智能"]
 description: "探讨了在AI技术普及的背景下，学生如何应对被AI检测误判作弊的困境，以及教育系统面临的挑战。"
 author: "zJz"
 image: ""
