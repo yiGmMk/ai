@@ -72,3 +72,4 @@
 [√] 刚刚，SpaceX星舰第九次试飞失败∕小米总裁：SU7没有对手，一个能打的也没有∕腾讯客服辟谣朋友圈访客记录.md
 [√] ai-EasyJailbreak.md
 [√] ai-mistake.md
+[√] ai-jailbreak-1.md
