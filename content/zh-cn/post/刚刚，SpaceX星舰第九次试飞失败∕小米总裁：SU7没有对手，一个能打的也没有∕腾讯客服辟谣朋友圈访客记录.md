@@ -9,20 +9,18 @@ image: "https://ai.programnotes.cn/img/ai/52474d01e0d3b3f43ba0e367ff1a8d4e."
 ---
 
 核心内容:
-    - SpaceX 星舰第九次试飞任务失败。
-    - 小米总裁卢伟冰表示 SU7 没有竞争对手，且 YU7 上市不会影响 SU7 销量。
-    - 腾讯客服辟谣朋友圈访客记录功能。
+- 🛰️ SpaceX 星舰第九次试飞任务失败
+- 🚀 小米总裁卢伟冰表示 SU7 没有竞争对手，且 YU7 上市不会影响 SU7 销量。
+- 腾讯客服辟谣朋友圈访客记录功能。
+- 🤖 Meta Llama 团队被曝分崩离析，多位研究员加入 Mistral
+- 💻 我国首个软件开发 AI 智能体标准发布
+- 👓 开启后智能手机时代，雷鸟 X3 Pro AR 眼镜发布
+- ☕ 瑞幸咖啡接入豆包大模型
 
 发现明日产品的APPSO 2025-05-28 08:53
 
 ![appso 头图](https://ai.programnotes.cn/img/ai/211a0e22068680ce77272853eded5961.)
 
-🚀 小米卢伟冰：小米 YU7 上市不会影响 SU7 销量，后者也不会降价
-🛰️ SpaceX 星舰第九次试飞任务失败
-🤖 Meta Llama 团队被曝分崩离析，多位研究员加入 Mistral
-💻 我国首个软件开发 AI 智能体标准发布
-👓 开启后智能手机时代，雷鸟 X3 Pro AR 眼镜发布
-☕ 瑞幸咖啡接入豆包大模型
 ### 小米卢伟冰：小米 YU7 上市不会影响 SU7 销量，后者也不会降价
 
 ![](https://ai.programnotes.cn/img/ai/2fd48f49b20d63c216b9e872a04ae01a.)
