@@ -73,3 +73,4 @@
 [√] ai-EasyJailbreak.md
 [√] ai-mistake.md
 [√] ai-jailbreak-1.md
+[√] go-word-tool.md
