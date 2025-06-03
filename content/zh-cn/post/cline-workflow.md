@@ -172,7 +172,7 @@ You have access to the `gh` terminal command. I already authenticated it for you
 
     Please make these changes and we can merge this.
     EOF
-```
+````
 
 当我收到一个新的PR需要审查时，过去我总是手动收集上下文：查看PR描述、检查代码差异、浏览相关文件，最后形成自己的意见。现在我只需：
 
