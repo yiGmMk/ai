@@ -74,3 +74,5 @@
 [√] ai-mistake.md
 [√] ai-jailbreak-1.md
 [√] go-word-tool.md
+[√] trump-bitcoin.md
+[√] ai-deepseel-miniprogram.md
