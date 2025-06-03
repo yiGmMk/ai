@@ -7,22 +7,22 @@ Description: "了解如何使用 Cline 规则为 Cline 提供系统级指导，�
 author: "YiGmMk"
 image: ""
 ---
-Cline 规则允许你为 Cline 提供系统级别的指导。可以将它们看作是为你的项目或全局地为每次对话包含上下文和偏好的持久方式。
+
+Cline 规则(Rules)允许你为 Cline 提供系统级别的指导。可以将它们看作是持久为你的项目或全局地为每次对话添加上下文和偏好的方式。
 
 ## 创建规则
 
-你可以通过点击“规则”选项卡中的“+”按钮来创建规则。这将在你的 IDE 中打开一个新文件，你可以使用它来编写你的规则。
+你可以通过点击“Rules”选项卡中的“+”按钮来创建规则。这将在你的 IDE 中打开一个新文件，你可以使用它来编写你的规则。
 
-<Frame>
-  <img src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-rules.png" alt="Create a Rule" />
-</Frame>
+![创建 Rules](https://ai.programnotes.cn/img/ai/mcp/cline-rules1.png)
+
 
 一旦你保存了文件：
 
 * 你的规则将被存储在你的项目中的 `.clinerules/` 目录中（如果它是一个工作区规则）。
 * 或者在 `Documents/Cline/Rules` 目录中（如果它是一个全局规则）。
 
-你也可以通过在聊天中使用 [`/newrule` 斜杠命令](/features/slash-commands/new-rule) 让 Cline 为你创建一个规则。
+你也可以通过在聊天中使用 [`/newrule` 斜杠命令](https://docs.cline.bot/features/slash-commands/new-rule) 让 Cline 为你创建一个规则。
 
 ```markdown Example Cline Rule Structure [expandable]
 # Project Guidelines
@@ -166,6 +166,4 @@ cp clinerules-bank/frameworks/react.md .clinerules/
 
 此 UI 极大地简化了上下文切换和管理不同指令集的过程，无需在对话期间手动编辑文件或配置。
 
-<Frame>
-  <img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1).png" alt="Cline Logo" />
-</Frame>
+![Rules](https://ai.programnotes.cn/img/ai/mcp/cline-rules2.png)

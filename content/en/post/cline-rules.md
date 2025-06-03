@@ -13,10 +13,7 @@ Cline Rules allow you to provide Cline with system-level guidance. Think of them
 
 You can create a rule by clicking the `+` button in the Rules tab. This will open a new file in your IDE which you can use to write your rule.
 
-<Frame>
-  <img src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-rules.png" alt="Create a Rule" />
-</Frame>
-
+![Rules](https://ai.programnotes.cn/img/ai/mcp/cline-rules1.png)
 Once you save the file:
 
 * Your rule will be stored in the `.clinerules/` directory in your project (if it's a Workspace Rule)
@@ -166,6 +163,4 @@ Located conveniently under the chat input field, this popover allows you to:
 
 This UI significantly simplifies switching contexts and managing different sets of instructions without needing to manually edit files or configurations during a conversation.
 
-<Frame>
-  <img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1).png" alt="Cline Logo" />
-</Frame>
+![Rules](https://ai.programnotes.cn/img/ai/mcp/cline-rules2.png)
