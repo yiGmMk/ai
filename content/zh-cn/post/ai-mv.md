@@ -16,7 +16,7 @@ AI 技术使用：
 - 实拍效果模拟：基于 **Veo 3** 实现
 - 二次元动漫风格：由 **Vidu AI** 生成
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114619708345454&bvid=BV1La7hzCEiy&cid=30304239926&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+{{< bilibili BV1La7hzCEiy >}}
 
 完整技术细节可以查看[汉青HQ](https://x.com/hq4ai/status/1929887309358629016 "汉青团队X账号")的推文
 
