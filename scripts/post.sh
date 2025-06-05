@@ -76,9 +76,9 @@
 [√] go-word-tool.md
 [√] trump-bitcoin.md
 [√] ai-deepseel-miniprogram.md
-ai-n8n-introduce-1.md
-ai-n8n-Supabase.md
-ai-n8n-nas.md
-ai-n8n-deepseek.md
-ai-n8n-feishu.md
-ai-n8n-mcp.md
+[√] ai-n8n-introduce-1.md
+[√] ai-n8n-Supabase.md
+[√] ai-n8n-nas.md
+[√] ai-n8n-deepseek.md
+[√] ai-n8n-feishu.md
+[√] ai-n8n-mcp.md
