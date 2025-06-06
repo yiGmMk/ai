@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文深入解析 Model Context Protocol (MCP) 协议，比较 STDIO 和 SSE 两种传输方式，并探讨函数计算平台如何作为理想的 MCP Server 计算底座。">
+<title>MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配">
+<meta property='og:description' content="本文深入解析 Model Context Protocol (MCP) 协议，比较 STDIO 和 SSE 两种传输方式，并探讨函数计算平台如何作为理想的 MCP Server 计算底座。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='Serverless' /><meta property='article:tag' content='函数计算' /><meta property='article:tag' content='SSE' /><meta property='article:tag' content='STDIO' /><meta property='article:tag' content='JSON-RPC' /><meta property='article:tag' content='大模型' /><meta property='article:tag' content='AI' /><meta property='article:published_time' content='2025-04-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-27T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png' />
+<meta name="twitter:title" content="MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配">
+<meta name="twitter:description" content="本文深入解析 Model Context Protocol (MCP) 协议，比较 STDIO 和 SSE 两种传输方式，并探讨函数计算平台如何作为理想的 MCP Server 计算底座。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是-mcp"><strong>什么是 MCP?</strong></a></li>
+    <li><a href="#mcp-协议解析"><strong>MCP 协议解析</strong></a></li>
+    <li><a href="#相关链接">相关链接：</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" loading="lazy" alt="Featured image of post MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/serverless/" >
+                Serverless
+            </a>
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/">MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文深入解析 Model Context Protocol (MCP) 协议，比较 STDIO 和 SSE 两种传输方式，并探讨函数计算平台如何作为理想的 MCP Server 计算底座。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 27, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 13 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容点1: MCP协议解析，包括STDIO和SSE两种传输方式的比较。
+核心内容点2: 函数计算平台作为MCP Server的优势，解决分布式系统复杂性、资源限制和安全挑战。
+核心内容点3:  MCP技术演进方向预测，包括协议架构升级、通用性扩展、新交互模式和生态系统扩展。</p>
+<p><strong>源自</strong> | 西流  Serverless   2025-04-27 18:02</p>
+<p>在人工智能技术高速发展的今天，数据孤岛、工具碎片化、上下文割裂问题已成为制约大模型发挥潜力的关键瓶颈。Model Context Protocol（MCP）作为 Anthropic 于 2024 年推出的开源协议，正引领着 AI 与数据交互的标准化进程。MCP 通过构建 Client-Server 架构，将大型语言模型（LLM）与分散的垂类数据源无缝连接，不仅解决了传统开发中&quot;一事一议&quot;的高成本难题，更通过 JSON-RPC 通信机制实现了跨平台互操作。其创新性体现在工具（Tools）、资源（Resources）、提示（Prompts）等五大核心原语的设计，使得 AI 应用既能安全访问本地数据库，又可灵活调用云端 API。</p>
+<p><strong>作为 AI 领域的&quot;USB-C 接口&quot;，MCP 正重构智能系统与数字世界的连接方式，为下一代自主智能体的发展奠定技术基石。</strong></p>
+<p>然而 MCP Server 在真实部署中面临分布式系统复杂性、资源限制（如连接池/超时控制）及长连接身份验证等安全挑战。函数计算平台通过协议原生支持与架构级优化（如自动扩缩容、会话持久化机制），系统性化解技术痛点，成为承载 MCP Server 的理想计算底座。 <br>
+本系列将从技术原理到实战场景，深入解析函数计算如何攻克上述难题——本文作为开篇，将揭示 MCP 协议深度解析和云上最佳适配。</p>
+<p><img src="/img/ai/3f106fa3b49058bdffcdf84db7dfc4af.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片,MCP Timeline"
+	
+	
+></p>
+<h2 id="什么是-mcp"><strong>什么是 MCP?</strong>
+</h2><p><img src="/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>MCP Clearly Explained [1]</p>
+<p>MCP 引入堪称 AI 协作的 USB-C 接口，其建立了通用的数据交互标准，数据提供者可以通过 MCP 服务器向 AI 系统提供结构化信息，而 AI 系统则可通过 MCP 客户端高效访问这些信息。</p>
+<ul>
+<li>
+<p>MCP Host（如 Claude Desktop、Cursor IDE、Cline）可视作一个 AI Agent，通过 LLM 实现意图解析与任务编排，协调 MCP Server 执行原子化子任务，同时维护全生命周期对话管理，是整个系统的启动入口。</p>
+</li>
+<li>
+<p>MCP Server 提供特定功能（工具、数据访问、领域提示）的外部程序，连接到 Google Drive、Github、数据库和 Web 浏览器等各种数据源），就像工具箱中的工具，每个服务器都专注于特定任务，这种设计使得在不破坏整个系统的情况下，可以轻松地替换或升级单个组件，能让大模型能很好地理解工具的功能范围及使用方法。</p>
+</li>
+<li>
+<p>MCP Client 是 MCP Host 引用的中间件，负责与 MCP Server 建立连接，处理STDIO/SSE 等<br>
+通信协议、消息格式化和状态管理，确保人工智能模型与服务器之间进行可靠且安全的通信。</p>
+</li>
+</ul>
+<p>MCP 协议已经成为大语言模型（LLM）生态系统中不可或缺的核心组件，其解决了流式响应、实时交互、工具调用等场景中的众多技术挑战：</p>
+<p>a.流式传输优先：采用增量传输而非整体响应</p>
+<p><strong>b. 协议一致性</strong> ：保证不同模型实现间的互操作性</p>
+<p><strong>c. 低延迟高效率</strong>：最小化传输开销和响应时间</p>
+<p><strong>d. 可扩展性</strong>：支持未来新功能的无缝集成</p>
+<h2 id="mcp-协议解析"><strong>MCP 协议解析</strong>
+</h2><p>01 生命周期</p>
+<p><img src="/img/ai/66348da8788c0eeccccf977af0df6e06.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>MCP LifyCycle [2]</p>
+<p>02 传输方式</p>
+<p>MCP 使用 JSON-RPC 来编码消息。JSON-RPC 消息必须使用 UTF-8 编码，协议目前定义了两种用于客户端-服务器通信的标准传输机制：</p>
+<ul>
+<li>STDIO，通过标准输入和标准输出进行通信</li>
+</ul>
+<ol start="2">
+<li>SSE,HTTP 与服务器发送事件</li>
+</ol>
+<p><strong>STDIO</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[客户端] → stdin请求 → [MCP服务器] → stdout响应 → [客户端]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>STDIO（标准输入输出）是 MCP 协议在本地或容器化环境中的主要实现方式。在技术层面，其工作原理如下：</p>
+<p><strong>- 进程间通信机制</strong>  ：MCP 利用操作系统提供的标准 IO 流（文件描述符 0 [stdin]、1 [stdout]）在进程间传递数据</p>
+<p><strong>JSON 序列化</strong> ：消息以 JSON 格式序列化，每行一个完整的 JSON 对象</p>
+<p>在本地计算环境或容器化部署场景中，基于 STDIO 的实现通常会被打包为独立的二进制可执行文件。不同技术栈的实现形态各具特色：</p>
+<ul>
+<li>
+<p>Node.js 生态通常通过 npx 提供，例如 &ldquo;npx -y  @amap/amap-maps-mcp-server&rdquo;</p>
+</li>
+<li>
+<p>Python 生态则以 uvx 提供,  例如 &ldquo;uvx mcp-server-time &ndash;local-timezone=Asia/Shanghai&rdquo;</p>
+</li>
+</ul>
+<p>这种交付方式不仅简化了部署流程，还显著降低了环境依赖和配置的复杂性，使得跨平台部署变得极其轻量和高效。STDIO 以 JSON 行（JSON Lines/JSONL）格式进行通信，一个典型的交互流程如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdin&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:0,</span><span class="se">\&#34;</span><span class="s2">method</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">initialize</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">params</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">protocolVersion</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2024-11-05</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">capabilities</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">sampling</span><span class="se">\&#34;</span><span class="s2">:{},</span><span class="se">\&#34;</span><span class="s2">roots</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">listChanged</span><span class="se">\&#34;</span><span class="s2">:true}},</span><span class="se">\&#34;</span><span class="s2">clientInfo</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">name</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">mcp-inspector</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">version</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">0.7.0</span><span class="se">\&#34;</span><span class="s2">}}}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:13.505Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;npm run build-server&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:13.530Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;&gt; @modelcontextprotocol/server-filesystem@0.6.2 build-server</span><span class="se">\n</span><span class="s2">&gt; webpack --config webpack.config.js --env target=server&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:13.707Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;asset index.js 286 KiB [compared for emit] (name: main) 1 related asset</span><span class="se">\n</span><span class="s2">orphan modules 288 KiB [orphan] 48 modules</span><span class="se">\n</span><span class="s2">./server.ts + 47 modules 291 KiB [not cacheable] [built] [code generated]</span><span class="se">\n</span><span class="s2">webpack 5.98.0 compiled successfully in 618 ms&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:15.007Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;node dist/server/index.js&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:15.017Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;start server&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:15.053Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">result</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">protocolVersion</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2024-11-05</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">capabilities</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">tools</span><span class="se">\&#34;</span><span class="s2">:{},</span><span class="se">\&#34;</span><span class="s2">resources</span><span class="se">\&#34;</span><span class="s2">:{}},</span><span class="se">\&#34;</span><span class="s2">serverInfo</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">name</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">example-server</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">version</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">-0.0</span><span class="se">\&#34;</span><span class="s2">}},</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:0}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:15.056Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdin&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">method</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">notifications/initialized</span><span class="se">\&#34;</span><span class="s2">}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:15.064Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdin&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:1,</span><span class="se">\&#34;</span><span class="s2">method</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">tools/list</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">params</span><span class="se">\&#34;</span><span class="s2">:{}}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:2-855Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">result</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">tools</span><span class="se">\&#34;</span><span class="s2">:[{</span><span class="se">\&#34;</span><span class="s2">name</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">add</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">description</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">calc ohyee&#39;s add a and b</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">inputSchema</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">type</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">object</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">properties</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">a</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">type</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">number</span><span class="se">\&#34;</span><span class="s2">},</span><span class="se">\&#34;</span><span class="s2">b</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">type</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">number</span><span class="se">\&#34;</span><span class="s2">}},</span><span class="se">\&#34;</span><span class="s2">required</span><span class="se">\&#34;</span><span class="s2">:[</span><span class="se">\&#34;</span><span class="s2">a</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">b</span><span class="se">\&#34;</span><span class="s2">],</span><span class="se">\&#34;</span><span class="s2">additionalProperties</span><span class="se">\&#34;</span><span class="s2">:false,</span><span class="se">\&#34;</span><span class="s2">$schema</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">http://json-schema.org/draft-07/schema#</span><span class="se">\&#34;</span><span class="s2">}}]},</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:1}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:2-858Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdin&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:2,</span><span class="se">\&#34;</span><span class="s2">method</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">tools/call</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">params</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">_meta</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">progressToken</span><span class="se">\&#34;</span><span class="s2">:0},</span><span class="se">\&#34;</span><span class="s2">name</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">add</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">arguments</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">a</span><span class="se">\&#34;</span><span class="s2">:1,</span><span class="se">\&#34;</span><span class="s2">b</span><span class="se">\&#34;</span><span class="s2">:2}}}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:24.869Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;get 1 + 2&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:24.873Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;stdout&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;{</span><span class="se">\&#34;</span><span class="s2">result</span><span class="se">\&#34;</span><span class="s2">:{</span><span class="se">\&#34;</span><span class="s2">content</span><span class="se">\&#34;</span><span class="s2">:[{</span><span class="se">\&#34;</span><span class="s2">type</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">text</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">text</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">4</span><span class="se">\&#34;</span><span class="s2">}]},</span><span class="se">\&#34;</span><span class="s2">jsonrpc</span><span class="se">\&#34;</span><span class="s2">:</span><span class="se">\&#34;</span><span class="s2">2.0</span><span class="se">\&#34;</span><span class="s2">,</span><span class="se">\&#34;</span><span class="s2">id</span><span class="se">\&#34;</span><span class="s2">:2}&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:24.873Z&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;interrupt&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;Process interrupted by user&#34;</span><span class="p">,</span><span class="s2">&#34;timestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2025-03-31T01:55:42.514Z&#34;</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>TIPS：</strong></p>
+<p>开发 STDIO MCP Server 期间,  将调试日志打印到文件描述符 2 [stderr] 是一个不错的实践。</p>
+<p><strong>SSE</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                HTTP POST请求
+</span></span><span class="line"><span class="cl">              ↗---------------→
+</span></span><span class="line"><span class="cl">[客户端]                            [MCP服务器]
+</span></span><span class="line"><span class="cl">              ↖-----------------↙
+</span></span><span class="line"><span class="cl">                 SSE事件流推送
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>SSE（Server-Sent Events）是 MCP 在网络环境中的主要实现技术，尤其适合云服务和远程 API 调用场景。其技术实现细节包括：</p>
+<p><strong>- HTTP 长连接</strong> ：SSE 建立在 HTTP/-1 或 HTTP/2 协议之上，使用 Content-Type: text/event-stream头</p>
+<p><strong>2. 增量数据传输</strong> ：服务器按照 SSE 格式推送事件数据，每个事件以 data: <br>
+前缀标识</p>
+<p><strong>3. 事件解析</strong>：客户端使用 EventSourceAPI 或兼容库自动解析事件流</p>
+<p>一个最简单的典型 MCP SSE 请求时序图如下： </p>
+<p><img src="/img/ai/47a73e98fc5b44cd7e97dbf15aafc51d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>MCP SSE 请求时序图</p>
+<ul>
+<li>Client 发起一个 GET 请求，建立了一个 SSE 长连接<br>
+ <strong>[Connection1]</strong></li>
+</ul>
+<ol>
+<li>
+<p>Server 回复 path 以及 sessionId**[Connection1]**</p>
+</li>
+<li>
+<p>Client 使用2 中 path 及 sessionId发起 initialize HTTP POST 请求 <strong>[Connection2]</strong></p>
+</li>
+<li>
+<p>Client 发送包含协议版本和能力的 initialize请求</p>
+</li>
+<li>
+<p>Server 端快速响应 202，无 body <strong>[Connection2]</strong></p>
+</li>
+<li>
+<p>Server 返回 3 请求的响应真正的 message**[Connection1]**</p>
+</li>
+</ol>
+<p><strong>Server 以其协议版本和能力响应</strong></p>
+<ol start="6">
+<li>
+<p>Client 使用2 中 path 及 sessionId  发起 initialized HTTP POST 请求作为确认 <strong>[Connection3]</strong></p>
+</li>
+<li>
+<p>Server 端快速响应 202，无body <strong>[Connection3]</strong></p>
+</li>
+<li>
+<p>Client使用2 中 path 及 sessionId 发起 list tools HTTP POST 请求 <strong>[Connection4]</strong></p>
+</li>
+<li>
+<p>Server 端快速响应 202，无body <strong>[Connection4]</strong></p>
+</li>
+<li>
+<p>Server 返回 8 请求的响应真正的 message，即工具列表**[Connection1]**
+1- Client使用 2 中 path 及 sessionId 发起 call tool HTTP POST 请求 <strong>[Connection5]</strong></p>
+</li>
+<li>
+<p>Server 端快速响应 202，无body <strong>[Connection5]</strong></p>
+</li>
+<li>
+<p>Server 返回 11 请求的响应真正的 message，即工具调用结果**[Connection1]**</p>
+</li>
+</ol>
+<p>接下来，我们可以通过一个 hello_world MCP Server + curl 工具来完整演示整个流程：</p>
+<p><strong>Terminal 1:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ curl -v http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/sse
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Terminal 2:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1"># initialize</span>
+</span></span><span class="line"><span class="cl"><span class="o">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> <span class="o">--</span><span class="n">header</span> <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="o">--</span><span class="n">data</span> <span class="s1">&#39;{ &#34;jsonrpc&#34;: &#34;2.0&#34;, &#34;id&#34;: 0, &#34;method&#34;: &#34;initialize&#34;, &#34;params&#34;: { &#34;protocolVersion&#34;: &#34;2024-11-05&#34;, &#34;capabilities&#34;: { &#34;roots&#34;: { &#34;listChanged&#34;: true }, &#34;sampling&#34;: {} }, &#34;clientInfo&#34;: { &#34;name&#34;: &#34;ExampleClient&#34;, &#34;version&#34;: &#34;-0.0&#34; } } }&#39;</span> <span class="s2">&#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initialized</span>
+</span></span><span class="line"><span class="cl"><span class="o">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> <span class="o">--</span><span class="n">header</span> <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="o">--</span><span class="n">data</span> <span class="s1">&#39;{ &#34;jsonrpc&#34;: &#34;2.0&#34;, &#34;method&#34;: &#34;notifications/initialized&#34; }&#39;</span> <span class="s2">&#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># list tools</span>
+</span></span><span class="line"><span class="cl"><span class="o">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> <span class="o">--</span><span class="n">header</span> <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="o">--</span><span class="n">data</span> <span class="s1">&#39;{&#34;jsonrpc&#34;: &#34;2.0&#34;, &#34;id&#34;: 1, &#34;method&#34;: &#34;tools/list&#34;, &#34;params&#34;: {}}&#39;</span> <span class="s2">&#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># call tool</span>
+</span></span><span class="line"><span class="cl"><span class="o">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> <span class="o">--</span><span class="n">header</span> <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="o">--</span><span class="n">data</span> <span class="s1">&#39;{&#34;jsonrpc&#34;:&#34;2.0&#34;,&#34;id&#34;:2,&#34;method&#34;:&#34;tools/call&#34;,&#34;params&#34;:{&#34;name&#34;:&#34;hello_world&#34;,&#34;arguments&#34;:{}}}&#39;</span> <span class="s2">&#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/04873c393a48def35b1e5a1829ca57a0.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>从上面的时序图以及一个具体实践的流程看过来，我们可以明显看到 SSE 的优势和不足：</p>
+<p><strong>优势：</strong></p>
+<ul>
+<li>
+<p>协议轻量化, 基于 HTTP 协议实现，无需复杂握手，兼容现有基础设施，开发成本低</p>
+</li>
+<li>
+<p>实时流式推送 ，支持服务器主动推送文本数据（如日志、进度更新），适合长任务交互</p>
+</li>
+<li>
+<p>资源效率高，单连接复用推送</p>
+</li>
+</ul>
+<p><strong>不足：</strong></p>
+<ul>
+<li>
+<p>单向通信限制， 仅支持服务端→客户端推送，需配合 HTTP 请求实现双向交互，这个就要求 SSE 长连接和后续配合该会话的 HTTP 请求必须在同一个 MCP Server 服务实例， 对于 MCP Server 实例需要横向扩展的场景提出了 Session 会话亲和的技术要求。</p>
+</li>
+<li>
+<p>协议演进趋势 ，  Streamable HTTP 提案 2025.3.17 通过，后者支持动态流式升级与无状态服务，更适应云原生架构</p>
+</li>
+</ul>
+<p><strong>TIPS:</strong></p>
+<p><strong>重要的事情说三遍，重要的事情说三遍， 重要的事情说三遍</strong></p>
+<ul>
+<li>
+<p>MCP Client 端应该为所有请求实现适当的超时，以防止连接挂起和资源耗尽</p>
+</li>
+<li>
+<p>MCP Client 端应该及时释放掉，应防止 MCP Client 端的泄露导致服务端 SSE 长连接数目一直增长消耗服务端资源</p>
+</li>
+<li>
+<p>服务端应该设计合理的 Server Timeout 自动清理连接时长明显有问题的 SSE 长连接</p>
+</li>
+</ul>
+<p><strong>MCP Proxy</strong></p>
+<p>鉴于 SSE 协议的配套实现在 2025 年 4 月左右才正式推出， 结合 MCP 时间线，当前市场中存量 MCP Server 绝大部分采用 stdio 传输机制实现,  为了在不改动任何存量 MCP Server 代码的前提下，实现从 stdio 到 SSE 的无缝转换，我们需要提供一个 stdiotosse 的 proxy，通过这一代理层，为 MCP 生态描绘一条平滑、低成本的技术演进路径，确保了协议创新不会给开发者带来额外的迁移负担。</p>
+<p>MCP Stdio 传输方式和上古 Web 开发 </p>
+<p>CGI[3](Common Gateway Interface) 程序特别类似，如下图，http client 发送请求到 http server，http server 将 method，header 等信息，body 通过 stdin 传给 CGI 程序，CGI 程序执行动态页面渲染，最后把渲染后的 HTML 页面通过 stdout 返回给 http server,  最后再返回给 client 端</p>
+<p><img src="/img/ai/c48a5d0fdbcad7201de0b50644390a00.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>借助这个思路， 很快就能推导出下面的 proxy 方案：</p>
+<p><img src="/img/ai/6c5b1561d502b55a82782885e23043f8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>社区里面也有了相关的轮子，比如热门的supergateway  ,  只要输入如下命令即可实现一个存量的 stdio server 即可转换成 SSE Server</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">supergateway \
+</span></span><span class="line"><span class="cl">    --stdio &#34;npx -y @modelcontextprotocol/server-filesystem ./my-folder&#34; \
+</span></span><span class="line"><span class="cl">    --port 8000 --baseUrl http://localhost:8000 \
+</span></span><span class="line"><span class="cl">    --ssePath /sse --messagePath /message
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>Subscribe to events: GET http://localhost:8000/sse</p>
+</li>
+<li>
+<p>Send messages: POST http://localhost:8000/message</p>
+</li>
+</ul>
+<p>但是这会带来另外一个问题， 承载 SSE 协议的是一个 http server,  天然就需要去支撑一定的并发能力，单个 mcp server stdio process 没有并行处理能力，支持不了一定的并发处理。为此，我们借鉴 CGI 的思想继续推导：PHP 在 Web 领域的实践，使用的是 fastcgi 进程池，如下图中的 FastCGI 进程管理器：</p>
+<p><img src="/img/ai/d28a7d11ddc0aeadb8ffd32852fa6def.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>发送到服务器的 Web 请求将被分配给进程池中的 CGI 进程。该 CGI 进程将处理该单个请求。如果同时收到多个请求，则将启动多个 CGI 进程并行处理它们。然而，每个进程一次只能处理一个请求。服务器能够通过对 CGI 进程进行上下文切换来处理并发请求。操作系统调度程序将跟踪所有 CGI 进程，并在需要时切换正在 CPU 上运行的 CGI 进程，以使每个 CGI 进程在需要时都能获得属于自己的、公平的 CPU 时间份额。</p>
+<p>因此， 将 stdiotosse 的 proxy 设计成如下方案是一个很不错的抉择，通过一个 MCP Server Stdio Process Pool 来提高并行处理能力，从而让前面支持 sse 协议的 http server 有更好的并行并发处理能力。</p>
+<p><img src="/img/ai/d80d9a514ca1cb5b8aae26855c53a4e5.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>目前我们在supergateway[4] 的基础上， 增加了动态 MCP Server Stdio 进程池的实现，这个进程池的默认初始化值为 1， 最大进程数目为 10，这个两个值可以通过两个环境变量 MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 来设置。MCP Server Stdio 进程池管理流程如下图：</p>
+<p><img src="/img/ai/423d627cc16ead159e96e316be7fd03e.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>实现的 diff：</p>
+<p><a class="link" href="https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec"  target="_blank" rel="noopener"
+    >https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec</a></p>
+<p><strong>TIPS:</strong></p>
+<ul>
+<li>
+<p>如果 MCP Server Stdio Process 是 IO 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调大一些来支持更高的并发处理能力</p>
+</li>
+<li>
+<p>如果 MCP Server Stdio Process 是 CPU 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调小一些，同时实例 CPU 和内存规格也要按需调大一些</p>
+</li>
+</ul>
+<p><strong>并发压测：</strong></p>
+<p>Stdio Server 逻辑如 index.ts 所示，latency 为 0.15s ~ 1s 随机， 实例规格为 1C2G</p>
+<p><img src="/img/ai/1a2f53ee4c4a21143ad8a3a7a070ba0b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>压测客户端代码(100 个并发 client， 每次 client 串行执行 3 次, 执行正常  )：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">import</span> <span class="n">asyncio</span>
+</span></span><span class="line"><span class="cl"><span class="n">from</span> <span class="n">mcp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">sse</span> <span class="n">import</span> <span class="n">sse_client</span>
+</span></span><span class="line"><span class="cl"><span class="n">from</span> <span class="n">mcp</span> <span class="n">import</span> <span class="n">ClientSession</span>
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="n">logging</span>
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="n">time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&#34;LoadTestClient&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 控制最大并发数</span>
+</span></span><span class="line"><span class="cl"><span class="n">CONCURRENCY_LIMIT</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># 根据服务器能力调整</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">async</span> <span class="k">def</span> <span class="nf">robust_client_instance</span><span class="p">(</span><span class="n">instance_id</span><span class="p">:</span> <span class="ne">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">async</span> <span class="n">with</span> <span class="n">CONCURRENCY_LIMIT</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">async</span> <span class="n">with</span> <span class="n">sse_client</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;https://mcp-server-gi-mmqoiftdwm.cn-hangzhou.fcapp.run/sse&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer YOUR_API_KEY&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;X-Instance-ID&#34;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">instance_id</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span> <span class="n">as</span> <span class="n">streams</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">streams</span> <span class="n">is</span> <span class="n">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">raise</span> <span class="n">ConnectionError</span><span class="p">(</span><span class="s2">&#34;SSE连接失败&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">async</span> <span class="n">with</span> <span class="n">ClientSession</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">read_stream</span><span class="o">=</span><span class="n">streams</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">write_stream</span><span class="o">=</span><span class="n">streams</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                <span class="p">)</span> <span class="n">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">await</span> <span class="n">session</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">f</span><span class="s2">&#34;实例{instance_id}; initialize 耗时: {time.time() - start}&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">r</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">list_tools</span><span class="p">(),</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">f</span><span class="s2">&#34;实例{instance_id};list_tools 工具数: {len(r.tools)}; 耗时: {time.time() - start}&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 执行操作</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                            <span class="c1"># 设置call_tool超时</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">result</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">session</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="s2">&#34;add&#34;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&#34;a&#34;</span><span class="p">:</span> <span class="n">instance_id</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">f</span><span class="s2">&#34;实例{instance_id}; 第 {i} 次迭代; call_tool 耗时: {time.time() - start}&#34;</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">isError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">f</span><span class="s2">&#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&#34;</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">raise</span> <span class="n">Exception</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">f</span><span class="s2">&#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&#34;</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">f</span><span class="s2">&#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用成功: {result.content}&#34;</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                                <span class="nb">assert</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">                                    <span class="ne">int</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="n">instance_id</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="n">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;实例{instance_id} 第 {i} 次迭代操作超时&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">continue</span>  <span class="c1"># 跳过当前迭代继续执行</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">except</span> <span class="n">Exception</span> <span class="n">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;实例{instance_id} 最终失败: {str(e)}&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">robust_client_instance</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>为什么选择函数计算</strong></p>
+<p>作为 MCP Server 托管运行时真实世界中部署 MCP Server 面临的技术挑战包括[5]：</p>
+<ul>
+<li>
+<p><strong>分布式系统复杂性</strong>  ：需要在多节点环境中维护连接状态</p>
+</li>
+<li>
+<p><strong>2. 资源限制处理</strong>  ：</p>
+</li>
+<li>
+<p>连接池管理：有效分配和复用连接资源</p>
+</li>
+<li>
+<p>超时控制：处理未响应或长时间计算情况</p>
+</li>
+<li>
+<p>负载均衡：在多实例间均衡分配请求</p>
+</li>
+<li>
+<p><strong>3. 安全隐患</strong>  ：</p>
+</li>
+<li>
+<p>针对长连接的 DDoS 攻击防护</p>
+</li>
+<li>
+<p>身份验证与会话维护：在长时间连接中保持认证状态</p>
+</li>
+<li>
+<p><strong>4. 故障恢复机制</strong>  ：服务中断时的会话恢复和状态保持</p>
+</li>
+<li>
+<p>5. 高资源利用率与低成本  ：绝大多数 MCP Server 的业务流量呈现典型的稀疏性（Sparse Access）与突发性（Burstiness）特征——请求分布高度离散且流量峰谷波动显著。传统固定实例池（Instance Pool）的常驻模式导致资源闲置率过高。</p>
+</li>
+</ul>
+<p>阿里云函数计算作为阿里云 Serverless 计算平台， 有极致的按需自动弹性扩缩容速度和能力、零服务器管理免运维、多 AZ 容灾的高可用以及毫秒级按需计费能力。 在此基础上， 我们针对 MCP Server 远程服务能力做了如下增强：</p>
+<ul>
+<li>
+<p>推出支持 SSE 协议且具备并发能力的 MCP Runtime（内置我们上文阐述的 MCP Proxy），存量 STDIO 模式的 MCP Server 无需任何改动即可变为符合 SSE 协议的远端服务</p>
+</li>
+<li>
+<p>在满足 MCP 场景 SSE 协议亲和调度的基础上（见 SSE 协议不足 1），让业务在面对 burst 流量 ，依然有快速弹性扩容能力。后续我们会专门出一篇文章来介绍 &ldquo;MCP Server SSE 请求亲和性的技术与实战&rdquo;</p>
+</li>
+<li>
+<p>MCP Server SSE 作为远程服务需要鉴权访问等安全能力：</p>
+</li>
+<li>
+<p>函数 HTTP 触发器及自定义域名提供多种鉴权方式，针对 AI 场景新提供了基于 Opaque Bearer Authorization 访问鉴权能力，与现有 AI 服务身份认证体系无缝对接</p>
+</li>
+<li>
+<p>函数计算支持针对具体函数设置执行角色，运行时提供动态获取临时 Token，实现完全的无 AK 方案，这对接入阿里云体系内产品的 MCP Server 是一个非常安全合规的企业级姿势。</p>
+</li>
+<li>
+<p>每个函数运行环境都是一个安全容器， 平台侧负责函数实例沙箱容器的漏洞修复及安全升级， 某个实例的 OOM 等异常不会扩散。</p>
+</li>
+<li>
+<p>函数计算函数最大执行时长为 24 小时，基本可以满足绝大部分的长连接请求， 同时设置合理的 timeout，可以解决因为客户端 client 泄露导致的长连接一直消耗服务端资源的问题。</p>
+</li>
+</ul>
+<p>以上可以看出， 函数计算 Serverless 平台解决了绝大部分列出的真实世界中部署 MCP Server 面临的技术挑战；对于由于 SSE 协议本身带来的<br>
+不支持断线重连/恢复会话，我们也持续跟进社区 <br>
+Streamable HTTP**[6]**<br>
+ 协议进展，让 Streamable HTTP 更顺利在<br>
+函数计算 Serverless 平台落地。</p>
+<p><strong>上手案例：</strong></p>
+<ul>
+<li>
+<p>直接登录 Function AI**[7]**  平台体验 Mcp Server 一键部署</p>
+</li>
+<li>
+<p>参考 <a class="link" href="https://github.com/devsapp/mcp-servers"  target="_blank" rel="noopener"
+    >https://github.com/devsapp/mcp-servers</a></p>
+</li>
+</ul>
+<p>查看各种 MCP Server on FC 的代码示例</p>
+<p><strong>合作方：</strong></p>
+<ul>
+<li>
+<p>阿里云百练 MCP 广场 https://bailian.console.aliyun.com/?tab=mcp#/mcp-market</p>
+</li>
+<li>
+<p>魔搭社区 MCP 广场 https://www.modelscope.cn/mcp</p>
+</li>
+<li>
+<p>宜搭: 钉钉客户端创建 ai 助理的技能正在灰度中</p>
+</li>
+</ul>
+<p><strong>总结</strong></p>
+<p><strong>MCP 的演进本质是加速 AI 基础设施的普及：</strong></p>
+<ul>
+<li>
+<p><strong>技术层</strong>  ：通过协议标准化降低开发门槛，使中小开发者能快速构建复杂 AI 应用。</p>
+</li>
+<li>
+<p><strong>商业层</strong>  ：催生“MCP 工具商店”等新商业模式，工具开发者可通过协议分成获利。 </p>
+</li>
+<li>
+<p><strong>社会层</strong>  ：推动 AI 从“专家系统”转向“普惠技术”，例如农民通过自然语言指令操作智能农业设备。</p>
+</li>
+</ul>
+<p>随着 Anthropic、OpenAI 等巨头加速协议迭代，MCP 或将成为 AI 时代的&quot; USB-C接口&quot;  ——<strong>既奠定技术底座，又重构产业规则</strong><br>
+。<br>
+开发者需密切关注协议演进，提前布局工具链生态，把握先机。</p>
+<p><strong>MCP 技术演进的核心方向预测：</strong></p>
+<ul>
+<li>
+<p>协议架构升级：从 SSE 到 Streamable HTTP 的跨越</p>
+</li>
+<li>
+<p>通用性扩展， 多模态统一接口， 扩展同一协议支持文本、图像、音频和视频</p>
+</li>
+<li>
+<p>新交互模式， 分布式协作， 多个模型协同工作的协议扩展</p>
+</li>
+<li>
+<p>生态系统扩展与标准化博弈，会有一个类似 npm 这样的 MCP Server Registry 出现</p>
+</li>
+</ul>
+<p>函数计算 Serverless 平台致力解决生产环境部署 MCP Server 面临的技术挑战，革新 MCP Server 的部署范式，给 MCP 社区蓬勃发展和 MCP Server 大规模落地、行业加速创新提供坚实的技术基础,  <br>
+让全球开发者无障碍构建下一代 AI 服务,  重构行业创新速度，普惠 AI 黄金时代！</p>
+<h2 id="相关链接">相关链接：
+</h2><p>[1] 图解「模型上下文协议（MCP）」：从与传统 API 的比较入手</p>
+<p><a class="link" href="https://www.51cto.com/article/81154-html"  target="_blank" rel="noopener"
+    >https://www.51cto.com/article/81154-html</a></p>
+<p>[2] MCP Specification</p>
+<p><a class="link" href="https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle"  target="_blank" rel="noopener"
+    >https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle</a></p>
+<p>[3] CGI</p>
+<p><a class="link" href="https://baike.baidu.com/item/CGI/607810"  target="_blank" rel="noopener"
+    >https://baike.baidu.com/item/CGI/607810</a></p>
+<p>[4] supergateway</p>
+<p><a class="link" href="https://github.com/supercorp-ai/supergateway"  target="_blank" rel="noopener"
+    >https://github.com/supercorp-ai/supergateway</a></p>
+<p>[5] AI 中的 MCP 技术解析：stdio 与 SSE 实现</p>
+<p><a class="link" href="https://wicos.me/jishu/1160/"  target="_blank" rel="noopener"
+    >https://wicos.me/jishu/1160/</a></p>
+<p>[6] <br>
+Streamable HTTP</p>
+<p><a class="link" href="https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206"  target="_blank" rel="noopener"
+    >https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206</a></p>
+<p>[7] Function AI</p>
+<p><a class="link" href="https://cap.console.aliyun.com/explore?lang=MCP&#43;Server"  target="_blank" rel="noopener"
+    >https://cap.console.aliyun.com/explore?lang=MCP+Server</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/serverless/">Serverless</a>
+        
+            <a href="/tags/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97/">函数计算</a>
+        
+            <a href="/tags/sse/">SSE</a>
+        
+            <a href="/tags/stdio/">STDIO</a>
+        
+            <a href="/tags/json-rpc/">JSON-RPC</a>
+        
+            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+        
+            <a href="/tags/ai/">AI</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 的新传输层 - Streamable HTTP 协议详解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手撸 MCP 管理 GitHub 项目</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FunctionAI MCP 开发平台：助力AI应用连接数字生态</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcpify.ai%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAmcp/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCPify.ai:一句话构建一个MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP客户端|Apify 测试版</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

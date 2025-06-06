@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，它们共同构建起未来 AI 智能体生态系统的基础架构。">
+<title>A2A 协议与 MCP 协议：智能代理生态系统的双轮驱动</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/a2a-%E5%8D%8F%E8%AE%AE%E4%B8%8E-mcp-%E5%8D%8F%E8%AE%AE%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8C%E8%BD%AE%E9%A9%B1%E5%8A%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="A2A 协议与 MCP 协议：智能代理生态系统的双轮驱动">
+<meta property='og:description' content="探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，它们共同构建起未来 AI 智能体生态系统的基础架构。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/a2a-%E5%8D%8F%E8%AE%AE%E4%B8%8E-mcp-%E5%8D%8F%E8%AE%AE%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8C%E8%BD%AE%E9%A9%B1%E5%8A%A8/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='A2A 协议' /><meta property='article:tag' content='MCP 协议' /><meta property='article:tag' content='智能代理' /><meta property='article:tag' content='AI 智能体' /><meta property='article:tag' content='协议标准' /><meta property='article:published_time' content='2025-05-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-20T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="A2A 协议与 MCP 协议：智能代理生态系统的双轮驱动">
+<meta name="twitter:description" content="探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，它们共同构建起未来 AI 智能体生态系统的基础架构。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#a2a-协议打造代理间的沟通桥梁">A2A 协议：打造代理间的沟通桥梁</a>
+      <ol>
+        <li><a href="#a2a-协议的核心概念">A2A 协议的核心概念</a></li>
+        <li><a href="#a2a-协议的技术实现">A2A 协议的技术实现</a></li>
+        <li><a href="#a2a-协议的通信模型">A2A 协议的通信模型</a></li>
+        <li><a href="#智能体卡片与能力发现">智能体卡片与能力发现</a></li>
+        <li><a href="#任务管理机制">任务管理机制</a></li>
+      </ol>
+    </li>
+    <li><a href="#mcp-协议模型与外部世界的连接器">MCP 协议：模型与外部世界的连接器</a>
+      <ol>
+        <li><a href="#mcp-协议的基本框架">MCP 协议的基本框架</a></li>
+        <li><a href="#mcp-协议的核心组件">MCP 协议的核心组件</a></li>
+        <li><a href="#mcp-协议的价值与意义">MCP 协议的价值与意义</a></li>
+        <li><a href="#mcp-协议的应用场景">MCP 协议的应用场景</a></li>
+      </ol>
+    </li>
+    <li><a href="#a2a-协议与-mcp-协议的协同与区别">A2A 协议与 MCP 协议的协同与区别</a>
+      <ol>
+        <li><a href="#两种协议的功能定位">两种协议的功能定位</a></li>
+        <li><a href="#功能互补性分析">功能互补性分析</a></li>
+        <li><a href="#协议生态系统的未来展望">协议生态系统的未来展望</a></li>
+      </ol>
+    </li>
+    <li><a href="#实际应用a2a-协议与-mcp-协议的协同使用场景">实际应用：A2A 协议与 MCP 协议的协同使用场景</a>
+      <ol>
+        <li><a href="#企业应用场景">企业应用场景</a>
+          <ol>
+            <li><a href="#招聘流程自动化">招聘流程自动化</a></li>
+          </ol>
+        </li>
+        <li><a href="#消费者应用场景">消费者应用场景</a>
+          <ol>
+            <li><a href="#旅行规划助手">旅行规划助手</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#开发者注意事项集成-a2a-协议与-mcp-协议">开发者注意事项：集成 A2A 协议与 MCP 协议</a>
+      <ol>
+        <li><a href="#安全性考量">安全性考量</a></li>
+        <li><a href="#实施路径建议">实施路径建议</a></li>
+      </ol>
+    </li>
+    <li><a href="#结论a2a-协议与-mcp-协议共同构建的未来">结论：A2A 协议与 MCP 协议共同构建的未来</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%87%E5%87%86/" >
+                技术标准
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/a2a-%E5%8D%8F%E8%AE%AE%E4%B8%8E-mcp-%E5%8D%8F%E8%AE%AE%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8C%E8%BD%AE%E9%A9%B1%E5%8A%A8/">A2A 协议与 MCP 协议：智能代理生态系统的双轮驱动</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，它们共同构建起未来 AI 智能体生态系统的基础架构。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 20, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>核心内容:</strong></p>
+<ul>
+<li><strong>A2A 协议</strong>：实现不同供应商的 AI 智能体之间的互操作性，打造代理间的沟通桥梁。</li>
+<li><strong>MCP 协议</strong>：标准化 AI 应用与外部工具、数据源和服务的交互方式，减少 AI 开发中的碎片化问题。</li>
+<li><strong>协同作用</strong>：A2A 协议解决代理之间的交互，MCP 协议解决代理与外部工具的交互，共同构建智能代理生态系统。</li>
+</ul>
+<p>A2A 和 MCP 两种协议正在塑造智能体系统的未来。本文将探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，帮助开发者和产品设计师更好地理解这一新兴技术领域。</p>
+<p>在 AI 快速发展的今天，代理技术（Agent）正在成为下一个重要的技术浪潮。为了解决 AI 之间的交流与协作问题，两个重要的协议标准应运而生：Google 的 <a class="link" href="https://www.a2aprotocol.net"  target="_blank" rel="noopener"
+    >A2A（Agent-to-Agent）协议</a> 和 Anthropic 的 <a class="link" href="/" >MCP（Model Context Protocol）协议</a>。这两个协议从不同角度解决了 AI 智能体系统中的关键挑战，共同构建起未来 AI 智能体生态系统的基础架构。</p>
+<p>本文将探讨<strong>A2A 协议</strong>与<strong>MCP 协议</strong>的特点、区别及协同作用，帮助开发者和产品设计师更好地理解这一新兴技术领域。</p>
+<h2 id="a2a-协议打造代理间的沟通桥梁">A2A 协议：打造代理间的沟通桥梁
+</h2><h3 id="a2a-协议的核心概念">A2A 协议的核心概念
+</h3><p><strong>A2A 协议</strong>是由 Google 与 50 多家行业合作伙伴共同开发的开放协议，旨在实现不同供应商的 AI 智能体之间的互操作性。无论这些代理是谁构建的、在哪里托管或使用什么框架，<strong>A2A 协议</strong>都能使它们无缝协作。</p>
+<h3 id="a2a-协议的技术实现">A2A 协议的技术实现
+</h3><p><strong>A2A 协议</strong>采用**JSON-RPC 2.0 over HTTP(S)<strong>作为通信机制，并支持</strong>Server-Sent Events (SSE)**进行实时更新流。这种设计使得不同平台上的代理能够高效地交换信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">flowchart LR
+</span></span><span class="line"><span class="cl">    A[Client Agent] --&gt;|发送任务请求| B[Remote Agent]
+</span></span><span class="line"><span class="cl">    B --&gt;|返回任务结果| A
+</span></span><span class="line"><span class="cl">    A --&gt;|能力发现| C[Agent Card]
+</span></span><span class="line"><span class="cl">    C --&gt;|能力匹配| A
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="a2a-协议的通信模型">A2A 协议的通信模型
+</h3><p>在<strong>A2A 协议</strong>中，定义了两种代理角色：</p>
+<ol>
+<li><strong>Client Agent</strong>：发起请求或任务</li>
+<li><strong>Remote Agent</strong>：接收请求并尝试完成任务</li>
+</ol>
+<p>通信过程首先可能涉及<strong>能力发现（Capability Discovery）</strong>，以确定哪个代理最适合执行特定任务。</p>
+<h3 id="智能体卡片与能力发现">智能体卡片与能力发现
+</h3><p>每个智能体可以发布<strong>智能体卡片（Agent Card）</strong> — 一个 JSON 元数据文档，通常托管在标准 URL（如<code>/.well-known/agent.json</code>）。智能体卡片描述了该智能体的功能、技能、API 端点和身份验证要求。</p>
+<p>客户端智能体通过阅读智能体卡片，可以识别出最适合当前任务的合作伙伴智能体。</p>
+<h3 id="任务管理机制">任务管理机制
+</h3><p><strong>A2A 协议</strong>中的所有交互都围绕执行任务展开。任务是由协议定义的结构化对象，包含请求详情并跟踪其状态。结果以 <strong>Artifacts</strong> 的形式返回，智能体可以在执行过程中发送结构化**消息（Messages）**进行协调或澄清。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
+</span></span><span class="line"><span class="cl">    participant 用户
+</span></span><span class="line"><span class="cl">    participant Client Agent
+</span></span><span class="line"><span class="cl">    participant Remote Agent
+</span></span><span class="line"><span class="cl">    用户-&gt;&gt;Client Agent: 提出需求
+</span></span><span class="line"><span class="cl">    Client Agent-&gt;&gt;Remote Agent: 发送任务请求
+</span></span><span class="line"><span class="cl">    Remote Agent-&gt;&gt;Remote Agent: 处理任务
+</span></span><span class="line"><span class="cl">    Remote Agent--&gt;&gt;Client Agent: 实时状态更新(SSE)
+</span></span><span class="line"><span class="cl">    Remote Agent-&gt;&gt;Client Agent: 返回任务 Artifacts
+</span></span><span class="line"><span class="cl">    Client Agent-&gt;&gt;用户: 呈现结果
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="mcp-协议模型与外部世界的连接器">MCP 协议：模型与外部世界的连接器
+</h2><h3 id="mcp-协议的基本框架">MCP 协议的基本框架
+</h3><p><strong>MCP 协议</strong>（Model Context Protocol）是 Anthropic 开发的开放协议，旨在标准化 AI 应用（如聊天机器人、代理和 IDE）与外部工具、数据源和服务的交互方式。它通过提供统一的接口来整合上下文信息，从而减少 AI 开发中的碎片化问题。</p>
+<h3 id="mcp-协议的核心组件">MCP 协议的核心组件
+</h3><p><strong>MCP 协议</strong>包含三个关键组件：</p>
+<ol>
+<li><strong>工具（Tools）</strong>：模型控制的动作（如获取数据、写入数据库）</li>
+<li><strong>资源（Resources）</strong>：应用控制的数据（如文件、JSON、附件）</li>
+<li><strong>提示（Prompts）</strong>：用户控制的预定义模板（如 IDE 中的斜杠命令）</li>
+</ol>
+<h3 id="mcp-协议的价值与意义">MCP 协议的价值与意义
+</h3><p><strong>MCP 协议</strong>带来的主要价值包括：</p>
+<ol>
+<li><strong>减少碎片化</strong>：提供标准方式连接 AI 应用与工具和数据，避免团队构建自定义集成</li>
+<li><strong>实现组合性</strong>：代理和应用可以动态发现和使用新工具，无需预编程</li>
+<li><strong>支持企业工作流</strong>：团队可以拥有特定服务并通过<strong>MCP 协议</strong>暴露给其他团队使用</li>
+</ol>
+<h3 id="mcp-协议的应用场景">MCP 协议的应用场景
+</h3><p><strong>MCP 协议</strong>已在多个领域得到应用：</p>
+<ul>
+<li><strong>IDE（如 Cursor、Zed）</strong>：使用<strong>MCP 协议</strong>引入代码上下文、GitHub 问题和文档</li>
+<li><strong>代理</strong>：自主调用工具（如搜索网络、查询数据库）</li>
+<li><strong>远程服务器与 OAuth</strong>：支持远程<strong>MCP 协议</strong>服务器和安全认证</li>
+</ul>
+<h2 id="a2a-协议与-mcp-协议的协同与区别">A2A 协议与 MCP 协议的协同与区别
+</h2><p><img src="https://uploads.strapi.logto.io/a2a_mcp_4155b038ac.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片来源：https://google.github.io/A2A/#/topics/a2a_and_mcp"
+	
+	
+></p>
+<h3 id="两种协议的功能定位">两种协议的功能定位
+</h3><p><strong>A2A 协议</strong>与<strong>MCP 协议</strong>解决了 AI 智能体生态系统中不同层面的挑战：</p>
+<ul>
+<li><strong>A2A 协议</strong>：解决代理之间如何互相交互（水平集成）</li>
+<li><strong>MCP 协议</strong>：解决代理如何与工具或外部上下文交互（垂直集成）</li>
+</ul>
+<h3 id="功能互补性分析">功能互补性分析
+</h3><p>这两种协议相互补充，共同解决构建多代理、多 LLM 和多源上下文系统的核心挑战：</p>
+<ol>
+<li><strong>A2A 协议</strong>专注于代理之间的标准化通信（代理到代理）</li>
+<li><strong>MCP 协议</strong>专注于代理与外部工具和系统的交互（代理到工具）</li>
+</ol>
+<h3 id="协议生态系统的未来展望">协议生态系统的未来展望
+</h3><p>随着<strong>A2A 协议</strong>和<strong>MCP 协议</strong>的普及，我们可以预见：</p>
+<ol>
+<li><strong>MCP 服务器</strong>的增长：各种服务提供商可能会提供特定功能的<strong>MCP 服务器</strong></li>
+<li><strong>智能体网络</strong>的形成：智能体可以通过<strong>A2A 协议</strong>组成协作网络，分工合作</li>
+<li><strong>工作流自动化</strong>的进化：复杂任务可以被分解并由多个专业智能体协作完成</li>
+</ol>
+<h2 id="实际应用a2a-协议与-mcp-协议的协同使用场景">实际应用：A2A 协议与 MCP 协议的协同使用场景
+</h2><h3 id="企业应用场景">企业应用场景
+</h3><p>在企业环境中，<strong>A2A 协议</strong>和<strong>MCP 协议</strong>可以协同工作，实现复杂的自动化场景：</p>
+<h4 id="招聘流程自动化">招聘流程自动化
+</h4><ol>
+<li>招聘经理的智能体（使用<strong>MCP 协议</strong>访问公司数据库）确定招聘需求</li>
+<li>通过<strong>A2A 协议</strong>，该智能体与专业的人才搜索智能体协作</li>
+<li>人才搜索智能体（通过<strong>MCP 协议</strong>）访问 LinkedIn 等平台获取人才信息</li>
+<li>面试安排智能体通过<strong>A2A 协议</strong>接收任务，并使用<strong>MCP 协议</strong>与日历系统交互</li>
+<li>背景调查智能体通过类似方式完成其任务</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sequenceDiagram
+</span></span><span class="line"><span class="cl">    participant 经理智能体
+</span></span><span class="line"><span class="cl">    participant 搜索智能体
+</span></span><span class="line"><span class="cl">    participant 安排智能体
+</span></span><span class="line"><span class="cl">    participant 调查智能体
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    经理智能体-&gt;&gt;经理智能体: 使用MCP访问需求数据
+</span></span><span class="line"><span class="cl">    经理智能体-&gt;&gt;搜索智能体: A2A请求搜索候选人
+</span></span><span class="line"><span class="cl">    搜索智能体-&gt;&gt;搜索智能体: 使用MCP访问招聘平台
+</span></span><span class="line"><span class="cl">    搜索智能体-&gt;&gt;经理智能体: 返回候选人名单
+</span></span><span class="line"><span class="cl">    经理智能体-&gt;&gt;安排智能体: A2A请求安排面试
+</span></span><span class="line"><span class="cl">    安排智能体-&gt;&gt;安排智能体: 使用MCP访问日历系统
+</span></span><span class="line"><span class="cl">    安排智能体-&gt;&gt;经理智能体: 返回面试安排
+</span></span><span class="line"><span class="cl">    经理智能体-&gt;&gt;调查智能体: A2A请求背景调查
+</span></span><span class="line"><span class="cl">    调查智能体-&gt;&gt;调查智能体: 使用MCP访问验证系统
+</span></span><span class="line"><span class="cl">    调查智能体-&gt;&gt;经理智能体: 返回调查结果
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="消费者应用场景">消费者应用场景
+</h3><p>在消费者领域，两种协议的结合同样能带来全新的用户体验：</p>
+<h4 id="旅行规划助手">旅行规划助手
+</h4><ol>
+<li>用户的个人助理智能体（通过<strong>MCP 协议</strong>访问用户数据）收集旅行偏好</li>
+<li>该智能体使用<strong>A2A 协议</strong>与专业旅行代理协作</li>
+<li>旅行智能体通过<strong>MCP 协议</strong>访问航班、酒店和景点数据</li>
+<li>通过<strong>A2A 协议</strong>，预算管理智能体参与规划财务安排</li>
+<li>最终计划通过<strong>MCP 协议</strong>被整合到用户的日历和旅行应用中</li>
+</ol>
+<h2 id="开发者注意事项集成-a2a-协议与-mcp-协议">开发者注意事项：集成 A2A 协议与 MCP 协议
+</h2><h3 id="安全性考量">安全性考量
+</h3><p>在实现<strong>A2A 协议</strong>和<strong>MCP 协议</strong>时，开发者需要特别注意安全性问题：</p>
+<ol>
+<li><strong>身份验证与授权</strong>：代理将代表用户行动，凭证必须在整个流程中得到保护</li>
+<li><strong>多身份联合</strong>：用户可能需要为不同系统提供不同身份</li>
+<li><strong>权限范围控制</strong>：确保代理只能访问必要的资源</li>
+</ol>
+<h3 id="实施路径建议">实施路径建议
+</h3><p>对于希望采用这些协议的开发者，建议以下实施路径：</p>
+<ol>
+<li>首先实现<strong>MCP 协议</strong>集成，使代理能够访问工具和上下文</li>
+<li>然后实现<strong>A2A 协议</strong>支持，使代理能够与其他代理协作</li>
+<li>创建代理卡片，明确声明代理的能力和服务边界</li>
+<li>设计适当的用户界面，使用户能够控制代理行为和授权范围</li>
+</ol>
+<h2 id="结论a2a-协议与-mcp-协议共同构建的未来">结论：A2A 协议与 MCP 协议共同构建的未来
+</h2><p><strong>A2A 协议</strong>和<strong>MCP 协议</strong>代表了 AI 智能体技术的重要进步，它们共同为更智能、更协作的代理生态系统奠定了基础。这些协议不仅仅是技术规范，更是新一代 AI 应用架构的基石。</p>
+<p>随着这些协议的成熟和广泛采用，我们将看到：</p>
+<ol>
+<li>AI 智能体能力的显著增强，从单一功能走向复杂协作</li>
+<li>跨平台、跨供应商的 AI 智能体协作成为常态</li>
+<li>新型应用和服务模式的出现，重新定义用户与 AI 的交互方式</li>
+</ol>
+<p>对于开发者和企业来说，了解并采用<strong>A2A 协议</strong>和<strong>MCP 协议</strong>将是把握 AI 智能体技术浪潮的关键一步。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/a2a-%E5%8D%8F%E8%AE%AE/">A2A 协议</a>
+        
+            <a href="/tags/mcp-%E5%8D%8F%E8%AE%AE/">MCP 协议</a>
+        
+            <a href="/tags/%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86/">智能代理</a>
+        
+            <a href="/tags/ai-%E6%99%BA%E8%83%BD%E4%BD%93/">AI 智能体</a>
+        
+            <a href="/tags/%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86/">协议标准</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/mv/ai-mv.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/mv/ai-mv.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E8%A2%ABai%E8%AF%AF%E4%BC%A4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%81%E6%98%8E%E6%88%91%E6%B2%A1%E6%9C%89%E7%94%A8ai%E4%BD%9C%E5%BC%8A/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">被AI误伤，我该怎么证明“我没有用AI作弊”？</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%AE%9E%E6%B5%8B-manus%E9%A6%96%E4%B8%AA%E7%9C%9F%E5%B9%B2%E6%B4%BB-ai%E4%B8%AD%E5%9B%BD%E9%80%A0%E9%99%8450%E4%B8%AA%E7%94%A8%E4%BE%8B--%E6%8B%86%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">实测 Manus：首个真干活 AI，中国造（附50个用例 &#43; 拆解）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/10-%E4%B8%AA%E9%9D%9E%E5%B8%B8%E5%80%BC%E5%BE%97%E5%85%B3%E6%B3%A8%E7%9A%84-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">10 个非常值得关注的 MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

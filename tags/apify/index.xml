@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Apify on AI</title>
+        <link>https://ai.programnotes.cn/tags/apify/</link>
+        <description>Recent content in Apify on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/apify/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>MCP客户端|Apify 测试版</title>
+        <link>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</link>
+        <pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" alt="Featured image of post MCP客户端|Apify 测试版" /&gt;&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 SSE 协议连接 MCP 服务器，实现与 Apify 执行器的交互。&lt;/li&gt;
+&lt;li&gt;提供类聊天界面，展示工具调用与结果。&lt;/li&gt;
+&lt;li&gt;客户端完全免费，仅需支付 LLM 服务商使用费和 Apify 平台资源消耗费。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;该客户端将 AI 智能体接入 Apify 生态系统中 5000+个网页抓取与自动化执行器（Actors），支持从网站、社交媒体、搜索引擎及地图中提取数据。&lt;/p&gt;
+&lt;h2 id=&#34;-核心功能&#34;&gt;🚀 核心功能
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;🔌 通过服务器推送事件(SSE)连接 MCP 服务器&lt;/li&gt;
+&lt;li&gt;💬 提供类聊天界面展示工具调用与结果&lt;/li&gt;
+&lt;li&gt;🇦 连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify MCP 服务器&lt;/a&gt;以调用多个 Apify 执行器&lt;/li&gt;
+&lt;li&gt;💥 根据上下文动态选用工具（需服务器支持）&lt;/li&gt;
+&lt;li&gt;🔓 采用授权头与 API 密钥保障安全连接&lt;/li&gt;
+&lt;li&gt;🪟 开源项目，可审查代码或提交改进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-功能场景&#34;&gt;🎯 功能场景
+&lt;/h2&gt;&lt;p&gt;连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;执行器-MCP-服务器&lt;/a&gt;后，您可通过交互式聊天界面：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询&amp;quot;最受欢迎的社交媒体抓取执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;获取&amp;quot;Instagram 爬虫最佳使用方案&amp;quot;&lt;/li&gt;
+&lt;li&gt;咨询&amp;quot;提取 LinkedIn 数据该选用哪个执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;了解&amp;quot;如何抓取谷歌搜索结果&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;客户端界面截图&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-工作原理&#34;&gt;📖 工作原理
+&lt;/h2&gt;&lt;p&gt;客户端通过 SSE 协议连接 MCP 服务器并实现以下功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过&lt;code&gt;/sse&lt;/code&gt;端点建立 SSE 连接&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;POST /message&lt;/code&gt;发送用户查询&lt;/li&gt;
+&lt;li&gt;实时接收流式响应（通过&lt;code&gt;GET /sse&lt;/code&gt;），内容可能包含：
+&lt;ul&gt;
+&lt;li&gt;大语言模型输出&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具调用&lt;/strong&gt;模块&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;根据响应协调工具调用并展示对话流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-使用方式&#34;&gt;⚙️ 使用方式
+&lt;/h2&gt;&lt;h3 id=&#34;标准模式apify-平台&#34;&gt;标准模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;在 Apify 平台运行客户端并连接任意支持 SSE 的 MCP 服务器。通过 UI 或 API 配置以下参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP 服务器 URL&lt;/li&gt;
+&lt;li&gt;系统提示词&lt;/li&gt;
+&lt;li&gt;API 密钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行后日志将生成动态访问链接（每次运行不同）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;INFO  请访问 https://......runs.apify.net 与MCP服务器交互
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;待机模式apify-平台&#34;&gt;待机模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;开发中 🚧&lt;/p&gt;
+&lt;h2 id=&#34;-计费方案&#34;&gt;💰 计费方案
+&lt;/h2&gt;&lt;p&gt;客户端完全免费，仅需支付：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM 服务商使用费&lt;/li&gt;
+&lt;li&gt;Apify 平台资源消耗费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;采用&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费&lt;/a&gt;模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;执行器启动费（按 128MB 内存单元计费）&lt;/li&gt;
+&lt;li&gt;运行时长费（每 5 分钟/128MB 单元计费）&lt;/li&gt;
+&lt;li&gt;查询应答费（根据模型计费，自带 API 密钥可免除）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用自有 LLM 密钥时，128MB 内存运行 1 小时约$0.06。
+Apify 免费版（无需信用卡 💳）每月可运行 80 小时——充分满足测试需求！&lt;/p&gt;
+&lt;h2 id=&#34;-技术架构&#34;&gt;📖 技术架构
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;浏览器 ← (SSE) → 测试客户端 ← (SSE) → MCP服务器
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该链路将定制化桥接逻辑封装在客户端内，保持 MCP 服务器纯净。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;访问&lt;code&gt;https://tester-mcp-client.apify.actor?token=API密钥&lt;/code&gt;（本地开发则用 http://localhost:3000）&lt;/li&gt;
+&lt;li&gt;从&lt;code&gt;public/&lt;/code&gt;目录加载&lt;code&gt;index.html&lt;/code&gt;和&lt;code&gt;client.js&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;浏览器通过&lt;code&gt;GET /sse&lt;/code&gt;建立 SSE 流&lt;/li&gt;
+&lt;li&gt;用户查询通过&lt;code&gt;POST /message&lt;/code&gt;提交&lt;/li&gt;
+&lt;li&gt;查询处理流程：
+&lt;ul&gt;
+&lt;li&gt;调用大语言模型&lt;/li&gt;
+&lt;li&gt;按需调用工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;sseEmit(role, content)&lt;/code&gt;返回分块结果&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;本地开发&#34;&gt;本地开发
+&lt;/h3&gt;&lt;p&gt;客户端已开源至&lt;a class=&#34;link&#34; href=&#34;https://github.com/apify/rag-web-browser&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;，可按需修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/apify/tester-mcp-client.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tester-mcp-client
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;参照&lt;code&gt;.env.example&lt;/code&gt;创建配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;APIFY_TOKEN=您的令牌
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LLM_PROVIDER_API_KEY=您的密钥
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行开发服务器：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;访问&lt;a class=&#34;link&#34; href=&#34;http://localhost:3000&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://localhost:3000&lt;/a&gt;即可开始测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;祝您与 Apify 执行器畅快对话！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-注意事项&#34;&gt;ⓘ 注意事项
+&lt;/h2&gt;&lt;p&gt;当前版本暂不支持：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Prompts 和 Resource 等 MCP 高级功能&lt;/li&gt;
+&lt;li&gt;对话历史存储（刷新页面将清空记录）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考资源&#34;&gt;参考资源
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;模型上下文协议&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify 执行器 MCP 服务器&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-are-ai-agents/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI 智能体详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-is-model-context-protocol/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 协议核心价值&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

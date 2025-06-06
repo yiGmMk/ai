@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文深入探讨了FMCW激光雷达的基本原理、主要优势、系统方案以及国内外主要厂商和产品，并分析了其作为车载激光雷达终极形态的潜力。">
+<title>1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家">
+<meta property='og:description' content="本文深入探讨了FMCW激光雷达的基本原理、主要优势、系统方案以及国内外主要厂商和产品，并分析了其作为车载激光雷达终极形态的潜力。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='FMCW激光雷达' /><meta property='article:tag' content='车载激光雷达' /><meta property='article:tag' content='自动驾驶' /><meta property='article:tag' content='激光雷达原理' /><meta property='article:tag' content='硅光子技术' /><meta property='article:published_time' content='2024-04-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-04-13T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png' />
+<meta name="twitter:title" content="1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家">
+<meta name="twitter:description" content="本文深入探讨了FMCW激光雷达的基本原理、主要优势、系统方案以及国内外主要厂商和产品，并分析了其作为车载激光雷达终极形态的潜力。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#01-前言">01 前言</a></li>
+    <li><a href="#02-基本原理">02 基本原理</a></li>
+    <li><a href="#03-主要优势">03 主要优势</a>
+      <ol>
+        <li><a href="#优势1直接获取速度">优势1：直接获取速度</a></li>
+        <li><a href="#优势2抗干扰能力强">优势2：抗干扰能力强</a></li>
+        <li><a href="#优势3激光功率更低安全裕量更大">优势3：激光功率更低，安全裕量更大</a></li>
+        <li><a href="#优势4信噪比更高检测性能更好">优势4：信噪比更高，检测性能更好</a></li>
+        <li><a href="#优势5高动态范围">优势5：高动态范围</a></li>
+        <li><a href="#优势6多回波检测性能更好">优势6：多回波检测性能更好</a></li>
+        <li><a href="#优势7更好的恶劣环境适应性">优势7：更好的恶劣环境适应性</a></li>
+        <li><a href="#优势8更适于固态化降本潜力更大">优势8：更适于固态化，降本潜力更大</a></li>
+      </ol>
+    </li>
+    <li><a href="#系统方案">系统方案</a>
+      <ol>
+        <li><a href="#核心器件1调频激光器">核心器件1：调频激光器</a></li>
+        <li><a href="#核心器件2扫描器">核心器件2：扫描器</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#核心器件4处理器">核心器件4：处理器</a></li>
+        <li><a href="#核心器件5硅光集成技术">核心器件5：硅光集成技术</a></li>
+      </ol>
+    </li>
+    <li><a href="#05-国外玩家">05 国外玩家</a>
+      <ol>
+        <li><a href="#1aeva">1.Aeva</a>
+          <ol>
+            <li><a href="#主要产品">主要产品：</a></li>
+            <li><a href="#主要客户">主要客户</a></li>
+          </ol>
+        </li>
+        <li><a href="#2mobileye">2.Mobileye</a></li>
+        <li><a href="#3silc">3.SiLC</a></li>
+        <li><a href="#4insight">4.Insight</a></li>
+        <li><a href="#5analog-photonics">5.Analog Photonics</a></li>
+        <li><a href="#6scantinel-photonics">6.Scantinel Photonics</a></li>
+        <li><a href="#7scintil-photonics">7.Scintil Photonics</a></li>
+        <li><a href="#8aurorablackmoreours">8.Aurora（Blackmore+OURS）</a></li>
+        <li><a href="#9strobe">9.Strobe</a></li>
+        <li><a href="#10baraja">10.Baraja</a></li>
+      </ol>
+    </li>
+    <li><a href="#06-国内玩家">06 国内玩家</a>
+      <ol>
+        <li><a href="#1洛微科技luminwave"><a href="https://luminwave.com.cn/">1.洛微科技（LuminWave）</a></a></li>
+        <li><a href="#2北京光勺科技">2.北京光勺科技</a></li>
+        <li><a href="#3北京摩尔芯光lightic">3.北京摩尔芯光（LightIC）</a></li>
+        <li><a href="#4珠海映讯芯光">4.珠海映讯芯光</a></li>
+        <li><a href="#5微源光子">5.微源光子</a></li>
+        <li><a href="#6挚感光子">6.挚感光子</a></li>
+        <li><a href="#7杭州爱莱达">7.杭州爱莱达</a></li>
+        <li><a href="#8其他">8.其他</a></li>
+      </ol>
+    </li>
+    <li><a href="#07-结语">07 结语</a></li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png" loading="lazy" alt="Featured image of post 1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" >
+                自动驾驶
+            </a>
+        
+            <a href="/categories/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8A%80%E6%9C%AF/" >
+                传感器技术
+            </a>
+        
+            <a href="/categories/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/" style="background-color: #2a9d8f; color: #fff;">
+                激光雷达
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/">1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文深入探讨了FMCW激光雷达的基本原理、主要优势、系统方案以及国内外主要厂商和产品，并分析了其作为车载激光雷达终极形态的潜力。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 13, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 30 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> |  雪岭飞花  雪岭飞花   2024-04-13 21:32</p>
+<h2 id="01-前言">01 前言
+</h2><p>激光雷达可能大家比较熟悉，但是“FMCW激光雷达”可能对许多朋友来说会比较陌生。</p>
+<p>本文介绍FMCW激光雷达的基本原理、主要优势、系统方案、以及目前布局FMCW激光雷达的主要公司和产品。</p>
+<p>下图从左到右，分别是普通毫米波雷达，4D成像毫米波雷达，常规激光雷达和FMCW激光雷达的点云对比。（常规激光雷达是指目前量产的采用dToF技术的半固态激光雷达）</p>
+<p><img src="/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<blockquote>
+<p>红色点：没有速度的反射点；其他颜色的点：有不同速度的反射点</p></blockquote>
+<p>可以看到，相对于毫米波雷达，<br>
+FMCW激光雷达有更高的点云密度，相对于常规激光雷达，<br>
+FMCW激光雷达每个点增加了速度信息。从某种意义上说，<br>
+FMCW激光雷达结合了毫米波雷达和常规激光雷达的优势。</p>
+<p>做一个不太严谨的比喻：</p>
+<p><img src="/img/ai/2d70d29eab8ceb0412bf960e5dbdc2ee.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>根据业内专家比较一致的观点，<br>
+<strong>FMCW激光雷达会是车载激光雷达的终极形态。</strong></p>
+<h2 id="02-基本原理">02 基本原理
+</h2><p>激光雷达一般常见的分类方法是按照扫描方式来分，例如可以分为机械式、半固态和全固态。</p>
+<p><img src="/img/ai/603fd6b847484e4f6876736551ff73da.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>除了按照扫描方式来分，还有一种不太常见的分类方法，<br>
+即按照按照测量方式来分，激光雷达可以分为dToF激光雷达和iToF激光雷达。</p>
+<ul>
+<li>
+<p>dToF（Direct Time of Flight，直接飞行时间）：通过直接测量发射激光与回波的信号的时间差，基于光在空气中的传播速度得到目标物体的距离信息，具有响应速度快，探测精度高的优势。dToF方案技术成熟度高，成本相对低，该方案是目前量产激光雷达使用的主要方案。</p>
+</li>
+<li>
+<p>iToF（Indirect Time of Flight，间接飞行时间）：将发射激光的频率或者相位进行调制，通过回波信号与参考光进行相干拍频得到频率差或者相位差，从而间接获得飞行时间计算出目标距离。其中，使用调制频率技术的激光雷达，被称为FMCW激光雷达（Frequency Modulated Continuous Wave，调频连续波）。使用调制相位技术的激光雷达，被称为PMCW激光雷达（Phase Modulated Continuous Wave，调相连续波）。<br>
+FMCW激光雷达是iToF激光雷达最常见的形式。</p>
+</li>
+</ul>
+<p>为了表述方便，dToF激光雷达在下文中采用“ToF雷达”、“ToF激光雷达”等同等含义表示。</p>
+<p>dToF激光雷达和FMCW激光雷达的测距原理对比：</p>
+<p><img src="/img/ai/904cec2c1b10d49727a2800acd31bdab.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>FMCW激光雷达测量原理和毫米波雷达相同,都是通过频差和多普勒频移来计算距离和速度。</p>
+<p><img src="/img/ai/f2ed43002c7aab5dd245d7533f0e15c7.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>不过FMCW激光雷达和毫米波雷达的测角原理不同，FMCW激光雷达由于波束极窄，可以通过扫描器件的角度直接计算目标的角度，而毫米波雷达由于波束很宽，需要使用复杂的DOA算法来估计目标角度。</p>
+<h2 id="03-主要优势">03 主要优势
+</h2><p>总结来说，FMCW激光雷达在测距、测速、抗干扰、功率（人眼安全）、信噪比等多方面，全面优于ToF激光雷达，不过系统复杂，由于开发难度较大，目前FMCW成本很高。</p>
+<p><img src="/img/ai/eae3d9cbd3c4821878d82cbbbc612d23.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="优势1直接获取速度">优势1：直接获取速度
+</h3><p>能够直接获取速度，是FMCW激光雷达相对于ToF激光雷达非常大的一个优势。</p>
+<p>ToF激光雷达的速度是通过点的位置间接推算的，因此一般需要5-6帧，才能识别目标的速度。</p>
+<p>而FMCW激光雷达采用多普勒效应直接获取径向速度，并且可以获取百万点云中每一个点的速度。</p>
+<p><img src="/img/ai/a338388334c19ef8b25f537c45c3cbd0.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva，激光雷达老炮儿</p>
+<p><img src="/img/ai/d6425656506533b7d4a87fb61f137086.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<p>有了速度信息之后，可以解决很多自动驾驶中的痛点场景。<br>
+下面部分案例来自Aeva。</p>
+<p><strong>开门杀</strong></p>
+<p>“开门杀”在生活中经常遇到，对于自动驾驶车辆，需要在极短时间内识别并规避。</p>
+<p>对于这种情况，ToF激光雷达通常需要2-3秒才能识别。而FMCW激光雷达由于有速度信息，从开车门那一刻就可以立刻捕捉到动态目标。</p>
+<p><img src="/img/ai/583e3ac3ade3c025cf125dadd7754aea.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p><strong>鬼探头</strong></p>
+<p>“鬼探头”也是自动驾驶场景中非常棘手的问题，主要原因是除了目标本身有一定的遮挡，对于由静止到运动的目标，目前传感器需要较长时间的跟踪和计算才能确认。</p>
+<p><img src="/img/ai/f0552909df3dd77592841ae06c9f8e28.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p>FMCW激光雷达可以更容易的识别。例如，下图中的行人刚开始移动时，FMCW激光雷达就已经“捕捉”，感知时间的缩短，可以给后续的规划和控制留出足够的反应时间。</p>
+<p><img src="/img/ai/5784db571445343dc113fd94897bffdd.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p><strong>“扬尘”、“洒水”、“雾气”误识别</strong></p>
+<p>对于“扬尘”、“洒水”、“雾气”，ToF激光雷达容易误识别为静止目标，导致智能驾驶车辆错误的紧急制动。</p>
+<p>FMCW激光雷达可以识别每一个点的速度，因此可以更容易的将这些干扰目标滤除。</p>
+<p><img src="/img/ai/ff489c4f44dc2f9aa942c910b8147126.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p><strong>运动目标需要的点数更少</strong></p>
+<p>ToF激光雷达为了降低误报，识别运动目标一般至少要10个点，极限情况下最少需要5个点。而FMCW由于有每个点的速度信息，可以将需要的点云数量降低到甚至2个点，而不会有明显的误报。</p>
+<p><img src="/img/ai/871bdcb42474ea090bcf0b3511a22acb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<h3 id="优势2抗干扰能力强">优势2：抗干扰能力强
+</h3><p><strong>抗干扰能力强</strong>，也是FMCW激光雷达的一个重大优势。</p>
+<p>对于ToF类型激光雷达，很难分辨接收到的回波是自己发出去的，还是其他雷达发出来的激光，或者是环境光。当道路上激光雷达比较多，或者有阳光直射时，干扰问题更容易出现。</p>
+<p><img src="/img/ai/490ea386962c756c5dd3580671e8b13e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：3dtof</p>
+<p>FMCW激光雷达采用窄线宽激光，线宽一般在100kHz以下，由于采用相干检测技术，只接受一个极窄区间光谱的回波做混频，其他频率的光波都会被过滤，因此，受环境和其他附近激光雷达系统的干扰概率很低。</p>
+<p>例如，即便是正对着太阳，也可以清晰的检测车辆目标：</p>
+<p><img src="/img/ai/599619cd363fb48f83f84d987a3be1af.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p>不过，FMCW激光雷达有可能在内部产生自干扰，比如通道之间串扰。假如采用OPA的扫描方式，还会出现旁瓣干扰，类似于毫米波雷达中的现象。</p>
+<p><img src="/img/ai/638ecf89319c1123e2dd9cd90d5f8f8d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="优势3激光功率更低安全裕量更大">优势3：激光功率更低，安全裕量更大
+</h3><p>对ToF激光雷达，决定测距范围的是功率和信噪比，而信噪比又与峰值激光功率成正比。因此尽量大提升峰值功率是ToF激光雷达设计的关键。</p>
+<p>因此，目前ToF激光雷达往往是将所有可用的光子，<br>
+压缩成一道狭窄的（纳秒级），而又明亮的（功率高）激光闪光。对于1550nm的激光，激光雷达的脉冲峰值功率可以高达1000W以上。</p>
+<p>而FMCW激光雷达的信噪比主要由调频线性度、激光线宽等决定，和激光功率相关性不是特别大。FMCW激光雷达功率一般在100mW以下，比ToF激光雷达的峰值激光功率<br>
+低四个数量级以上，平均功率是ToF激光雷达的<br>
+十分之一。</p>
+<p><img src="/img/ai/1d47c7ed7209eb4df435e31e199e5e2b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Lightigo</p>
+<p>如此高的峰值功率，虽然对人类和大多数动物眼睛安全，但对图像传感器有害。最近不少报道案例提到，用户给智能汽车拍照，导致激光雷达将手机相机CMOS芯片烧坏。</p>
+<p><img src="/img/ai/23594312e22803a6e381c0a161ea5425.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：https://mp.weixin.qq.com/s/TkVBElWjX7ROQXV5Vp0rNA</p>
+<p>对于该问题，绿芯频道也有专门的分析，详见：<br>
+激光雷达，烧不烧摄像头？全网首次横评实测，解析Lidar的安全秘密_哔哩哔哩_bilibili，https://www.bilibili.com/video/BV1hw4m1f7oD/?spm_id_from=333.337.search-card.all.click</p>
+<h3 id="优势4信噪比更高检测性能更好">优势4：信噪比更高，检测性能更好
+</h3><p>信噪比（Signal-to-noise Ratio，SNR），指的是系统中信号与噪声的比。信噪比对于激光雷达的性能极为关键，信噪比会直接影响激光雷达的测距性能、分辨率性能和灵敏度。</p>
+<p>ToF激光雷达无法区分回波是自己发出去激光的反射，还是其他雷达的激光或者是环境光，因而信噪比较低。而FMCW激光雷达基于相干检测的方式，<br>
+SNR比ToF激光雷达高3~4个数量级。因此，FMCW激光雷达可实现比ToF激光雷达更远的探测距离和更高的分辨率。</p>
+<p>ToF激光雷达和FMCW激光雷达的SNR对比：</p>
+<p><img src="/img/ai/9b5facbe0d18bd23b862c89732286c5f.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Lightigo</p>
+<p>FMCW激光雷达可以轻松检测500m左右的车辆目标：</p>
+<p><img src="/img/ai/787a9c8b980ad4b06c8d9d1f26e5375d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<h3 id="优势5高动态范围">优势5：高动态范围
+</h3><p>ToF激光雷达一般采用单光子探测器SiPM或者SPAD，动态范围有限，在遇到高反射目标时，容易发生膨胀（<br>
+Blooming），例如：</p>
+<p><img src="/img/ai/d8e6570549f7b6e804ac32c2f9ff49b3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：速腾聚创</p>
+<p>而FMCW激光雷达由于采用PIN探测器，不存在高反膨胀问题。由于动态范围很广，高反目标和低反目标的区分非常清晰。</p>
+<p><img src="/img/ai/45a9fb2dca08b28980357fcba6d75830.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片参考：Aeva</p>
+<h3 id="优势6多回波检测性能更好">优势6：多回波检测性能更好
+</h3><p>FMCW激光雷达具备更好的多回波检测性能，可以更好的检测“前前”目标。</p>
+<p>例如，清晰的检测金属网格围栏后的车辆目标：</p>
+<p><img src="/img/ai/eed81f9a4182dc352214c99611353e47.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p>检测到被遮挡的“前前车”：</p>
+<p><img src="/img/ai/0bb979f098c59c5302e552aa7197df3b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：光勺科技</p>
+<h3 id="优势7更好的恶劣环境适应性">优势7：更好的恶劣环境适应性
+</h3><p>ToF激光雷达在雨雪雾等恶劣天气条件下，其工作表现会受到较大影响。而FMCW激光雷达在不利天气条件下，仍能保持良好的性能。</p>
+<p><img src="/img/ai/95852b0ebadbe143fc04b06f706d2364.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>视频来源：Aeva</p>
+<p>FMCW激光雷达检测雾霾环境中的行人：</p>
+<p><img src="/img/ai/898c5e8e4f2569f25bbdd178629ce69b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片参考：Aeva</p>
+<h3 id="优势8更适于固态化降本潜力更大">优势8：更适于固态化，降本潜力更大
+</h3><p>ToF激光雷达已经<br>
+将激光器和探测器芯片化，但是<br>
+光学部件及扫描模块实现芯片化较为困难。</p>
+<p>而FMCW激光雷达由于发射功率低，如果扫描方式选择相控阵（OPA）技术，可以将激光器、探测器、扫描模块以及其他光学部件集成为一个硅光芯片中，做到真正的“芯片化”全固态。</p>
+<p>“芯片化”将使得激光雷达的降本潜力大大提升。</p>
+<p><img src="/img/ai/b01ce047e5ae474035f40784b111d781.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：洛微科技</p>
+<p>Aeva集成度很高的硅光芯片模块：</p>
+<p><img src="/img/ai/38b4f900a926f82f393813a8a0cb8551.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<h2 id="系统方案">系统方案
+</h2><p>FMCW激光雷达的典型架构如下：</p>
+<p><img src="/img/ai/58dc379e14a442ae82a5bef885aa616a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>FMCW激光雷达的关键技术包括：激光调频技术、收发光学系统、相干接收技术、硅光集成技术、信号解析算法等。</p>
+<p><img src="/img/ai/71095a1baef074dfff2f35a060e67c78.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：A_Spurless_and_Wideband_Continuous-Time_Electro-Op</p>
+<h3 id="核心器件1调频激光器">核心器件1：调频激光器
+</h3><p>调频激光器是FMCW激光雷达的核心器件，要实现优秀的检测性能，激光器需要满足如下要求：</p>
+<ul>
+<li>
+<p>具有较大的频率可调范围。较大的频率可调范围决定了拍频信号的最大频率，这也决定了雷达的分辨率。测距分辨率ΔR和调频带宽B的关系是：ΔR=c/(2B)</p>
+</li>
+<li>
+<p>具有较快的调频速率。调制速率也影响着拍频的频率，并且决定了雷达的动态特性。</p>
+</li>
+<li>
+<p>线宽尽量窄。 线宽越窄，信噪比越高，雷达的探测距离和分辨率性能就会越好。</p>
+</li>
+</ul>
+<blockquote>
+<p>激光线宽：激光光源发射光谱的半高全宽，即达到峰值一半高度（有时也取1/e），所对应的两个频率中间的宽度。</p></blockquote>
+<p><img src="/img/ai/0410f1ebaef8ea470f6fe095c5ee05e2.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：芯片工艺技术</p>
+<ul>
+<li>频率调制具有尽量高的线性度，无跳模。调频的线性度是非常重要的一个指标，它决定了雷达的探测精度。</li>
+</ul>
+<p><img src="/img/ai/52a935dfb1e00281b525807ff30c5689.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：阿凯的学习笔记。左图：为调频线性非常好时所得到的拍频信号，对于固定的距离，拍频所得的频率是固定且唯一的。右图：本振光调频的曲线线性度过差，其与接收光相干后会产生不同频率的拍频信号，由此会容易导致距离的计算错误。</p>
+<ul>
+<li>
+<p>噪声低。实际产生的调制波形与理想的调制波形应尽可能符合。</p>
+</li>
+<li>
+<p>出光功率稳定，功耗低。</p>
+</li>
+<li>
+<p>控制尽量简单。</p>
+</li>
+<li>
+<p>成本低、尺寸小，满足车规**，**等等。</p>
+</li>
+</ul>
+<p><strong>激光器的类型</strong></p>
+<p>FMCW激光雷达一般选用半导体激光器，半导体激光器有如下分类：</p>
+<p><img src="/img/ai/5fdee4d5dfe07f10664373c468a6dd4d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：易天光通信</p>
+<p>激光器按照调制方式，分为直接调制（或者内调制）和外调制两种。</p>
+<ul>
+<li>
+<p>内调激光器：在谐振腔内放置调制元件，用信号控制调制元件物理特性的变化，以改变谐振腔的参数，从而改变激光的输出特性。</p>
+</li>
+<li>
+<p>外调激光器：外调制是把激光的产生和调制分开。在调制器上加调制信号电压，使调制器的某些物理特性发生相的变化，当激光通过时，实现频率的调制。</p>
+</li>
+</ul>
+<p><img src="/img/ai/c86925a025014e0f5ddd636449b35fa3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>常见半导体窄线宽的激光器对比如下：</p>
+<p><img src="/img/ai/b47c962323f64a03e4f329a4097e6b34.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>外调激光器在线性度、线宽、功率等方面性能优秀，但是成本很高。</p>
+<p>DFB激光器和DBR激光器的结构，分别如下：</p>
+<p><img src="/img/ai/37c5210e3c97f8d083b08185b8267f6b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>资料来源：eagleyard Photonics</p>
+<ul>
+<li>
+<p>DFB激光器（Distributed Feed Back，分布式反馈），内置了布拉格光栅（Bragg Grating），属于侧面发射的半导体激光器。DFB激光器主要以半导体材料为介质，包括锑化镓(GaSb)、砷化镓（GaAs）、磷化铟(InP)、硫化锌(ZnS)等。</p>
+</li>
+<li>
+<p>DBR激光器（Distributed Bragg Reflector，分布式布拉格反射），是具有增益、相位和DFB截面的多段激光器。DBR激光器通过布拉格光栅来充当反射镜，在两段布拉格光栅之间封装一段掺杂光纤，通过泵浦中间的掺杂光纤来提供增益。</p>
+</li>
+</ul>
+<p>DFB激光器和DBR激光器的参数对比：</p>
+<p><img src="/img/ai/44f63b6ab08148be25df028dfdb9a8a1.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：富泰科技</p>
+<h3 id="核心器件2扫描器">核心器件2：扫描器
+</h3><p>FMCW激光雷达一般使用MEMS振镜、或者纯固态扫描方式。其中，后者由于完全没有运动部件，是目前的研究热点。</p>
+<p>固态扫描方法一般常见的有3种形式：</p>
+<p><img src="/img/ai/2e60ce4bb921307e19f6de1ef106bef8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>优劣势对比：</p>
+<p><img src="/img/ai/14a964d9eea86b30f1c8071429becc03.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>OPA光学相控阵扫描方式，是最具有潜力的扫描方案。</p>
+<p><img src="/img/ai/ac3b3f7f91ab2cc29395078aff29a0a4.gif"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>采用移相器和光栅天线构建的OPA固态扫描系统：</p>
+<p><img src="/img/ai/bfddf56159dbc9f7e6875bc41f0dee68.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="核心器件3接收器">核心器件3：接收器
+</h1><p>FMCW激光雷达可以使用相对低廉的PIN作为接收单元，但是需要非常精确的低噪声光信号处理（OSP）电路来构建相干接收器，因此难度也相当大。</p>
+<p>平衡光电探测器：</p>
+<p><img src="/img/ai/b3b8c3cab848c23d0ebb7d5ab1e484de.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：光翼智能</p>
+<h3 id="核心器件4处理器">核心器件4：处理器
+</h3><p>FMCW激光雷达对ADC转换速率要求是ToF激光雷达的2~4倍，因此需要能够进行超高速的FFT转换，FMCW激光雷达处理器系统的复杂度是ToF系统的几倍，因此系统复杂，成本也更高。</p>
+<p>Aeva开发的FMCW专用处理器</p>
+<p><img src="/img/ai/f38af9d35f2e0dfc6ac878ba2ebffc6d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<h3 id="核心器件5硅光集成技术">核心器件5：硅光集成技术
+</h3><p>硅基光电子集成技术（简称“硅光集成技术”或者“硅光技术”），是20世纪最重要的两项发明——集成电路和半导体激光器的组合。</p>
+<p>硅光技术是以光子为信息载体的硅基大规模集成技术，其核心内容是采用CMOS兼容的工艺，将光学器件与电子器件进行集成，形成一个具有综合功能的大规模集成芯片，集成之后的芯片被称为“硅基光电子集成芯片”或者“硅光芯片”。</p>
+<p><img src="/img/ai/c21ee8baebfd06db2e83c945bfd9ff26.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Scantinel Photonics</p>
+<p>“硅光芯片”具有低成本、高兼容性、高集成度、超大规模制造的特点，由于可大规模集成激光器、调制器、放大器、光学天线等结构单元，使得激光雷达具有小型化、低功耗、低成本等优势。</p>
+<p><strong>开发难度大，成本高</strong>是FMCW激光雷达的最大挑战。</p>
+<p>FMCW激光雷达的系统复杂度远高于ToF，光学器件更多，激光调制、相干接收、对准耦合、信号处理等都难度很大，<br>
+FMCW激光雷达中硅光芯片的开发难度远超光通信产品。</p>
+<p>例如，FMCW激光雷达使用相干探测，所有光学器件表面的公差都必须控制在λ/20以内。这种精度的元器件制作难度极高，良率很低，价格昂贵。<br>
+据了解，Blackmore测试用的激光雷达产品，价格高达10万美元一台。</p>
+<h2 id="05-国外玩家">05 国外玩家
+</h2><h3 id="1aeva">1.Aeva
+</h3><p>Aeva成立于2017年，是一家主营FMCW 4D激光雷达的科技公司（包括硬件系统和软件算法），2021年通过SPAC方式在美股上市。</p>
+<p>公司创始人为前苹果工程师Soroush Salehian和Mina Rezk，其他核心管理团队分别来自JUUL、Apple、BMW、Intel等。</p>
+<p><img src="/img/ai/ca70cae89298f88da9a09cbf726349f4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p>发展历程：</p>
+<p><img src="/img/ai/e482c11b18590f3bc4e3b1b1952e4d0e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p>Aeva的FMCW激光雷达主要覆盖三大应用方向：</p>
+<ul>
+<li>
+<p>汽车领域：包括乘用车、商用车（如Robotrunk）、移动出行（如Robotaxi）；</p>
+</li>
+<li>
+<p>消费类设备：消费电子（3D投影、AR/VR）、消费健康市场（非接触式健康监测，如监测脉搏率和呼吸率）；</p>
+</li>
+<li>
+<p>工业自动化：为机器人、工业计量机器和其他自动化设备提供一种以更清晰、更准确和更具成本效益的方式感知周围环境的方式。</p>
+</li>
+</ul>
+<p>Aeva最大的核心竞争力是“基于硅光芯片的模组”（module based on silicon photonic chip），这个模组是FMCW激光雷达的核心，也是量产最关键、最难的环节。</p>
+<p><img src="/img/ai/5401f4203e8217ad7253308085b9f0bd.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p><strong>Aeva硅光模组已经发展到第4代：</strong></p>
+<ul>
+<li>
+<p>第1代体积很大，重量达十几公斤；</p>
+</li>
+<li>
+<p>第2代重量减少到5.5公斤；</p>
+</li>
+<li>
+<p>第3代才做到了1.5公斤重量、5cm左右高度，成功将发射端、光学系统、探测端等器件集成到一块只要硬币大小的芯片上，从而在整机层面实现了体积的小型化。</p>
+</li>
+<li>
+<p>第4代体积更小，运用在最新的Atlas产品中。</p>
+</li>
+</ul>
+<p><img src="/img/ai/edb207e25de9cef047c87be35bef86ec.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<p><strong>Aeva的主要技术特点：</strong></p>
+<ul>
+<li>
+<p>定制半导体无光纤激光。采用1550nm的专用半导体激光器，方便大规模量产，成本更低。</p>
+</li>
+<li>
+<p>定制接收器，采用定制的PIN-PD（无需使用APD或SPAD），基于成熟的互补金属氧化物半导体的光电探测器，集成在硅光子上，无需采用特殊工艺。</p>
+</li>
+<li>
+<p>硅光集成技术：主要激光雷达组件采用电信行业成熟的互补金属氧化物半导体工艺，集成在硅光子上。不依赖难以批量生产的特殊材料。</p>
+</li>
+<li>
+<p>收发器数量少：Aeva采用创新的FMCW技术，可以使用少量收发器，来提供整个视场的高分辨率性能</p>
+</li>
+<li>
+<p>定制数字信号处理ASIC：专为FMCW激光雷达定制的ASIC，具备专用的DSP软件算法。</p>
+</li>
+<li>
+<p>4D感知软件：可以实现物体检测、对象分类和精准跟踪、车辆状态估计（可以对车辆定位和动态特性，例如速度、加速度和转弯率，进行高质量估计，从而无需陀螺仪和惯导）、地面分割和车道检测。</p>
+</li>
+<li>
+<p>点密度和最大范围：Aeva 实施创新的 FMCW 技术方法打破了最大范围和点密度之间的依赖关系，同时实现高分辨率的远距离能力，每条光束能够达到数百万像素/秒。</p>
+</li>
+</ul>
+<h4 id="主要产品">主要产品：
+</h4><h5 id="aeries-i">Aeries I
+</h5><p>2019.12，Aeva发布第一代产品：Aeries</p>
+<p><img src="/img/ai/38b4f900a926f82f393813a8a0cb8551.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<h5 id="aeries-ii">Aeries II
+</h5><p>2022年2月，发布Aareis II，首款具有相机级分辨率的4D Lidar。Aries II预计2024年量产。</p>
+<p>Aeries II的硅光模块：</p>
+<p><img src="/img/ai/ae29aa68fbd5548c803a534fc6dcf249.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>据Aeva介绍，Aeries II提供每秒400万个原始点分辨率，最大视场120°×30°，以及高达500米的最大探测范围。</p>
+<p><img src="/img/ai/3b80eedbbed1909245db2c9065624491.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>安装案例：</p>
+<p><img src="/img/ai/30808b8776972708405c049d22b5e546.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>主要性能：</p>
+<ul>
+<li>
+<p>测距：最远500米</p>
+</li>
+<li>
+<p>FOV：120°(H) * 30°(V)</p>
+</li>
+<li>
+<p>角分辨率：0.025°(H) * 0.025°(V)</p>
+</li>
+<li>
+<p>满足车规</p>
+</li>
+<li>
+<p>防护和碰撞等级：IP69K/IK07</p>
+</li>
+</ul>
+<p>可以实现超分辨率：</p>
+<p><img src="/img/ai/8123f28aeeaed17e4003a88498cc9e1e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva</p>
+<h5 id="atlas">Atlas
+</h5><p>2022年11月，Aeva推出<strong>Atlas</strong>，将于2024年实现量产交付。</p>
+<p><img src="/img/ai/5f5fe33ec214db7fe8b5cc1c9d640eb2.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>Atlas采用Aeva在定制硅技术方面的创新，包括<br>
+Aeva CoreVision片上激光雷达模块和Aeva X1激光雷达处理器（SoC）：</p>
+<ul>
+<li>Aeva CoreVision片上激光雷达模块：Aeva的第四代片上激光雷达模块按照严格的汽车标准设计，在一个更小的模块中集成了所有关键的激光雷达元件，包括发射器、探测器和新的光学处理接口芯片。CoreVision建立在Aeva专有的硅光技术基础上，用硅光技术取代了传统飞行时间激光雷达传感器中的复杂光纤系统，确保了质量，并以可承受的成本实现了大规模生产。</li>
+</ul>
+<p><img src="/img/ai/e861cee3c317d5f23158ed03208ed254.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<ul>
+<li>Aeva X1 SOC处理器：新型FMCW激光雷达SoC将数据采集、点云处理、扫描系统和应用软件无缝集成到单个混合信号处理芯片中，专为汽车级功能安全和网络安全的可靠性而设计。</li>
+</ul>
+<p><img src="/img/ai/b10bc1d5e92cd96edcd9abc713106356.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>Atlas内部结构如下：</p>
+<p><img src="/img/ai/dbbb127ee675aeac1830937d10c62c25.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Aeva官网</p>
+<p>主要特点：<br>
+-测距：250 Meters（@10%），500 Meters（ 最大）</p>
+<ul>
+<li>
+<p>FOV：120°(H) * 30°(V)</p>
+</li>
+<li>
+<p>功能安全：ASIL-B (D)</p>
+</li>
+<li>
+<p>满足车规</p>
+</li>
+<li>
+<p>Atlas处理器比Aeries II的小70%，功率降低75%，无需主动散热，可方便的布置在挡风玻璃后的车厢内、车顶或格栅中。</p>
+</li>
+</ul>
+<h4 id="主要客户">主要客户
+</h4><p>Aeva表示公司已拿到全球前十车企的定点，量产车型预计在 2025 年投产。</p>
+<p>主要合作方如下：</p>
+<ul>
+<li>
+<p>PorscheSE先后在2018年、2019年对Aeva完成了投资。PorscheSE是大众集团大股东，旗下有大众、奥迪、斯柯达等品牌；</p>
+</li>
+<li>
+<p>2019年，Aeva与奥迪旗下自动驾驶部门AID（AID已与福特的自动驾驶子公司Argo.AI合并）建立合作伙伴关系；</p>
+</li>
+<li>
+<p>Aeva与大众集团就LiDAR合作开发下一代汽车平台，目标是2024年投产；</p>
+</li>
+<li>
+<p>May  Mobility的下一代自主运输车辆，该车辆配备了Aeva 4D激光雷达技术，基于丰田Sienna  Autono-MaaS车辆平台打造。</p>
+</li>
+<li>
+<p>2020年9月，Aeva与ZF建立生产合作伙伴关系；</p>
+</li>
+<li>
+<p>2021年1月，Aeva与DENSO达成合作，双方将共同开发下一代激光雷达产品。</p>
+</li>
+<li>
+<p>2021年1月，Aeva与图森未来达成合作，图森未来将搭载其4D激光雷达产品。</p>
+</li>
+<li>
+<p>2021年11月，Aeva与Plus.AI达成合作，后者从2022年末开始在商用自动驾驶中使用Aeva的雷达产品；</p>
+</li>
+<li>
+<p>在工业领域，Aeva与尼康建立合作，预计2024年量产第一个非汽车项目。</p>
+</li>
+<li>
+<p>与德国戴姆勒卡车达成定点合作，预计合同总价值达10亿美元，并预期将于2027年为其在美国上路的自动驾驶卡车提供传感器。</p>
+</li>
+</ul>
+<h3 id="2mobileye">2.Mobileye
+</h3><p>英特尔在硅光技术方面造诣深厚，而Mobileye作为英特尔的子公司，在开发难度巨大的FMCW激光雷达上，无疑有着得天独厚的优势。</p>
+<p>在2021年1月的CES上，Mobileye CEO Shashua在演讲中说：我们激光雷达的性能预计会超过市场上任何已知的解决方案，能够使激光雷达本身成为一个单一的、完整的、独立的感知系统。</p>
+<p>Shashua自豪地宣称：“如果没有相应的的资产和能力，这个项目耗资巨大。幸运的是，我们在英特尔有足够的知识产权、专业知识和晶圆厂，知道如何将有源器件、无源器件和波导放到芯片上。借此，我们可以把这些都集成到SoC上，并交给英特尔硅光子部门在新墨西哥州的一家工厂制造。这是全球独一无二的资产。”</p>
+<p><img src="/img/ai/26631aa3cc029127cd70ae3411c5c16e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<p>该激光雷达可以做到600pt/deg^2的点云密度，和300米的测量范围。预计该激光雷达的量产价格在1000美元以下。</p>
+<p><img src="/img/ai/ffe319c56feaf4f9d3aecf41c13307d9.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<p><img src="/img/ai/9cb8ae004db3e497904d541bd1e43c81.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<p>Mobileye的FMCW激光雷达（<br>
+A2样）：</p>
+<p><img src="/img/ai/165541138c7dd9b0dd02a4ad21086f6e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<p>主要性能：</p>
+<ul>
+<li>
+<p>点频：120万点/秒</p>
+</li>
+<li>
+<p>速度精度：5cm/s</p>
+</li>
+<li>
+<p>FOV：130°(H) * 28°(V)</p>
+</li>
+<li>
+<p>线数：128线</p>
+</li>
+<li>
+<p>像素：150万pixel/秒</p>
+</li>
+</ul>
+<p>Mobileye的FMCW激光雷达预计2027年SOP，<br>
+感知效果：</p>
+<p><img src="/img/ai/d6425656506533b7d4a87fb61f137086.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Mobileye</p>
+<h3 id="3silc">3.SiLC
+</h3><p><img src="/img/ai/3a715acac1d022a353e6cd40bbc354f6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>SiLC创立于2018年，是一家基于硅光技术的集成4D视觉解决方案供应商。</p>
+<p>SiLC被Gartner评为硅光子学领域的优秀供应商。SiLC的投资者包括戴尔技术资本、IGV的索尼创新基金、FLUXUNIT-AMS  OSRAM Ventures、UMC资本、Alter Ventures和爱普生。</p>
+<p>SiLC的使命是让机器能够像人类一样看东西，它正在发挥其在硅光子学领域的深厚专业知识，推动FMCW激光雷达解决方案的市场应用。</p>
+<p>SiLC使用1550 nm波长FMCW技术，通过4D+Eyeonic芯片集成了实现相干视觉传感器所需的所有光子功能，探测距离超过200m，尺寸小、功耗低、成本低，面向机器人、自动驾驶汽车、生物识别、安全、工业自动化和其他领先市场。</p>
+<p><img src="/img/ai/2eaded23cad4003593e4de73bfc89a34.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：SiLC官网</p>
+<p>主要历程如下：</p>
+<ul>
+<li>
+<p>2018年，宣布在单芯片上集成了1550nm调频连续波（FMCW）激光雷达（LiDAR）功能。</p>
+</li>
+<li>
+<p>2019.12，Varroc Lighting Systems宣布在量产汽车前照灯中，集成SiLC的激光雷达技术。Varroc Lighting Systems前照灯基于复杂的LED设计，应用了四颗SiLC的硅光子FMCW视觉芯片，使每个前照灯能够提供完整的20 x 80度视场（FOV）。</p>
+</li>
+<li>
+<p>2023年10月4日，SiLC推出Eyeonic Vision系统，为从短距离到超过1250米的视觉检测能力而设计。</p>
+</li>
+</ul>
+<p><img src="/img/ai/e608837afa6aa44d33637e1670ea021b.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>左：偏振强度，能够识别表面和材料；右：3D信息，图片来源：SiLC官网</p>
+<p>SiLC的Eyeonic Vision系统产品组合包括：</p>
+<ul>
+<li>
+<p>近程–该版本专为最远50米的视觉检测而设计，非常适合需要高精度的人工智能机器视觉任务，如托盘和卡车装载或产品检测。</p>
+</li>
+<li>
+<p>中程–适用于最远150米的视觉检测，适合家庭安防和工厂自动化应用。</p>
+</li>
+<li>
+<p>远程–该版本提供最远300米的视觉检测，专为ADAS和自动驾驶汽车量身定制。</p>
+</li>
+<li>
+<p>超远程–用于超过1250米的视觉检测，目标是无人机跟踪、周界安全和飞机地面控制。</p>
+</li>
+</ul>
+<p><img src="/img/ai/94c3b7f134e368c3dba8b6792a14923e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：SiLC官网</p>
+<h3 id="4insight">4.Insight
+</h3><p><img src="/img/ai/46e66b5da95f4705b75042d508969825.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>Insight  LiDAR成立于2016年，目前正在研发超高分辨率芯片级FMCW激光雷达。该公司及其母公司Insight Photonic  Solutions总部位于美国科罗拉多州博尔德，是在3D成像和高速扫频激光技术领域屡获殊荣的全球领导者。Insight  LiDAR产品应用范围从汽车成像到生物医学成像，从半导体制造到材料加工。</p>
+<p>Insight LiDAR将所有关键光学元器件集成到光子集成电路（PIC）上，实现业界领先的性能和成本。</p>
+<p><img src="/img/ai/504bee7e453ea97f23268715b1951e94.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Insight</p>
+<p>2019.1，Insight LiDAR在CES2019上推出了Digital Coherent LiDAR激光雷达产品（FMCW），这是一款面向新兴自动驾驶汽车市场的芯片级远距离激光雷达（LiDAR）传感器。</p>
+<p><img src="/img/ai/61601a210a3f94c01f5cb36bd64b547c.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Insight</p>
+<p>主要特点：</p>
+<ul>
+<li>
+<p>测距：200米@10%</p>
+</li>
+<li>
+<p>角分辨率：0.025°x 0.025°</p>
+</li>
+<li>
+<p>FOV：120°x 340°</p>
+</li>
+<li>
+<p>真正灵活的固态快轴扫描</p>
+</li>
+<li>
+<p>低成本全半导体芯片方案，所有光子器件均在光子集成电路上（PIC），所有电子电路都在ASIC上。</p>
+</li>
+</ul>
+<p>Insight LiDAR还发布了Insight 1600前向激光雷达，该雷达适合前端安装远距离测距应用。Insight 1600利用半导体芯片架构——光子集成电路（PIC）和ASIC芯片，可以迅速扩大生产规模以实现低成本生产。</p>
+<p><img src="/img/ai/68261980c0a75767bc0084187dc7465a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Insight</p>
+<p>2021.3，Insight还发布Insight 400激光雷达，Insight 400主要安装在角向和后向。</p>
+<p><img src="/img/ai/11178444b1c6965791f9f61f55a977ed.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Insight</p>
+<p>Insight 400主要特点：</p>
+<ul>
+<li>
+<p>小尺寸：13cm x 5cm x 5.5cm</p>
+</li>
+<li>
+<p>角分辨率：0.025°(H) x 0.025°(V)</p>
+</li>
+<li>
+<p>专有的真正固态快速轴扫描</p>
+</li>
+<li>
+<p>当与Insight  1600结合使用时，Insight 400可实现360度远程激光雷达全覆盖，每辆车的激光雷达总成本不到1500美元，是其他解决方案的四分之一。</p>
+</li>
+</ul>
+<h3 id="5analog-photonics">5.Analog Photonics
+</h3><p><img src="/img/ai/dc08c8c75a09def411cba1ccc97449e4.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>Analog Photonics开发OPA纯固态FMCW激光雷达。</p>
+<p><img src="/img/ai/eb3dd3857bfedf5d8ca0d8207d5c4bfe.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Analog Photonics官网</p>
+<p><img src="/img/ai/739ea184f245c1c4c9c95d99cc78c014.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Analog Photonics官网</p>
+<h3 id="6scantinel-photonics">6.Scantinel Photonics
+</h3><p>Scantinel Photonics是德国一家FMCW激光雷达专业开发商。Scantinel Photonics获得光学巨头蔡司投资，后者在2018年11月还投资了另外一家FMCW激光雷达开发商Bridger Photonics。</p>
+<p>Scantinel  Photonics公司的激光雷达技术在纯固态平台上整合了相干测距和光谱扫描，使其能够以紧凑的尺寸和较低的成本提供大范围、高可靠的车辆环境精确检测。</p>
+<p>Scantinel Photonics在CES 2024展示FMCW激光雷达硅芯片，这是该公司第二代芯片级大规模并行光子集成电路(PIC)。</p>
+<p><img src="/img/ai/4a55dbf45be4275a86d26757a52fb341.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：<br>
+Scantinel  Photonics</p>
+<h3 id="7scintil-photonics">7.Scintil Photonics
+</h3><p>Scintil Photonics主要提供单片集成激光器和光放大器的硅光子集成电路（IC），该公司能够通过一种名为BackSide-on-BOX的技术，结合Si和InP/III-V材料，实现有源和无源光学元件的无缝集成，将III-V光放大器和激光器集成在先进的硅光子电路的背面。</p>
+<p>基于BackSide-on-BOX技术的增强型硅光子集成电路产品是一种单芯片解决方案，能够在单芯片中实现包括激光器在内的全光学元件集成。这种设计使波导激光器达到高耦合效率，而且不需要校准激光器。同时，内部的密封设计使其不需要密封封装。该产品为大规模生产PIC（光子集成电路）提供了独特的解决方案。</p>
+<p><img src="/img/ai/f623be87070cf9f195e585e55b4ff0a6.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：<br>
+Scintil Photonics</p>
+<p>2022年6月21日，Scintil Photonics获得1350万欧元（约9517万元）的第二轮融资，本轮融资由老股东博世 领投。</p>
+<h3 id="8aurorablackmoreours">8.Aurora（Blackmore+OURS）
+</h3><p>Blackmore是Bridger  Photonics的子公司，因此Blackmore的FMCW技术来自于其母公司。<br>
+Blackmore很早就开始研发线性调频激光测距技术，2018年即推出FMCW激光雷达产品。公司股东包含宝马、丰田等整车企业。</p>
+<p>2019年，Blackmore被Aurora收购。Aurora于2021年还收购了激光雷达领域初创公司OURS  Technology，后者也以FMCW为技术路线。</p>
+<h3 id="9strobe">9.Strobe
+</h3><p>Strobe是一家美国加州帕萨迪娜市的激光雷达研发制造公司。该公司研发的激光雷达技术，可将整个激光雷达阵列缩减到一个芯片上，使得激光雷达的体积更小，制造成本据说可降低99%。</p>
+<p>Strobe的技术来源于其母公司OEwaves，采用FMCW技术路线，核心调频激光器通过注入式锁频锁定在WGM谐振器的谐振频率上，通过物理方法例如电光效应或压电形变，可以高速改变谐振器频率牵引激光频率。</p>
+<p>该激光器体积小，可以实现高速线性调频，刚好满足FMCW激光雷达对激光器的需求。该外腔激光器同样面临着生产复杂、高成本、低可靠性等问题。</p>
+<p>Strobe在2017年被通用旗下子公司Cruise Automation收购。</p>
+<p>Strobe开发的激光雷达原型产品：</p>
+<p><img src="/img/ai/51b6b56b541f1be095b125ee1bb5d81e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Strobe</p>
+<h3 id="10baraja">10.Baraja
+</h3><p>Baraja的纯固态FMCW激光雷达Spectrum HD25：</p>
+<p><img src="/img/ai/affed186bdd223ea7926bb92bf430448.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Baraja官网</p>
+<p>性能指标：</p>
+<p><img src="/img/ai/f08fa49105c8e7c08664662149f7aeae.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：Baraja官网</p>
+<h2 id="06-国内玩家">06 国内玩家
+</h2><h3 id="1洛微科技luminwave"><a class="link" href="https://luminwave.com.cn/"  target="_blank" rel="noopener"
+    >1.洛微科技（LuminWave）</a>
+</h3><p><a class="link" href="https://luminwave.com.cn/"  target="_blank" rel="noopener"
+    >官网</a></p>
+<p>洛微科技(LuminWave)创立于2018年，是全球领先的激光雷达和3D传感器硬件和感知解决方案提供商。</p>
+<p>洛微科技将光相控阵（OPA）、连续波调频（FMCW）和晶圆级微纳光学等的技术应用到LiDAR领域，自主研发了纯固态成像级激光雷达（Imaging  Grade  LiDAR）以及实现了毫米级的系统级封装（SiP）的微激光雷达（MicroLiDAR）。</p>
+<p>目前，公司第一代的纯固态成像级LiDAR已经初步完成样品，MicroLiDAR已经进入量产，开始为多家客户供货。</p>
+<p><img src="/img/ai/8aa552c967bd142c61f5002c1fde9199.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>洛微科技基于硅光子技术，开发了<br>
+光相控阵扫描（OPA）芯片和相干探测芯片：</p>
+<ul>
+<li>
+<p>OPA芯片依靠硅半导体工艺大量集成波长尺度的光学功能，解决了高分辨率和大视场角的光信号覆盖问题。</p>
+</li>
+<li>
+<p>相干探测芯片基于FMCW的相干探测，进行测距和测速。</p>
+</li>
+<li>
+<p>长距HP系列 工业级高精度激光测距传感器,HP1是一款洛微自主研发的工业级高精度激光测距传感器，这款传感器采用自主研发的硅光子集成电路（Si-PIC）技术，通过先进的调频连续波（FMCW）方法，在长距测量时，HP1对于100米范围内的目标，可实现小于1mm的精度和小于2mm的绝对误差；在短距离测量时，可实现小于20um的精度。满足中长距离非接触高精度测量需求。</p>
+</li>
+</ul>
+<p><img src="/img/ai/dba9e3b79edaaa9c9f0ea20efed7a209.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：洛微科技</p>
+<p>2025 年伊始，洛微科技（LuminWave）正式宣布获得北京电控光电融合基金战略投资，并完成B1轮融资首关,此前B轮估值达15亿元(华盖资本,海松资本等机构投资).</p>
+<h3 id="2北京光勺科技">2.北京光勺科技
+</h3><p>光勺科技成立于2019年1月，是一家FMCW激光雷达技术研发商。团队在FMCW激光雷达拥有十年的研产经验。</p>
+<p>光勺科技的FMCW激光雷达调制的不仅是激光波的频率，还有相位。19年1月完成原理机，19年底完成了2台的样机，20年底小批量量产交付客户。</p>
+<p>2020.1，光勺科技展示了FMCW激光雷达Demo及最新路测视频。</p>
+<p><img src="/img/ai/4cb034d1f062ca6d5d3a7aef6bab7889.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：光勺科技</p>
+<h3 id="3北京摩尔芯光lightic">3.北京摩尔芯光（LightIC）
+</h3><p>摩尔芯光拥有领先的光子集成技术，公司致力于研发生产基于硅光技术的激光雷达（LiDAR）芯片及系统，为自动驾驶、机器人、智慧交通及物流、工业自动化、测绘等领域提供芯片化的3D感知方案。摩尔芯光已获得国际著名风投机构过亿元投资。</p>
+<p>公司团队由国内外顶级高校和科研院所，以及Intel、Apple、Marvell、Uber等国际一流科技企业的资深工程师组成。</p>
+<p><img src="/img/ai/f3144ab6d0f477f3e2fc64b524e4d02e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：摩尔芯光</p>
+<h3 id="4珠海映讯芯光">4.珠海映讯芯光
+</h3><p>珠海映讯芯光科技有限公司是一家拥有领先硅光子集成芯片技术的硬科技创新企业。核心技术团队由来自硅谷顶级芯片企业的芯片专家和国际化高科技企业的精英人才组成。</p>
+<p>公司专注于研发、生产和销售基于硅光芯片的应用于高端传感和自动驾驶/机器人FMCW激光雷达的核心激光光源、光电集成器件及子系统产品。</p>
+<p><img src="/img/ai/3e2b2b46870fabad42e614ce599f3acd.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：映讯芯光</p>
+<p>在技术方面，公司掌握了高性能激光器技术、III-V族材料与硅片上集成技术、多通道收发一体FMCW光学引擎技术、纯固态色散扫描技术等；</p>
+<p>在硅光芯片设计、封装测试、光电系统研发、信号分析处理、4D点云AI算法等领域具有软硬件核心技术与持续创新能力。</p>
+<p>基于对硅光子芯片技术、InP化合物半导体激光技术以及可调谐光子技术的长期研究和积累，映讯芯光可以为FMCW激光雷达整机客户提供窄线宽、可调谐的半导体激光器及高度硅光集成的FMCW激光雷达收发一体光学引擎。</p>
+<p><img src="/img/ai/8f4d398158e062b2509b1a0fb5cf47f5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：映讯芯光</p>
+<h3 id="5微源光子">5.微源光子
+</h3><p>微源光子成立于2018年，是一家智能汽车传感器核心器件供应商，专注于混合集成电路、片式元器件、高性能及挂起芯片、配套光电模组及传感器等新型电子元器件的研发和生产。</p>
+<p>公司获得小米、顺为资本和华为的战略投资。</p>
+<p>据了解，<br>
+微源光子目前研发的高性能激光器芯片及配套光电模组产品技术，在国内有唯一性。微源光子的核心资源是高性能激光器芯片和配套模组，其激光雷达相关技术在自动驾驶领域起着重要作用，已申请获得多项激光相关专利。</p>
+<p>微源光子聚焦于微型化窄线宽激光器、低噪声毫米波源以及配套光电模组的研发、生产，核心技术拥有自主知识产权，产品性能指标可达到国际先进水平。</p>
+<p><img src="/img/ai/ec08915d038ee915a7fc19dccbc94611.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：微源光子</p>
+<h3 id="6挚感光子">6.挚感光子
+</h3><p>挚感光子是一家自主研发、生产、销售各类以集成光学技术为特色的高端激光传感器的科技创新型企业。公司专注于开发可延展性传感技术，致力颠覆传统3D精密测量领域，并为新兴的机器视觉和自动驾驶激光雷达提供终极解决方案。公司的目标是成为全球领先的集成相干光学传感器企业。</p>
+<p>挚感光子由多名留美光电芯片专家，通信系统专家和医学教授联合创立，核心成员来自美国马里兰大学、清华大学，协和医科大学，上海交通大学，浙江大学等知名院校。公司成员具有丰厚的工业界经验，曾分别在Neophotonics，Ciena，Infinera，Marvell，华为及澜起科技等业界知名公司担任关键职务。</p>
+<p>公司的核心竞争力在于拥有原创的完整的自主知识产权，具有自主研发的集成光学专用芯片、一体化的模组设计与封装、模块化的传感器解决方案，产品实现从芯片、模组到系统和应用的垂直整合。</p>
+<p>挚感FMCW激光雷达具有灵敏度高，抗互扰和多径干扰强，探测速度快，器件成本低等优势。</p>
+<p><img src="/img/ai/fd32b2b9ffb1dc5d95028343d136bae3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>图片来源：挚感光子</p>
+<h3 id="7杭州爱莱达">7.杭州爱莱达
+</h3><p>杭州爱莱达科技有限公司是由中科院和美国麻省理工学院的国际一流激光雷达与空间激光通信科研团队创办的高科技研发型企业，核心团队包括国家重点人才计划专家1名，中科院博士4名，美国麻省理工学院博士2名，研发团队具有十几年的激光雷达与空间激光通信技术研发经验，拥有国际一流的科研成果，是国内第一家系统性研究和开发FMCW激光雷达的企业。</p>
+<p>杭州爱莱达获得了百度风投和华登的联合投资。</p>
+<p>杭州爱莱达致力于新型激光雷达与空间激光通信的技术创新与产业化，为客户提供激光雷达与空间激光通信系统、核心部件模块及完整技术解决方案。公司产品拥有完全自主知识产权，主要覆盖“激光雷达”和“自由空间高速激光通信及组网”两个领域，具体包括车载激光雷达（FMCW体制）、远距离激光测振仪等。</p>
+<h3 id="8其他">8.其他
+</h3><p>据行业消息，禾赛、速腾等头部车载激光雷达厂家，都在积极布局FMCW激光雷达，预计产品会在2026年之后逐渐量产。</p>
+<h2 id="07-结语">07 结语
+</h2><p>FMCW激光雷达具有致密的点云，并且每个点都具有速度信息，得益于相干检测原理，系统具备极佳的信噪比和抗干扰能力，检测性能强，功耗低。采用硅光集成技术纯固态化之后，具备很大的降本潜力。</p>
+<p>期待FMCW激光雷达技术持续取得突破，在降本和产业化方面不断突破。</p>
+<p>坚定的相信，FMCW纯固态激光雷达是未来车载激光雷达的终极形态。<br>
+毕竟，如果彩色电视价格降低到可以接受的程度，谁还买黑白电视呢？</p>
+<p><img src="/img/ai/715e7951a2345478390ab2ed8771eb47.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>FMCW激光雷达系统复杂，涉及到的知识点众多。<br>
+本文尽管有1.5万余字，也仅能描述其表面的浅浅一层，希望能给大家一点帮助。</p>
+<p>后续笔者持续关注FMCW激光雷达技术进展，对于其中每个关键的技术点，进行更为深入的分析，也期待向各方向专家深入交流学习。</p>
+<h2 id="参考资料">参考资料
+</h2><ul>
+<li>
+<p>激光雷达老炮儿，《来了！FMCW激光雷达能解决哪些自动驾驶/ADAS难题？究竟好在哪里？——Aeva专访系列》</p>
+</li>
+<li>
+<p>九章智驾，FMCW激光雷达科普（上）：基本概念、技术路线、优势及争议和误解</p>
+</li>
+<li>
+<p>九章智驾，FMCW激光雷达科普（中）：激光器、探测器与扫描</p>
+</li>
+<li>
+<p>九章智驾，FMCW激光雷达科普（下）：主要挑战、前景及市场格局</p>
+</li>
+<li>
+<p>Aeva，FMCW激光雷达技术发展和展望_哔哩哔哩_bilibili</p>
+</li>
+<li>
+<p>光勺科技，无人驾驶演化和FMCW激光雷达应用_哔哩哔哩_bilibili</p>
+</li>
+<li>
+<p>微源光子，从硅光通信技术看FMCW lidar的集成挑战_哔哩哔哩_bilibili</p>
+</li>
+<li>
+<p>洛微科技，激光雷达的终极方案 Si Photonics LiDAR-on-a-Chip_哔哩哔哩_bilibili</p>
+</li>
+<li>
+<p>智驾前沿，硅光FMCW固态激光雷达为自动驾驶赋能_车家号_发现车生活_汽车之家</p>
+</li>
+<li>
+<p>光通信Fiona，Mobileye英特尔激光雷达详细介绍</p>
+</li>
+<li>
+<p>Aeva，https://s27.q4cdn.com/943454653/files/doc_presentations/02.2021-Aeva_Investor_Presentation_vF.pdf</p>
+</li>
+<li>
+<p>Aeva，Aeva Aeries II 世界上第一个 4D FMCW激光雷达_哔哩哔哩_bilibili</p>
+</li>
+<li>
+<p>Aeva，Aeva Introduces Aeries II – The World’s First 4D LiDAR with Camera-Level Resolution</p>
+</li>
+<li>
+<p>Lightigo，由iphone说说激光雷达 FMCW激光雷达</p>
+</li>
+<li>
+<p>调皮连续波，温故而知新：FMCW雷达基本原理 (第一部分)</p>
+</li>
+<li>
+<p>调皮连续波，温故而知新：FMCW雷达基本原理 (第二部分)</p>
+</li>
+<li>
+<p>调皮连续波，温故而知新：FMCW雷达基本原理 (第三部分)</p>
+</li>
+<li>
+<p><a class="link" href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2019/EECS-2019-148.pdf"  target="_blank" rel="noopener"
+    >https://www2.eecs.berkeley.edu/Pubs/TechRpts/2019/EECS-2019-148.pdf</a></p>
+</li>
+<li>
+<p><a class="link" href="https://4sense.medium.com/fmcw-lidar-vs-tof-lidar-da1fefcf4be8"  target="_blank" rel="noopener"
+    >https://4sense.medium.com/fmcw-lidar-vs-tof-lidar-da1fefcf4be8</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.aeye.ai/technology/time-of-flight-vs-fmcw-lidar-a-side-by-side-comparison/"  target="_blank" rel="noopener"
+    >https://www.aeye.ai/technology/time-of-flight-vs-fmcw-lidar-a-side-by-side-comparison/</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.novuslight.com/fmcw-the-future-of-lidar_N9691.html"  target="_blank" rel="noopener"
+    >https://www.novuslight.com/fmcw-the-future-of-lidar_N9691.html</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.laserfocusworld.com/home/article/16556322/lasers-for-lidar-fmcw-lidar-an-alternative-for-selfdriven-cars"  target="_blank" rel="noopener"
+    >https://www.laserfocusworld.com/home/article/16556322/lasers-for-lidar-fmcw-lidar-an-alternative-for-selfdriven-cars</a></p>
+</li>
+<li>
+<p>文中提到各公司官网（不再一一列举）</p>
+</li>
+</ul>
+<p>我是<strong>雪岭飞花</strong>，汽车行业24年开发经验，自动驾驶行业发展的见证者和参与者，自动驾驶感知和控制系统资深专家。</p>
+<p>做有深度、高质量的技术分享，如果文章对您有帮助，还请<strong>关注、点赞、转发</strong>。如有疏漏或者错误，还请批评指正。</p>
+<p><a class="link" href="https://www.zhihu.com/people/lwascl-73"  target="_blank" rel="noopener"
+    >知乎专栏: https://www.zhihu.com/people/lwascl-73</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/">FMCW激光雷达</a>
+        
+            <a href="/tags/%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/">车载激光雷达</a>
+        
+            <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a>
+        
+            <a href="/tags/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%8E%9F%E7%90%86/">激光雷达原理</a>
+        
+            <a href="/tags/%E7%A1%85%E5%85%89%E5%AD%90%E6%8A%80%E6%9C%AF/">硅光子技术</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/aeb%E5%BC%BA%E5%88%B6%E6%80%A7%E6%A0%87%E5%87%86%E5%8A%A0%E9%80%9F%E8%90%BD%E5%9C%B0%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%88%90%E4%B8%BA%E8%A7%A3%E9%A2%98%E5%85%B3%E9%94%AE/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/lidar/640.webp" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/lidar/640.webp"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AEB强制性标准加速落地，激光雷达成为解题关键</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E7%99%BE%E4%BA%BF%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%8B%AC%E8%A7%92%E5%85%BD%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%E5%86%B2%E5%88%BA%E6%B8%AF%E4%BA%A4%E6%89%80ipo%E5%8E%BB%E5%B9%B4%E5%87%BA%E8%B4%A75.7%E4%B8%87%E5%8F%B0%E6%AF%8F%E5%8F%B0%E4%BA%8F%E6%8D%9F%E8%BF%91%E4%B8%87%E5%85%83/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/08ce9f5c5861df71e8d827198ac1f7f6.jpeg" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/08ce9f5c5861df71e8d827198ac1f7f6.jpeg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">百亿激光雷达独角兽速腾聚创冲刺港交所IPO：去年出货5.7万台，每台亏损近万元</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/c257bdd59ce6b6e6dcc779ebceb39b5d.jpeg" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/c257bdd59ce6b6e6dcc779ebceb39b5d.jpeg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">激光雷达工作原理介绍</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E8%A1%8C%E4%B8%9A%E5%9B%9B%E5%A4%A7%E5%8F%91%E5%B1%95%E6%96%B9%E5%90%91%E8%A7%A3%E6%9E%90%E7%9C%8B%E9%BE%99%E5%A4%B4%E4%BC%81%E4%B8%9A%E5%A6%82%E4%BD%95%E6%8A%A2%E5%8D%A0%E6%8A%80%E6%9C%AF%E9%AB%98%E5%9C%B0%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%85%88%E6%9C%BA/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/1529506d7e9f619f26dd67405e774301.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/1529506d7e9f619f26dd67405e774301.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">激光雷达行业四大发展方向解析：看龙头企业如何抢占技术高地与市场先机</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%A6%8F%E8%80%80%E5%8F%91%E5%B8%83%E8%A1%8C%E4%B8%9A%E9%A6%96%E6%AC%BE%E8%88%B1%E5%86%85%E9%9A%90%E8%97%8F%E5%BC%8F%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E5%89%8D%E6%8C%A1%E6%96%B9%E6%A1%88%E6%99%BA%E7%9C%B8%E5%89%8D%E6%8C%A1%E7%8E%BB%E7%92%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">福耀发布行业首款舱内隐藏式激光雷达前挡方案——智眸前挡玻璃</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

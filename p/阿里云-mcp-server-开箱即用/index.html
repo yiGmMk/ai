@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文介绍如何使用alibaba-cloud-ops-mcp-server和MCP实现AI助手对阿里云资源的复杂任务操作，涵盖ECS实例管理、VPC查询、云监控数据获取等运维任务。">
+<title>阿里云 MCP Server 开箱即用！</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="阿里云 MCP Server 开箱即用！">
+<meta property='og:description' content="本文介绍如何使用alibaba-cloud-ops-mcp-server和MCP实现AI助手对阿里云资源的复杂任务操作，涵盖ECS实例管理、VPC查询、云监控数据获取等运维任务。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='阿里云' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='AI助手' /><meta property='article:tag' content='运维' /><meta property='article:tag' content='ECS' /><meta property='article:tag' content='RDS' /><meta property='article:tag' content='OOS' /><meta property='article:tag' content='Cline' /><meta property='article:tag' content='VS Code' /><meta property='article:published_time' content='2025-04-23T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-23T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png' />
+<meta name="twitter:title" content="阿里云 MCP Server 开箱即用！">
+<meta name="twitter:description" content="本文介绍如何使用alibaba-cloud-ops-mcp-server和MCP实现AI助手对阿里云资源的复杂任务操作，涵盖ECS实例管理、VPC查询、云监控数据获取等运维任务。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#准备步骤">准备步骤</a></li>
+    <li><a href="#结语">结语</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#alibaba-cloud-ops-mcp-server支持工具列表">alibaba-cloud-ops-mcp-server支持工具列表</a></li>
+    <li><a href="#参考文档">参考文档：</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" loading="lazy" alt="Featured image of post 阿里云 MCP Server 开箱即用！" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" >
+                云计算
+            </a>
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%98%BF%E9%87%8C%E4%BA%91-mcp-server-%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8/">阿里云 MCP Server 开箱即用！</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文介绍如何使用alibaba-cloud-ops-mcp-server和MCP实现AI助手对阿里云资源的复杂任务操作，涵盖ECS实例管理、VPC查询、云监控数据获取等运维任务。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 23, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>源自</strong> | 阿里云开发者 赵帅博(川林)  2025-04-23 18:00</p>
+<p><img src="/img/ai/ea121adfa4f0669e87e8b52c40edbbde.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>本文介绍了如何通过alibaba-cloud-ops-mcp-server和MCP（Model Context Protocol）实现AI助手对阿里云资源的复杂任务操作。内容涵盖背景、准备步骤（如使用VS Code与Cline配置MCP Server）、示例场景（包括创建实例、监控实例、运行命令、启停实例等），以及支持的工具列表和参考文档。借助这些工具，用户可通过自然语言与AI助手交互，完成ECS实例管理、VPC查询、云监控数据获取等运维任务，实现高效“掌上运维”。</p>
+<h2 id="背景">背景
+</h2><p><img src="/img/ai/921173eb687158463316045c885cd26a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>随着人工智能技术的快速发展，AI助手逐渐从简单的对话服务向复杂任务执行方向演进。为了使AI助手具备更强的操作能力，MCP（Model Context Protocol）[1] 应运而生。MCP通过将大模型与工具调用能力结合，让AI助手能够规划并完成复杂的现实任务。</p>
+<p>alibaba-cloud-ops-mcp-server[2]是一款专门为阿里云资源管理设计的MCP Server，它通过集成阿里云Open API和系统运维管理（OOS）[3]的能力，为AI助手提供了一系列强大的工具支持。这些工具涵盖了阿里云资源的生命周期管理（如创建、启动、停止、重启等），包括云监控数据获取以及运行命令、更换系统镜像等功能，目前已覆盖ECS实例、RDS实例以及OSS Bucket等资源。借助alibaba-cloud-ops-mcp-server，用户可以通过自然语言与AI助手交互，快速完成复杂的运维任务。</p>
+<p>在alibaba-cloud-ops-mcp-server提供的工具中，一部分功能是通过阿里云 Open API 实现的，而像运行命令、启停实例等复杂操作，则依托于系统运维管理（OOS）[3]。OOS 不仅能够为云产品提供强大的运维操作能力，还支持复杂的任务编排，尤其在处理异步场景时表现出色。例如，在启动或停止实例的过程中，OOS 会实时检查实例状态，确保 AI 助手调用完成后，ECS 实例的状态与预期一致（如 Running 或 Stopped）。此外，OOS 还内置了多种高频运维场景的公共模板，这些模板并非简单的单步 API 调用，而是经过优化的复杂操作流程，能够显著减少多轮交互的需求，提高任务执行的准确率，同时节省模型的 token 消耗，让整个过程更加高效和可靠。</p>
+<h2 id="准备步骤">准备步骤
+</h2><p><strong>使用 VS Code [4]+ Cline [5]配置MCP Server</strong></p>
+<p>Cline是一款强大的Vscode插件，开源且完全免费，支持打开文件/文件夹、运行任务、调试代码、管理窗口等操作，能够借助大模型的能力调用工具，规划并完成真实的复杂任务</p>
+<p><strong>配置流程</strong></p>
+<ol>
+<li>
+<p>安装 UV[6]</p>
+</li>
+<li>
+<p>在VS Code 插件市场下载并打开Cline插件，在设置中配置大模型 API KEY<br>
+ <br>
+<img src="/img/ai/8edb6073f4fbcd393026df56dc4ac497.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+</li>
+</ol>
+<p>这里以配置阿里云百炼API Key为例：</p>
+<p>a. API Provider：选择Open AI Compatible</p>
+<p>b. Base URL：https://dashscope.aliyuncs.com/compatible-mode/v1（阿里云百炼兼容接口）</p>
+<p>c. API Key：前往 API-KEY[7] 页面获取</p>
+<p>d. Model ID：模型ID总览[8]</p>
+<p>1）推荐使用上下文较长的模型，如：qwen-max-latest等支持128k上下文的模型，否则可能会因为上下文长度限制导致AI助手无法交互</p>
+<p>           <br>
+<img src="/img/ai/1cac90ad2094f06c9b6a387440a56ed8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<ol start="3">
+<li>配置MCP Servers</li>
+</ol>
+<p>a. 选择右上方的工具栏中的MCP Servers<br>
+ <br>
+<img src="/img/ai/e058a9ca595db57fb31fb70151c09d27.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>b. 进入MCP Server界面，点击<strong>Configure</strong><br>
+配置JSON文件，关闭json文件即可保存并完成配置。</p>
+<p><img src="/img/ai/7b81c4d30aa11509fd29e37a5da48697.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;alibaba-cloud-ops-mcp-server&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;timeout&#34;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;uvx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;alibaba-cloud-ops-mcp-server@latest&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;ALIBABA_CLOUD_ACCESS_KEY_ID&#34;</span><span class="p">:</span> <span class="s2">&#34;Your Access Key ID&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;ALIBABA_CLOUD_ACCESS_KEY_SECRET&#34;</span><span class="p">:</span> <span class="s2">&#34;Your Access Key SECRET&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>c. 配置完毕后，在Installed<br>
+界面能够检查对应MCP Server的状态，提供的Tools数量以及详细信息。</p>
+<p><img src="/img/ai/e3e81f0851af883a4674e207e2171eca.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<ol start="4">
+<li>右下角配置AI助手的对话模式，为了AI助手能够实际调用工具，推荐您使用Act模式。配置完毕后您就可以在对话框开启您的对话。</li>
+</ol>
+<p><img src="/img/ai/893404a2f4e439d1cc9542c12f06ca65.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>示例场景</p>
+<p>alibaba-cloud-ops-mcp-server能够为您的AI助手提供工具，操作阿里云资源并完成日常运维操作等多种需求，以针对ECS和RDS实例的生命周期进行管理和监控为例，我们将为您展示AI助手会如何使用alibaba-cloud-ops-mcp-server<br>
+的工具。</p>
+<p><strong>创建ECS实例</strong></p>
+<p>向AI助手发起提问后，AI助手会自动开始规划需要使用的工具并向您请求使用许可。</p>
+<p><img src="/img/ai/ae6b7b95c2170d4aea0d94895d02c710.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>经过不断的交互，AI助手会逐渐取得所有创建ECS实例所必需的参数。</p>
+<p><img src="/img/ai/2bcabcf7daac6a720f99eed945bc7407.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p><img src="/img/ai/8ca98e440f4497f3fbc92f5fdafd29ab.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>在收集到所需信息后，AI助手会发起创建ECS实例的请求。</p>
+<p><img src="/img/ai/4356f70d5b1550c89c8336a88bd3f31c.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>最终AI助手成功创建了名为<strong>alibabacloud-mcp</strong><br>
+的ECS实例。</p>
+<p><img src="/img/ai/e59184b1a2f5f655db616d73a862d203.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>在ECS控制台验证，AI助手成功创建了ECS实例。</p>
+<p><img src="/img/ai/e092f9983367c7d6f2e6ff4ccf05776a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p><strong>监控ECS实例</strong></p>
+<p>当创建了ECS实例之后，我们往往希望对实例进行监控，传统的运维方式往往需要登录到ECS控制台或者云监控控制台进行查看。现在，我们可以借助alibaba-cloud-ops-mcp-server<br>
+轻松实现掌上运维，只需和AI助手进行自然语言交互即可轻松获取ECS实例的实时状态。</p>
+<p><img src="/img/ai/d5a1c420c7f35dc9791f2b6960a9c074.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>在获取对应数据后，AI助手将会进行分析并为您展示ECS实例的详细监控数据。</p>
+<p><img src="/img/ai/c52fe54e6534be583e244e1141db9fac.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p><strong>在ECS实例上运行命令</strong></p>
+<p>在实际的开发过程中，为实现运行命令，首先我们需要编写命令脚本，并通过远程登录或者ECS控制台登陆到ECS实例上，再运行对应的命令脚本。现在，借助alibaba-cloud-ops-mcp-server<br>
+，您只需通过自然语言，即可轻松实现运行命令的复杂操作。AI助手将会分析您的指令，得出合适的命令脚本，并借助工具帮助您在ECS实例上执行指定的命令，等待命令运行结束后向您报告命令的运行结果，从而实现 分析指令-运行命令-报告结果 整条链路的打通。以在ECS实例上部署NGINX为例：</p>
+<p><img src="/img/ai/89c21672f4677a6de4c6875d081c0849.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p><img src="/img/ai/f16fbad0c67fc6cdbcf8557d96df5d00.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p><strong>启停RDS实例</strong></p>
+<p>在日常使用过程中，RDS实例的启动和停止是较为高频的操作类型，现在，有了alibaba-cloud-ops-mcp-server<br>
+的支持，只要您发出指令，您的AI助手可以自动为您启动或者停止对应的RDS实例，并且等待RDS实例的状态变为期望的状态（Running或Stopped）之后, 才会向您汇报任务完成。</p>
+<ul>
+<li>关闭实例<br>
+<img src="/img/ai/47c1c2454ac806ef6f56303824169083.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></li>
+</ul>
+<p><img src="/img/ai/074e012d153e5dce282bb453cad69e8c.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<ul>
+<li>启动实例</li>
+</ul>
+<p>     <br>
+ <br>
+<img src="/img/ai/eb2162c19e734f76c53b79f76356b6fb.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<p>     <br>
+ <br>
+<img src="/img/ai/a1b15749a6e12577d38f671a66b62548.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image.png"
+	
+	
+></p>
+<h2 id="结语">结语
+</h2><p>alibaba-cloud-ops-mcp-server<br>
+ <br>
+通过与 MCP 的深度集成，为 AI 助手赋予了强大的工具调用能力和复杂任务执行能力，显著提升了其在运维场景中的实用性和效率。无论是 阿里云资源的创建、监控、启停管理，还是在实例上运行自定义命令、更换系统镜像等操作，用户都可以通过自然语言交互轻松完成，真正实现了“掌上运维”的便捷体验。更多功能和支持的工具细节，请参阅本文附录。</p>
+<p>我们诚邀您体验<br>
+ <br>
+alibaba-cloud-ops-mcp-server，亲身感受 AI 与云计算深度融合带来的高效与便利，开启智能运维的新篇章！如果您对 OOS 的能力感兴趣，也可以访问帮助文档[8]或登录OOS 控制台[3]，探索更多关于 OOS 的强大功能和应用场景。</p>
+<h1 id="附">附
+</h1><h2 id="alibaba-cloud-ops-mcp-server支持工具列表">alibaba-cloud-ops-mcp-server支持工具列表
+</h2><p><img src="/img/ai/37e8a43ed4f9d73c36ab528c99dd340a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="参考文档">参考文档：
+</h2><p>[1]MCP: <a class="link" href="https://modelcontextprotocol.io/introduction"  target="_blank" rel="noopener"
+    >https://modelcontextprotocol.io/introduction</a></p>
+<p>[2]alibaba-cloud-ops-mcp-server: <a class="link" href="https://github.com/aliyun/alibaba-cloud-ops-mcp-server"  target="_blank" rel="noopener"
+    >https://github.com/aliyun/alibaba-cloud-ops-mcp-server</a></p>
+<p>[3]阿里云系统运维管理(OOS): <a class="link" href="https://oos.console.aliyun.com/overview?utm_content=g_1000403402"  target="_blank" rel="noopener"
+    >https://oos.console.aliyun.com/overview?utm_content=g_1000403402</a></p>
+<p>[4]Visual Studio Code: <a class="link" href="https://code.visualstudio.com/"  target="_blank" rel="noopener"
+    >https://code.visualstudio.com/</a></p>
+<p>[5]Cline: <a class="link" href="https://cline.bot/"  target="_blank" rel="noopener"
+    >https://cline.bot/</a></p>
+<p>[6]UV: <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
+    >https://github.com/astral-sh/uv</a></p>
+<p>[7]百炼: <a class="link" href="https://bailian.console.aliyun.com/?utm_content=g_1000403403"  target="_blank" rel="noopener"
+    >https://bailian.console.aliyun.com/?utm_content=g_1000403403</a></p>
+<p>[8]OOS帮助文档: <a class="link" href="https://help.aliyun.com/zh/oos/product-overview/introduction-to-oos?utm_content=g_1000403404"  target="_blank" rel="noopener"
+    >https://help.aliyun.com/zh/oos/product-overview/introduction-to-oos?utm_content=g_1000403404</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/">阿里云</a>
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/ai%E5%8A%A9%E6%89%8B/">AI助手</a>
+        
+            <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+        
+            <a href="/tags/ecs/">ECS</a>
+        
+            <a href="/tags/rds/">RDS</a>
+        
+            <a href="/tags/oos/">OOS</a>
+        
+            <a href="/tags/cline/">Cline</a>
+        
+            <a href="/tags/vs-code/">VS Code</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FunctionAI MCP 开发平台：助力AI应用连接数字生态</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">当 MCP 遇上 Serverless，AI 时代的最佳搭档</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 终极指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-go-zero-mcp-%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E6%8F%90%E7%A4%BA%E8%AF%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 go-zero MCP 创建动态提示词</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

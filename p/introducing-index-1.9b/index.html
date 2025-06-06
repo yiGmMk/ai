@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="哔哩哔哩技术团队发布Index-1.9B系列轻量级开源语言模型，包含基座、纯净、对话和角色扮演模型。">
+<title>Introducing Index-1.9B</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/introducing-index-1.9b/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Introducing Index-1.9B">
+<meta property='og:description' content="哔哩哔哩技术团队发布Index-1.9B系列轻量级开源语言模型，包含基座、纯净、对话和角色扮演模型。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/introducing-index-1.9b/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Index-1.9B' /><meta property='article:tag' content='语言模型' /><meta property='article:tag' content='开源' /><meta property='article:tag' content='预训练' /><meta property='article:tag' content='对齐' /><meta property='article:published_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-14T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Introducing Index-1.9B">
+<meta name="twitter:description" content="哔哩哔哩技术团队发布Index-1.9B系列轻量级开源语言模型，包含基座、纯净、对话和角色扮演模型。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#简介"><strong>简介</strong></a></li>
+    <li><a href="#模型基本性能"><strong>模型基本性能：</strong></a></li>
+    <li><a href="#输出示例"><strong>输出示例</strong></a></li>
+    <li><a href="#预训练优化"><strong>预训练优化</strong></a>
+      <ol>
+        <li><a href="#模型结构的优化"><strong>模型结构的优化</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#对齐讨论"><strong>对齐讨论</strong></a></li>
+    <li><a href="#角色扮演"><strong>角色扮演</strong></a></li>
+    <li><a href="#局限性"><strong>局限性</strong></a></li>
+    <li><a href="#reference"><strong>Reference</strong></a></li>
+    <li><a href="#往期精彩指路"><strong>往期精彩指路</strong></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" >
+                自然语言处理
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/introducing-index-1.9b/">Introducing Index-1.9B</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            哔哩哔哩技术团队发布Index-1.9B系列轻量级开源语言模型，包含基座、纯净、对话和角色扮演模型。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 14, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容:</p>
+<ul>
+<li>哔哩哔哩技术团队发布了Index-1.9B系列轻量级开源语言模型，包括基座模型、纯净模型、对话模型和角色扮演模型。</li>
+<li>通过模型结构优化（如Norm-Head和调整模型形状）、学习率调度和数据配合等方式，提升了模型的预训练性能。</li>
+<li>通过SFT和DPO对齐，以及RAG技术，增强了模型的对话能力、指令遵循能力和角色扮演能力。
+<strong>源自</strong> |  Index team  哔哩哔哩技术   2024-06-14 12:00</li>
+</ul>
+<h2 id="简介"><strong>简介</strong>
+</h2><p>大家好，今天我们很高兴首次发布Index系列模型中的轻量版本：Index-1.9B系列</p>
+<p>本次开源的Index-1.9B 系列包含以下模型： </p>
+<p><strong>Index-1.9B base</strong> : 基座模型，具有 19亿 非词嵌入参数量，在2.8T 中英文为主的语料上预训练，多个评测基准上与同级别模型比处于领先. </p>
+<p><strong>Index-1.9B pure</strong> : 基座模型的对照组，与base具有相同的参数和训练策略，不同之处在于我们严格过滤了该版本语料中所有指令相关的数据，以此来验证指令对benchmark的影响（详见2.3章节）. </p>
+<p><strong>Index-1.9B chat</strong> : 基于index-1.9B base通过SFT和DPO对齐后的对话模型，我们发现由于预训练中引入了较多定向清洗对话类语料，聊天的<strong>趣味性</strong>明显更强 </p>
+<p><strong>Index-1.9B character</strong> : 在SFT和DPO的基础上引入了RAG来实现<strong>fewshots角色扮演定制</strong></p>
+<p>目前，我们已在GitHub（https://github.com/bilibili/Index-1.9B），HuggingFace（<br>
+<a class="link" href="https://huggingface.co/IndexTeam"  target="_blank" rel="noopener"
+    >https://huggingface.co/IndexTeam</a>）上开源。期待听到你们的使用反馈！</p>
+<h2 id="模型基本性能"><strong>模型基本性能：</strong>
+</h2><p><img src="/img/ai/6413d872986cb0d6afcf5862af241130.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>注: 一些模型采用了report的分数，我们做了注释；其中MiniCPM[1]-Decay为官方放出的history里注明的280000步的ckpt。</p>
+<h2 id="输出示例"><strong>输出示例</strong>
+</h2><p><img src="/img/ai/a6f8bd9eb9672ed1f3f04eeb96418bfa.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/6597d969969352c35422a225b39fa1ef.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="预训练优化"><strong>预训练优化</strong>
+</h2><p>注：下列章节中的实验指标分数，是评测Ceval(5-shot), CMMLU(5-shot), MMLU(5-shot), Arc-C(0-shot),  Arc-E(0-shot), Hellaswag(0-shot)，求平均得到平均指标分数。我们以此作为观察模型表现的指标，进行消融实验。</p>
+<h3 id="模型结构的优化"><strong>模型结构的优化</strong>
+</h3><p><strong>稳定的LM-Head层: Norm-Head</strong></p>
+<p>模型不同层的梯度尺度分布非常不同，<strong>最后一层LM-Head的梯度，占据了绝大部分的梯度大小</strong>。而词表的稀疏性让LM-Head层稳定性较低，影响模型训练稳定性，进而影响模型性能表现，所以稳定的LM-Head层对于训练非常重要。</p>
+<p><img src="/img/ai/626f5e913b3a189b94c2b07cd38f37d1.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>模型不同层的梯度尺度分布观察，LM-Head层梯度占据绝大部分</p>
+<p>我们认为Norm-Head<a class="link" href="%e5%8d%b3%e5%af%b9LM-Head%e5%b1%82%e8%bf%9b%e8%a1%8cNorm%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%8a%a8%e6%80%81%e7%9a%84%e7%bc%a9%e6%94%beLM-Head%e5%b1%82%e5%a4%a7%e5%b0%8f" >2</a>，有利于更稳定的训练，我们引入此机制并做实验观察，实验结果如下：</p>
+<ul>
+<li>
+<p>Norm-Head版本稳定高于Base版本</p>
+</li>
+<li>
+<p>观察Gradient Norm，Norm-Head版本的绝对值更高，初始有一个快速上升，整体相对Base的上扬幅度更低</p>
+</li>
+</ul>
+<p>实验设置：基于1B的模型训练1T数据，Cosine学习率，Max-LR为2e-4，对照组添加Norm-Head。我们在0.1B规模上观察到了同样的表现</p>
+<p><img src="/img/ai/e2a13b0020deb7962cd4b3c0ca06c1fb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/994e42d999bde78281aae7a675ebc740.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>左：norm-head指标对比，右：norm-head的gradient norm对比</p>
+<p><strong>矮胖 or 高瘦？模型的形状也会影响性能</strong></p>
+<p>模型应该设置多少层，瘦点好还是胖点好，还是没影响？OpenAI 著名的Scaling Law[3]文章，指出模型大小是影响模型性能的最核心因素，形状无关；而DeepMind在前LLM的BERT时代，曾指出高瘦的模型形状相对于矮胖，在下游微调任务上GLUE任务集性能更好[4]。带着这样的疑问，我们做了固定参数大小(Flops也等价)，不同层数的实验。</p>
+<p>我们基于实验观察，<strong>同样大小前提下，适当增加深度指标更好</strong>。但有两个注意问题：</p>
+<ul>
+<li>
+<p>显存增加的问题。同参数下，增加层数(矮胖-&gt;高瘦)会增加显存。这是因为训练中Activation占大头，Activation显存占用与(层数L *hidden_size)正比，而参数量&amp;FLOPS和(层数L *hidden_size *hidden_size)正比。</p>
+</li>
+<li>
+<p>层数加深到多大的程度收益微弱？这个我们还未充分实验，留待以后进一步探索。</p>
+</li>
+</ul>
+<p>实验设置: Base 36层， 对照组9层，维持模型参数基本一致，均为1.01B non-emb参数。</p>
+<p><img src="/img/ai/9c76864ed0d4503b21be2ef9facba75f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>base和更宽更浅的模型对比</p>
+<p><strong>学习率Matters</strong></p>
+<p>在LLM训练中，<strong>朴素的设定常常产生深刻的影响，学习率设定就是典型</strong>。我们基于实践发现，学习率的设定会对模型的训练性能产生非常深刻的影响。学习率调度和数据配合，更能让模型性能再获突破。</p>
+<p><strong>学习率大小的影响</strong></p>
+<p>仅仅改变学习率大小，能够让模型性能产生稳定而显著的差别，合适的更大的学习率有利于模型的表现。</p>
+<p>实验设置：基于1B的模型训练1T数据，Cosine学习率，其中Base Max-LR为2e-4，对照组Max LR 为 5e-4</p>
+<p><img src="/img/ai/5a0054ee6e9427d11d3aa6b1e4d7456f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>仅仅改变学习率大小，能够让模型性能产生稳定而显著的差别</p>
+<p><strong>不同学习率调度有何影响？</strong></p>
+<p><strong>Cosine, Linear和WSD</strong></p>
+<p>Cosine学习率调度是大多数LLM的训练默认选择，但是否是唯一解，其他学习率调度影响如何？</p>
+<p>基于0.1B的模型我们分别使用 Cosine, Linear和WSD学习率调度，训练1T的数据，可以发现：</p>
+<ul>
+<li>
+<p>三种学习率曲线的valid loss最终收敛到一起</p>
+</li>
+<li>
+<p>WSD的Stable阶段Loss偏高，进入Decay阶段则loss快速下降</p>
+</li>
+<li>
+<p>指标评测上基本接近</p>
+</li>
+</ul>
+<p>我们可以发现，不同的学习率调度，<strong>只要学习率收敛尺度一致，最终loss和指标都是接近的</strong>，这就为学习率调度和数据配合打下了基础。</p>
+<p><img src="/img/ai/e9dbe041881551eb9f4d639edfc25985.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/e57d6bb5e24469596c83f11ac2af6ce8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>左：0.1B模型学习率调度实验：Cosine, Linear, WSD的学习率和loss曲线</p>
+<p>右：0.1B模型学习率调度实验：Cosine, Linear, WSD的评测指标相近</p>
+<p><strong>学习率如何和数据配合？</strong></p>
+<p>我们有如下初步假设：</p>
+<ul>
+<li>
+<p>WSD学习率在Decay阶段有一个Loss快速下降的过程，</p>
+</li>
+<li>
+<p>模型学习后期加入更多精选数据有利于模型效果</p>
+</li>
+</ul>
+<p>这两者是否能结合达到最佳的效果？我们做了如下消融实验：</p>
+<ul>
+<li>
+<p>cosine: Cosine学习率，无数据调整</p>
+</li>
+<li>
+<p>wsd: WSD学习率，无数据调整</p>
+</li>
+<li>
+<p>cosine+quality: Cosine学习率，后10%加入更多精选数据配比</p>
+</li>
+<li>
+<p>wsd+quality: WSD学习率，后10% 进入Decay阶段，并加入和cosine+quality同样的精选数据配比</p>
+</li>
+</ul>
+<p>我们发现，<strong>学习率和数据配合可以让模型性能获得突破</strong>：WSD学习率调度下，Decay阶段加入高质量数据，可以获得最佳效果。</p>
+<p>其中cosine+quality比无数据调整，指标略低，我们猜测可能有数据适应过程，且cosine末期学习率太低。我们会在未来补充更多的实验来验证。</p>
+<p><img src="/img/ai/c161844d0d2183079a483f57959c82fc.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>不同学习率和数据策略组合的实验</p>
+<p><strong>预训练加入指令对benchmark的影响</strong></p>
+<p>在预训练中是否加入指令是个值得讨论的地方，但目前公开的讨论较少，我们有如下问题想进行实验探究：</p>
+<p>1.  加入指令是否能大幅提高benchmark表现，从而变成打榜”优等生“</p>
+<ol>
+<li> 能提高多少？</li>
+</ol>
+<p><img src="/img/ai/dabf92a1fcdfe980e3974adc7a281b6c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>说明: 天工技术报告[5]（https://arxiv.org/pdf/2310.19341）中指出部分模型，将GSM8K训练集/测试集加入预训练但未明确阐述</p>
+<p>我们做了相应的探索，设置两组实验，Stable结束后的Decay阶段训练5w步，细节设定如下：</p>
+<ul>
+<li>
+<p>**index-1.9b-ablation-pure:**Decay阶段自然文本数据，精选数据做重新放入增加浓度（书籍、论文、百科、专业等类别）</p>
+</li>
+<li>
+<p>**index-1.9b-ablation-boost:**实验组在Decay阶段自然文本数据的基础上，额外加入占比7%的指令（唯一变量）</p>
+</li>
+</ul>
+<p>MMLU对比曲线如下：</p>
+<p><img src="/img/ai/4f823ee1e5eb62a5221340ee430c570b.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>可以观察到：</p>
+<p>1.  进入Decay阶段后，指标均会大幅上升</p>
+<p>2. <strong>额外添加7%的指令，能明显提升指标</strong>，MMLU指标的差距在7.x个百分点</p>
+<p>全面的指标评测如下：</p>
+<p><img src="/img/ai/d65b905f203ee60e53710cc221c4e564.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>注: 此为实验对比版本，非最终release版本</p>
+<p><strong>其他观察：训练中的涌现</strong></p>
+<p>训练1.9B模型过程中，在还未Decay的Stable阶段，观测到了一次模型性能的突涨:</p>
+<p>1.  前1T数据: Ceval / MMLU 一直在27.x / 26.x 附近震荡</p>
+<p>2.  1T ~ 1.2T: Ceval / MMLU 快速上涨到 36.x / 33.x，这个指标已经超过了一批7B的模型</p>
+<p>我们还不能很好解释原因，可能得益于高质量数据和高学习率的稳定，让模型Decay之前已获得了不错性能，这个留待以后进行进一步的研究。</p>
+<p><img src="/img/ai/e7979c610c481a200b70670e4ea6806d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>注: Stable阶段的MMLU分数曲线，可以明显观察到训练至1T~1.2T区间指标迅速上涨（语料无变动）</p>
+<h2 id="对齐讨论"><strong>对齐讨论</strong>
+</h2><p>为了进一步对齐人类的偏好，我们基于Index 1.9b base model进行了SFT和DPO训练。</p>
+<p><strong>SFT</strong></p>
+<ul>
+<li>
+<p>数据：我们收集了10M以上的高质量中英文指令数据，参照了主流的聚类增强多样性和奖励模型打分策略对数据进行清洗和筛选，筛选出高质量且多样的子集；同时，对sft表现欠缺的指令任务，构造和标注了相应数据。最终得到不超过10万条的高质量指令数据集。</p>
+</li>
+<li>
+<p>训练：chat模型采用system-query-response的格式。优化器和训练参数和预训练阶段保持一致，采用1e-5学习率。packing方式和预训练大体保持一致，采用crossdoc拼接batch的方式以提高训练效率，不同之处在于sft阶段我们会mask掉非response部分不参与loss计算。我们实验了是否<strong>加载预训练优化器</strong>参数和是否按一定比例<strong>replay预训练语料</strong>。最终发现加载参数并且保持sft指令参与loss计算的tokens占比在60%是较优设置。</p>
+</li>
+<li>
+<p>系统指令跟随：通过调整系统指令，能够引导模型给出不同设定和风格的回答，从而实现角色扮演，语言风格转化等能力。具体的示例见附录的输出样例。</p>
+</li>
+</ul>
+<p>附：sft实验的内部评测结果（3分满分）</p>
+<p><img src="/img/ai/a08bc87939774f3670658785cf7671b3.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>DPO</strong><br>
+DPO阶段[6]，我们主要针对写作类、指令遵循和安全进一步对齐。一方面，对于写作类任务，回答具备开放性，单一的目标文本并不一定是最优的回答，模型在DPO优化中能学会优劣的标准，从而生成更符合人类偏好的回答；另一方面，对于指令遵循和安全性任务，通过学习对比chosen和reject回答，模型能掌握指令的要求以及拒答的类型，从而更进一步对齐人类偏好，一个比较好的例子是指令遵循中的字数控制。总的来说，我们认为<strong>评价标准偏判别而非枚举的任务</strong>通过偏好学习可以取得最大的收益。</p>
+<ul>
+<li>数据：针对生成类数据，我们从sft数据集中筛选出偏生成写作类的prompt，用我们自训练的奖励模型对模型生成的回答进行打分，然后整理成pair对；针对指令遵循类的数据，我们通过人工构造和标注了对应的pair数据；针对安全类数据，我们尝试了两种方案，示例如下表所示。第一种方案是人工编写了一个拒答集合，从该集合中抽取拒答话术作为chosen，SFT模型生成的回答作为reject；第二种方案是调整系统指令，让我们的SFT模型针对问题生成拒答作为chosen，reject保持。在DPO优化中，我们发现第二种方案可以让模型更好的针对安全问题学会拒答，原因是人工构造的拒答样本在sft模型中的ppl过高，如果强行对齐又会导致拒答率较高，带来灾难性遗忘。因此我们采用了第二种方案。最终，我们一共整理构造了超过10w条高质量的pair数据。</li>
+</ul>
+<p><img src="/img/ai/65d62b1020bb801f6379cfd6a3280ef2.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>训练：与SFT相同的训练格式。学习率设置为1e-6，调度器采用cosine，损失函数中的超参数beta设置为0.1。训练进行了1个epoch。</li>
+</ul>
+<h2 id="角色扮演"><strong>角色扮演</strong>
+</h2><p><strong>数据</strong></p>
+<p>我们收集了大量网络公开数据中的台词剧本和人物设定数据，从中抽取角色对话，利用角色奖励模型进行了筛选，并清洗了数据集，得到了8万条左右的高质量角色对话数据集，覆盖一千多个角色。我们利用RAG检索与当前对话相关的角色过往台词片段，作为参考拼入prompt，最终得到训练数据。</p>
+<p><strong>评估结果</strong></p>
+<p>采用角色扮演领域的权威benchmark CharacterEval进行评估，该评测集从角色一致性、对话能力、角色扮演吸引力多个粒度进行评测，我们的1.9b模型整体均分排名第九，显著优于其他同量级模型。</p>
+<p><img src="/img/ai/64c69c7b75c692fc5b16db36ea444233.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>结果展示</strong></p>
+<p>用户可以通过上传符合要求的角色对话语料实现few shots角色定制</p>
+<p><img src="/img/ai/10833c04ce42eb6a52dde599d009fef2.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="局限性"><strong>局限性</strong>
+</h2><p>我们在模型训练的过程中，利用合规性检测等方法，最大限度地确保使用数据的合规性。虽然我们已竭尽全力确保在模型训练中使用数据的合法性，但鉴于模型的复杂性和使用场景的多样性，仍然可能存在一些尚未预料到的潜在问题。因此，对于任何使用开源模型而导致的风险和问题，包括但不限于数据安全问题，因误导、滥用、传播或不当应用带来的风险和问题，我们将不承担任何责任。</p>
+<p>受限于模型参数量，模型的生成可能存在事实错误或指令理解不到位的情况，我们后续会尝试通过对齐和rag等技术方向的迭代来优化此类问题。</p>
+<p>查看详细技术报告：<br>
+<a class="link" href="https://github.com/bilibili/Index-1.9B"  target="_blank" rel="noopener"
+    >https://github.com/bilibili/Index-1.9B</a></p>
+<h2 id="reference"><strong>Reference</strong>
+</h2><p>1.  Hu S, Tu Y, Han X, et al. Minicpm: Unveiling the potential of small language models with scalable training strategies[J]. arXiv preprint arXiv:2404.06395, 2024.</p>
+<p>2.  Yang A, Xiao B, Wang B, et al. Baichuan 2: Open large-scale language models[J]. arXiv preprint arXiv:2309.10305, 2023.</p>
+<p>3.  Kaplan J, McCandlish S, Henighan T, et al. Scaling laws for neural language models[J]. arXiv preprint arXiv:2001.08361, 2020.</p>
+<p>4.  Tay Y, Dehghani M, Rao J, et al. Scale efficiently: Insights from pre-training and fine-tuning transformers[J]. arXiv preprint arXiv:2109.10686, 2021.</p>
+<p>5.  Wei T, Zhao L, Zhang L, et al. Skywork: A more open bilingual foundation model[J]. arXiv preprint arXiv:2310.19341, 2023.</p>
+<p>6.  Rafailov R, Sharma A, Mitchell E, et al. Direct preference optimization: Your language model is secretly a reward model[J]. Advances in Neural Information Processing Systems, 2024, 36.</p>
+<p>作者丨Index team</p>
+<h2 id="往期精彩指路"><strong>往期精彩指路</strong>
+</h2><ul>
+<li><a class="link" href="http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;mid=2247498723&amp;idx=1&amp;sn=a13fdc862f3cc9e4832219cad27e7bcf&amp;chksm=cf2f3ec6f858b7d02c9afdf02f4d955d46e36d6bec8f441d91bf1c38f7b1a166aecdb24fcb17&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >万字长文解析：大模型需要怎样的硬件算力</a></li>
+<li><a class="link" href="http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;mid=2247495018&amp;idx=1&amp;sn=2845aaddc80d7fd08ad7cfdf879c782e&amp;chksm=cf2f284ff858a15943ea5df90ea476245d1c67da5265622bdc29ecfd57ea0128f607e89a8871&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >哔哩哔哩大规模AI模型推理实践</a></li>
+<li><a class="link" href="http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;mid=2247484579&amp;idx=1&amp;sn=e08a24e12c12a00f6a2666e3e0ec32aa&amp;chksm=cf2cc186f85b4890269e0008c633e1113e46522af9d5b7ff8cec455597a3fcbd06a795adff20&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >B站开源自研动漫超分辨率模型， 助力动漫UGC视频高清化</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=3289447926347317252#wechat_redirect"  target="_blank" rel="noopener"
+    >通用工程</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=2390333109742534656#wechat_redirect"  target="_blank" rel="noopener"
+    >大前端</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=3297757408550699008#wechat_redirect"  target="_blank" rel="noopener"
+    >业务线</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=2329861166598127619#wechat_redirect"  target="_blank" rel="noopener"
+    >大数据</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=2782124818895699969#wechat_redirect"  target="_blank" rel="noopener"
+    >AI</a></li>
+<li><a class="link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;action=getalbum&amp;album_id=2532608330440081409#wechat_redirect"  target="_blank" rel="noopener"
+    >多媒体</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/index-1.9b/">Index-1.9B</a>
+        
+            <a href="/tags/%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">语言模型</a>
+        
+            <a href="/tags/%E5%BC%80%E6%BA%90/">开源</a>
+        
+            <a href="/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/">预训练</a>
+        
+            <a href="/tags/%E5%AF%B9%E9%BD%90/">对齐</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/bilibili%E7%9A%84index-1.9b%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/744609d98719b46d341d1c9ff19b9258.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/744609d98719b46d341d1c9ff19b9258.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">bilibili的index-1.9B模型解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/mv/ai-mv.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/mv/ai-mv.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E8%A2%ABai%E8%AF%AF%E4%BC%A4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%81%E6%98%8E%E6%88%91%E6%B2%A1%E6%9C%89%E7%94%A8ai%E4%BD%9C%E5%BC%8A/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">被AI误伤，我该怎么证明“我没有用AI作弊”？</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

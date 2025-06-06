@@ -1,0 +1,1223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>N8n on AI</title>
+        <link>https://ai.programnotes.cn/categories/n8n/</link>
+        <description>Recent content in N8n on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Tue, 03 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/n8n/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</title>
+        <link>https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+        <pubDate>Tue, 03 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;使用n8n连接Supabase数据库，实现网站数据的后端处理。&lt;/li&gt;
+&lt;li&gt;通过n8n工作流提交新网站，并利用AI自动解析网站信息。&lt;/li&gt;
+&lt;li&gt;将Python后端转换为n8n工作流，降低开发和运营成本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  饼干哥哥饼干哥哥AGI 2025-06-03 17:57&lt;/p&gt;
+&lt;p&gt;年初的时候我做了一个AI编程工具的导航网站，打算流量上来后就可以接谷歌广告赚美金：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.aicoding.help/cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.aicoding.help/cn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;设想是根据AI编程开发的流程来推荐每个阶段的效率工具：
+灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3582f9319fd5b77af17475d08f4cc7e3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前挂在了vercel上，感兴趣可以去看看，但实际上还有很多问题，待一步一步解决。&lt;/p&gt;
+&lt;p&gt;具体这个网站是怎么做的，可以参考之前的文章，基于Tap4AI项目：&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MjM5NDI4MTY3NA==&amp;amp;mid=2257491207&amp;amp;idx=1&amp;amp;sn=5af373cc431a810400003eb641ffea1d&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2025穷鬼开发套餐：不花一分钱，部署一个AI导航网站全流程，附tap4ai、aigotools 对比&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这个导航网站分成两部分&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前端页面的展示，主要痛点就是怎么把网站设计的好看且合理&lt;/li&gt;
+&lt;li&gt;后端数据的处理，
+前端页面其实不存数据，每次用户打开网站的时候，都是直接从数据库里读数据的
+这样的好处就是维护方便，因为前端页面要改的话是要重新部署上线的，很麻烦。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如我数据库用的是Supabase，如果哪个内容写错了，我只需要对Supabase里的内容进行修改就行了，有新网站也可以直接在数据库里添加即可。&lt;/p&gt;
+&lt;p&gt;所以，目前这个网站的工作量在于后端，看着简单其实挺麻烦的，日常运营有以下几个动作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;提交新的网站&lt;/li&gt;
+&lt;li&gt;爬虫，去爬新的网站，截图，AI生成相应的描述&lt;/li&gt;
+&lt;li&gt;把描述翻译成多个语言，例如我至少是中英日&lt;/li&gt;
+&lt;li&gt;写SEO文章，让谷歌收录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体可以看这个图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a2392dd327f28e94ce4a182de8d538d6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前这个后端是真的离谱，有一个单独的Python项目来跑，实在是太重了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/19e3872f72c95362b7731794afb4d49b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;因为最近都在玩n8n，而且n8n对接的都是海外的服务，很适合出海做后端服务。&lt;/p&gt;
+&lt;p&gt;我在想是不是可以把这个Python后端转成n8n的工作流呢？&lt;/p&gt;
+&lt;p&gt;说干就干，一步一步来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7c1b0157ef29a03ba94ed758d2989d32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;需求拆解&#34;&gt;需求拆解
+&lt;/h2&gt;&lt;p&gt;首先，解决第一步：提交新网站的需求。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0874cffc7db9b81d2070365f31168b22.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在数据库，我有一个submit表，用户提交网站请求后，会插入到这里，包含名称、网址、分类、描述等字段，状态status是0&lt;/p&gt;
+&lt;p&gt;等爬虫把这网站爬完，处理好数据后，状态会更新为1，证明处理完了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45975a7dbcc6969150f9afeb91a03f9e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前这一步我是很苦逼的自己写了个python脚本来手动插入数据的。&lt;/p&gt;
+&lt;p&gt;今天我们就来解决这个问题：通过n8n工作流提交网站到数据库supabase&lt;/p&gt;
+&lt;h2 id=&#34;n8n连接supabase&#34;&gt;n8n连接Supabase
+&lt;/h2&gt;&lt;p&gt;首要任务就是让n8n连上Supabase,但在此之前，需要先找到两个关键的key：&lt;/p&gt;
+&lt;p&gt;在Supabase的Project Settings里找到API Keys，下面的service_role secret&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/306613b3d3e517ba1db019e804c11d42.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同个目录的General找到Project ID&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e6f0946f8d2a5f348a45ecc991aa3b83.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着就可以回到n8，创建一个Supabase的Create a row节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/406c91c03634ce3448b563c7618d8840.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;老规矩，先新建一个Credential，然后把前面找到的两个信息填入其中Host，一般就是你的proejct id + supabase.co 后缀，如下图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/46c6287d4acf8570dad8a24ca0174c55.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;用例测试&#34;&gt;用例测试
+&lt;/h2&gt;&lt;p&gt;测试一下，假设我们要提交bolt.new这个全栈AI开发网站&lt;/p&gt;
+&lt;p&gt;配置对应的信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Name: bolt.new&lt;/li&gt;
+&lt;li&gt;Url: https://bolt.new/&lt;/li&gt;
+&lt;li&gt;Category: 编程开发&lt;/li&gt;
+&lt;li&gt;remark：Bolt is an in-browser AI web development agent for full stack web application development.
+只要前面连接成功的话，这里就会自动从supabase中获取表格结构，你只需要去选字段就好了，非常方便&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如下图，n8n表示测试成功&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6bcf9b0323b9ebfa0df2d76d6a733c2b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时，在supabase里也能看到，多了一行。&lt;/p&gt;
+&lt;h2 id=&#34;完成工作流&#34;&gt;完成工作流
+&lt;/h2&gt;&lt;p&gt;在正式开发工作流之前，要先想清楚自己想要的产品是什么样子的。&lt;/p&gt;
+&lt;p&gt;例如当前这个项目，我想要的是：只要给一个网站，AI就能自动判断它是什么，并给出对应的信息，进而插入到Supabase表的位置。&lt;/p&gt;
+&lt;p&gt;这样拆解下来，就需要做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AI从用户给的信息中解析出网址&lt;/li&gt;
+&lt;li&gt;判断用户有没给更多信息，例如名称、描述、分类&lt;/li&gt;
+&lt;li&gt;如果没有，则访问该网址，判断是什么，生成名称、描述、分类&lt;/li&gt;
+&lt;li&gt;对结果进行结构化输出&lt;/li&gt;
+&lt;li&gt;传入到supabase的submit表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;先看效果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e0431bf5918c71d2242610df3cef178c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;现在我只给一个魔塔社区的网站 &lt;a class=&#34;link&#34; href=&#34;https://www.modelscope.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.modelscope.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;就能看到AI Agent调用了Jina AI的工具去读网址，并且根据要求输出了格式&lt;/p&gt;
+&lt;p&gt;接下来看每个节点。
+ 
+新建一个AI Agent节点：&lt;/p&gt;
+&lt;p&gt;对接上前面的用户对话框里的输入&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3efc66f814209772cf22bf95b6448db0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;参考提示词：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;我在给一个AI编程工具导航网站提交新的网站录用，需要你从用户给的信息中提取出以下内容：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;```json
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;name&amp;#34;:&amp;#34;这个网站工具的名称&amp;#34;,        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;Url&amp;#34;:&amp;#34;这个网站的网址&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;Category&amp;#34;:&amp;#34;分类，只能从 灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营 中选择一个&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;remark&amp;#34;:&amp;#34;这个网站工具的简单介绍不超过50字&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;```
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;更具体的，你需要做：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1. AI从用户给的信息中解析出网址
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2. 判断用户有没给更多信息，例如名称、描述、分类
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3. 如果没有更多信息，则要调用工具`jina AI reader`访问该网址，根据返回内容判断这网站是什么，生成名称、描述、分类
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4. 对结果进行结构化输出
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看到这个AI Agent还是挺能配置的，这就是n8n的优势，非常自由&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c311a7cb130cf58e5ff4e0401bc7db35.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在工具Tool的部分，配置一个Jina AI工具，这是一个能帮助我们读取网址内容的工具&lt;/p&gt;
+&lt;p&gt;很简单，用谷歌登录一下就有key了&lt;/p&gt;
+&lt;p&gt;如下图，URL这里可以让大模型自己去判断&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8cbecbbec3e399645ed001f815caa5f6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;格式化输出这里给个例子就行&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b3d1217f9a64ac588ec3dab12dce7641.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着就可以连上Supabase节点了，把AI拆解好的内容分到对应位置：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f72e62bcd093fc005fc2d4cad53bb4dc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;非常简单！！&lt;/p&gt;
+&lt;p&gt;不过每次要打开n8n工作流里面去提交就太麻烦了，我们可以用n8n内置的表单功能&lt;/p&gt;
+&lt;p&gt;新建一个表单&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f4b0a255590ff71fef88cc26857501a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;设置好需要的参数：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6af40a203da5f583e87ef9962f394a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;执行的时候，就自动生成好了一个表单网站了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da0ec096e53b35bc14f8e97a0e3ced32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;因为新增了一个表单，传入到AI节点的数据结构不同了，所以我就添加了几个数据处理节点，最终同样也能向数据库提交数据。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/edd1a32ad6edb85a9e2fa6b0d9f2bed1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;至此，我们就完成了第一阶段的改造，把原先通过Python提交网站的功能，变成了n8n的工作流，并且可以通过表单的形式提交；
+甚至后面可以改成webhook的监听，或者改造成mcp，更加自由的添加网站。&lt;/p&gt;
+&lt;p&gt;可玩性非常高！！&lt;/p&gt;
+&lt;p&gt;接下来会继续更新用n8n驱动网站出海赚美金系列，帮助大家用n8n降低开发和运营成本。&lt;/p&gt;
+&lt;p&gt;感兴趣的可以关注公众号「饼干哥哥AGI」，后台回复「AI交流群」&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</title>
+        <link>https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/</link>
+        <pubDate>Sat, 31 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: 使用 N8N 和飞书多维表格实现任务管理流程的自动化。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点2&lt;/strong&gt;: 通过配置 N8N 节点，读取多维表格数据，并利用 AI 生成周报。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点3&lt;/strong&gt;: 实现周报的多渠道发送，如飞书、企业微信、邮件等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  数翼数翼 2025-05-31 00:21&lt;/p&gt;
+&lt;p&gt;今天介绍如何基于 &lt;strong&gt;多维表格&lt;/strong&gt;和&lt;strong&gt;N8N&lt;/strong&gt; 打造自己的任务管理流程和自动化进行周报编写发送。&lt;/p&gt;
+&lt;p&gt;内容包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 设计自己的任务管理流程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 创建飞书应用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 获取飞书应用访问凭证&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 安装配置N8N飞书节点&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 配置流程读取数据整理周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 相关应用授权操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 通过飞书消息发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 多渠道发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 如何查找社区节点&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文基于飞书实现，类似思路的大家也可以使用企业微信，钉钉，Notion 等服务，甚至是本地Excel文件来实现。 只需要把数据读取和处理的部分换成自己平台的数据即可。&lt;/p&gt;
+&lt;h2 id=&#34;设计自己的管理流程&#34;&gt;设计自己的管理流程
+&lt;/h2&gt;&lt;p&gt;每个人根据自己岗位不同、工作习惯不同、公司要求不同都会多多少少形成自己的任务管理流程以及方法论。&lt;/p&gt;
+&lt;p&gt;我今天介绍一个比较适合大家的方案，按周管理事务，每周进行轮转，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 用多维表格来记录和管理任务&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 每周五下午固定时间自动发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 每周一早上把任务转到本周&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 清理已完成的任务&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;新建飞书多维表格&#34;&gt;新建飞书多维表格
+&lt;/h2&gt;&lt;p&gt;我们新建一个飞书多维表格，名字叫做 工作任务和计划，添加你常用的列，比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 名称&lt;/li&gt;
+&lt;li&gt;• 优先级&lt;/li&gt;
+&lt;li&gt;• 状态&lt;/li&gt;
+&lt;li&gt;• 描述&lt;/li&gt;
+&lt;li&gt;• 进度&lt;/li&gt;
+&lt;li&gt;• 开始时间&lt;/li&gt;
+&lt;li&gt;• 结束时间&lt;/li&gt;
+&lt;li&gt;• 计划时间等等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bc3510b85c73cd43362dac1c69b64f35.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我建立了这样一个表格，并且录入了一些样例数据给大家做Demo用。&lt;/p&gt;
+&lt;h2 id=&#34;创建飞书应用&#34;&gt;创建飞书应用
+&lt;/h2&gt;&lt;p&gt;我们如果希望用 n8n 对飞书做自动化，需要创建一个飞书应用，然后获取应用的访问凭证。&lt;/p&gt;
+&lt;p&gt;大家可以打开下面链接，按照文档一步步操作。&lt;/p&gt;
+&lt;p&gt;如何创建企业应用[1]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/980c7d8ec86dca38251d79696e9e1a81.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击&lt;strong&gt;创建企业自建应用&lt;/strong&gt;，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/243040ab0035059ff1f5e2ee01d1cd2e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;输入应用名字，再点击 &lt;strong&gt;创建&lt;/strong&gt; 即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/63adbc85c05d26cf6e8c869319fc34d9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写应用信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写应用信息&lt;/p&gt;
+&lt;h3 id=&#34;获取应用访问凭证&#34;&gt;获取应用访问凭证
+&lt;/h3&gt;&lt;p&gt;接下来获取应用的访问凭证，拿到访问凭证就可以不在飞书应用里面也可以访问和操作飞书数据了。&lt;/p&gt;
+&lt;p&gt;如何获取应用访问凭证[2]&lt;/p&gt;
+&lt;p&gt;在刚才创建的应用页面，点击打开 &lt;strong&gt;凭证与基础信息&lt;/strong&gt; 子页面， 复制 App ID 和 App Secret 备用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/98c21243c92a2cff21f11ae3c8b0b071.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取&lt;/p&gt;
+&lt;h2 id=&#34;安装-n8n-飞书节点&#34;&gt;安装 n8n 飞书节点
+&lt;/h2&gt;&lt;p&gt;虽然 n8n 官方没有提供飞书节点，但是万能的社区有飞书节点的实现，安装也很简单：&lt;/p&gt;
+&lt;p&gt;社区节点的安装教程可以参考下面文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 
+如何安装社区节点[3]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;进入 n8n 应用的设置，点击设置页面的 Community nodes，点击 Install，填写我们要安装的界面名称 n8n-nodes-feishu-lite，然后再点击 Install，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/699b48a254e468e428c04e35513750db.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;等几秒钟，弹窗关闭就可以看到列表中有我们的节点了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/140089efadba33da973d24a125fd3801.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;使用飞书节点&#34;&gt;使用飞书节点
+&lt;/h2&gt;&lt;p&gt;新建一个 n8n 工作里，点击搜搜节点 feishu 可以看到我们安装的节点了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cb5ca5aaa0aa010b3f49eed5fe716e9b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;搜索Feishu节点&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;搜索Feishu节点,点击节点，选择一个操作，比如最后一个操作 获取当前应用AccessToken才测试一下链接是否可用。&lt;/p&gt;
+&lt;p&gt;在节点配置页面创建账户，点击 &lt;strong&gt;Credential&lt;/strong&gt; 的 &lt;strong&gt;Create new credential&lt;/strong&gt;, 选择 Feishu，填写我们刚刚复制的 App ID 和 App Secret，点击Save。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3abdf9ce94a0b63475a9c4283c82ff93.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写App信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写App信息&lt;/p&gt;
+&lt;p&gt;然后我们执行测试即可看到运行结果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d28524a2009d97527b2b0683e4ccb14a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;测试飞书连接&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试飞书连接&lt;/p&gt;
+&lt;h2 id=&#34;应用权限&#34;&gt;应用权限
+&lt;/h2&gt;&lt;p&gt;在执行飞书操作的过程中，如果没有授权就会遇到错误，根据错误信息中的地址，打开控制台进行授权即可，&lt;/p&gt;
+&lt;p&gt;比如任务相关而全新啊&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0218ce2d8b899bb58ffcdd7406599463.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;勾选权限点击开通&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;勾选权限点击开通&lt;/p&gt;
+&lt;p&gt;或者 ip_list 的权限：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0f47ca90023f20ce7675a4e99d747ac4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ip_list 权限&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;ip_list 权限&lt;/p&gt;
+&lt;p&gt;部分权限开通的时候需要你设置应用可见的权限范围，我们如果是开发测试，或者是自己用的话，直接选择全部就好了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/874d311ceae27b8a8026f5cceff4b1f3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;大家可以一次把权限设置好，也可以在任务出错的时候再设置，后续关于权限设置我就不再介绍了。&lt;/p&gt;
+&lt;h2 id=&#34;获取多维表格访问凭证&#34;&gt;获取多维表格访问凭证
+&lt;/h2&gt;&lt;p&gt;现在我们打开刚才创建的的多维表格，点击上面的复制链接按钮复制当前多维表格的链接，以便我们解析多维表格获取其 app_token
+。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b319074e17b3e2deb74114ab2fd383e8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;拷贝多维表格地址&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;拷贝多维表格地址&lt;/p&gt;
+&lt;p&gt;在 n8n 工作流中新增飞书节点，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 选择 &lt;strong&gt;资源&lt;/strong&gt; -&amp;gt; 多维表格&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;操作&lt;/strong&gt; -&amp;gt; 解析多维表格地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;多维表格地址&lt;/strong&gt; 粘贴你刚才拷贝的地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;点击测试，结果中可以看到多维表格的信息里面有一个 app_token，这个 Token 就是飞书多维表格的访问凭证。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/204767db6beb074101c1ee7640f1162a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;App Token&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;App Token&lt;/p&gt;
+&lt;p&gt;我们使用 获取多维表格元数据 来测试下 app_token 是否可用。&lt;/p&gt;
+&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;获取多维表格元数据&lt;/strong&gt;，把 app_token 拖入到 app_token 输入框中，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d8af5ea38b7252699c3c2181a5ed1ca6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;多维表元数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;多维表元数据&lt;/p&gt;
+&lt;p&gt;可以看到，我们能够正确获取多维表的名称信息。&lt;/p&gt;
+&lt;h2 id=&#34;列出数据表&#34;&gt;列出数据表
+&lt;/h2&gt;&lt;p&gt;一个多维表格可能有多个数据表，每个数据表的数据都不一样，我们可以通过 列出数据表
+ 来获取多维表格中的数据表列表，然后选择一个数据表来读取数据。&lt;/p&gt;
+&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;列出数据表&lt;/strong&gt;，把 app_token 拖入到 多维表格 Token 输入框中，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/51562ea60cf69a1715f5a4d05a382ac4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;列出数据表&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;列出数据表&lt;/p&gt;
+&lt;h2 id=&#34;读取数据&#34;&gt;读取数据
+&lt;/h2&gt;&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;查询记录&lt;/strong&gt;，把 &lt;strong&gt;获取元数据节点&lt;/strong&gt; 的 app_token 拖入到 多维表格 Token 输入框中， 把上一步的 Table ID 拖入到 多维表格ID 输入框，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/324845897438b4fd37d48740c54754bc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;读取数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;读取数据&lt;/p&gt;
+&lt;p&gt;右侧执行结果就是我们多维表格的数据，大家测试的时候可以自行对照一下，是不是一样的。&lt;/p&gt;
+&lt;h2 id=&#34;处理数据&#34;&gt;处理数据
+&lt;/h2&gt;&lt;p&gt;我们现在希望把表格中的数据作为参考资料让 AI 帮我们整理成周报。但是 表格中的列比较多，很多是在周报中不需要的， 我们先获取我们需要的任务字段。&lt;/p&gt;
+&lt;p&gt;先增加一个 Split out 拆分节点，把数据进行拆分，独立处理。不需要什么配置，点击确认即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fbb3c9308b5e659631827592f902fb6d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;拆分数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;拆分数据&lt;/p&gt;
+&lt;p&gt;接着增加一个 Edit Fields 节点，把我们需要的字段拖入，测试无误，点击确认即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2badb1f6a3d3ade0d2fa80c20a9e2388.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;选择需要的字段&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;选择需要的字段&lt;/p&gt;
+&lt;p&gt;再增加一个 Edit Fields 节点，把任务数据组织成 Markdown 格式，当然我们也可以把这两个节点的功能放在一起完成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/115d8855443b580c50fd5fa672dfe0f5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我的 Markdown 格式是这样的：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## {{ $json.task }} - description: {{ $json.description }}- status: {{ $json.status }}- percent: {{ $json.percent }}- deadline: {{ $json.deadline }}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;再增加一个 Aggregate 节点，把之前拆分的数据聚合起来：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b4b37a0c0c432f77fd356e17d04dd627.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;聚合&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;聚合&lt;/p&gt;
+&lt;h2 id=&#34;ai-生成周报&#34;&gt;AI 生成周报
+&lt;/h2&gt;&lt;p&gt;现在我们已经把数据整理成 Markdown 格式，再用 AI 生成周报就很简单了。&lt;/p&gt;
+&lt;p&gt;添加一个 OpenAI 节点，我们选择 deepseek-v3 模型，输入系统提示词，并且把上一步的输出投入到用户提示词， 运行即可看到结果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/af0d5e5cf3deb91466032aec41f575e0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;系统提示词可以根据自己的岗位、角色、汇报对象、公司风格等多方面来限制，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;作为一家科技公司的设计总监，请根据我提供的本周任务清单，生成一份结构清晰、专业简洁的周报。周报需包含以下核心模块,使用Markdown格式，并体现数据驱动和结果导向：  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1.**本周核心任务概览**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 按优先级列出3-5项重点任务（例如：产品迭代推进、技术架构优化、跨部门协作等）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 标注每项任务的进度状态（已完成/进行中/受阻）及关键里程碑  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2.**量化成果展示**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 用数据量化成果（如：完成XX模块开发（100%）、系统性能提升XX%、解决XX个关键Bug）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 技术类任务需注明具体技术指标（如API响应时间、代码覆盖率等）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3.**风险与问题分析**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 列出遇到的瓶颈（如第三方服务延迟、测试环境不稳定）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 附上已采取的解决方案及待协调资源  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4.**下周计划与资源需求**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 明确下周3项核心目标（建议区分「延续性任务」和「新启动任务」）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 提出需要支持的资源（人力、预算、其他部门配合等）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5.**行业洞察建议（可选）**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 结合本周工作，附加1-2条对行业技术趋势的观察（如AI工具应用、竞品动态）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;**风格要求：**
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 避免流水账，用「结论先行+数据支撑」的表述  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 技术术语需易懂（如用「用户认证系统升级」而非「OAuth2.0改造」）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 重要内容加粗或分点标注  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 调理清晰，避免冗长请确保周报内容简洁、清晰，在500字以内。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;发送周报&#34;&gt;发送周报
+&lt;/h2&gt;&lt;p&gt;周报生成好了，我们现在发送给自己看看。&lt;/p&gt;
+&lt;p&gt;新建一个飞书节点，选择发送消息动作，配置接受者ID和消息内容。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/48f94f250ea3edd2685cba0d767ad516.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取联系人ID可以参考下面文档：&lt;/p&gt;
+&lt;p&gt;如何获取用户OpenID[4]&lt;/p&gt;
+&lt;p&gt;最简单的就是通过控制塔调试获取：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c06899b54aacfffcef74d3a9086746c4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取用户ID&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取用户ID&lt;/p&gt;
+&lt;p&gt;填入用户ID，进行测试，可以看到消息发送成功！&lt;/p&gt;
+&lt;p&gt;打开飞书消息，可以看到刚刚发送的消息：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1c1d4c4d3443a17317a3ac9acf58d63f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;飞书消息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;飞书消息&lt;/p&gt;
+&lt;p&gt;如果消息不满意，我们就可以修改前面的提示词，再次生成周报，直到满意为止。&lt;/p&gt;
+&lt;h2 id=&#34;构建多种通知方式&#34;&gt;构建多种通知方式
+&lt;/h2&gt;&lt;p&gt;有时候我们希望周报不仅仅是发送出来，而是希望多渠道通知，比如提交一份、发给自己一份、同时备份一份， 下面给看看如何实现同时发送多个地方。&lt;/p&gt;
+&lt;p&gt;增加一个 &lt;strong&gt;Edit Fields&lt;/strong&gt; 节点，把周报复制成一个数组，我们设置 length: 4 表示复制成四个：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/935fd067bddbac5a25ee8e6af28436a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表达式填写如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{{ Array.from({ length: 4 }, (_, i) =&amp;gt; ({ key: i, value: $json.message.content })) }}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;数据转换不会写没关系，只要把你的需求告诉 AI（比如 DeepSeek、OpenAI 等），AI 写好拷贝进来就行。 如果有有流程不会实现，AI 也都会一步步教你。&lt;/p&gt;
+&lt;p&gt;然后增加一个 &lt;strong&gt;Split Out&lt;/strong&gt; 节点，执行拆分逻辑，默认配置即可。&lt;/p&gt;
+&lt;p&gt;增加一个 &lt;strong&gt;Switch&lt;/strong&gt; 节点，设置数组不同的逻辑，Switch 节点配合如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/aab2e4e363b462357794fd45b7707771.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到 Switch 节点后面有多个四个分支，每个分支都是一个新的消息，后续连接自己的逻辑即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/884ebf9ea9676672764f08e53df6c977.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个飞书发给自己&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个 HTTP 发送给企业微信&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个有邮件发送，汇报给领导&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个存储在数据库，以便我们你以后统计用&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f2995959afe900f571c0e2023ed2ad2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;发送邮件需要配置 SMTP 信息，和邮件客户端配置类似，大家自行配置即可。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;查找社区节点&#34;&gt;查找社区节点
+&lt;/h3&gt;&lt;p&gt;如果默认节点不满足你的需求，不用去百度找（效率太低），官方网站上都可以搜索到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 
+&lt;a class=&#34;link&#34; href=&#34;https://community.n8n.io/[5]&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://community.n8n.io/[5]&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f727ca4e14350a14f2a8ac941d541973.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;完整的流程如下，一条直线：最后 Switch 一下，我为了看着方便，换了行展示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ee2fd39cd407641062fca0bd4963dac6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;限于篇幅文章开始方案中的每周自动流传任务我们放到下一篇讲。&lt;/p&gt;
+&lt;h4 id=&#34;引用链接&#34;&gt;引用链接
+&lt;/h4&gt;&lt;p&gt;[1] 如何创建企业应用: https://open.feishu.cn/document/develop-process/self-built-application-development-process
+[2] 如何获取应用访问凭证: https://open.feishu.cn/document/server-docs/api-call-guide/calling-process/get-access-token?lang=zh-CN
+[3] 如何安装社区节点: https://docs.n8n.io/integrations/community-nodes/installation/
+[4] 如何获取用户OpenID: https://open.feishu.cn/document/faq/trouble-shooting/how-to-obtain-openid?lang=zh-CN
+[5]: https://community.n8n.io/&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</title>
+        <link>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</link>
+        <pubDate>Fri, 11 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;n8n 是一个开源的工作流程自动化工具，通过拖放方式连接不同的应用程序和服务，支持 400+ 应用和服务集成。&lt;/li&gt;
+&lt;li&gt;n8n 采用节点式架构，用户可以轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管，保护商业利益，又让用户能自主部署。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt;| INFOQ 作者｜冬梅  &lt;/p&gt;
+&lt;p&gt;77.5k star GitHub 项目官宣融资&lt;/p&gt;
+&lt;p&gt;此轮融资由 Highland Europe 领投，HV Capital 以及之前的投资者 Sequoia、Felicis 和 Harpoon 也参与其中。&lt;/p&gt;
+&lt;p&gt;n8n 是一个开源的、可扩展的工作流程自动化工具，它提供了直观的界面，让用户可以通过拖放方式连接不同的应用程序和服务，从而创建自定义的自动化流程。n8n 支持 400+ 应用和服务集成，包括各种常见的应用程序和服务，如 Google、Slack、GitHub、Trello 等。&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼首席执行官 Jan Oberhauser 表示：“自动化不应是一个黑匣子——企业需要透明度、定制化和成本效益。通过 n8n，我们构建的不仅仅是一个平台；我们还建立了一个热爱我们并信赖我们的社区。从个人贡献者到全球企业，n8n 让每个人都拥有 10 倍开发者的能力，这在人工智能在职场爆炸式增长的今天至关重要。”&lt;/p&gt;
+&lt;p&gt;过去一年，n8n 经历了一年的爆炸式增长，去年活跃用户已超过 20 万，年度经常性收入 (ARR) 增长了 5 倍。&lt;/p&gt;
+&lt;p&gt;目前，n8n 已经在 GitHub 平台斩获 77.5k star。那么，这款开源软件为何如此受欢迎？&lt;/p&gt;
+&lt;p&gt;GitHub 项目地址：https://github.com/n8n-io&lt;/p&gt;
+&lt;p&gt;n8n 什么来头？&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 于 2019 年创立了工作流自动化平台 n8n。该平台通过将 AI 功能与业务流程自动化相结合，为技术团队提供了兼具代码级灵活性和无代码操作速度的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e054ef704f5ec886bfb9953df59a489c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼 CEO Jan Oberhauser&lt;/p&gt;
+&lt;h2 id=&#34;解决个人痛点的私人项目&#34;&gt;解决个人痛点的私人项目
+&lt;/h2&gt;&lt;p&gt;和许多创始人一样，Jan Oberhauser 最初创建 n8n 是为了解决自身遇到的技术卡点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/504b1d7908959c4aa42ae5b1c0b2c1fe.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;2018 年 9 月 n8n（预发布版本）&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 曾在视觉效果行业工作多年，职责是通过自动化技术帮助艺术家摆脱繁琐的重复性任务，提升工作效率。这段经历让他发现了一个长期被忽视的问题：自动化工具的高度依赖性。每当团队遇到工作流问题时，必须等待工程师开发定制解决方案，而真正需要自动化的人却无法自主解决问题。&lt;/p&gt;
+&lt;p&gt;这一洞察让他萌生了创业想法。&lt;/p&gt;
+&lt;p&gt;2018 年，Jan 开始启动了这个项目，初衷是为了解决自己遇到的实际问题。当时他调研了现有解决方案，发现都不太理想，于是决定按照自己的需求来设计工具。在接下来的一年半里，他利用业余时间进行开发——白天仍在其他创业公司工作，同时兼职另一份工作来维持收入。&lt;/p&gt;
+&lt;p&gt;2019 年 6 月，他将最初的解决方案命名为“Nodemation”——一个允许用户通过可视化界面（而非代码）自动化任务的平台。但由于域名被占用，他最终将其简化为 n8n（即“Nodemation”的缩写），并正式推出。&lt;/p&gt;
+&lt;p&gt;2020 年初，n8n 完成了首轮 150 万美元的融资，同年 4 月迎来了第一批四位团队成员加入。在拿到这笔融资之前，Jan 一直一个人维持着这个项目。&lt;/p&gt;
+&lt;p&gt;2021 年，n8n 在 A 轮融资中又筹集了 1200 万美元。本轮融资由 Felicis Ventures 领投，红杉资本、firstminute Capital 和 Harpoon Ventures 也参与了投资。据称，谷歌和 Zendesk 的一些未透露姓名的早期员工也参与了本轮融资。这家初创公司截至 2021 年已融资约 1400 万美元，但未披露估值。&lt;/p&gt;
+&lt;p&gt;据 n8n 分析，当前价值 221 亿欧元的工作流自动化领域中，大多数工具难以应对复杂且大容量的工作流程。这一局限性迫使企业团队依赖耗时且维护困难的内部开发和自定义脚本，而 n8n 正是为解决这一问题而生。&lt;/p&gt;
+&lt;p&gt;n8n 本质上是一个可视化工作流自动化工具（类似 Zapier 或 Make.com，但侧重点不同）。它采用节点编辑器模式：每个节点代表一个独立操作，用户可以通过连线将数据在不同节点间传递。举个例子：当 PipeDrive CRM 中有新线索时，自动发送邮件通知。这些工作流可以非常简单，也能构建包含条件分支、数据合并等复杂逻辑的自动化流程，让用户快速完成各种复杂任务的自动化。&lt;/p&gt;
+&lt;p&gt;据 Jan 介绍，节点式设计正是 n8n 在自动化领域的独特创新。与其他工具相比：Zapier 采用线性流程适合初学者，Make（原 Integromat）虽然支持分支但仍非真正的可视化编程。而 n8n 通过完整的“if-else”条件节点实现了真正的可视化编程范式，这种更高阶的抽象能力既是最突出的优势，也确实提高了使用门槛。&lt;/p&gt;
+&lt;p&gt;关于目标用户群体，Jan 表示在最初立项时自己就确立了“双向适配”的设计哲学：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;对业务人员：保留拖拽式操作的易用性，满足基础自动化需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对开发者：开放 JavaScript 自定义节点、API 调用等高级功能；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种设计源于 Jan 在影视行业的工作观察——最有效的工具应该既能满足艺术家快速操作，又能让工程师深度定制。n8n 本质上是在尝试解决这个普世矛盾：如何平衡“易用性”与“灵活性”。&lt;/p&gt;
+&lt;p&gt;如今，n8n 为 3000 多家企业提供关键任务工作流程支持，使其能够无缝集成任何语言模型（包括 DeepSeek 在内的最先进的模型），将其与自定义代码步骤相结合，并融入人机交互机制，以保持控制力和合规性。n8n 表示，这种方法使企业能够完全掌控其自动化和 AI 基础设施。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34ceac13aced943e4d8c23ca72a6f868.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;从沮丧到迎来快速增长&#34;&gt;从沮丧到迎来快速增长
+&lt;/h2&gt;&lt;p&gt;早期的日子充满挑战——Jan 时常写代码写到深夜，甚至一度怀疑自己正在开发的东西是否会有人想要。但后来人们开始使用 n8n，分享工作流程，并在该项目的基础上进行开发。社区自然而然地发展壮大，用户数量不断增长。&lt;/p&gt;
+&lt;p&gt;至于为何会迎来快速增长？原因很简单：能用简单操作应对复杂场景。&lt;/p&gt;
+&lt;p&gt;n8n 采用节点式架构让用户能够轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/p&gt;
+&lt;p&gt;在这个平台上，每个节点都代表一个独立的功能模块，可以执行诸如读取文件、发送邮件、触发通知等具体操作。这些节点既可以单独运行，也可以通过可视化界面相互连接，形成完整的自动化工作流。这种设计使得 n8n 既能处理简单的日常任务自动化，又能胜任复杂的业务场景整合。&lt;/p&gt;
+&lt;p&gt;还具备丰富的功能与灵活的扩展性。&lt;/p&gt;
+&lt;p&gt;具体而言，n8n 平台内置了 600 多个预定义工作流模板，覆盖了绝大多数常见的业务自动化场景，让团队能够快速实现流程自动化，显著提升工作效率。&lt;/p&gt;
+&lt;p&gt;采用 JSON 格式保存工作流配置，这种设计不仅方便用户复用和分享自己的自动化方案，还能充分利用开源社区的海量模板资源。&lt;/p&gt;
+&lt;p&gt;在集成能力方面，n8n 已经原生支持 350 多个主流应用程序，但其真正的优势在于近乎无限的扩展性。即使某些工具不在官方支持列表中，用户仍然可以通过 HTTP 请求节点连接其 API 接口，实现自定义集成。这意味着无论是小众工具还是企业内部系统，只要提供 API 接口，n8n 都能实现无缝对接。&lt;/p&gt;
+&lt;p&gt;更重要的是，n8n 不仅仅是一个简单的自动化工具，它更是一个完整的工作流开发平台。平台采用直观的可视化操作界面，降低了使用门槛，让非技术人员也能快速上手。同时，它又保留了足够的灵活性，支持通过 JavaScript 编写自定义逻辑，满足开发者的高级需求。&lt;/p&gt;
+&lt;p&gt;平台还提供流程快照功能，可以完整保存工作流配置，避免重复搭建。在企业级应用方面，n8n 能够支持高并发和复杂业务逻辑的处理，满足规模化部署的需求。&lt;/p&gt;
+&lt;p&gt;如今，n8n 这支团队已经扩展到拥有 80 多位成员，已发展到拥有超过 20 万用户、全球 Docker 拉取量达到 1 亿多，在 GitHub 代码库也跻身史上排名前 150 的项目之列。&lt;/p&gt;
+&lt;p&gt;根据 Sifted 的数据，n8n 是 2024 年欧洲增长最快的第 25 家初创企业。该公司的年增长率高达 378%。&lt;/p&gt;
+&lt;p&gt;网友怎么看？&lt;/p&gt;
+&lt;p&gt;如今在 GitHub 上声名鹊起的开源项目，在实际部署中，开发者对它的评价也是褒贬不一。&lt;/p&gt;
+&lt;p&gt;在 Hacker News 上，有正在使用 n8n 工具的用户称，&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们团队目前在一些项目中使用了这个工具。虽然我们经理没有任何编程基础，但他却用它构建了一个相当复杂的后端系统——整合了Postgres数据库和若干REST API，还能处理计划任务和Webhook触发的任务，这让我感到非常 impressive。不过这个工具存在一些明显缺点，比如偶尔会出现随机错误，现阶段我们只能通过重试机制来应对。好在听说这个问题近期可能会被修复。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;也有用户表示虽然它并非是最佳选择，但也会因为其开源、免费的属性而使用它。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们将其部署在自建的Kubernetes集群上，这对我来说没什么技术门槛。免费版确实存在诸多限制，比如用户管理功能简陋，甚至缺乏OIDC集成这种基础功能。但考虑到我们严格控制软件采购预算，有总比没有强。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;有用户认为，它更倾向于基础薄弱的技术人员使用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“就个人偏好而言，我更倾向于使用正统的编程技术栈。但对于编程基础薄弱的人员（需要具备SQL、数据库原理和HTTP等基础知识），我还是会推荐这个工具。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;作为一款自动化管理平台，它难免被拿来与其他工具相比较。不少用户就拿它与 Zapier 进行了对比，但发现它的表现不如 Zapier。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我发现 n8n 的一个主要问题是，许多集成功能似乎还不够成熟。不到一年前，我们曾尝试用它替代 Zapier，但遇到了一些明显的限制：FTP 节点 不支持 TLS 加密传输（安全性不足）、AWS SES 节点 无法附加文件到邮件（功能缺失）、Salesforce 节点 可用选项极少（集成深度不足）。虽然只列举了几个例子，但这些限制让我们当时非常失望。n8n 本身是一款设计精良的优秀软件，但某些集成节点似乎只是为了凑数（比如标榜“支持 N 个集成”），而没有真正打磨可用性。或许现在情况有所改善，但无论如何，他们确实需要在这些集成功能上投入更多精力。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;但也有用户将 Zapier 和 n8n 两者比较仍然觉得 n8n 是个不错的选择，该用户称：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我已经使用 n8n 超过一年了。相比流行的 Zapier，我更喜欢 n8n 提供的灵活性和自托管能力。虽然它存在一些小问题，但这些问题通常只有在深度使用并查阅社区论坛后才能发现。我唯一不太推荐的是他们的云服务版本——相比我的自托管实例，云服务似乎存在更多漏洞和不稳定情况（比如频繁超时，可能是由于共享资源限制）。不过对于寻找 Zapier 经济实惠的开源替代方案的用户，我仍然会推荐 n8n。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;事实上，除了国际上知名的同类工具 Zapier 和 Make.com 这类工具外，其实国内类似于 n8n 的工具 Coze 也备受欢迎。&lt;/p&gt;
+&lt;p&gt;Coze 是字节跳动于 2023 年推出的新型自动化平台，其最大特色是深度整合了大语言模型等 AI 能力。Coze 目前已经由完全免费转为专业业务收费模式。&lt;/p&gt;
+&lt;p&gt;在技术架构上，Coze 强调低代码和自然语言交互，大大降低了使用门槛，使其特别适合快速搭建 AI 客服等简单自动化场景。不过需要注意的是，Coze 目前仅提供云端服务，不支持私有化部署。&lt;/p&gt;
+&lt;p&gt;也有一些用户将 n8n 与字节跳动 Coze 进行了对比。Coze 把自己定位为”任何人都能使用的 AI 聊天机器人平台”。它提供现成模板和拖放界面来定义机器人的对话逻辑。对于不懂代码的营销人员或客服人员，Coze 让他们可以像搭积木一样设计问答流程、训练聊天内容，然后通过集成测试实时试用效果。这种设计使得构建聊天机器人像制作幻灯片一样简单：选择一个模板（例如 FAQ 机器人），修改问题和回答，配置一点触发渠道，就可以上线。&lt;/p&gt;
+&lt;p&gt;该用户称，在易用性上，Coze 与 n8n 是不相上下的，coze 基本达到了”傻瓜式操作”的程度。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“新手通常可以在短时间内创建出一个简单的聊天机器人。需要指出的是，由于产品仍在完善中，一些用户反馈 Coze 当前的界面和体验存在不足，可能需要摸索。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;n8n-的代码公平理念&#34;&gt;n8n 的“代码公平”理念
+&lt;/h2&gt;&lt;p&gt;据 n8n 团队称，他们的目标是让工具平民化。不过 Jan 认“平民化”应该是个过渡阶段，最终要走向完全无代码。这点和 Bubble 很像——虽然入门曲线陡峭，但能实现强大功能。&lt;/p&gt;
+&lt;p&gt;从 n8n 的产品定位中可见，虽然 n8n 追求平民化，但内核始终保留专业组件。&lt;/p&gt;
+&lt;p&gt;Jan 表示：“作为程序员，我始终为‘同类人’设计产品——很多重复代码根本没必要重写。我们内置代码模块，用户随时可以回退到代码层，这解决了开发者在使用无代码工具时的束缚感。”&lt;/p&gt;
+&lt;p&gt;就像 Excel 无处不在一样，n8n 的通用性让它适用于聊天机器人、安全自动化、电商等各类场景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bbf63714fee480bc699694486b6a50d8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不可否认，在构建现代化软件中，这种部署灵活性确实非常关键。但与此同时，另一个需要关注的问题是代码的透明、可观测性。在这个方向上，Jan 提出了“公平代码”（Fair Code）的理念。&lt;/p&gt;
+&lt;p&gt;Jan 表示，目前很多开源项目都处于这样一种困境——传统开源模式容易被谷歌这种大型云厂商套利，他们直接用开源代码做托管服务盈利，而原团队却要免费维护。Elasticsearch 等公司被迫转向“开放核心”（open core），但这等于人为阉割产品。&lt;/p&gt;
+&lt;p&gt;而 n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管。这样既保护商业利益，又让用户能自主部署。就像 GitLab 有社区版 / 企业版，但 n8n 不会把用户管理这类基础功能设为付费墙。&lt;/p&gt;
+&lt;p&gt;合作伙伴通过授权协议将 n8n 集成到他们的 SaaS 产品中，这种模式让技术价值和商业回报真正对齐。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那么问题又来了，这种模式会对融资造成受影响吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Jan 看来，这种模式不仅不会造成影响，反而会更加吸引资本。Jan 表示：“实际上 VC 现在很看好开源模式。不过开源项目的用户规模很难量化——我们每天 Docker 拉取量从 2 万到 100 万波动，这些数据参考价值有限。”&lt;/p&gt;
+&lt;h2 id=&#34;参考链接&#34;&gt;&lt;strong&gt;参考链接：&lt;/strong&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://thepixeljets.com/blog/n8n/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://thepixeljets.com/blog/n8n/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.n8n.io/series-b/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.n8n.io/series-b/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</title>
+        <link>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</link>
+        <pubDate>Sat, 05 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;n8n是一个开源自动化平台，支持400+应用和服务集成，并可与DeepSeek等AI模型结合使用。&lt;/li&gt;
+&lt;li&gt;n8n结合DeepSeek，可以通过拖拽式操作和代码自定义，轻松构建复杂的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n支持自托管和云部署，具有企业级权限管理和审计日志功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  开源日记开源日记 2025-04-05 21:00&lt;/p&gt;
+&lt;p&gt;大家好 , 我是开源日记呀 !&lt;/p&gt;
+&lt;p&gt;你是否费尽心思写脚本、整集成，一周才能搞定一个简单的自动化流程？用闭源的扣子？有更好的选择吗？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4f7f5cf021fdb8137dc3a4b752e37519.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;n8n，一款兼具代码灵活性和可视化简单操作的开源神器&lt;/strong&gt;
+，让这些事情分分钟搞定！它支持 400+ 应用和服务，内置 AI 能力，既能拖拽完成任务，也能用代码搞定复杂逻辑，还能自托管，掌控所有数据。&lt;/p&gt;
+&lt;h2 id=&#34;什么是-n8n&#34;&gt;什么是 n8n
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb213e9eb7a6b2a12f304cdfb8c64310.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;n8n 是一个灵活的开源自动化平台&lt;/strong&gt;，支持 400+ 应用和服务集成，拥有强大的自定义代码能力，同时支持拖拽式操作，再复杂的流程都能轻松打造。更棒的是，&lt;strong&gt;DeepSeek&lt;/strong&gt; 的加入将其 AI 功能提升到新高度！&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;DeepSeek 提供两种核心模型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek V3 (Chat)：&lt;/strong&gt; 专注高效互动，适合实时应用，成本极低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek R1 (Reasoning)：&lt;/strong&gt; 专为复杂推理任务设计，提供深度分析能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结合 n8n，你可以在工作流中轻松嵌入 AI，并自托管保护数据安全，彻底解放生产力！&lt;/p&gt;
+&lt;h2 id=&#34;开源成就&#34;&gt;开源成就
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;GitHub Star 数：74.7k（处于全球最受欢迎的开源项目 Top 150！）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7df60b35f8d487e34026de4fd797cc56.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开发语言：90% TypeScript，8% Vue，极具现代化支持。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;核心功能&#34;&gt;核心功能
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9457e39be6e48c27a00641a368b1deee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;完美结合——代码与可视化&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;写 JavaScript 或 Python，随意添加 npm 包，突破标准化工具的限制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;无需从头写代码！通过拖拽界，组合出多层次的自动化组合，让繁琐任务自动完成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;内置前沿 AI 能力&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;基于 LangChain 构建 AI 工作流，轻松整合 LLM（如DeepSeek, OpenAI GPT 模型）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;让 AI 动起来！支持从外部系统提取数据、自动汇总分析和生成答案。&lt;img src=&#34;https://ai.programnotes.cn/img/ai/09bf3fc460d48d42fcb269aa0b19e709.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;企业级支持&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高级权限管理：SSO、RBAC 权限控制，支持闭环企业环境部署。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;审计日志追踪、自动化版本控制，轻松追溯和回滚。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;自托管 + 云部署可选&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;绝对自由！&lt;/strong&gt;
+ 你可选择托管在自己的服务器上，保护敏感数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;更喜欢省事？使用 n8n 的官方云服务也是妥妥的选择。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开源的力量&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高度可扩展：随时添加自定义节点或功能，打造独一无二的解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;400+ 即插即用的连接器，支持几乎所有主流应用工具（如 Slack、MySQL、GitHub）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4c173acd948fef47f055a0add89424f2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;快速上手指南&#34;&gt;快速上手指南
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;使用 npx 快速体验&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;用 Docker 自托管&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker volume create n8n_datadocker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动后访问http://localhost:5678，即可进入可视化界面！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb6589a3b7f56983245755daf7ae7ffb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;n8n 的强大与灵活，&lt;strong&gt;结合 DeepSeek 的极速 AI 推动&lt;/strong&gt;，让你的自动化能力全面升级。不论是聊天助手、业务流程自动化，还是复杂数据分析，n8n+DeepSeek 都能轻松处理，简化工作流，提高效率。更重要的是，自托管方案让你完全掌控数据，低成本的 DeepSeek 模型为企业节省开支，堪称技术团队的必备工具。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;开源地址https://github.com/n8n-io/n8n&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

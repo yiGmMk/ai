@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="介绍了开源自动化平台n8n与DeepSeek的结合，可以高效构建自动化工作流，提高生产力。">
+<title>狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了">
+<meta property='og:description' content="介绍了开源自动化平台n8n与DeepSeek的结合，可以高效构建自动化工作流，提高生产力。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='n8n' /><meta property='article:tag' content='DeepSeek' /><meta property='article:tag' content='自动化' /><meta property='article:tag' content='开源' /><meta property='article:tag' content='工作流' /><meta property='article:published_time' content='2025-04-05T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-04-05T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了">
+<meta name="twitter:description" content="介绍了开源自动化平台n8n与DeepSeek的结合，可以高效构建自动化工作流，提高生产力。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是-n8n">什么是 n8n</a></li>
+    <li><a href="#开源成就">开源成就</a></li>
+    <li><a href="#核心功能">核心功能</a></li>
+    <li><a href="#快速上手指南">快速上手指南</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/" >
+                开源工具
+            </a>
+        
+            <a href="/categories/n8n/" >
+                N8n
+            </a>
+        
+            <a href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/" >
+                自动化
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/">狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            介绍了开源自动化平台n8n与DeepSeek的结合，可以高效构建自动化工作流，提高生产力。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 05, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li>n8n是一个开源自动化平台，支持400+应用和服务集成，并可与DeepSeek等AI模型结合使用。</li>
+<li>n8n结合DeepSeek，可以通过拖拽式操作和代码自定义，轻松构建复杂的自动化流程。</li>
+<li>n8n支持自托管和云部署，具有企业级权限管理和审计日志功能。</li>
+</ul>
+<p><strong>源自</strong> |  开源日记开源日记 2025-04-05 21:00</p>
+<p>大家好 , 我是开源日记呀 !</p>
+<p>你是否费尽心思写脚本、整集成，一周才能搞定一个简单的自动化流程？用闭源的扣子？有更好的选择吗？</p>
+<p><img src="/img/ai/4f7f5cf021fdb8137dc3a4b752e37519.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>n8n，一款兼具代码灵活性和可视化简单操作的开源神器</strong>
+，让这些事情分分钟搞定！它支持 400+ 应用和服务，内置 AI 能力，既能拖拽完成任务，也能用代码搞定复杂逻辑，还能自托管，掌控所有数据。</p>
+<h2 id="什么是-n8n">什么是 n8n
+</h2><p><img src="/img/ai/bb213e9eb7a6b2a12f304cdfb8c64310.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<blockquote>
+<p><strong>n8n 是一个灵活的开源自动化平台</strong>，支持 400+ 应用和服务集成，拥有强大的自定义代码能力，同时支持拖拽式操作，再复杂的流程都能轻松打造。更棒的是，<strong>DeepSeek</strong> 的加入将其 AI 功能提升到新高度！</p></blockquote>
+<p>DeepSeek 提供两种核心模型：</p>
+<ul>
+<li>
+<p><strong>DeepSeek V3 (Chat)：</strong> 专注高效互动，适合实时应用，成本极低。</p>
+</li>
+<li>
+<p><strong>DeepSeek R1 (Reasoning)：</strong> 专为复杂推理任务设计，提供深度分析能力。</p>
+</li>
+</ul>
+<p>结合 n8n，你可以在工作流中轻松嵌入 AI，并自托管保护数据安全，彻底解放生产力！</p>
+<h2 id="开源成就">开源成就
+</h2><ul>
+<li>GitHub Star 数：74.7k（处于全球最受欢迎的开源项目 Top 150！）</li>
+</ul>
+<p><img src="/img/ai/7df60b35f8d487e34026de4fd797cc56.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>开发语言：90% TypeScript，8% Vue，极具现代化支持。</li>
+</ul>
+<h2 id="核心功能">核心功能
+</h2><p><img src="/img/ai/9457e39be6e48c27a00641a368b1deee.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>完美结合——代码与可视化</strong></p>
+<ul>
+<li>
+<p>写 JavaScript 或 Python，随意添加 npm 包，突破标准化工具的限制。</p>
+</li>
+<li>
+<p>无需从头写代码！通过拖拽界，组合出多层次的自动化组合，让繁琐任务自动完成。</p>
+</li>
+</ul>
+<p><strong>内置前沿 AI 能力</strong></p>
+<ul>
+<li>
+<p>基于 LangChain 构建 AI 工作流，轻松整合 LLM（如DeepSeek, OpenAI GPT 模型）。</p>
+</li>
+<li>
+<p>让 AI 动起来！支持从外部系统提取数据、自动汇总分析和生成答案。<img src="/img/ai/09bf3fc460d48d42fcb269aa0b19e709.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+<p><strong>企业级支持</strong></p>
+<ul>
+<li>
+<p>高级权限管理：SSO、RBAC 权限控制，支持闭环企业环境部署。</p>
+</li>
+<li>
+<p>审计日志追踪、自动化版本控制，轻松追溯和回滚。</p>
+</li>
+</ul>
+<p><strong>自托管 + 云部署可选</strong></p>
+<ul>
+<li>
+<p><strong>绝对自由！</strong>
+ 你可选择托管在自己的服务器上，保护敏感数据。</p>
+</li>
+<li>
+<p>更喜欢省事？使用 n8n 的官方云服务也是妥妥的选择。</p>
+</li>
+</ul>
+<p><strong>开源的力量</strong></p>
+<ul>
+<li>
+<p>高度可扩展：随时添加自定义节点或功能，打造独一无二的解决方案。</p>
+</li>
+<li>
+<p>400+ 即插即用的连接器，支持几乎所有主流应用工具（如 Slack、MySQL、GitHub）。</p>
+</li>
+</ul>
+<p><img src="/img/ai/4c173acd948fef47f055a0add89424f2.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="快速上手指南">快速上手指南
+</h2><p><strong>使用 npx 快速体验</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npx n8n
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>用 Docker 自托管</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker volume create n8n_datadocker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动后访问http://localhost:5678，即可进入可视化界面！</p>
+<p><img src="/img/ai/bb6589a3b7f56983245755daf7ae7ffb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<blockquote>
+<p>n8n 的强大与灵活，<strong>结合 DeepSeek 的极速 AI 推动</strong>，让你的自动化能力全面升级。不论是聊天助手、业务流程自动化，还是复杂数据分析，n8n+DeepSeek 都能轻松处理，简化工作流，提高效率。更重要的是，自托管方案让你完全掌控数据，低成本的 DeepSeek 模型为企业节省开支，堪称技术团队的必备工具。</p></blockquote>
+<p>开源地址https://github.com/n8n-io/n8n</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/n8n/">N8n</a>
+        
+            <a href="/tags/deepseek/">DeepSeek</a>
+        
+            <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+        
+            <a href="/tags/%E5%BC%80%E6%BA%90/">开源</a>
+        
+            <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%96%A9%E8%8E%B786k-star%E6%9C%80%E5%BC%BA%E5%BC%80%E6%BA%90mcp%E5%B9%B3%E5%8F%B0%E5%8F%8C%E5%90%91-%E6%9C%AC%E5%9C%B0mcp%E8%87%AA%E7%94%B1%E5%BA%A6%E6%8B%89%E6%BB%A1%E5%A4%AA%E7%BB%9D%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">斩获86K Star！最强开源MCP平台【双向&#43;本地MCP】自由度拉满，太绝了～</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

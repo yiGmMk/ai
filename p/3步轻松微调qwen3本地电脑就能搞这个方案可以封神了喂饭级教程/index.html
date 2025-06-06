@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="使用Llama-factory在本地轻松微调Qwen3，并导出到Ollama，实现个性化大模型应用。">
+<title>3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】">
+<meta property='og:description' content="使用Llama-factory在本地轻松微调Qwen3，并导出到Ollama，实现个性化大模型应用。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Qwen3' /><meta property='article:tag' content='微调' /><meta property='article:tag' content='Llama-factory' /><meta property='article:tag' content='Ollama' /><meta property='article:tag' content='本地部署' /><meta property='article:published_time' content='2025-05-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-27T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png' />
+<meta name="twitter:title" content="3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】">
+<meta name="twitter:description" content="使用Llama-factory在本地轻松微调Qwen3，并导出到Ollama，实现个性化大模型应用。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#本地部署llama-factory">本地部署Llama-factory</a></li>
+    <li><a href="#准备数据集">准备数据集</a></li>
+    <li><a href="#微调">微调</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png" loading="lazy" alt="Featured image of post 3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                机器学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/3%E6%AD%A5%E8%BD%BB%E6%9D%BE%E5%BE%AE%E8%B0%83qwen3%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E5%B0%B1%E8%83%BD%E6%90%9E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%B0%81%E7%A5%9E%E4%BA%86%E5%96%82%E9%A5%AD%E7%BA%A7%E6%95%99%E7%A8%8B/">3步轻松微调Qwen3，本地电脑就能搞，这个方案可以封神了！【喂饭级教程】</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            使用Llama-factory在本地轻松微调Qwen3，并导出到Ollama，实现个性化大模型应用。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 27, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li><strong>核心内容点1</strong>: 使用Llama-factory进行Qwen3的本地微调，无需代码，提供WebUI界面操作。</li>
+<li><strong>核心内容点2</strong>: 通过魔搭社区的角色扮演（甄嬛）数据集进行微调，展示了数据集准备和配置过程。</li>
+<li><strong>核心内容点3</strong>: 演示了如何将微调后的模型导出到Ollama，并接入Cherry Studio使用，尽管Qwen3的直接导入目前存在限制。</li>
+</ul>
+<p><strong>源自</strong> |  袋鼠帝袋鼠帝AI客栈 2025-05-27 00:00</p>
+<p>今天给大家带来的是一个带WebUI，无需代码的超简单的本地大模型微调方案（界面操作），实测微调之后的效果也是非常不错。</p>
+<p>消费级显卡就能搞，最后还可以导出微调后的模型到ollama，通过ollama对外提供使用（接入Cherry Studio）。</p>
+<p>同时，我用这篇文章内容生成了一个播客，非常有趣，且更容易理解本篇内容。
+感兴趣的朋友可以听听</p>
+<p>本播客由扣子空间（coze.cn）一键生成</p>
+<p>事情是这样的,自从上次测试完本地部署的Qwen3之后，被它的强大能力所折服了。</p>
+<blockquote>
+<p>本地部署，实测世界第一开源模型：Qwen3</p></blockquote>
+<blockquote>
+<p>袋鼠帝，公众号：袋鼠帝AI客栈<a class="link" href="https://mp.weixin.qq.com/s/AD833ZqCF3f6bfzesSkj9w"  target="_blank" rel="noopener"
+    >一周内斩获20K Star！这款国产开源AI在海外杀疯了</a></p></blockquote>
+<p>只有8B的参数量，确能媲美一些闭源收费的模型，不愧是世界第一开源模型,经过我自己的一番实践之后，我发现微调Qwen3还是大有用处滴。</p>
+<p>特别适合用来做小而美的垂类大模型</p>
+<p>提到大模型微调，可能很多人都会觉得门槛很高，需要高超的技术。</p>
+<p>把微调的整个流程、原理测底搞懂确实有难度。</p>
+<p>但是如果我们只是做一次模型微调，操作起来其实并不困难。</p>
+<p>本期又是一篇喂饭级教程,接下来跟着我实操，只需要3步，就可以在本地完成Qwen3的微调。</p>
+<p>而且全过程零代码，提供webui界面操作</p>
+<p><img src="/img/ai/bfae6707d7f0ccb44c6b9a44ecb63b3b."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/b799293236152650dea3b1eb890fad0d."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>1.本地部署一个专注模型微调的开源项目；</p>
+<p>2.准备数据集；</p>
+<p>3.微调；</p>
+<p><img src="/img/ai/932b35af2c9bc485d1d6c797b2c9cac8."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>最后可以导出微调好的模型到ollama，对接到Cherry Studio中使用</p>
+<p>做这次微调的前提是你本地已经能用Ollama跑本地模型，并且已经安装了Docker，以及安装了CUDA（版本至少大于11.6，官方推荐12.2）</p>
+<p>可以在控制台输入nvidia-smi查看</p>
+<p><img src="/img/ai/bff0fa77ed91a942ee4336da02816470.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>以我的Windows系统为例，显卡是英伟达3060 ti 8G显存（这应该算是中偏下的显卡了吧），相信大多数人的配置都比我的好。</p>
+<p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="本地部署llama-factory">本地部署Llama-factory
+</h2><p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>首先我们需要本地部署一个零代码，专门用来微调大模型的开源项目：Llama-factory,它在GitHub目前已经斩获49K 超高Star</p>
+<p><a class="link" href="https://github.com/hiyouga/LLaMA-Factory"  target="_blank" rel="noopener"
+    >https://github.com/hiyouga/LLaMA-Factory</a></p>
+<p>并且，这个项目还是我们国人开源的，作者是北京航空航天大学博士生-郑耀威</p>
+<p><img src="/img/ai/eafbbd4919424cc28ec9878862f32d15.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>先通过git指令把源码拉取到本地</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/hiyouga/LLaMA-Factory.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果没有git，也可以直接下载源码的zip包,然后我们还是使用docker-compose部署</p>
+<p>首先，进入如下目录</p>
+<p><img src="/img/ai/6c8412f11e4a4b131c11fcc6761dc658.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>在地址栏输入cmd，回车，进入控制台</p>
+<p><img src="/img/ai/f9d1d403873af49d17416a33da1829be.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>在控制台输入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose up -d
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/fa2616518c8dbb1c5af099718c389adb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>这个过程需要下载很多依赖，最终会构建一个33G左右的docker镜像。</p>
+<p>整个下载过程可能要持续20分钟左右,看到如下日志就代表部署成功~</p>
+<p><img src="/img/ai/ec006bc8c1eb9ed91d94d8e8cf121e07.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>如果想启动webui，我们还需要进入llamafactory容器内部</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker compose <span class="nb">exec</span> llamafactory bash
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后执行 llamafactory-cli webui 启动webui</p>
+<p><img src="/img/ai/5e5f172201f07af99a7569c52b567dff.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>启动之后我们可以在浏览器访问llama-factory的webui页面啦</p>
+<p>地址：127.0.0.1:7860</p>
+<p><img src="/img/ai/7e8be28d8a2e3c7d9b2699f6c01efb54.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>刚打开默认是英文，我们可以在左上角语言那里，下拉选择zh，配置成文中。</p>
+<p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="准备数据集">准备数据集
+</h2><p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>这一步是非常核心的环节，微调的效果很大程度上取决于准备的数据集质量。</p>
+<p>如何采集、预处理实际需求中需要的高质量的数据集，可以放到后续的文章中分享。</p>
+<p>今天我们主要目的是跑通整个微调流程。</p>
+<p>魔搭社区集成了相当丰富的中文数据集(我们可以先搞个现成的来测试)</p>
+<p><a class="link" href="https://www.modelscope.cn/datasets"  target="_blank" rel="noopener"
+    >https://www.modelscope.cn/datasets</a></p>
+<p>而且有很多分类可以选</p>
+<p><img src="/img/ai/09b063fb2483afdc1a7a15a81a33f2aa.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>咱们今天就找一个角色扮演（甄嬛）的数据集来微调（方便查看效果）</p>
+<p><a class="link" href="https://www.modelscope.cn/datasets/kmno4zx/huanhuan-chat"  target="_blank" rel="noopener"
+    >https://www.modelscope.cn/datasets/kmno4zx/huanhuan-chat</a></p>
+<p><img src="/img/ai/eef75bf490095a842f7e368cc2c19edb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>进来之后，可以在数据预览这里查看详细数据</p>
+<p><img src="/img/ai/62a6e4a809c3b0aa0b116210aaa112b3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>有个注意事项，就是llama-factory目前只支持两种格式的数据集</p>
+<p>如下图，Alpaca格式和Sharegpt格式</p>
+<p><img src="/img/ai/064c62b656d1f7543297936dc84ea701.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/46c802d7ce180a5d6f9955c7599ba8bf.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>然后我们切换到数据集文件这边，打开huanhuan.json文件</p>
+<p>可以看到它其实就是Alpaca格式的数据集，仅下载这一个文件即可</p>
+<p><img src="/img/ai/5c309598d9aa110ed3bc7b75c350d70d.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>下载下来的数据集，我们放在项目根目录的data文件夹下</p>
+<p><img src="/img/ai/9c283dd5060cf2fb412a1d907e9f85dd.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>在llama-factory添加数据集，不仅要把数据文件放到data目录下，还需要在配置文件dataset_info.json里面添加一条该数据集的记录。</p>
+<p>然后打开data文件夹中一个名为dataset_info.json的配置文件</p>
+<p>添加一条huanhuan.json的json配置，保存</p>
+<p>这样，我们新添加的数据集才能被llama-factory识别到</p>
+<p><img src="/img/ai/c4434a7e5f206c9b6bdb679711d946a3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>这里保存之后，webui那边会实时更新，不需要重启</p>
+<p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="微调">微调
+</h2><p><img src="/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>上面的准备工作都做好之后，我们就可以在llama-factory的webui上面
+配置微调相关的参数了。</p>
+<p>本次我们的重点是微调，暂不对参数进行深入讲解。</p>
+<p>llama-factory已经给了默认参数，接下来我们重点关注需要改动的地方即可。</p>
+<p>首先是模型，我们选择此次需要微调的Qwen3-1.7B-Instruct,微调方式使用默认的lora即可</p>
+<p><img src="/img/ai/bd7620d7caa880b2dca7e5e355d4e470.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/bfae6707d7f0ccb44c6b9a44ecb63b3b."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="/img/ai/b799293236152650dea3b1eb890fad0d."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Base 版本（如 Qwen3-1.7B-Base）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    基础预训练模型
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    没有经过指令微调
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    适合继续搞预训练或从头开始指令微调
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    通常情况下输出质量不如 Instruct 版本
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Instruct 版本（如 Qwen3-1.7B-Instruct）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    经过指令微调的模型
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    更适合直接对话和指令遵循
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    已经具备基本的对话能力
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    更适合用来进一步微调
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/932b35af2c9bc485d1d6c797b2c9cac8."
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>往下拉，找到train（就是微调），选择我们刚刚配置好的嬛嬛数据集</p>
+<p><strong>训练轮数</strong>可以选择1轮，会快一些（如果后面发现效果不理想，可以多训练几轮），我这里最终选择了3轮，因为我发现仅1轮效果不佳。</p>
+<p><img src="/img/ai/a35ffd3a9d7608b94cc5c454f1fffa8a.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>由于我们的数据集都是一些短问答，可以把截断长度设置小一点，为1024（默认是2048）</p>
+<p>预热步数是学习率预热采用的步数，通常设置范围在2-8之间，我们这里配置4，梯度累计设置为4</p>
+<p><img src="/img/ai/ecbf5d205db2204d8fdc5f8b4339dbd1.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>本次使用的是lora微调，所以还是得看看lora的参数配置</p>
+<p>主要关注的就是lora秩，和lora缩放系数。</p>
+<p><img src="/img/ai/f618bd034e8b00e29e157e87d44ce94f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>lora秩越大</strong>（可以看作学习的广度），学习的东西越多，微调之后的效果可能会越好，但是也不是越大越好。太大的话容易造成过拟合（书呆子，照本宣科，不知变通），这里设置为8</p>
+<p><strong>lora缩放系数</strong>（可以看作学习强度），越大效果可能会越好，对于一些用于复杂场景的数据集可以设置更大一些，简单场景的数据集可以稍微小一点。我这里设置256</p>
+<p>到这里我们的参数就配置完毕。</p>
+<p>接下来咱们就可以正式&quot;炼丹&quot;啦</p>
+<p>拉倒最底部，点击开始,一般过几秒，就会在下面看到日志，橙色的条是进度条</p>
+<p><img src="/img/ai/6cb3f03229d7afd05da8fda1aaf5a52f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>webui的控制台这边也能看到日志</p>
+<p><img src="/img/ai/9285347cfceb4011a2d28b984120fd60.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>只要没有报错即可,开始之后，llama-factory如果没有找到模型，会先自动下载模型</p>
+<p>模型下载完成之后，可以到下面这个目录查找下载好的模型</p>
+<p><img src="/img/ai/ca1669a1b90a86abfaef80acfe8f4bda.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>然后就是漫长的等待，我的微调了25分钟才搞定。之前微调qwen3-4b的模型，仅1轮就耗费了1个小时40分钟,看到类似下面这条&quot;训练完毕&quot;就代表微调成功。</p>
+<p><img src="/img/ai/242f1340fc3e26933360b1632025ade6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>如果想重新微调，记得改一下下面红框中的两个值</p>
+<p><img src="/img/ai/448b5a062e9cad17d47a78d69cd84ae7.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>微调成功后，在检查点路径这里，下拉可以选择我们刚刚微调好的模型</p>
+<p><img src="/img/ai/0ba1fa0207935800839bb636593a1dea.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>把窗口切换到chat，点击加载模型</p>
+<p><img src="/img/ai/96e2b3c76ac46847d2f15d8d614c4386.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>加载好之后就可以在输入框发送问题，测试微调模型的回复效果了</p>
+<p><img src="/img/ai/b66ccb2f93e34323c8fb4975809a563c.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>如果想切换回微调之前的模型，只需要把检查点路径置空</p>
+<p>然后在chat这里卸载模型，再加载模型即可</p>
+<p><img src="/img/ai/e697760e4a2b0d9ee03c3721cfe2b9a8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>接下来我们就可以导出模型了,检查点路径选择我们刚刚微调好的模型,切换到export，填写导出目录
+/app/output/qwen3-1.7b-huanhuan</p>
+<p>点击导出</p>
+<p>注意：上面的路径前面固定填/app/output/，后面的文件夹名称可以自定义</p>
+<p><img src="/img/ai/eadea5c8418d25253d7b54cfae858ca3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>导出完成之后就可以在项目根目录的output目录下，看到自己刚刚导出的
+qwen3-1.7b-huanhuan文件夹</p>
+<p>里面就是导出的qwen3微调模型和相关文件</p>
+<p><img src="/img/ai/f6e69c95300757d0ed92fd668f5c8b68.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>导入ollama，接入Cherry Studio</p>
+<p>在导出模型所在文件夹的地址栏输入cmd 回车，进入当前目录的控制台</p>
+<p>我们需要输入一个ollama命令（前提是先启动了ollama）</p>
+<p>指令中的qwen3-1.7b-huanhuan是我自己起的名字（可自定义），这就是导入ollama后的模型名称</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ollama create qwen3-1.7b-huanhuan -f Modefile
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/img/ai/56824b12be0e5bd71b7b027acc112b00.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>结果发现，报错了&hellip;无法导入</p>
+<p>查了一下资料才发现，目前ollama还没有支持导入微调后的qwen3&hellip;</p>
+<p>看下面这个issue，有位老哥提交了修复代码，但是官方说要后面自己实现。。</p>
+<p><img src="/img/ai/cf2ad49fd773b4ce12d753cf68416f48.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>目前ollama官方最新版是v0.7.1我测试了一下，还是没有支持导入微调后的qwen3，所以这块得等官方修复了。</p>
+<p>当然，我们可以先换成qwen2.5来进行微调</p>
+<p>用上面同样的方式导出微调模型，然后导入到ollama</p>
+<p>导入成功后，可以用ollama list指令查看</p>
+<p><img src="/img/ai/1417519724d2fca8b8b9404b351eb5cf.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>打开Cherry Studio，在设置-&gt;模型服务-&gt;ollama-&gt;管理里面就能看到刚刚导入的微调后的
+qwen2.5模型了</p>
+<p><img src="/img/ai/1a523fadb26b41187b81dee3a3cb1a1e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>添加之后，就能在Cherry Studio的对话框里面选择微调好的模型啦~</p>
+<p>纸上得来终觉浅，绝知此事要躬行，快去试试吧！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/qwen3/">Qwen3</a>
+        
+            <a href="/tags/%E5%BE%AE%E8%B0%83/">微调</a>
+        
+            <a href="/tags/llama-factory/">Llama-Factory</a>
+        
+            <a href="/tags/ollama/">Ollama</a>
+        
+            <a href="/tags/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/">本地部署</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/mv/ai-mv.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/mv/ai-mv.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E8%A2%ABai%E8%AF%AF%E4%BC%A4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%81%E6%98%8E%E6%88%91%E6%B2%A1%E6%9C%89%E7%94%A8ai%E4%BD%9C%E5%BC%8A/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">被AI误伤，我该怎么证明“我没有用AI作弊”？</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%AE%9E%E6%B5%8B-manus%E9%A6%96%E4%B8%AA%E7%9C%9F%E5%B9%B2%E6%B4%BB-ai%E4%B8%AD%E5%9B%BD%E9%80%A0%E9%99%8450%E4%B8%AA%E7%94%A8%E4%BE%8B--%E6%8B%86%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/fb923a2505d05b943413596e196fa4aa.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">实测 Manus：首个真干活 AI，中国造（附50个用例 &#43; 拆解）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/10-%E4%B8%AA%E9%9D%9E%E5%B8%B8%E5%80%BC%E5%BE%97%E5%85%B3%E6%B3%A8%E7%9A%84-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">10 个非常值得关注的 MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

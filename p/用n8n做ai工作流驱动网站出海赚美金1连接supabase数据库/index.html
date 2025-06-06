@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="使用n8n连接Supabase数据库，构建AI工作流，驱动网站出海并赚取美金。">
+<title>用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库">
+<meta property='og:description' content="使用n8n连接Supabase数据库，构建AI工作流，驱动网站出海并赚取美金。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='n8n' /><meta property='article:tag' content='Supabase' /><meta property='article:tag' content='AI工作流' /><meta property='article:tag' content='出海' /><meta property='article:tag' content='自动化' /><meta property='article:published_time' content='2025-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-06-03T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库">
+<meta name="twitter:description" content="使用n8n连接Supabase数据库，构建AI工作流，驱动网站出海并赚取美金。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#需求拆解">需求拆解</a></li>
+    <li><a href="#n8n连接supabase">n8n连接Supabase</a></li>
+    <li><a href="#用例测试">用例测试</a></li>
+    <li><a href="#完成工作流">完成工作流</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/n8n/" >
+                N8n
+            </a>
+        
+            <a href="/categories/no-code/" >
+                No-Code
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            使用n8n连接Supabase数据库，构建AI工作流，驱动网站出海并赚取美金。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 03, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li>使用n8n连接Supabase数据库，实现网站数据的后端处理。</li>
+<li>通过n8n工作流提交新网站，并利用AI自动解析网站信息。</li>
+<li>将Python后端转换为n8n工作流，降低开发和运营成本。</li>
+</ul>
+<p><strong>源自</strong> |  饼干哥哥饼干哥哥AGI 2025-06-03 17:57</p>
+<p>年初的时候我做了一个AI编程工具的导航网站，打算流量上来后就可以接谷歌广告赚美金：</p>
+<p><a class="link" href="https://www.aicoding.help/cn"  target="_blank" rel="noopener"
+    >https://www.aicoding.help/cn</a></p>
+<p>设想是根据AI编程开发的流程来推荐每个阶段的效率工具：
+灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营</p>
+<p><img src="/img/ai/3582f9319fd5b77af17475d08f4cc7e3.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>目前挂在了vercel上，感兴趣可以去看看，但实际上还有很多问题，待一步一步解决。</p>
+<p>具体这个网站是怎么做的，可以参考之前的文章，基于Tap4AI项目：<a class="link" href="https://mp.weixin.qq.com/s?__biz=MjM5NDI4MTY3NA==&amp;mid=2257491207&amp;idx=1&amp;sn=5af373cc431a810400003eb641ffea1d&amp;scene=21#wechat_redirect"  target="_blank" rel="noopener"
+    >2025穷鬼开发套餐：不花一分钱，部署一个AI导航网站全流程，附tap4ai、aigotools 对比</a></p>
+<p>这个导航网站分成两部分</p>
+<ul>
+<li>前端页面的展示，主要痛点就是怎么把网站设计的好看且合理</li>
+<li>后端数据的处理，
+前端页面其实不存数据，每次用户打开网站的时候，都是直接从数据库里读数据的
+这样的好处就是维护方便，因为前端页面要改的话是要重新部署上线的，很麻烦。</li>
+</ul>
+<p>例如我数据库用的是Supabase，如果哪个内容写错了，我只需要对Supabase里的内容进行修改就行了，有新网站也可以直接在数据库里添加即可。</p>
+<p>所以，目前这个网站的工作量在于后端，看着简单其实挺麻烦的，日常运营有以下几个动作：</p>
+<ul>
+<li>提交新的网站</li>
+<li>爬虫，去爬新的网站，截图，AI生成相应的描述</li>
+<li>把描述翻译成多个语言，例如我至少是中英日</li>
+<li>写SEO文章，让谷歌收录</li>
+</ul>
+<p>具体可以看这个图：</p>
+<p><img src="/img/ai/a2392dd327f28e94ce4a182de8d538d6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>目前这个后端是真的离谱，有一个单独的Python项目来跑，实在是太重了。</p>
+<p><img src="/img/ai/19e3872f72c95362b7731794afb4d49b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>因为最近都在玩n8n，而且n8n对接的都是海外的服务，很适合出海做后端服务。</p>
+<p>我在想是不是可以把这个Python后端转成n8n的工作流呢？</p>
+<p>说干就干，一步一步来。</p>
+<p><img src="/img/ai/7c1b0157ef29a03ba94ed758d2989d32.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="需求拆解">需求拆解
+</h2><p>首先，解决第一步：提交新网站的需求。</p>
+<p><img src="/img/ai/0874cffc7db9b81d2070365f31168b22.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>在数据库，我有一个submit表，用户提交网站请求后，会插入到这里，包含名称、网址、分类、描述等字段，状态status是0</p>
+<p>等爬虫把这网站爬完，处理好数据后，状态会更新为1，证明处理完了。</p>
+<p><img src="/img/ai/45975a7dbcc6969150f9afeb91a03f9e.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>目前这一步我是很苦逼的自己写了个python脚本来手动插入数据的。</p>
+<p>今天我们就来解决这个问题：通过n8n工作流提交网站到数据库supabase</p>
+<h2 id="n8n连接supabase">n8n连接Supabase
+</h2><p>首要任务就是让n8n连上Supabase,但在此之前，需要先找到两个关键的key：</p>
+<p>在Supabase的Project Settings里找到API Keys，下面的service_role secret</p>
+<p><img src="/img/ai/306613b3d3e517ba1db019e804c11d42.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>同个目录的General找到Project ID</p>
+<p><img src="/img/ai/e6f0946f8d2a5f348a45ecc991aa3b83.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>接着就可以回到n8，创建一个Supabase的Create a row节点</p>
+<p><img src="/img/ai/406c91c03634ce3448b563c7618d8840.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>老规矩，先新建一个Credential，然后把前面找到的两个信息填入其中Host，一般就是你的proejct id + supabase.co 后缀，如下图。</p>
+<p><img src="/img/ai/46c6287d4acf8570dad8a24ca0174c55.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<h2 id="用例测试">用例测试
+</h2><p>测试一下，假设我们要提交bolt.new这个全栈AI开发网站</p>
+<p>配置对应的信息</p>
+<ul>
+<li>Name: bolt.new</li>
+<li>Url: https://bolt.new/</li>
+<li>Category: 编程开发</li>
+<li>remark：Bolt is an in-browser AI web development agent for full stack web application development.
+只要前面连接成功的话，这里就会自动从supabase中获取表格结构，你只需要去选字段就好了，非常方便</li>
+</ul>
+<p>如下图，n8n表示测试成功</p>
+<p><img src="/img/ai/6bcf9b0323b9ebfa0df2d76d6a733c2b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>同时，在supabase里也能看到，多了一行。</p>
+<h2 id="完成工作流">完成工作流
+</h2><p>在正式开发工作流之前，要先想清楚自己想要的产品是什么样子的。</p>
+<p>例如当前这个项目，我想要的是：只要给一个网站，AI就能自动判断它是什么，并给出对应的信息，进而插入到Supabase表的位置。</p>
+<p>这样拆解下来，就需要做：</p>
+<ul>
+<li>AI从用户给的信息中解析出网址</li>
+<li>判断用户有没给更多信息，例如名称、描述、分类</li>
+<li>如果没有，则访问该网址，判断是什么，生成名称、描述、分类</li>
+<li>对结果进行结构化输出</li>
+<li>传入到supabase的submit表</li>
+</ul>
+<p>先看效果：</p>
+<p><img src="/img/ai/e0431bf5918c71d2242610df3cef178c.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>现在我只给一个魔塔社区的网站 <a class="link" href="https://www.modelscope.cn/"  target="_blank" rel="noopener"
+    >https://www.modelscope.cn/</a></p>
+<p>就能看到AI Agent调用了Jina AI的工具去读网址，并且根据要求输出了格式</p>
+<p>接下来看每个节点。
+ 
+新建一个AI Agent节点：</p>
+<p>对接上前面的用户对话框里的输入</p>
+<p><img src="/img/ai/3efc66f814209772cf22bf95b6448db0.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>参考提示词：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">我在给一个AI编程工具导航网站提交新的网站录用，需要你从用户给的信息中提取出以下内容：
+</span></span><span class="line"><span class="cl">```json
+</span></span><span class="line"><span class="cl">{        
+</span></span><span class="line"><span class="cl">    &#34;name&#34;:&#34;这个网站工具的名称&#34;,        
+</span></span><span class="line"><span class="cl">    &#34;Url&#34;:&#34;这个网站的网址&#34;,
+</span></span><span class="line"><span class="cl">    &#34;Category&#34;:&#34;分类，只能从 灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营 中选择一个&#34;,
+</span></span><span class="line"><span class="cl">    &#34;remark&#34;:&#34;这个网站工具的简单介绍不超过50字&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">```
+</span></span><span class="line"><span class="cl">更具体的，你需要做：
+</span></span><span class="line"><span class="cl">1. AI从用户给的信息中解析出网址
+</span></span><span class="line"><span class="cl">2. 判断用户有没给更多信息，例如名称、描述、分类
+</span></span><span class="line"><span class="cl">3. 如果没有更多信息，则要调用工具`jina AI reader`访问该网址，根据返回内容判断这网站是什么，生成名称、描述、分类
+</span></span><span class="line"><span class="cl">4. 对结果进行结构化输出
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到这个AI Agent还是挺能配置的，这就是n8n的优势，非常自由</p>
+<p><img src="/img/ai/c311a7cb130cf58e5ff4e0401bc7db35.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>在工具Tool的部分，配置一个Jina AI工具，这是一个能帮助我们读取网址内容的工具</p>
+<p>很简单，用谷歌登录一下就有key了</p>
+<p>如下图，URL这里可以让大模型自己去判断</p>
+<p><img src="/img/ai/8cbecbbec3e399645ed001f815caa5f6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>格式化输出这里给个例子就行</p>
+<p><img src="/img/ai/b3d1217f9a64ac588ec3dab12dce7641.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>接着就可以连上Supabase节点了，把AI拆解好的内容分到对应位置：</p>
+<p><img src="/img/ai/f72e62bcd093fc005fc2d4cad53bb4dc.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>非常简单！！</p>
+<p>不过每次要打开n8n工作流里面去提交就太麻烦了，我们可以用n8n内置的表单功能</p>
+<p>新建一个表单</p>
+<p><img src="/img/ai/f4b0a255590ff71fef88cc26857501a6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>设置好需要的参数：</p>
+<p><img src="/img/ai/d6af40a203da5f583e87ef9962f394a6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>执行的时候，就自动生成好了一个表单网站了</p>
+<p><img src="/img/ai/da0ec096e53b35bc14f8e97a0e3ced32.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>因为新增了一个表单，传入到AI节点的数据结构不同了，所以我就添加了几个数据处理节点，最终同样也能向数据库提交数据。</p>
+<p><img src="/img/ai/edd1a32ad6edb85a9e2fa6b0d9f2bed1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image"
+	
+	
+></p>
+<p>至此，我们就完成了第一阶段的改造，把原先通过Python提交网站的功能，变成了n8n的工作流，并且可以通过表单的形式提交；
+甚至后面可以改成webhook的监听，或者改造成mcp，更加自由的添加网站。</p>
+<p>可玩性非常高！！</p>
+<p>接下来会继续更新用n8n驱动网站出海赚美金系列，帮助大家用n8n降低开发和运营成本。</p>
+<p>感兴趣的可以关注公众号「饼干哥哥AGI」，后台回复「AI交流群」</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/n8n/">N8n</a>
+        
+            <a href="/tags/supabase/">Supabase</a>
+        
+            <a href="/tags/ai%E5%B7%A5%E4%BD%9C%E6%B5%81/">AI工作流</a>
+        
+            <a href="/tags/%E5%87%BA%E6%B5%B7/">出海</a>
+        
+            <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%96%A9%E8%8E%B786k-star%E6%9C%80%E5%BC%BA%E5%BC%80%E6%BA%90mcp%E5%B9%B3%E5%8F%B0%E5%8F%8C%E5%90%91-%E6%9C%AC%E5%9C%B0mcp%E8%87%AA%E7%94%B1%E5%BA%A6%E6%8B%89%E6%BB%A1%E5%A4%AA%E7%BB%9D%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">斩获86K Star！最强开源MCP平台【双向&#43;本地MCP】自由度拉满，太绝了～</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/mv/ai-mv.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/mv/ai-mv.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

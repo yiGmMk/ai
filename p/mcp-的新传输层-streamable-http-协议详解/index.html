@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="详细解析 MCP 协议中引入的 Streamable HTTP 传输层，包括设计思想、技术细节和实际应用。">
+<title>MCP 的新传输层 - Streamable HTTP 协议详解</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="MCP 的新传输层 - Streamable HTTP 协议详解">
+<meta property='og:description' content="详细解析 MCP 协议中引入的 Streamable HTTP 传输层，包括设计思想、技术细节和实际应用。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='Streamable HTTP' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='协议' /><meta property='article:tag' content='SSE' /><meta property='article:published_time' content='2024-10-26T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-10-26T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="MCP 的新传输层 - Streamable HTTP 协议详解">
+<meta name="twitter:description" content="详细解析 MCP 协议中引入的 Streamable HTTP 传输层，包括设计思想、技术细节和实际应用。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#原有-httpsse-传输机制及其局限">原有 HTTP+SSE 传输机制及其局限</a>
+      <ol>
+        <li><a href="#主要问题">主要问题</a></li>
+      </ol>
+    </li>
+    <li><a href="#streamable-http设计与原理">Streamable HTTP：设计与原理</a>
+      <ol>
+        <li><a href="#关键改进">关键改进</a></li>
+        <li><a href="#技术细节">技术细节</a></li>
+      </ol>
+    </li>
+    <li><a href="#实际应用场景">实际应用场景</a>
+      <ol>
+        <li><a href="#无状态服务器模式">无状态服务器模式</a></li>
+        <li><a href="#流式进度反馈模式">流式进度反馈模式</a></li>
+        <li><a href="#复杂-ai-会话模式">复杂 AI 会话模式</a></li>
+        <li><a href="#断线恢复模式">断线恢复模式</a></li>
+      </ol>
+    </li>
+    <li><a href="#streamable-http-的主要优势">Streamable HTTP 的主要优势</a>
+      <ol>
+        <li><a href="#技术优势">技术优势</a></li>
+        <li><a href="#业务优势">业务优势</a></li>
+      </ol>
+    </li>
+    <li><a href="#实现参考">实现参考</a>
+      <ol>
+        <li><a href="#服务器端实现要点">服务器端实现要点</a></li>
+        <li><a href="#客户端实现要点">客户端实现要点</a></li>
+      </ol>
+    </li>
+    <li><a href="#结论">结论</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" >
+                网络协议
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/">MCP 的新传输层 - Streamable HTTP 协议详解</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            详细解析 MCP 协议中引入的 Streamable HTTP 传输层，包括设计思想、技术细节和实际应用。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 26, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>核心内容点:</strong></p>
+<ul>
+<li>Streamable HTTP 解决了原有 HTTP+SSE 传输机制的断线重连、服务器资源消耗和基础设施兼容性等问题。</li>
+<li>Streamable HTTP 通过统一端点、按需流式传输、会话标识和灵活初始化等关键改进，实现了更高的灵活性和资源效率。</li>
+<li>Streamable HTTP 支持多种应用场景，包括无状态服务器模式、流式进度反馈模式、复杂 AI 会话模式和断线恢复模式。</li>
+</ul>
+<p>MCP 是一个用于 AI 模型和工具间通信的标准协议。随着 AI 应用的日益复杂和广泛部署，原有的通信机制面临着一系列挑战。GitHub 上的 206号 PR 引入了全新的 Streamable HTTP 传输层，这是对原有 HTTP+SSE 传输机制的重大改进。本文将详细解析这个协议的设计思想、技术细节以及实际应用。</p>
+<p><a class="link" href="https://www.claudemcp.com"  target="_blank" rel="noopener"
+    >Model Context Protocol (MCP)</a> 是一个用于 AI 模型和工具间通信的标准协议。随着 AI 应用的日益复杂和广泛部署，原有的通信机制面临着一系列挑战。GitHub 上的 <a class="link" href="https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206"  target="_blank" rel="noopener"
+    >PR #206</a> 引入了全新的 <code>Streamable HTTP</code> 传输层，这是对原有 HTTP+SSE 传输机制的重大改进。本文将详细解析这个协议的设计思想、技术细节以及实际应用。</p>
+<h2 id="原有-httpsse-传输机制及其局限">原有 HTTP+SSE 传输机制及其局限
+</h2><p><img src="https://mcp.programnotes.cn/images/blog/mcp-http-sse.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="HTTP&#43;SSE 传输机制"
+	
+	
+></p>
+<p>在原有的 MCP 实现中，客户端和服务器通过两个主要通道通信：</p>
+<ul>
+<li><strong>HTTP 请求/响应</strong>：客户端通过标准 HTTP 请求发送消息到服务器</li>
+<li><strong>服务器发送事件(SSE)</strong>：服务器通过专门的 <code>/sse</code> 端点向客户端推送消息</li>
+</ul>
+<h3 id="主要问题">主要问题
+</h3><p>这种设计虽然简单直观，但存在几个关键问题：</p>
+<p><strong>不支持断线重连/恢复</strong></p>
+<p>当 SSE 连接断开时，所有会话状态丢失，客户端必须重新建立连接并初始化整个会话。例如，正在执行的大型文档分析任务会因 WiFi 不稳定而完全中断，迫使用户重新开始整个过程。</p>
+<p><strong>服务器需维护长连接</strong></p>
+<p>服务器必须为每个客户端维护一个长时间的 SSE 连接，大量并发用户会导致资源消耗剧增。当服务器需要重启或扩容时，所有连接都会中断，影响用户体验和系统可靠性。</p>
+<p><strong>服务器消息只能通过 SSE 传递</strong></p>
+<p>即使是简单的请求-响应交互，服务器也必须通过 SSE 通道返回信息，造成不必要的复杂性和开销。对于某些环境（如云函数）不适合长时间保持 SSE 连接。</p>
+<p><strong>基础设施兼容性限制</strong></p>
+<p>许多现有的 Web 基础设施如 CDN、负载均衡器、API 网关等可能不能正确处理长时间的 SSE 连接，企业防火墙可能会强制关闭超时连接，导致服务不可靠。</p>
+<h2 id="streamable-http设计与原理">Streamable HTTP：设计与原理
+</h2><p>Streamable HTTP 的设计基于以下几个核心理念：</p>
+<ul>
+<li><strong>最大化兼容性</strong>：与现有 HTTP 生态系统无缝集成</li>
+<li><strong>灵活性</strong>：同时支持无状态和有状态模式</li>
+<li><strong>资源效率</strong>：按需分配资源，避免不必要的长连接</li>
+<li><strong>可靠性</strong>：支持断线重连和会话恢复</li>
+</ul>
+<h3 id="关键改进">关键改进
+</h3><p>相比原有机制，Streamable HTTP 引入了几项关键改进：</p>
+<ol>
+<li><strong>统一端点</strong>：移除专门的 <code>/sse</code> 端点，所有通信通过单一端点（如 <code>/message</code>）进行</li>
+<li><strong>按需流式传输</strong>：服务器可灵活选择是返回普通 HTTP 响应还是升级为 SSE 流</li>
+<li><strong>会话标识</strong>：引入会话 ID 机制，支持状态管理和恢复</li>
+<li><strong>灵活初始化</strong>：客户端可通过空 GET 请求主动初始化 SSE 流</li>
+</ol>
+<h3 id="技术细节">技术细节
+</h3><p>Streamable HTTP 的工作流程如下：</p>
+<ol>
+<li>
+<p><strong>会话初始化</strong>：</p>
+<ul>
+<li>客户端发送初始化请求到 <code>/message</code> 端点</li>
+<li>服务器可选择生成会话 ID 返回给客户端</li>
+<li>会话 ID 用于后续请求中标识会话</li>
+</ul>
+</li>
+<li>
+<p><strong>客户端向服务器通信</strong>：</p>
+<ul>
+<li>所有消息通过 HTTP POST 请求发送到 <code>/message</code> 端点</li>
+<li>如果有会话 ID，则包含在请求中</li>
+</ul>
+</li>
+<li>
+<p><strong>服务器响应方式</strong>：</p>
+<ul>
+<li><strong>普通响应</strong>：直接返回 HTTP 响应，适合简单交互</li>
+<li><strong>流式响应</strong>：升级连接为 SSE，发送一系列事件后关闭</li>
+<li><strong>长连接</strong>：维持 SSE 连接持续发送事件</li>
+</ul>
+</li>
+<li>
+<p><strong>主动建立 SSE 流</strong>：</p>
+<ul>
+<li>客户端可发送 GET 请求到 <code>/message</code> 端点主动建立 SSE 流</li>
+<li>服务器可通过该流推送通知或请求</li>
+</ul>
+</li>
+<li>
+<p><strong>连接恢复</strong>：</p>
+<ul>
+<li>连接中断时，客户端可使用之前的会话 ID 重新连接</li>
+<li>服务器可恢复会话状态继续之前的交互</li>
+</ul>
+</li>
+</ol>
+<h2 id="实际应用场景">实际应用场景
+</h2><h3 id="无状态服务器模式">无状态服务器模式
+</h3><p><strong>场景</strong>：简单工具 API 服务，如数学计算、文本处理等。</p>
+<p><strong>实现</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">客户端                                 服务器
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>计算请求<span class="o">)</span> --------&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>-- 执行计算
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- HTTP <span class="m">200</span> <span class="o">(</span>计算结果<span class="o">)</span> -------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>优势</strong>：极简部署，无需状态管理，适合无服务器架构和微服务。</p>
+<h3 id="流式进度反馈模式">流式进度反馈模式
+</h3><p><strong>场景</strong>：长时间运行的任务，如大文件处理、复杂 AI 生成等。</p>
+<p><strong>实现</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">客户端                                 服务器
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>处理请求<span class="o">)</span> --------&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>-- 启动处理任务
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- HTTP <span class="m">200</span> <span class="o">(</span>SSE开始<span class="o">)</span> --------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 进度10% ---------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 进度30% ---------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 进度70% ---------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 完成 + 结果 ------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>优势</strong>：提供实时反馈，但不需要永久保持连接状态。</p>
+<h3 id="复杂-ai-会话模式">复杂 AI 会话模式
+</h3><p><strong>场景</strong>：多轮对话 AI 助手，需要维护上下文。</p>
+<p><strong>实现</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">客户端                                 服务器
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>初始化<span class="o">)</span> ----------&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;-- HTTP <span class="m">200</span> <span class="o">(</span>会话ID: abc123<span class="o">)</span> ------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- GET /message <span class="o">(</span>会话ID: abc123<span class="o">)</span> ---&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE流建立 -----------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>问题1, abc123<span class="o">)</span> ---&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 思考中... -------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 回答1 ----------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>问题2, abc123<span class="o">)</span> ---&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 思考中... -------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 回答2 ----------------<span class="p">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>优势</strong>：维护会话上下文，支持复杂交互，同时允许水平扩展。</p>
+<h3 id="断线恢复模式">断线恢复模式
+</h3><p><strong>场景</strong>：不稳定网络环境下的 AI 应用使用。</p>
+<p><strong>实现</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">客户端                                 服务器
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>初始化<span class="o">)</span> ----------&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;-- HTTP <span class="m">200</span> <span class="o">(</span>会话ID: xyz789<span class="o">)</span> ------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- GET /message <span class="o">(</span>会话ID: xyz789<span class="o">)</span> ---&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE流建立 -----------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- POST /message <span class="o">(</span>长任务, xyz789<span class="o">)</span> --&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 进度30% ---------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>     <span class="o">[</span>网络中断<span class="o">]</span>                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>-- GET /message <span class="o">(</span>会话ID: xyz789<span class="o">)</span> ---&gt;<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE流重新建立 --------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 进度60% ---------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">   <span class="p">|</span>&lt;------- SSE: 完成 ------------------<span class="p">|</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>优势</strong>：提高弱网环境下的可靠性，改善用户体验。</p>
+<h2 id="streamable-http-的主要优势">Streamable HTTP 的主要优势
+</h2><h3 id="技术优势">技术优势
+</h3><ol>
+<li><strong>简化实现</strong>：可以在普通 HTTP 服务器上实现，无需特殊支持</li>
+<li><strong>资源效率</strong>：按需分配资源，不需要为每个客户端维护长连接</li>
+<li><strong>基础设施兼容性</strong>：与现有 Web 基础设施（CDN、负载均衡器、API 网关）良好配合</li>
+<li><strong>水平扩展</strong>：支持通过消息总线路由请求到不同服务器节点</li>
+<li><strong>渐进式采用</strong>：服务提供者可根据需求选择实现复杂度</li>
+<li><strong>断线重连</strong>：支持会话恢复，提高可靠性</li>
+</ol>
+<h3 id="业务优势">业务优势
+</h3><ol>
+<li><strong>降低运维成本</strong>：减少服务器资源消耗，简化部署架构</li>
+<li><strong>提升用户体验</strong>：通过实时反馈和可靠连接改善体验</li>
+<li><strong>广泛适用性</strong>：从简单工具到复杂 AI 交互，都有合适的实现方式</li>
+<li><strong>扩展能力</strong>：支持更多样化的 AI 应用场景</li>
+<li><strong>开发友好</strong>：降低实现 MCP 的技术门槛</li>
+</ol>
+<h2 id="实现参考">实现参考
+</h2><h3 id="服务器端实现要点">服务器端实现要点
+</h3><ol>
+<li>
+<p><strong>端点设计</strong>：</p>
+<ul>
+<li>实现单一的 <code>/message</code> 端点处理所有请求</li>
+<li>支持 POST 和 GET 两种 HTTP 方法</li>
+</ul>
+</li>
+<li>
+<p><strong>状态管理</strong>：</p>
+<ul>
+<li>设计会话 ID 生成和验证机制</li>
+<li>实现会话状态存储（内存、Redis 等）</li>
+</ul>
+</li>
+<li>
+<p><strong>请求处理</strong>：</p>
+<ul>
+<li>解析请求中的会话 ID</li>
+<li>确定响应类型（普通 HTTP 或 SSE）</li>
+<li>处理流式响应的内容类型和格式</li>
+</ul>
+</li>
+<li>
+<p><strong>连接管理</strong>：</p>
+<ul>
+<li>实现 SSE 流初始化和维护</li>
+<li>处理连接断开和重连逻辑</li>
+</ul>
+</li>
+</ol>
+<h3 id="客户端实现要点">客户端实现要点
+</h3><ol>
+<li>
+<p><strong>请求构造</strong>：</p>
+<ul>
+<li>构建符合协议的消息格式</li>
+<li>正确包含会话 ID（如有）</li>
+</ul>
+</li>
+<li>
+<p><strong>响应处理</strong>：</p>
+<ul>
+<li>检测响应是普通 HTTP 还是 SSE</li>
+<li>解析和处理 SSE 事件</li>
+</ul>
+</li>
+<li>
+<p><strong>会话管理</strong>：</p>
+<ul>
+<li>存储和管理会话 ID</li>
+<li>实现断线重连逻辑</li>
+</ul>
+</li>
+<li>
+<p><strong>错误处理</strong>：</p>
+<ul>
+<li>处理网络错误和超时</li>
+<li>实现指数退避重试策略</li>
+</ul>
+</li>
+</ol>
+<h2 id="结论">结论
+</h2><p>Streamable HTTP 传输层代表了 MCP 协议的重要进化，它通过结合 HTTP 和 SSE 的优点，同时克服二者的局限，为 AI 应用的通信提供了更灵活、更可靠的解决方案。它不仅解决了原有传输机制的问题，还为未来更复杂的 AI 交互模式奠定了基础。</p>
+<p>这个协议的设计充分体现了实用性原则，既满足了技术先进性要求，又保持了与现有 Web 基础设施的兼容性。它的灵活性使得开发者可以根据自身需求选择最合适的实现方式，从简单的无状态 API 到复杂的交互式 AI 应用，都能找到合适的解决方案。</p>
+<p>随着这个 PR 的合并，MCP 社区的技术生态将更加丰富多样，也为更多开发者采用 MCP 提供了便利。相信在不久的将来，我们将看到基于 Streamable HTTP 的 MCP 实现在各种 AI 应用中的广泛应用。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mcp/">MCP</a>
+        
+            <a href="/tags/streamable-http/">Streamable HTTP</a>
+        
+            <a href="/tags/ai/">AI</a>
+        
+            <a href="/tags/%E5%8D%8F%E8%AE%AE/">协议</a>
+        
+            <a href="/tags/sse/">SSE</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E6%89%8B%E6%92%B8-mcp-%E7%AE%A1%E7%90%86-github-%E9%A1%B9%E7%9B%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手撸 MCP 管理 GitHub 项目</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP客户端|Apify 测试版</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP-Scan 介绍：使用不变量保护 MCP</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFclaude-%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP客户端|Claude 桌面应用</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

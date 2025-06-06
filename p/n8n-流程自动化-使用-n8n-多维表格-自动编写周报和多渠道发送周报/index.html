@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文介绍如何使用N8N和飞书多维表格实现任务管理流程自动化，自动编写并多渠道发送周报。">
+<title>N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="N8N 流程自动化 - 使用 N8N+多维表格 自动编写周报和多渠道发送周报">
+<meta property='og:description' content="本文介绍如何使用N8N和飞书多维表格实现任务管理流程自动化，自动编写并多渠道发送周报。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='N8N' /><meta property='article:tag' content='流程自动化' /><meta property='article:tag' content='多维表格' /><meta property='article:tag' content='周报' /><meta property='article:tag' content='飞书' /><meta property='article:published_time' content='2025-05-31T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-31T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="N8N 流程自动化 - 使用 N8N+多维表格 自动编写周报和多渠道发送周报">
+<meta name="twitter:description" content="本文介绍如何使用N8N和飞书多维表格实现任务管理流程自动化，自动编写并多渠道发送周报。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#设计自己的管理流程">设计自己的管理流程</a></li>
+    <li><a href="#新建飞书多维表格">新建飞书多维表格</a></li>
+    <li><a href="#创建飞书应用">创建飞书应用</a>
+      <ol>
+        <li><a href="#获取应用访问凭证">获取应用访问凭证</a></li>
+      </ol>
+    </li>
+    <li><a href="#安装-n8n-飞书节点">安装 n8n 飞书节点</a></li>
+    <li><a href="#使用飞书节点">使用飞书节点</a></li>
+    <li><a href="#应用权限">应用权限</a></li>
+    <li><a href="#获取多维表格访问凭证">获取多维表格访问凭证</a></li>
+    <li><a href="#列出数据表">列出数据表</a></li>
+    <li><a href="#读取数据">读取数据</a></li>
+    <li><a href="#处理数据">处理数据</a></li>
+    <li><a href="#ai-生成周报">AI 生成周报</a></li>
+    <li><a href="#发送周报">发送周报</a></li>
+    <li><a href="#构建多种通知方式">构建多种通知方式</a>
+      <ol>
+        <li><a href="#查找社区节点">查找社区节点</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#引用链接">引用链接</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/" >
+                自动化
+            </a>
+        
+            <a href="/categories/n8n/" >
+                N8n
+            </a>
+        
+            <a href="/categories/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" >
+                效率工具
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/">N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文介绍如何使用N8N和飞书多维表格实现任务管理流程自动化，自动编写并多渠道发送周报。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 31, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li><strong>核心内容点1</strong>: 使用 N8N 和飞书多维表格实现任务管理流程的自动化。</li>
+<li><strong>核心内容点2</strong>: 通过配置 N8N 节点，读取多维表格数据，并利用 AI 生成周报。</li>
+<li><strong>核心内容点3</strong>: 实现周报的多渠道发送，如飞书、企业微信、邮件等。</li>
+</ul>
+<p><strong>源自</strong> |  数翼数翼 2025-05-31 00:21</p>
+<p>今天介绍如何基于 <strong>多维表格</strong>和<strong>N8N</strong> 打造自己的任务管理流程和自动化进行周报编写发送。</p>
+<p>内容包含：</p>
+<ul>
+<li>
+<p>• 设计自己的任务管理流程</p>
+</li>
+<li>
+<p>• 创建飞书应用</p>
+</li>
+<li>
+<p>• 获取飞书应用访问凭证</p>
+</li>
+<li>
+<p>• 安装配置N8N飞书节点</p>
+</li>
+<li>
+<p>• 配置流程读取数据整理周报</p>
+</li>
+<li>
+<p>• 相关应用授权操作</p>
+</li>
+<li>
+<p>• 通过飞书消息发送周报</p>
+</li>
+<li>
+<p>• 多渠道发送周报</p>
+</li>
+<li>
+<p>• 如何查找社区节点</p>
+</li>
+</ul>
+<p>本文基于飞书实现，类似思路的大家也可以使用企业微信，钉钉，Notion 等服务，甚至是本地Excel文件来实现。 只需要把数据读取和处理的部分换成自己平台的数据即可。</p>
+<h2 id="设计自己的管理流程">设计自己的管理流程
+</h2><p>每个人根据自己岗位不同、工作习惯不同、公司要求不同都会多多少少形成自己的任务管理流程以及方法论。</p>
+<p>我今天介绍一个比较适合大家的方案，按周管理事务，每周进行轮转，</p>
+<ul>
+<li>
+<p>• 用多维表格来记录和管理任务</p>
+</li>
+<li>
+<p>• 每周五下午固定时间自动发送周报</p>
+</li>
+<li>
+<p>• 每周一早上把任务转到本周</p>
+</li>
+<li>
+<p>• 清理已完成的任务</p>
+</li>
+</ul>
+<h2 id="新建飞书多维表格">新建飞书多维表格
+</h2><p>我们新建一个飞书多维表格，名字叫做 工作任务和计划，添加你常用的列，比如：</p>
+<ul>
+<li>• 名称</li>
+<li>• 优先级</li>
+<li>• 状态</li>
+<li>• 描述</li>
+<li>• 进度</li>
+<li>• 开始时间</li>
+<li>• 结束时间</li>
+<li>• 计划时间等等</li>
+</ul>
+<p><img src="/img/ai/bc3510b85c73cd43362dac1c69b64f35.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>我建立了这样一个表格，并且录入了一些样例数据给大家做Demo用。</p>
+<h2 id="创建飞书应用">创建飞书应用
+</h2><p>我们如果希望用 n8n 对飞书做自动化，需要创建一个飞书应用，然后获取应用的访问凭证。</p>
+<p>大家可以打开下面链接，按照文档一步步操作。</p>
+<p>如何创建企业应用[1]</p>
+<p><img src="/img/ai/980c7d8ec86dca38251d79696e9e1a81.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>点击<strong>创建企业自建应用</strong>，</p>
+<p><img src="/img/ai/243040ab0035059ff1f5e2ee01d1cd2e.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>输入应用名字，再点击 <strong>创建</strong> 即可。</p>
+<p><img src="/img/ai/63adbc85c05d26cf6e8c869319fc34d9.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="填写应用信息"
+	
+	
+></p>
+<p>填写应用信息</p>
+<h3 id="获取应用访问凭证">获取应用访问凭证
+</h3><p>接下来获取应用的访问凭证，拿到访问凭证就可以不在飞书应用里面也可以访问和操作飞书数据了。</p>
+<p>如何获取应用访问凭证[2]</p>
+<p>在刚才创建的应用页面，点击打开 <strong>凭证与基础信息</strong> 子页面， 复制 App ID 和 App Secret 备用。</p>
+<p><img src="/img/ai/98c21243c92a2cff21f11ae3c8b0b071.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="获取"
+	
+	
+></p>
+<p>获取</p>
+<h2 id="安装-n8n-飞书节点">安装 n8n 飞书节点
+</h2><p>虽然 n8n 官方没有提供飞书节点，但是万能的社区有飞书节点的实现，安装也很简单：</p>
+<p>社区节点的安装教程可以参考下面文档：</p>
+<ul>
+<li>• 
+如何安装社区节点[3]</li>
+</ul>
+<p>进入 n8n 应用的设置，点击设置页面的 Community nodes，点击 Install，填写我们要安装的界面名称 n8n-nodes-feishu-lite，然后再点击 Install，</p>
+<p><img src="/img/ai/699b48a254e468e428c04e35513750db.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>等几秒钟，弹窗关闭就可以看到列表中有我们的节点了。</p>
+<p><img src="/img/ai/140089efadba33da973d24a125fd3801.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="使用飞书节点">使用飞书节点
+</h2><p>新建一个 n8n 工作里，点击搜搜节点 feishu 可以看到我们安装的节点了：</p>
+<p><img src="/img/ai/cb5ca5aaa0aa010b3f49eed5fe716e9b.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="搜索Feishu节点"
+	
+	
+></p>
+<p>搜索Feishu节点,点击节点，选择一个操作，比如最后一个操作 获取当前应用AccessToken才测试一下链接是否可用。</p>
+<p>在节点配置页面创建账户，点击 <strong>Credential</strong> 的 <strong>Create new credential</strong>, 选择 Feishu，填写我们刚刚复制的 App ID 和 App Secret，点击Save。</p>
+<p><img src="/img/ai/3abdf9ce94a0b63475a9c4283c82ff93.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="填写App信息"
+	
+	
+></p>
+<p>填写App信息</p>
+<p>然后我们执行测试即可看到运行结果。</p>
+<p><img src="/img/ai/d28524a2009d97527b2b0683e4ccb14a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="测试飞书连接"
+	
+	
+></p>
+<p>测试飞书连接</p>
+<h2 id="应用权限">应用权限
+</h2><p>在执行飞书操作的过程中，如果没有授权就会遇到错误，根据错误信息中的地址，打开控制台进行授权即可，</p>
+<p>比如任务相关而全新啊</p>
+<p><img src="/img/ai/0218ce2d8b899bb58ffcdd7406599463.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="勾选权限点击开通"
+	
+	
+></p>
+<p>勾选权限点击开通</p>
+<p>或者 ip_list 的权限：</p>
+<p><img src="/img/ai/0f47ca90023f20ce7675a4e99d747ac4.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ip_list 权限"
+	
+	
+></p>
+<p>ip_list 权限</p>
+<p>部分权限开通的时候需要你设置应用可见的权限范围，我们如果是开发测试，或者是自己用的话，直接选择全部就好了：</p>
+<p><img src="/img/ai/874d311ceae27b8a8026f5cceff4b1f3.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>大家可以一次把权限设置好，也可以在任务出错的时候再设置，后续关于权限设置我就不再介绍了。</p>
+<h2 id="获取多维表格访问凭证">获取多维表格访问凭证
+</h2><p>现在我们打开刚才创建的的多维表格，点击上面的复制链接按钮复制当前多维表格的链接，以便我们解析多维表格获取其 app_token
+。</p>
+<p><img src="/img/ai/b319074e17b3e2deb74114ab2fd383e8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="拷贝多维表格地址"
+	
+	
+></p>
+<p>拷贝多维表格地址</p>
+<p>在 n8n 工作流中新增飞书节点，</p>
+<ul>
+<li>
+<p>• 选择 <strong>资源</strong> -&gt; 多维表格</p>
+</li>
+<li>
+<p>• <strong>操作</strong> -&gt; 解析多维表格地址</p>
+</li>
+<li>
+<p>• <strong>多维表格地址</strong> 粘贴你刚才拷贝的地址</p>
+</li>
+</ul>
+<p>点击测试，结果中可以看到多维表格的信息里面有一个 app_token，这个 Token 就是飞书多维表格的访问凭证。</p>
+<p><img src="/img/ai/204767db6beb074101c1ee7640f1162a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="App Token"
+	
+	
+></p>
+<p>App Token</p>
+<p>我们使用 获取多维表格元数据 来测试下 app_token 是否可用。</p>
+<p>在后面添加一个飞书节点，操作选择 <strong>获取多维表格元数据</strong>，把 app_token 拖入到 app_token 输入框中，点击测试。</p>
+<p><img src="/img/ai/d8af5ea38b7252699c3c2181a5ed1ca6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="多维表元数据"
+	
+	
+></p>
+<p>多维表元数据</p>
+<p>可以看到，我们能够正确获取多维表的名称信息。</p>
+<h2 id="列出数据表">列出数据表
+</h2><p>一个多维表格可能有多个数据表，每个数据表的数据都不一样，我们可以通过 列出数据表
+ 来获取多维表格中的数据表列表，然后选择一个数据表来读取数据。</p>
+<p>在后面添加一个飞书节点，操作选择 <strong>列出数据表</strong>，把 app_token 拖入到 多维表格 Token 输入框中，点击测试。</p>
+<p><img src="/img/ai/51562ea60cf69a1715f5a4d05a382ac4.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="列出数据表"
+	
+	
+></p>
+<p>列出数据表</p>
+<h2 id="读取数据">读取数据
+</h2><p>在后面添加一个飞书节点，操作选择 <strong>查询记录</strong>，把 <strong>获取元数据节点</strong> 的 app_token 拖入到 多维表格 Token 输入框中， 把上一步的 Table ID 拖入到 多维表格ID 输入框，点击测试。</p>
+<p><img src="/img/ai/324845897438b4fd37d48740c54754bc.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="读取数据"
+	
+	
+></p>
+<p>读取数据</p>
+<p>右侧执行结果就是我们多维表格的数据，大家测试的时候可以自行对照一下，是不是一样的。</p>
+<h2 id="处理数据">处理数据
+</h2><p>我们现在希望把表格中的数据作为参考资料让 AI 帮我们整理成周报。但是 表格中的列比较多，很多是在周报中不需要的， 我们先获取我们需要的任务字段。</p>
+<p>先增加一个 Split out 拆分节点，把数据进行拆分，独立处理。不需要什么配置，点击确认即可。</p>
+<p><img src="/img/ai/fbb3c9308b5e659631827592f902fb6d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="拆分数据"
+	
+	
+></p>
+<p>拆分数据</p>
+<p>接着增加一个 Edit Fields 节点，把我们需要的字段拖入，测试无误，点击确认即可。</p>
+<p><img src="/img/ai/2badb1f6a3d3ade0d2fa80c20a9e2388.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="选择需要的字段"
+	
+	
+></p>
+<p>选择需要的字段</p>
+<p>再增加一个 Edit Fields 节点，把任务数据组织成 Markdown 格式，当然我们也可以把这两个节点的功能放在一起完成。</p>
+<p><img src="/img/ai/115d8855443b580c50fd5fa672dfe0f5.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>我的 Markdown 格式是这样的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## {{ $json.task }} - description: {{ $json.description }}- status: {{ $json.status }}- percent: {{ $json.percent }}- deadline: {{ $json.deadline }}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再增加一个 Aggregate 节点，把之前拆分的数据聚合起来：</p>
+<p><img src="/img/ai/b4b37a0c0c432f77fd356e17d04dd627.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="聚合"
+	
+	
+></p>
+<p>聚合</p>
+<h2 id="ai-生成周报">AI 生成周报
+</h2><p>现在我们已经把数据整理成 Markdown 格式，再用 AI 生成周报就很简单了。</p>
+<p>添加一个 OpenAI 节点，我们选择 deepseek-v3 模型，输入系统提示词，并且把上一步的输出投入到用户提示词， 运行即可看到结果：</p>
+<p><img src="/img/ai/af0d5e5cf3deb91466032aec41f575e0.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>系统提示词可以根据自己的岗位、角色、汇报对象、公司风格等多方面来限制，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">作为一家科技公司的设计总监，请根据我提供的本周任务清单，生成一份结构清晰、专业简洁的周报。周报需包含以下核心模块,使用Markdown格式，并体现数据驱动和结果导向：  
+</span></span><span class="line"><span class="cl">1.**本周核心任务概览**   
+</span></span><span class="line"><span class="cl">- 按优先级列出3-5项重点任务（例如：产品迭代推进、技术架构优化、跨部门协作等）     
+</span></span><span class="line"><span class="cl">- 标注每项任务的进度状态（已完成/进行中/受阻）及关键里程碑  
+</span></span><span class="line"><span class="cl">2.**量化成果展示**   
+</span></span><span class="line"><span class="cl">- 用数据量化成果（如：完成XX模块开发（100%）、系统性能提升XX%、解决XX个关键Bug）     
+</span></span><span class="line"><span class="cl">- 技术类任务需注明具体技术指标（如API响应时间、代码覆盖率等）  
+</span></span><span class="line"><span class="cl">3.**风险与问题分析**   
+</span></span><span class="line"><span class="cl">- 列出遇到的瓶颈（如第三方服务延迟、测试环境不稳定）     
+</span></span><span class="line"><span class="cl">- 附上已采取的解决方案及待协调资源  
+</span></span><span class="line"><span class="cl">4.**下周计划与资源需求**   
+</span></span><span class="line"><span class="cl">- 明确下周3项核心目标（建议区分「延续性任务」和「新启动任务」）     
+</span></span><span class="line"><span class="cl">- 提出需要支持的资源（人力、预算、其他部门配合等）  
+</span></span><span class="line"><span class="cl">5.**行业洞察建议（可选）**   
+</span></span><span class="line"><span class="cl">- 结合本周工作，附加1-2条对行业技术趋势的观察（如AI工具应用、竞品动态）  
+</span></span><span class="line"><span class="cl">**风格要求：**
+</span></span><span class="line"><span class="cl">- 避免流水账，用「结论先行+数据支撑」的表述  
+</span></span><span class="line"><span class="cl">- 技术术语需易懂（如用「用户认证系统升级」而非「OAuth2.0改造」）  
+</span></span><span class="line"><span class="cl">- 重要内容加粗或分点标注  
+</span></span><span class="line"><span class="cl">- 调理清晰，避免冗长请确保周报内容简洁、清晰，在500字以内。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="发送周报">发送周报
+</h2><p>周报生成好了，我们现在发送给自己看看。</p>
+<p>新建一个飞书节点，选择发送消息动作，配置接受者ID和消息内容。</p>
+<p><img src="/img/ai/48f94f250ea3edd2685cba0d767ad516.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>获取联系人ID可以参考下面文档：</p>
+<p>如何获取用户OpenID[4]</p>
+<p>最简单的就是通过控制塔调试获取：</p>
+<p><img src="/img/ai/c06899b54aacfffcef74d3a9086746c4.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="获取用户ID"
+	
+	
+></p>
+<p>获取用户ID</p>
+<p>填入用户ID，进行测试，可以看到消息发送成功！</p>
+<p>打开飞书消息，可以看到刚刚发送的消息：</p>
+<p><img src="/img/ai/1c1d4c4d3443a17317a3ac9acf58d63f.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="飞书消息"
+	
+	
+></p>
+<p>飞书消息</p>
+<p>如果消息不满意，我们就可以修改前面的提示词，再次生成周报，直到满意为止。</p>
+<h2 id="构建多种通知方式">构建多种通知方式
+</h2><p>有时候我们希望周报不仅仅是发送出来，而是希望多渠道通知，比如提交一份、发给自己一份、同时备份一份， 下面给看看如何实现同时发送多个地方。</p>
+<p>增加一个 <strong>Edit Fields</strong> 节点，把周报复制成一个数组，我们设置 length: 4 表示复制成四个：</p>
+<p><img src="/img/ai/935fd067bddbac5a25ee8e6af28436a6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>表达式填写如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{ Array.from({ length: 4 }, (_, i) =&gt; ({ key: i, value: $json.message.content })) }}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>数据转换不会写没关系，只要把你的需求告诉 AI（比如 DeepSeek、OpenAI 等），AI 写好拷贝进来就行。 如果有有流程不会实现，AI 也都会一步步教你。</p>
+<p>然后增加一个 <strong>Split Out</strong> 节点，执行拆分逻辑，默认配置即可。</p>
+<p>增加一个 <strong>Switch</strong> 节点，设置数组不同的逻辑，Switch 节点配合如下：</p>
+<p><img src="/img/ai/aab2e4e363b462357794fd45b7707771.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>可以看到 Switch 节点后面有多个四个分支，每个分支都是一个新的消息，后续连接自己的逻辑即可。</p>
+<p><img src="/img/ai/884ebf9ea9676672764f08e53df6c977.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>比如：</p>
+<ul>
+<li>
+<p>• 一个飞书发给自己</p>
+</li>
+<li>
+<p>• 一个 HTTP 发送给企业微信</p>
+</li>
+<li>
+<p>• 一个有邮件发送，汇报给领导</p>
+</li>
+<li>
+<p>• 一个存储在数据库，以便我们你以后统计用</p>
+</li>
+</ul>
+<p><img src="/img/ai/3f2995959afe900f571c0e2023ed2ad2.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<blockquote>
+<p>发送邮件需要配置 SMTP 信息，和邮件客户端配置类似，大家自行配置即可。</p></blockquote>
+<h3 id="查找社区节点">查找社区节点
+</h3><p>如果默认节点不满足你的需求，不用去百度找（效率太低），官方网站上都可以搜索到：</p>
+<ul>
+<li>• 
+<a class="link" href="https://community.n8n.io/[5]"  target="_blank" rel="noopener"
+    >https://community.n8n.io/[5]</a></li>
+</ul>
+<p><img src="/img/ai/f727ca4e14350a14f2a8ac941d541973.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="总结">总结
+</h2><p>完整的流程如下，一条直线：最后 Switch 一下，我为了看着方便，换了行展示。</p>
+<p><img src="/img/ai/ee2fd39cd407641062fca0bd4963dac6.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>限于篇幅文章开始方案中的每周自动流传任务我们放到下一篇讲。</p>
+<h4 id="引用链接">引用链接
+</h4><p>[1] 如何创建企业应用: https://open.feishu.cn/document/develop-process/self-built-application-development-process
+[2] 如何获取应用访问凭证: https://open.feishu.cn/document/server-docs/api-call-guide/calling-process/get-access-token?lang=zh-CN
+[3] 如何安装社区节点: https://docs.n8n.io/integrations/community-nodes/installation/
+[4] 如何获取用户OpenID: https://open.feishu.cn/document/faq/trouble-shooting/how-to-obtain-openid?lang=zh-CN
+[5]: https://community.n8n.io/</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/n8n/">N8n</a>
+        
+            <a href="/tags/%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/">流程自动化</a>
+        
+            <a href="/tags/%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC/">多维表格</a>
+        
+            <a href="/tags/%E5%91%A8%E6%8A%A5/">周报</a>
+        
+            <a href="/tags/%E9%A3%9E%E4%B9%A6/">飞书</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BB%BA%E8%AE%AE%E5%A4%A7%E5%AE%B6%E5%B0%BD%E6%97%A9%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">建议大家尽早开始搭建个人知识库</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

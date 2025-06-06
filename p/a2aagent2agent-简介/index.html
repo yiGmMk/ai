@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文介绍了Google发布的Agent2Agent Protocol（A2A），旨在促进不同智能体之间的高效沟通与协作。">
+<title>A2A（Agent2Agent） 简介</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/a2aagent2agent-%E7%AE%80%E4%BB%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="A2A（Agent2Agent） 简介">
+<meta property='og:description' content="本文介绍了Google发布的Agent2Agent Protocol（A2A），旨在促进不同智能体之间的高效沟通与协作。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/a2aagent2agent-%E7%AE%80%E4%BB%8B/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Agent2Agent' /><meta property='article:tag' content='A2A' /><meta property='article:tag' content='Agent生态' /><meta property='article:tag' content='智能体' /><meta property='article:tag' content='Google' /><meta property='article:published_time' content='2025-05-12T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-12T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="A2A（Agent2Agent） 简介">
+<meta name="twitter:description" content="本文介绍了Google发布的Agent2Agent Protocol（A2A），旨在促进不同智能体之间的高效沟通与协作。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#序言">序言</a></li>
+    <li><a href="#a2a-介绍">A2A 介绍</a></li>
+    <li><a href="#a2a-协议原理">A2A 协议原理</a>
+      <ol>
+        <li><a href="#核心三要素">核心三要素</a></li>
+        <li><a href="#核心概念">核心概念</a>
+          <ol>
+            <li><a href="#agentcard">AgentCard</a></li>
+            <li><a href="#task">Task</a></li>
+            <li><a href="#artifact">Artifact</a></li>
+            <li><a href="#message">Message</a></li>
+            <li><a href="#part">Part</a></li>
+          </ol>
+        </li>
+        <li><a href="#通信认证">通信&amp;认证</a></li>
+        <li><a href="#23-核心流程">2.3 核心流程</a>
+          <ol>
+            <li><a href="#agentcard-托管--发现">AgentCard 托管 &amp; 发现</a></li>
+            <li><a href="#发起task">发起Task</a></li>
+            <li><a href="#设置clientagent任务状态监听">设置ClientAgent任务状态监听</a></li>
+            <li><a href="#执行-task返回结果">执行 Task，返回结果</a></li>
+            <li><a href="#获取-artifact">获取 Artifact</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#a2a-vs-mcp">A2A vs. MCP</a></li>
+    <li><a href="#展望">展望</a></li>
+    <li><a href="#参考资料">参考资料：</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: ##ffffff; color: #fff;">
+                人工智能
+            </a>
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF/" >
+                技术
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/a2aagent2agent-%E7%AE%80%E4%BB%8B/">A2A（Agent2Agent） 简介</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文介绍了Google发布的Agent2Agent Protocol（A2A），旨在促进不同智能体之间的高效沟通与协作。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 12, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>核心内容:</p>
+<ul>
+<li>介绍了Google发布的Agent2Agent Protocol（A2A）及其功能特性。</li>
+<li>阐述了A2A协议的原理，包括核心概念（AgentCard、Task、Artifact、Message、Part）和通信认证方式。</li>
+<li>对比了A2A与MCP，分析了A2A在Agent互操作性方面的优势和定位。</li>
+</ul>
+<p><strong>源自</strong> |筝瑜阿里云开发者 2025-04-18 08:30</p>
+<p><img src="/img/ai/d18e654aa1611cd4b2bbb6d6a9bf9f1e.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>本文主要介绍Google于2025年4月9日发布的Agent2Agent Protocol（简称“A2A”），这是一个旨在促进不同类型智能体（Agent）之间高效沟通与协作的开放协议。</p>
+<h2 id="序言">序言
+</h2><p>2025年4月9日，Google 正式发布了 <strong>Agent2Agent Protocol</strong>以下简称 “A2A”）。该协议为不同类型的智能体之间搭建了一座高效沟通与协作的桥梁，无论是独立Agent与独立Agent、独立Agent与企业Agent，亦或是企业Agent与企业Agent，都能借助该协议实现通信交互和事务协作。</p>
+<p>A2A 为 <strong>Agent生态</strong>提供了一套标准协议标准，补充了 <strong>Agent生态</strong>基础设施中至关重要的一块拼图，将有力推动 <strong>Agent生态系统</strong>的完善与发展。</p>
+<h2 id="a2a-介绍">A2A 介绍
+</h2><p><strong>A2A</strong> 是一个用于链接不同封闭Agent，并实现其相互操作的开放协议。</p>
+<p><strong>1.1 A2A 诞生背景</strong></p>
+<p>目前为止，比较公认的一个观点是：2025年是 <strong>Agent元年</strong>。虽然说是<strong>元年</strong>，但是其爆发式的普及速度，远远超过了<strong>元年</strong>这个词的含义。所以，<strong>发展快</strong>是一个前提。</p>
+<p>另外一点，<strong>Agent</strong>作为一个智能体，它本身具备<strong>自主性</strong>、<strong>主动性</strong>、<strong>社会性</strong>和<strong>反应性</strong>。其<strong>社会性</strong>
+在<strong>以人为本构建的产品和服务</strong>的世界中，并不能快速的成长。</p>
+<p>举一个简单的例子：人与人之间可以通过各种各样的方式沟通：对话，眼神，肢体动作，画作等，这些可以帮助不同的人之间相互了解对方，并做出正确的动作，共同推动人类社会的发展，那么<strong>Agent</strong>之间沟通协作呢？Google给出了自己的答案：<strong>A2A</strong>。</p>
+<p><strong>1.2 A2A 的功能特性</strong></p>
+<p><img src="/img/ai/964457ca6d5bc0b650662cd0482a05ff.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>A2A</strong>作为一个开放协议，充分考虑了 <strong>Agent</strong>在和用户、企业打通的过程中所面临的一些挑战，其主要功能特性有以下四点：</p>
+<ul>
+<li>
+<p>安全协作(Secure Collaboration)：通过引入认证/授权机制，保证 <strong>Agent</strong>之间的身份互信。</p>
+</li>
+<li>
+<p>任务状态管理(Task and state mgmt)：实现了 <strong>Agent</strong>之间互操作任务以及任务状态的可管理性。</p>
+</li>
+<li>
+<p>用户体验协商(UX negotiation)：不同的 <strong>Agent</strong>通过协商的方式，对用户提供无缝的体验。</p>
+</li>
+<li>
+<p>功能发现(Capability discovery)：提供了<strong>Agent</strong>之间相互发现各自能力的机制。</p>
+</li>
+</ul>
+<p>除此之外，<strong>A2A</strong>也在企业的无缝接入、简化集成方面，有比较好的考量。</p>
+<h2 id="a2a-协议原理">A2A 协议原理
+</h2><p><strong>基本概念</strong></p>
+<h3 id="核心三要素">核心三要素
+</h3><p><img src="/img/ai/4b0d81a79b1e03db3b9b29498b9792cc.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>A2A</strong>中包含三个核心的参与者：</p>
+<ul>
+<li>
+<p>User</p>
+</li>
+<li>
+<p>Client Agent</p>
+</li>
+<li>
+<p>Remote Agent</p>
+</li>
+</ul>
+<p><strong>User</strong>存在于协议中，主要的作用是用于 <strong>认证&amp;授权</strong>。<strong>Client Agent</strong>指的是任务发起者，<strong>Server Agent</strong>
+指的是任务的执行者。<strong>Client</strong>和 <strong>Server</strong>之间的通信，可以理解为就是一个个简单的请求和结果的响应，只不过这个请求是一个个的任务。一个 <strong>Agent</strong>既可以是 <strong>Client</strong>也可以是 <strong>Server</strong>。</p>
+<h3 id="核心概念">核心概念
+</h3><p>这里主要介绍一下，<strong>Client Agent</strong>和<strong>Server Agent</strong>交互的过程中，主要涉及到的一些Entity：<strong>AgentCard</strong>、<strong>Task</strong>、<strong>Artifact</strong>、<strong>Message</strong>、<strong>Part</strong>。</p>
+<h4 id="agentcard">AgentCard
+</h4><p><strong>AgentCard</strong>是 <strong>Server Agent</strong>的名片，它主要描述了 <strong>Server Agent</strong>的能力、认证机制等信息。<strong>Client gent</strong>通过获取不同 <strong>Server Agent</strong>的 <strong>AgentCard</strong>，了解不同 <strong>Server Agent</strong>的能力，来决断具体的任务执行应该调用哪个 <strong>Server Agent</strong>。</p>
+<p>内容示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">AgentCard</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">provider</span><span class="o">?:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">organization</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">url</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">version</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">documentationUrl</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">capabilities</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">streaming</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">pushNotifications</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">stateTransitionHistory</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">authentication</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">schemes</span><span class="o">:</span> <span class="nx">string</span><span class="p">[];</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">credentials</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">defaultInputModes</span><span class="o">:</span> <span class="nx">string</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">defaultOutputModes</span><span class="o">:</span> <span class="nx">string</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">skills</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">id</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">description</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tags</span><span class="o">:</span> <span class="nx">string</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">examples</span><span class="o">?:</span> <span class="nx">string</span><span class="p">[];</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">inputModes</span><span class="o">?:</span> <span class="nx">string</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">outputModes</span><span class="o">?:</span> <span class="nx">string</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="task">Task
+</h4><p><strong>Task</strong>是一个具有状态的实体，由<strong>Client Agent</strong>创建，其状态由<strong>Server Agent</strong>维护。一个<strong>Task</strong>用于达到特定的目标或者结果。<strong>Agent Client</strong>和<strong>Server Client</strong>在<strong>Task</strong>中交换<strong>Mesaage</strong>，<strong>Server Agent</strong>生成的结果叫做<strong>Artifact</strong>。</p>
+<p>除此之外，每个<strong>Task</strong>有一个唯一的<strong>sessionId</strong>，多个<strong>Task</strong>可以使用一个<strong>sessionId</strong>，表明多个<strong>Task</strong>属于同一个会话的一部分。
+ 
+示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Task</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sessionId</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">status</span><span class="o">:</span> <span class="nx">TaskStatus</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">history</span><span class="o">?:</span> <span class="nx">Message</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">artifacts</span><span class="o">?:</span> <span class="nx">Artifact</span><span class="p">[];</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">TaskStatus</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">state</span><span class="o">:</span> <span class="nx">TaskState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">message</span><span class="o">?:</span> <span class="nx">Message</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">timestamp</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">TaskStatusUpdateEvent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">status</span><span class="o">:</span> <span class="nx">TaskStatus</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">final</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span> <span class="c1">//indicates the end of the event stream
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">TaskArtifactUpdateEvent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">artifact</span><span class="o">:</span> <span class="nx">Artifact</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">TaskSendParams</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sessionId</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">message</span><span class="o">:</span> <span class="nx">Message</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">historyLength</span><span class="o">?:</span> <span class="nx">number</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">pushNotification</span><span class="o">?:</span> <span class="nx">PushNotificationConfig</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span> <span class="c1">// extension metadata
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="nx">TaskState</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;submitted&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;working&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;input-required&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;completed&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;canceled&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;failed&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="s2">&#34;unknown&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="artifact">Artifact
+</h4><p><strong>Artifacts</strong>：<strong>Server Agent</strong>在执行任务后生成的目标结果叫做 <strong>Artifact</strong>，一个 <strong>Task</strong>可能生成一个或者多个 <strong>Artifact</strong>。</p>
+<p><strong>Artifacts</strong>是不可变的，可以命名，并且可以有多个部分。流式响应可以分批次，将结果附加到现有 <strong>Artifacts</strong>上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Artifact</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">parts</span><span class="o">:</span> <span class="nx">Part</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">index</span><span class="o">:</span> <span class="nx">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">append</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">lastChunk</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="message">Message
+</h4><p>在 <strong>Task</strong>执行过程中，<strong>Server Agent</strong>和<strong>Client Agent</strong>之间是通过<strong>Message</strong>完成交流的，当然，这不包括<strong>Artifact</strong>。它可以包括：Agent的思考、用户上下文、指令、错误、状态或元数据。</p>
+<p>一个<strong>Message</strong>可以包含多个<strong>Part</strong>，每个<strong>Part</strong>携带不同的内容。
+示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Message</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">role</span><span class="o">:</span> <span class="s2">&#34;user&#34;</span> <span class="o">|</span> <span class="s2">&#34;agent&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">parts</span><span class="o">:</span> <span class="nx">Part</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">?:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="part">Part
+</h4><p><strong>Part</strong>是 <strong>Message</strong>和 <strong>Artifact</strong>的核心组成部分，代表了其携带的主要内容。每个 <strong>Part</strong>都标识了内容类型和具体内容。
+ 
+示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">TextPart</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;text&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">text</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">FilePart</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;file&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">file</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">mimeType</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// oneof {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">bytes</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span> <span class="c1">//base64 encoded content
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">uri</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">DataPart</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s2">&#34;data&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">data</span><span class="o">:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="nx">Part</span> <span class="o">=</span> <span class="p">(</span><span class="nx">TextPart</span> <span class="o">|</span> <span class="nx">FilePart</span> <span class="o">|</span> <span class="nx">DataPart</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata</span><span class="o">:</span> <span class="nx">Record</span><span class="o">&lt;</span><span class="nx">string</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="通信认证">通信&amp;认证
+</h3><p><strong>ClientAgent</strong>和<strong>ServerAgent</strong>之间通过<strong>HTTP</strong>协议进行通信，使用经典的<strong>C/S</strong>模式，支持<strong>SSE</strong>流式数据传输，数据格式为<strong>JSON-RPC2.0</strong>。</p>
+<p><strong>A2A</strong>遵循<strong>Open API</strong>规范进行身份验证。<strong>A2A</strong>不会在协议中交换身份信息。相反，它们会在带外获取材料（如令牌），并在<strong>HTTP</strong>头中传输。</p>
+<h3 id="23-核心流程">2.3 核心流程
+</h3><p><strong>Client Agent</strong>和 <strong>Server Agent</strong>之间协同工作需要经过以下几个关键步骤：</p>
+<ul>
+<li>
+<p><strong>Server Agent</strong> 在指定站点托管自己的 <strong>AgentCard</strong>；</p>
+</li>
+<li>
+<p><strong>Client Agent</strong> 主动发现 <strong>AgentCard</strong>；</p>
+</li>
+<li>
+<p><strong>Client Agent</strong> 发起一个 <strong>Task</strong>；</p>
+</li>
+<li>
+<p><strong>Client Agent</strong> 设置任务通知监听；</p>
+</li>
+<li>
+<p><strong>Server Agent</strong> 执行任务，返回 <strong>Artifact；</strong></p>
+</li>
+<li>
+<p><strong>Client Agent</strong> 获取 <strong>Artifact</strong>。</p>
+</li>
+</ul>
+<h4 id="agentcard-托管--发现">AgentCard 托管 &amp; 发现
+</h4><p>官方建议将 <strong>AgentCard</strong>托管在 https://${host}/.well-known/agent.json。</p>
+<p>上面这种方式叫做 <strong>Open Discovery</strong>，除此之外，还有另外两种方式：Curated Discovery 和 Private Discovery，详见：https://google.github.io/A2A/#/topics/agent_discovery
+<strong>Agent Client</strong>可以通过请求https://${host}/.well-known/agent.json，获取到指定的 <strong>AgentCard</strong>
+，并集成到自己的提示词或者工具集中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">//agent card
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Google Maps Agent&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Plan routes, remember places, and generate directions&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://maps-agent.google.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;provider&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;organization&#34;</span><span class="p">:</span> <span class="s2">&#34;Google&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://google.com&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;authentication&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;schemes&#34;</span><span class="p">:</span> <span class="s2">&#34;OAuth2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;defaultInputModes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;text/plain&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;defaultOutputModes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;text/plain&#34;</span><span class="p">,</span> <span class="s2">&#34;application/html&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;capabilities&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;streaming&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;pushNotifications&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;skills&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;route-planner&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Route planning&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Helps plan routing between two locations&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tags&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;maps&#34;</span><span class="p">,</span> <span class="s2">&#34;routing&#34;</span><span class="p">,</span> <span class="s2">&#34;navigation&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;examples&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;plan my route from Sunnyvale to Mountain View&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;what&#39;s the commute time from Sunnyvale to San Francisco at 9AM&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;create turn by turn directions from Sunnyvale to Mountain View&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// can return a video of the route
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nt">&#34;outputModes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;application/html&#34;</span><span class="p">,</span> <span class="s2">&#34;video/mp4&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;custom-map&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;My Map&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Manage a custom map with your own saved places&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tags&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;custom-map&#34;</span><span class="p">,</span> <span class="s2">&#34;saved-places&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;examples&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;show me my favorite restaurants on the map&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;create a visual of all places I&#39;ve visited in the past year&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;outputModes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;application/html&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="发起task">发起Task
+</h4><p>允许客户端向远程代理发送内容，以启动新任务、恢复中断的任务或重新打开已完成的任务。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;method&#34;</span><span class="p">:</span><span class="s2">&#34;tasks/send&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;role&#34;</span><span class="p">:</span><span class="s2">&#34;user&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;tell me a joke&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="设置clientagent任务状态监听">设置ClientAgent任务状态监听
+</h4><p><strong>ClientAgent</strong>可以设置一个方法，给到 <strong>ServerAgent</strong>，当 <strong>ServerAgent</strong>修改 <strong>Task</strong>状态后，同步调用 <strong>ClientAgent</strong>的监听方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">//Request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;method&#34;</span><span class="p">:</span><span class="s2">&#34;tasks/pushNotification/set&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;pushNotificationConfig&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://example.com/callback&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;authentication&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;schemes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;jwt&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Response
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;pushNotificationConfig&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://example.com/callback&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;authentication&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;schemes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;jwt&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="执行-task返回结果">执行 Task，返回结果
+</h4><p><strong>Server Agent</strong>执行任务，并以 <strong>Artifact</strong>的形式，返回结果。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sessionId&#34;</span><span class="p">:</span> <span class="s2">&#34;c295ea44-7543-4f78-b524-7a38915ad6e4&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;state&#34;</span><span class="p">:</span> <span class="s2">&#34;completed&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;artifacts&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;joke&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;parts&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;text&#34;</span><span class="p">:</span><span class="s2">&#34;Why did the chicken cross the road? To get to the other side!&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="获取-artifact">获取 Artifact
+</h4><p>这里需要注意的是，<strong>Client Agent</strong>需要通过获取 <strong>Task</strong>的方式，获取到<strong>Artifact</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">//Request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;method&#34;</span><span class="p">:</span><span class="s2">&#34;tasks/get&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;historyLength&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Response
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;de38c76d-d54c-436c-8b9f-4c2703648d64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;sessionId&#34;</span><span class="p">:</span> <span class="s2">&#34;c295ea44-7543-4f78-b524-7a38915ad6e4&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;state&#34;</span><span class="p">:</span> <span class="s2">&#34;completed&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;artifacts&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;parts&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;text&#34;</span><span class="p">:</span><span class="s2">&#34;Why did the chicken cross the road? To get to the other side!&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;history&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;parts&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;tell me a joke&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="a2a-vs-mcp">A2A vs. MCP
+</h2><p>如果没有 <strong>A2A</strong> ,只使用 <strong>MCP</strong> 是否也可以实现 <strong>Agent</strong> 之间的互相调用？答案肯定是可以的。那为什么还要有
+ <strong>A2A</strong>呢？</p>
+<p>官方认为，<strong>A2A</strong>是 <strong>MCP</strong>的一个补充，相当于对子领域的一个增强。</p>
+<p>我个人的看法是：<strong>MCP</strong>还是传统的工程思维，<strong>A2A</strong>则是站在人的思维来看待世界。</p>
+<p>首先，我们要理解<strong>MCP</strong>的定位：提供一个规范的方式，向<strong>LLMs/Agent</strong>提供上下文。<strong>MCP</strong>强调的是<strong>LLMs/Agent</strong>为主体，<strong>MCPServer</strong>为附属的模式。而<strong>A2A</strong>强调的是<strong>Agent</strong>和<strong>Agent</strong>之间的相互操作，协议双端是对等的。</p>
+<p>下面两个官方的图示，可以帮助大家理解<strong>A2A</strong>和<strong>MCP</strong>在工程领域的定位问题。</p>
+<p><strong>Agent-To-Agent</strong>
+<img src="/img/ai/23be3e018d80058216bd1a5c6ac2b0cf.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><strong>Agent-To-MCP-To-Agent</strong>
+<img src="/img/ai/930ca4e18ba38335112cca87cfcdf08f.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="展望">展望
+</h2><p><strong>Agent</strong>相互之间的发现、了解和交互调用，是一个发展趋势。首先，企业基于当前业务，都在探索、建立各种各样的
+ <strong>领域Agent</strong> 。在内部的各种 <strong>领域Agent</strong>之间的沟通协作，是必须要面对和解决的一个问题。</p>
+<p>其次，对于对外提供 <strong>Agent</strong>服务的提供商来说，我如何让其他 <strong>Agent</strong>
+ 
+主动发现我，就像SEO，吸引更多的流量，也是一个需要思考的问题。</p>
+<h2 id="参考资料">参考资料：
+</h2><p>[1]https://google.github.io/A2A/#/</p>
+<p>[2]https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/</p>
+<p>[3]https://modelcontextprotocol.io/introduction</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/agent2agent/">Agent2Agent</a>
+        
+            <a href="/tags/a2a/">A2A</a>
+        
+            <a href="/tags/agent%E7%94%9F%E6%80%81/">Agent生态</a>
+        
+            <a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">智能体</a>
+        
+            <a href="/tags/google/">Google</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/mcp-%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 终极指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/100%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AE%B2%E9%80%8Fmcp%E5%8E%9F%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100行代码讲透MCP原理</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%96%87%E7%A7%92%E6%87%82ai%E6%A0%B8%E5%BF%83agentragfunction-call%E4%B8%8Emcp%E5%85%A8%E8%A7%A3%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一文秒懂AI核心：Agent、RAG、Function Call与MCP全解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E-api-%E7%9B%B8%E6%AF%94%E6%9C%89%E4%BD%95%E4%BC%98%E5%8A%BF/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP 是什么？与 API 相比有何优势</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/thinkinai-weekly-ai%E5%91%A8%E6%8A%A5vol1openai%E8%B0%B7%E6%AD%8C%E8%85%BE%E8%AE%AF%E7%AD%89%E5%B7%A8%E5%A4%B4%E6%9C%80%E6%96%B0%E6%8A%80%E6%9C%AF%E7%AA%81%E7%A0%B4%E5%85%A8%E8%A7%A3%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ThinkInAI Weekly AI周报VOL1：OpenAI、谷歌、腾讯等巨头最新技术突破全解析</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

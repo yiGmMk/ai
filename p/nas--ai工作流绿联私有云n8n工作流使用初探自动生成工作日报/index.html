@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="探索绿联私有云上使用N8N AI工作流自动生成日报，提高工作效率。">
+<title>NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="NAS + AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报">
+<meta property='og:description' content="探索绿联私有云上使用N8N AI工作流自动生成日报，提高工作效率。">
+<meta property='og:url' content='https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/'>
+<meta property='og:site_name' content='AI'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='NAS' /><meta property='article:tag' content='AI工作流' /><meta property='article:tag' content='n8n' /><meta property='article:tag' content='绿联私有云' /><meta property='article:tag' content='自动化' /><meta property='article:published_time' content='2025-05-10T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-10T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="NAS + AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报">
+<meta name="twitter:description" content="探索绿联私有云上使用N8N AI工作流自动生成日报，提高工作效率。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-QyG5AHEYbU" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_7ad440e112a0d8ab.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AI</a></h1>
+            <h2 class="site-description">每天分享 AI 最热门的内容</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" selected>中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#部署n8n">部署n8n</a></li>
+    <li><a href="#n8n基础配置">n8n基础配置</a>
+      <ol>
+        <li><a href="#激活社区永久免费版">激活社区永久免费版</a></li>
+        <li><a href="#安装社区节点">安装社区节点</a></li>
+      </ol>
+    </li>
+    <li><a href="#自动日报工作流">自动日报工作流</a>
+      <ol>
+        <li><a href="#同步资料">同步资料</a></li>
+        <li><a href="#自定义工作流">自定义工作流</a></li>
+        <li><a href="#n8n新手排坑指南">n8n新手排坑指南</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/categories/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" >
+                效率工具
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/">NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            探索绿联私有云上使用N8N AI工作流自动生成日报，提高工作效率。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 10, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li><strong>核心内容点1</strong>: 介绍了在绿联NAS上部署n8n AI工作流，实现日报、周报自动生成的方法。</li>
+<li><strong>核心内容点2</strong>: 分享了n8n的基础配置，包括激活社区永久免费版和安装社区节点。</li>
+<li><strong>核心内容点3</strong>: 详细讲解了如何自定义工作流，包括同步资料、利用AI插件生成日报/周报总结，以及n8n新手排坑指南。</li>
+</ul>
+<p><strong>源自</strong> |  可爱的小Cherry可爱的小Cherry 2025-05-10 08:30</p>
+<p><img src="/img/ai/c61fb35519aae82535f732c8e1303e31.other"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>项目均来源互联网，如有侵权，后台私信联系删除</p>
+<h2 id="前言">前言
+</h2><p>关于 NAS + AI 的玩法，我之前已经分享过好几篇，尤其是针对绿联NAS，其自带的AI Plugins应用充分调用了 GPU的加速，满足dxp 4800 plus以上设备 14b小模型的日常使用。</p>
+<p>但是 AI ，说到底还只是一个工具而已，如何运用 AI 发挥出更大的工作成效，帮助我们增加工作、生活的便利，才是最重要的。</p>
+<p>这段时间，我一直在研究 AI 工作流这个新玩具，从dify、openwebui，到扣子空间，最终以本地部署<strong>n8n</strong>
+作为了我的最终工作流工具，并且实现了日报、周报的自动生成！</p>
+<p>所以这篇文章，我就把我关于在绿联NAS上部署 AI 工作流，以及日报、周报生成的模型做一个分享！</p>
+<p>AI 工作流，顾名思义，就是将 AI 运作到一个固定模式的工作流程中。它其实是一种低代码拼搭 + 自动化的结合工具，为不懂代码，但是有想法的用户提供了很多自动化的实现路径。</p>
+<p>n8n是一款很火的原生 AI 工作流自动化平台，在github上拥有87k star。它将可视化构建与自定义代码、自托管或云、400+ 集成相结合，支持目前很火的mcp服务。</p>
+<p><img src="/img/ai/0ce0c95afdedc899060c79de676ed3b2.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745901075416.png"
+	
+	
+></p>
+<h2 id="部署n8n">部署n8n
+</h2><p>🔻n8n的部署很简单，下列是项目的yaml文件，其中我们只需要根据自己的想法，修改ports左侧的地址就行了。</p>
+<p>在environment环境变量中，我增加了2个Proxy的变量，主要是为了解决容器内链接各式各样国外服务。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">n8n</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 根据自己的要求修改左侧端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">35678</span><span class="p">:</span><span class="m">5678</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 必须使用docker volume，否则有权限问题</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">n8n_data:/home/node/.n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 该变量解决http访问，否则需要代理https地址</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">N8N_SECURE_COOKIE=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">GENERIC_TIMEZONE=Asia/Shanghai</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 下面两个是你自己的代理地址</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">HTTP_PROXY=http://192.168.0.1:7890</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">HTTPS_PROXY=http://192.168.0.1:7890</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker.n8n.io/n8nio/n8n</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">n8n_data</span><span class="p">:</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>🔻使用绿联私有云自带的Docker应用，选择<strong>项目-创建项目</strong>，将yaml代码复制进去部署。</p>
+<p><img src="/img/ai/babedf20b6820ee59f5fab1b456f3b99.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745901932029.png"
+	
+	
+></p>
+<p>🔻该镜像仓库地址国内可直连，所以能直接下载镜像使用。</p>
+<p><img src="/img/ai/803faf0f064cc339e67780f2fb797ee5.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745901999868.png"
+	
+	
+></p>
+<h2 id="n8n基础配置">n8n基础配置
+</h2><h3 id="激活社区永久免费版">激活社区永久免费版
+</h3><p>首次登录，自行配置管理员账号密码，这里的电子邮件请<strong>填写真实电子邮件</strong>，后续用来接收n8n的<strong>社区更新日志</strong>。</p>
+<p><img src="/img/ai/89adc63f13c83d78671dd40cade9cd3d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745728748295.png"
+	
+	
+></p>
+<p>登录系统以后，会要求填写社区需求，随便填写一下就行了，这里没有太多讲究。</p>
+<p><img src="/img/ai/565c914b918f71ebe896f56b566bc557.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745728814341.png"
+	
+	
+></p>
+<p>接着，系统会提供社区<strong>永久免费的激活密钥</strong>，下面填写我们的接收邮箱，以获取许可证密钥。</p>
+<p><img src="/img/ai/bc78e907560852da3da41d6dd87569dd.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745728834223.png"
+	
+	
+></p>
+<p>将邮件里获取到的验证码，填入Plan中，就可以永久激活了。</p>
+<p><img src="/img/ai/e36ee28a9e910cd915111e16899364ad.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745728967773.png"
+	
+	
+></p>
+<h3 id="安装社区节点">安装社区节点
+</h3><p>在n8n工作流中，拥有众多的社区节点，可以理解为社区服务，这些工具可以让我们更便利的使用n8n。</p>
+<p>🔻按图示顺序，选择安装社区节点</p>
+<p><img src="/img/ai/27ccb99a4059bf846067a7377fb24817.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745729062622.png"
+	
+	
+></p>
+<p>🔻我这里提供了我常用的几个节点，核心的插件是MCP。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 飞书精简版工具</span>
+</span></span><span class="line"><span class="cl">n8n-nodes-feishu-lite  
+</span></span><span class="line"><span class="cl"><span class="c1"># MCP社区节点</span>
+</span></span><span class="line"><span class="cl">n8n-nodes-mcp 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>🔻下面是我在用的一些服务，包括之前介绍过的tudo工具，planka，可以结合起来玩。</p>
+<p><img src="/img/ai/175d882d473c279450d4ef64eab7a52a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745903778613.png"
+	
+	
+></p>
+<h2 id="自动日报工作流">自动日报工作流
+</h2><p>这里首先要说明一下，任意工作流都是需要数据源的，AI 不可能凭空给我们生成日报/周报。</p>
+<p>我的日常工作主要督促项目进度，重点在于项目文档的编制、分类、汇总。主要表现在催促同事A交文档，催同事B交材料，然后自己进行汇总、分类等等。因此我的日报、周报内容，主要围绕的是项目进度、文档进度，以及里程碑内容的完成情况。</p>
+<p><strong>⭐最终成效：</strong></p>
+<p><strong>1️⃣</strong>
+ 工作流每天下午16:00，根据日期生成次日的空文件夹，用于存放资料。
+<strong>2️⃣</strong>
+ 工作流每天下午16:30，读取当日的文件夹，解析word并生成日报。
+<strong>3️⃣</strong>
+ 工作流在完成日报书写后，将日报同步到电脑端，然后我手动修改一下。</p>
+<h3 id="同步资料">同步资料
+</h3><p>那么如何做呢？第一步，就是完成PC到NAS的数据同步，利用绿联NAS的<strong>同步与备份</strong>工具，将我电脑里的文档同步到NAS端（这个路径就是我们刚才配置到n8n容器内的路径）。</p>
+<p><img src="/img/ai/cbcd1dcac5d587ea120582f260530077.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745903924381.png"
+	
+	
+></p>
+<p>为了让AI更准确的写日报、周报，我们要通过高级设置，过滤掉无用的文件，确保只有.doc，.docx等文档被同步进来。</p>
+<p><img src="/img/ai/f1c989c479aeafa0d08fce48bf3e6093.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745904448669.png"
+	
+	
+></p>
+<h3 id="自定义工作流">自定义工作流
+</h3><p>由于每个人的工作流都不同，要结合实际去操作，这里就展示大致的思路：</p>
+<p>1.N8N 工作流——每天定时执行任务，根据日期读取文件，并且生成次日文件。</p>
+<p>2.每天把汇总的材料丢到当日的文件夹中。</p>
+<p>3.利用绿联私有云同步任务，将当日文件夹同步到绿联私有云中。</p>
+<p>4.N8N 工作流——从绿联私有云FTP获取实时同步的资料</p>
+<p><img src="/img/ai/06c0adafdb29cb44fe21f5138ef0b67d.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745909601800.png"
+	
+	
+></p>
+<p>5.遍历FTP文件，根据日期获取自动下载同步的资料</p>
+<p><img src="/img/ai/a190347209c82f88a4c37bda39820d69.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1745909922262.png"
+	
+	
+></p>
+<p>6.循环所有文件，解析Word的文字内容</p>
+<p><img src="/img/ai/34591c65d14fa3662ff6287695ba10a8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746290933754.png"
+	
+	
+></p>
+<p>7.通过 AI / Mcp等插件，提炼、总结word中的内容，并生成日报/周报总结</p>
+<p><img src="/img/ai/30bcef480ccc65bf68d2505454ea9fec.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746291021271.png"
+	
+	
+></p>
+<p>8.将生成的文档合并，形成txt文件，并上传到绿联私有云FTP</p>
+<p>9.通过绿联私有云的同步任务，将日报/周报同步回电脑端</p>
+<p>🔻下面是我最终的工作流：</p>
+<p><img src="/img/ai/a5596fd7ab927f9cdd7ea6bfda25768a.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746287852273.png"
+	
+	
+></p>
+<h3 id="n8n新手排坑指南">n8n新手排坑指南
+</h3><p>在N8N工作流制作中，有很多坑点，这里分享一下自己的经验。</p>
+<p><strong>1️⃣循环</strong></p>
+<p>首先N8N工作流中，是内置了循环指令的，这一点和我们常用的代码循环是不一样的。比如从FTP下载获取列表后，我们只需要配置从FTP下载文件即可，工作流会自动遍历所有文件并下载。</p>
+<p>但是在N8N中，还是有一个FOR循环指令，这个目的是实现<strong>NxM的循环</strong> 以及 <strong>内循环</strong>。简单的说，就是需要逐条去执行循环内的一整套流程。</p>
+<p>比如在我的工作流中，有一个解压缩的指令，用于解压word文件，这个指令在循环后只会执行一次。因此我们需要将循环设置成单条循环，确保每一个word文件都可以被解压缩。</p>
+<p><img src="/img/ai/1305f22915aca3e19b67408e9d594ef5.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746362446072.png"
+	
+	
+></p>
+<p><strong>2️⃣解析word文件</strong></p>
+<p>第二个坑点，是N8N暂时不支持直接读取DOCX文件的，这导致国内以word为工作载体的工作方式玩不转了！</p>
+<p>我搜索了一些资料，找到了三种方案来解决：
+<strong>第一种</strong>就是通过pandoc来转换，但是需要手动修改dockerfile，比较麻烦；
+<strong>第二种</strong>是通过Google OneDrive 和 Google Doc来转换，但是这个需要配置API，并且通过程序认证，及时性太低；
+<strong>第三种</strong>是通过unzip指令解压word文件，然后读取word/document.xml文件来获取word文件内容，并且通过多次解析转换以读取文件。</p>
+<p>我在尝试过之后，使用了第三种方法，这种方法可操作性最强，也不需要额外配置任何东西，唯一的缺点就是记得删除解压后的文件，否则遍历会卡住。</p>
+<p><img src="/img/ai/5aa36ebf1960ecd9acfa507d0421be15.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746362656850.png"
+	
+	
+></p>
+<p><strong>3️⃣自定义代码块</strong></p>
+<p>自定义代码块支持 PY 和 JS 脚本，这就让整个工作流的可操作性增加了很多，无论是爬虫、解析还是脚本任务。</p>
+<p>我这里使用了官方提供的解析word的xml文档的js脚本，将xml中的文本拼凑起来，生成类似word下的效果。</p>
+<p>而在爬虫类工作流下，则可以通过py来处理爬虫信息。</p>
+<p><img src="/img/ai/b6e90775a7330155952ca39f80c445e8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="QQ_1746362680243.png"
+	
+	
+></p>
+<h2 id="总结">总结
+</h2><p>在AI 越来越强大的现在，如N8N、Dify等支持Docker自托管部署的 AI 工作流工具，也让低代码开发成为每个人都可以轻松掌握的技能。</p>
+<p>在这种趋势下，NAS 7 x24开机的优势，和 AI API 无需本地硬件的特征，让 NAS + AI 的组合可以帮助我们完成很多日常工作中的重复劳动。这也是为什么，以绿联私有云为例，越来越多的 NAS 将 AI 控制台或 AI 工具融入到了应用中心里的根本原因。</p>
+<p>如果你的工作中有很多重复劳动，并且可以通过代码或者脚本代替的，那赶快来试一试N8N之类的AI工作流平台，释放本职工作，把更多的时间用于副业、外快！！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/nas/">NAS</a>
+        
+            <a href="/tags/ai%E5%B7%A5%E4%BD%9C%E6%B5%81/">AI工作流</a>
+        
+            <a href="/tags/n8n/">N8n</a>
+        
+            <a href="/tags/%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91/">绿联私有云</a>
+        
+            <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%96%A9%E8%8E%B786k-star%E6%9C%80%E5%BC%BA%E5%BC%80%E6%BA%90mcp%E5%B9%B3%E5%8F%B0%E5%8F%8C%E5%90%91-%E6%9C%AC%E5%9C%B0mcp%E8%87%AA%E7%94%B1%E5%BA%A6%E6%8B%89%E6%BB%A1%E5%A4%AA%E7%BB%9D%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">斩获86K Star！最强开源MCP平台【双向&#43;本地MCP】自由度拉满，太绝了～</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFclaude-%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP客户端|Claude 桌面应用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/mv/ai-mv.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/mv/ai-mv.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
