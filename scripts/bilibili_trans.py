@@ -23,7 +23,7 @@ async def generate_markdown(data, output_dir="content/zh-cn/post/bilibili"):
 
         try:
             video_info = await get_bilibili_video_info(bvid)
-            title = video_info.get("title", "无标题")
+            title = video_info.get("title", "无标题").replace("#", "")
             description = video_info.get("description", "无描述")
             tags = video_info.get("tags", [])
             top_comments = video_info.get("top_comments", [])
