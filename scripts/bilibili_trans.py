@@ -20,7 +20,7 @@ async def generate_markdown(data, output_dir="content/zh-cn/post/bilibili"):
         bvid = video.get("bvid")
         if not bvid:
             continue
-
+        print(f"正在处理视频：{bvid}")
         try:
             video_info = await get_bilibili_video_info(bvid)
             title = video_info.get("title", "无标题").replace("#", "")
@@ -37,12 +37,24 @@ async def generate_markdown(data, output_dir="content/zh-cn/post/bilibili"):
 """,
             )
 
+            categorys = call_openai(
+                prompt="请根据标题,描述和标签,火箭型号生成3个合适分类(category),仅返回分类名称,使用逗号分隔,例如:category1,category2,category3,不要返回其他内容。",
+                content=f"""
+标题: {title}
+描述: {description}
+""",
+            )
+
             # 创建Markdown内容
             markdown_content = "---\n"
             markdown_content += f'title: "{title}"\n'
             markdown_content += f"date: \"{datetime.now().strftime('%Y-%m-%d')}\"\n"
             markdown_content += f"tags: {json.dumps(tags, ensure_ascii=False)}\n"
-            markdown_content += 'categories: ["bilibili"]\n'
+            if categorys:
+                category_list = [f'"{c.strip()}"' for c in categorys.split(",")]
+                markdown_content += f'categories: ["bilibili", {", ".join(category_list)}]\n'
+            else:
+                markdown_content += 'categories: ["bilibili"]\n'
             markdown_content += f'description: "{ai_desc}"\n'
             markdown_content += "---\n\n"
             markdown_content += f"{{{{< bilibili {bvid} >}}}}\n\n"

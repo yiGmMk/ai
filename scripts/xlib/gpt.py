@@ -9,6 +9,10 @@ client = (
 model = os.getenv("MODEL","gemini-2.0-flash")
 
 
+max_tokens = os.getenv("MAX_TOKENS", 100000)
+
+print(f"Using model: {model}, MAX_TOKENS: {max_tokens}")
+
 def call_openai(prompt: str, content: str) -> str:
     response = client.chat.completions.create(
         model=model,
@@ -16,8 +20,8 @@ def call_openai(prompt: str, content: str) -> str:
             {"role": "system", "content": prompt},
             {"role": "user", "content": content},
         ],
-        max_tokens=100000,
+        max_tokens=8192,
         temperature=0.7,
-        timeout=600,
+        timeout=60,
     )
     return response.choices[0].message.content.strip()
