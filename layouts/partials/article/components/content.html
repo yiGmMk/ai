@@ -1,0 +1,22 @@
+<section class="article-content">
+    <!-- Refer to https://discourse.gohugo.io/t/responsive-tables-in-markdown/10639/5 -->
+    {{ $wrappedTable := printf "<div class=\"table-wrapper\">${1}</div>" }}
+    {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+</section>
+
+<!-- Google AdSense -->
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+<!-- 评论区 -->
