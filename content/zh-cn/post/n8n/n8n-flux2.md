@@ -8,6 +8,8 @@ author: "yi"
 image: "https://ai.programnotes.cn/img/n8n/flux4.jpg"
 ---
 
+流程: 输入参数 →生成提示词 → 风格分岔 → 绘制图片 → 下载图片 → 上传图片 → 渲染图片
+
 ## 提示词案例
 
 甜甜的恋爱
