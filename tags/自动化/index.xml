@@ -1,0 +1,1557 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>自动化 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</link>
+        <description>Recent content in 自动化 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Tue, 03 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>用n8n做AI工作流驱动网站出海赚美金1：连接Supabase数据库</title>
+        <link>https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+        <pubDate>Tue, 03 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%94%A8n8n%E5%81%9Aai%E5%B7%A5%E4%BD%9C%E6%B5%81%E9%A9%B1%E5%8A%A8%E7%BD%91%E7%AB%99%E5%87%BA%E6%B5%B7%E8%B5%9A%E7%BE%8E%E9%87%911%E8%BF%9E%E6%8E%A5supabase%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;使用n8n连接Supabase数据库，实现网站数据的后端处理。&lt;/li&gt;
+&lt;li&gt;通过n8n工作流提交新网站，并利用AI自动解析网站信息。&lt;/li&gt;
+&lt;li&gt;将Python后端转换为n8n工作流，降低开发和运营成本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  饼干哥哥饼干哥哥AGI 2025-06-03 17:57&lt;/p&gt;
+&lt;p&gt;年初的时候我做了一个AI编程工具的导航网站，打算流量上来后就可以接谷歌广告赚美金：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.aicoding.help/cn&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.aicoding.help/cn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;设想是根据AI编程开发的流程来推荐每个阶段的效率工具：
+灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3582f9319fd5b77af17475d08f4cc7e3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前挂在了vercel上，感兴趣可以去看看，但实际上还有很多问题，待一步一步解决。&lt;/p&gt;
+&lt;p&gt;具体这个网站是怎么做的，可以参考之前的文章，基于Tap4AI项目：&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MjM5NDI4MTY3NA==&amp;amp;mid=2257491207&amp;amp;idx=1&amp;amp;sn=5af373cc431a810400003eb641ffea1d&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2025穷鬼开发套餐：不花一分钱，部署一个AI导航网站全流程，附tap4ai、aigotools 对比&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这个导航网站分成两部分&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前端页面的展示，主要痛点就是怎么把网站设计的好看且合理&lt;/li&gt;
+&lt;li&gt;后端数据的处理，
+前端页面其实不存数据，每次用户打开网站的时候，都是直接从数据库里读数据的
+这样的好处就是维护方便，因为前端页面要改的话是要重新部署上线的，很麻烦。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如我数据库用的是Supabase，如果哪个内容写错了，我只需要对Supabase里的内容进行修改就行了，有新网站也可以直接在数据库里添加即可。&lt;/p&gt;
+&lt;p&gt;所以，目前这个网站的工作量在于后端，看着简单其实挺麻烦的，日常运营有以下几个动作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;提交新的网站&lt;/li&gt;
+&lt;li&gt;爬虫，去爬新的网站，截图，AI生成相应的描述&lt;/li&gt;
+&lt;li&gt;把描述翻译成多个语言，例如我至少是中英日&lt;/li&gt;
+&lt;li&gt;写SEO文章，让谷歌收录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体可以看这个图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a2392dd327f28e94ce4a182de8d538d6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前这个后端是真的离谱，有一个单独的Python项目来跑，实在是太重了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/19e3872f72c95362b7731794afb4d49b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;因为最近都在玩n8n，而且n8n对接的都是海外的服务，很适合出海做后端服务。&lt;/p&gt;
+&lt;p&gt;我在想是不是可以把这个Python后端转成n8n的工作流呢？&lt;/p&gt;
+&lt;p&gt;说干就干，一步一步来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7c1b0157ef29a03ba94ed758d2989d32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;需求拆解&#34;&gt;需求拆解
+&lt;/h2&gt;&lt;p&gt;首先，解决第一步：提交新网站的需求。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0874cffc7db9b81d2070365f31168b22.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在数据库，我有一个submit表，用户提交网站请求后，会插入到这里，包含名称、网址、分类、描述等字段，状态status是0&lt;/p&gt;
+&lt;p&gt;等爬虫把这网站爬完，处理好数据后，状态会更新为1，证明处理完了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45975a7dbcc6969150f9afeb91a03f9e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前这一步我是很苦逼的自己写了个python脚本来手动插入数据的。&lt;/p&gt;
+&lt;p&gt;今天我们就来解决这个问题：通过n8n工作流提交网站到数据库supabase&lt;/p&gt;
+&lt;h2 id=&#34;n8n连接supabase&#34;&gt;n8n连接Supabase
+&lt;/h2&gt;&lt;p&gt;首要任务就是让n8n连上Supabase,但在此之前，需要先找到两个关键的key：&lt;/p&gt;
+&lt;p&gt;在Supabase的Project Settings里找到API Keys，下面的service_role secret&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/306613b3d3e517ba1db019e804c11d42.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同个目录的General找到Project ID&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e6f0946f8d2a5f348a45ecc991aa3b83.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着就可以回到n8，创建一个Supabase的Create a row节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/406c91c03634ce3448b563c7618d8840.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;老规矩，先新建一个Credential，然后把前面找到的两个信息填入其中Host，一般就是你的proejct id + supabase.co 后缀，如下图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/46c6287d4acf8570dad8a24ca0174c55.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;用例测试&#34;&gt;用例测试
+&lt;/h2&gt;&lt;p&gt;测试一下，假设我们要提交bolt.new这个全栈AI开发网站&lt;/p&gt;
+&lt;p&gt;配置对应的信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Name: bolt.new&lt;/li&gt;
+&lt;li&gt;Url: https://bolt.new/&lt;/li&gt;
+&lt;li&gt;Category: 编程开发&lt;/li&gt;
+&lt;li&gt;remark：Bolt is an in-browser AI web development agent for full stack web application development.
+只要前面连接成功的话，这里就会自动从supabase中获取表格结构，你只需要去选字段就好了，非常方便&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如下图，n8n表示测试成功&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6bcf9b0323b9ebfa0df2d76d6a733c2b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时，在supabase里也能看到，多了一行。&lt;/p&gt;
+&lt;h2 id=&#34;完成工作流&#34;&gt;完成工作流
+&lt;/h2&gt;&lt;p&gt;在正式开发工作流之前，要先想清楚自己想要的产品是什么样子的。&lt;/p&gt;
+&lt;p&gt;例如当前这个项目，我想要的是：只要给一个网站，AI就能自动判断它是什么，并给出对应的信息，进而插入到Supabase表的位置。&lt;/p&gt;
+&lt;p&gt;这样拆解下来，就需要做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AI从用户给的信息中解析出网址&lt;/li&gt;
+&lt;li&gt;判断用户有没给更多信息，例如名称、描述、分类&lt;/li&gt;
+&lt;li&gt;如果没有，则访问该网址，判断是什么，生成名称、描述、分类&lt;/li&gt;
+&lt;li&gt;对结果进行结构化输出&lt;/li&gt;
+&lt;li&gt;传入到supabase的submit表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;先看效果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e0431bf5918c71d2242610df3cef178c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;现在我只给一个魔塔社区的网站 &lt;a class=&#34;link&#34; href=&#34;https://www.modelscope.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.modelscope.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;就能看到AI Agent调用了Jina AI的工具去读网址，并且根据要求输出了格式&lt;/p&gt;
+&lt;p&gt;接下来看每个节点。
+ 
+新建一个AI Agent节点：&lt;/p&gt;
+&lt;p&gt;对接上前面的用户对话框里的输入&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3efc66f814209772cf22bf95b6448db0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;参考提示词：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;我在给一个AI编程工具导航网站提交新的网站录用，需要你从用户给的信息中提取出以下内容：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;```json
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;name&amp;#34;:&amp;#34;这个网站工具的名称&amp;#34;,        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;Url&amp;#34;:&amp;#34;这个网站的网址&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;Category&amp;#34;:&amp;#34;分类，只能从 灵感与想法、原型与设计、编程开发、数据库与存储、部署上线、扩展能力、数据分析、内容管理、协作与运营 中选择一个&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;remark&amp;#34;:&amp;#34;这个网站工具的简单介绍不超过50字&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;```
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;更具体的，你需要做：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1. AI从用户给的信息中解析出网址
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2. 判断用户有没给更多信息，例如名称、描述、分类
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3. 如果没有更多信息，则要调用工具`jina AI reader`访问该网址，根据返回内容判断这网站是什么，生成名称、描述、分类
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4. 对结果进行结构化输出
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看到这个AI Agent还是挺能配置的，这就是n8n的优势，非常自由&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c311a7cb130cf58e5ff4e0401bc7db35.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在工具Tool的部分，配置一个Jina AI工具，这是一个能帮助我们读取网址内容的工具&lt;/p&gt;
+&lt;p&gt;很简单，用谷歌登录一下就有key了&lt;/p&gt;
+&lt;p&gt;如下图，URL这里可以让大模型自己去判断&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8cbecbbec3e399645ed001f815caa5f6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;格式化输出这里给个例子就行&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b3d1217f9a64ac588ec3dab12dce7641.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着就可以连上Supabase节点了，把AI拆解好的内容分到对应位置：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f72e62bcd093fc005fc2d4cad53bb4dc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;非常简单！！&lt;/p&gt;
+&lt;p&gt;不过每次要打开n8n工作流里面去提交就太麻烦了，我们可以用n8n内置的表单功能&lt;/p&gt;
+&lt;p&gt;新建一个表单&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f4b0a255590ff71fef88cc26857501a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;设置好需要的参数：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6af40a203da5f583e87ef9962f394a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;执行的时候，就自动生成好了一个表单网站了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da0ec096e53b35bc14f8e97a0e3ced32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;因为新增了一个表单，传入到AI节点的数据结构不同了，所以我就添加了几个数据处理节点，最终同样也能向数据库提交数据。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/edd1a32ad6edb85a9e2fa6b0d9f2bed1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;至此，我们就完成了第一阶段的改造，把原先通过Python提交网站的功能，变成了n8n的工作流，并且可以通过表单的形式提交；
+甚至后面可以改成webhook的监听，或者改造成mcp，更加自由的添加网站。&lt;/p&gt;
+&lt;p&gt;可玩性非常高！！&lt;/p&gt;
+&lt;p&gt;接下来会继续更新用n8n驱动网站出海赚美金系列，帮助大家用n8n降低开发和运营成本。&lt;/p&gt;
+&lt;p&gt;感兴趣的可以关注公众号「饼干哥哥AGI」，后台回复「AI交流群」&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>10 个非常值得关注的 MCP Server</title>
+        <link>https://ai.programnotes.cn/p/10-%E4%B8%AA%E9%9D%9E%E5%B8%B8%E5%80%BC%E5%BE%97%E5%85%B3%E6%B3%A8%E7%9A%84-mcp-server/</link>
+        <pubDate>Tue, 20 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/10-%E4%B8%AA%E9%9D%9E%E5%B8%B8%E5%80%BC%E5%BE%97%E5%85%B3%E6%B3%A8%E7%9A%84-mcp-server/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP Server 扩展了 AI 在各个领域的实际应用。&lt;/li&gt;
+&lt;li&gt;介绍了 SEO、Figma、Notion 等 10 个有代表性的 MCP Server。&lt;/li&gt;
+&lt;li&gt;通过 MCP 协议，AI 不仅能“思考”，还能“动手”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP（Model Context Protocol）&lt;/a&gt;服务器让 AI 模型与各种工具、平台无缝集成，极大拓展了 AI 的实际应用场景。以下是我们精心挑选的 10 个有代表性的 MCP Server，覆盖设计、自动化、SEO、支付、内容管理等多个领域。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;1-seo-mcp-server&#34;&gt;1. SEO MCP Server
+&lt;/h2&gt;&lt;p&gt;SEO MCP Server 专为 SEO 优化场景打造，AI 可自动分析网站结构、关键词分布、外链情况等，帮助站长和运营人员提升网站排名。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持站点抓取、关键词分析、外链监控&lt;/li&gt;
+&lt;li&gt;可生成 SEO 优化建议报告&lt;/li&gt;
+&lt;li&gt;典型应用：网站 SEO 体检、内容优化、竞品分析&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/seo-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;SEO MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/cnych/seo-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/cnych/seo-mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-context7-mcp-server&#34;&gt;2. Context7 MCP Server
+&lt;/h2&gt;&lt;p&gt;Context7 MCP Server 是一个为大语言模型和 AI 代码编辑器提供最新文档的 MCP 服务器。&lt;/p&gt;
+&lt;p&gt;大语言模型依赖关于您使用库的过时或通用信息。您将面临：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 代码示例基于一年前的训练数据，已经过时&lt;/li&gt;
+&lt;li&gt;❌ 虚构的 API 根本不存在&lt;/li&gt;
+&lt;li&gt;❌ 针对旧版软件包的通用回答&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;✅ 使用 Context7 的优势&lt;/p&gt;
+&lt;p&gt;Context7 MCP 直接从源头获取最新、特定版本的文档和代码示例，并将其直接注入您的提示词中。&lt;/p&gt;
+&lt;p&gt;在 Cursor 的提示词中添加 use context7：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;创建一个使用 app router 的基础 Next.js 项目。use context7
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Context7 会将最新代码示例和文档直接送入大语言模型的上下文。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1️⃣ 自然编写您的提示词&lt;/li&gt;
+&lt;li&gt;2️⃣ 添加 use context7 指令&lt;/li&gt;
+&lt;li&gt;3️⃣ 获取可运行的代码答案&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/context7&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Context7 MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/upstash/context7&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/upstash/context7&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;3-figma-context-mcp-server&#34;&gt;3. Figma Context MCP Server
+&lt;/h2&gt;&lt;p&gt;Figma Context MCP Server 让 AI 能够直接与 Figma 设计工具对接，实现设计稿的自动分析、批量修改、组件提取等操作。适合设计团队、产品经理和开发者协作场景。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持读取、分析 Figma 文件结构&lt;/li&gt;
+&lt;li&gt;可自动生成设计文档、批量导出资源&lt;/li&gt;
+&lt;li&gt;典型应用：设计自动化、UI 资产管理、设计评审辅助&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/figma-context-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Figma Context MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/glips/figma-context-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/glips/figma-context-mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;4-blender-mcp-server&#34;&gt;4. Blender MCP Server
+&lt;/h2&gt;&lt;p&gt;Blender MCP Server 让 AI 与 3D 建模工具 Blender 无缝集成，实现自动建模、渲染、动画生成等功能。适合 3D 设计师、动画制作团队。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持模型导入导出、参数化建模、批量渲染&lt;/li&gt;
+&lt;li&gt;可自动生成动画脚本&lt;/li&gt;
+&lt;li&gt;典型应用：3D 资产批量生成、动画自动化、虚拟场景搭建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/blender-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Blender MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/ahujasid/blender-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ahujasid/blender-mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;5-windows-控制-mcp-server&#34;&gt;5. Windows 控制 MCP Server
+&lt;/h2&gt;&lt;p&gt;Windows 控制 MCP Server 让 AI 具备远程操作 Windows 系统的能力，包括窗口管理、鼠标键盘模拟、屏幕截图等。适合自动化测试、远程运维、桌面自动化场景。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持窗口聚焦、移动、缩放&lt;/li&gt;
+&lt;li&gt;模拟鼠标点击、键盘输入&lt;/li&gt;
+&lt;li&gt;支持剪贴板操作、屏幕捕获&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/MCPControl&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windows 控制 MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/Cheffromspace/MCPControl&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Cheffromspace/MCPControl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;6-browser-use-mcp-server&#34;&gt;6. Browser-use MCP Server
+&lt;/h2&gt;&lt;p&gt;Browser-use MCP Server 让 AI 能够自动化操作浏览器，实现网页抓取、表单填写、自动化测试等功能。适合数据采集、RPA、自动化办公。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持多标签页管理、页面元素操作&lt;/li&gt;
+&lt;li&gt;可自动化登录、数据提交、内容抓取&lt;/li&gt;
+&lt;li&gt;典型应用：自动化测试、网页监控、信息采集&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/browser-use-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Browser-use MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/co-browser/browser-use-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/co-browser/browser-use-mcp-server&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;7-zapier-mcp-server&#34;&gt;7. Zapier MCP Server
+&lt;/h2&gt;&lt;p&gt;Zapier MCP Server 让 AI 与 Zapier 平台集成，自动触发和管理各种自动化工作流。适合需要跨平台自动化的企业和个人。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持触发 Zapier 上的各种自动化任务&lt;/li&gt;
+&lt;li&gt;可与数百种 SaaS 工具联动&lt;/li&gt;
+&lt;li&gt;典型应用：自动化邮件、日程同步、数据同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/zapier&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Zapier MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;项目主页：&lt;a class=&#34;link&#34; href=&#34;https://zapier.com/mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zapier.com/mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;8-markitdown-mcp-server&#34;&gt;8. MarkItDown MCP Server
+&lt;/h2&gt;&lt;p&gt;MarkItDown MCP Server 专为内容创作和文档管理设计，AI 可自动生成、格式化、管理 Markdown 文档。适合技术写作、知识库建设、博客自动化。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持 Markdown 文档的创建、编辑、格式转换&lt;/li&gt;
+&lt;li&gt;可批量导入导出文档&lt;/li&gt;
+&lt;li&gt;典型应用：技术博客自动发布、团队知识库管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/markitdown-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MarkItDown MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;9-支付宝-mcp-server&#34;&gt;9. 支付宝 MCP Server
+&lt;/h2&gt;&lt;p&gt;支付宝 MCP Server 让 AI 具备与支付宝平台交互的能力，实现自动支付、账单查询、收款等功能。适合电商、财务自动化、智能收银场景。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持自动发起支付、查询账单、收款通知&lt;/li&gt;
+&lt;li&gt;可与业务系统无缝集成&lt;/li&gt;
+&lt;li&gt;典型应用：自动化收款、财务对账、智能支付助手&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/mcp-server-alipay&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;支付宝 MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;10-notion-mcp-server&#34;&gt;10. Notion MCP Server
+&lt;/h2&gt;&lt;p&gt;Notion MCP Server 让 AI 自动管理 Notion 中的任务、笔记、数据库等内容，提升个人和团队的效率。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持任务创建、查询、状态更新&lt;/li&gt;
+&lt;li&gt;可自动整理笔记、生成日报&lt;/li&gt;
+&lt;li&gt;典型应用：个人 GTD、团队协作、知识管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;详细介绍请参考 &lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/notion-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Notion MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;仓库地址：&lt;a class=&#34;link&#34; href=&#34;https://github.com/makenotion/notion-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/makenotion/notion-mcp-server&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;这 10 个 MCP Server 覆盖了设计、办公、自动化、内容、支付等多个领域，极大拓展了 AI 的实际应用边界。通过 MCP 协议，AI 不仅能“思考”，还能“动手”，让智能真正融入到每一个业务环节。&lt;/p&gt;
+&lt;p&gt;如需某个 Server 的详细接入教程、API 示例或实际案例，欢迎留言或私信交流！&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</title>
+        <link>https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/</link>
+        <pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: 介绍了在绿联NAS上部署n8n AI工作流，实现日报、周报自动生成的方法。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点2&lt;/strong&gt;: 分享了n8n的基础配置，包括激活社区永久免费版和安装社区节点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点3&lt;/strong&gt;: 详细讲解了如何自定义工作流，包括同步资料、利用AI插件生成日报/周报总结，以及n8n新手排坑指南。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  可爱的小Cherry可爱的小Cherry 2025-05-10 08:30&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c61fb35519aae82535f732c8e1303e31.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;项目均来源互联网，如有侵权，后台私信联系删除&lt;/p&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;关于 NAS + AI 的玩法，我之前已经分享过好几篇，尤其是针对绿联NAS，其自带的AI Plugins应用充分调用了 GPU的加速，满足dxp 4800 plus以上设备 14b小模型的日常使用。&lt;/p&gt;
+&lt;p&gt;但是 AI ，说到底还只是一个工具而已，如何运用 AI 发挥出更大的工作成效，帮助我们增加工作、生活的便利，才是最重要的。&lt;/p&gt;
+&lt;p&gt;这段时间，我一直在研究 AI 工作流这个新玩具，从dify、openwebui，到扣子空间，最终以本地部署&lt;strong&gt;n8n&lt;/strong&gt;
+作为了我的最终工作流工具，并且实现了日报、周报的自动生成！&lt;/p&gt;
+&lt;p&gt;所以这篇文章，我就把我关于在绿联NAS上部署 AI 工作流，以及日报、周报生成的模型做一个分享！&lt;/p&gt;
+&lt;p&gt;AI 工作流，顾名思义，就是将 AI 运作到一个固定模式的工作流程中。它其实是一种低代码拼搭 + 自动化的结合工具，为不懂代码，但是有想法的用户提供了很多自动化的实现路径。&lt;/p&gt;
+&lt;p&gt;n8n是一款很火的原生 AI 工作流自动化平台，在github上拥有87k star。它将可视化构建与自定义代码、自托管或云、400+ 集成相结合，支持目前很火的mcp服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ce0c95afdedc899060c79de676ed3b2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901075416.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;部署n8n&#34;&gt;部署n8n
+&lt;/h2&gt;&lt;p&gt;🔻n8n的部署很简单，下列是项目的yaml文件，其中我们只需要根据自己的想法，修改ports左侧的地址就行了。&lt;/p&gt;
+&lt;p&gt;在environment环境变量中，我增加了2个Proxy的变量，主要是为了解决容器内链接各式各样国外服务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;container_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 根据自己的要求修改左侧端口&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;m&#34;&gt;35678&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5678&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 必须使用docker volume，否则有权限问题&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;n8n_data:/home/node/.n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 该变量解决http访问，否则需要代理https地址&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;N8N_SECURE_COOKIE=false&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;GENERIC_TIMEZONE=Asia/Shanghai&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 下面两个是你自己的代理地址&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;HTTP_PROXY=http://192.168.0.1:7890&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;HTTPS_PROXY=http://192.168.0.1:7890&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;docker.n8n.io/n8nio/n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;🔻使用绿联私有云自带的Docker应用，选择&lt;strong&gt;项目-创建项目&lt;/strong&gt;，将yaml代码复制进去部署。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/babedf20b6820ee59f5fab1b456f3b99.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901932029.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;🔻该镜像仓库地址国内可直连，所以能直接下载镜像使用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/803faf0f064cc339e67780f2fb797ee5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901999868.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;n8n基础配置&#34;&gt;n8n基础配置
+&lt;/h2&gt;&lt;h3 id=&#34;激活社区永久免费版&#34;&gt;激活社区永久免费版
+&lt;/h3&gt;&lt;p&gt;首次登录，自行配置管理员账号密码，这里的电子邮件请&lt;strong&gt;填写真实电子邮件&lt;/strong&gt;，后续用来接收n8n的&lt;strong&gt;社区更新日志&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/89adc63f13c83d78671dd40cade9cd3d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728748295.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录系统以后，会要求填写社区需求，随便填写一下就行了，这里没有太多讲究。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/565c914b918f71ebe896f56b566bc557.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728814341.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着，系统会提供社区&lt;strong&gt;永久免费的激活密钥&lt;/strong&gt;，下面填写我们的接收邮箱，以获取许可证密钥。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bc78e907560852da3da41d6dd87569dd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728834223.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;将邮件里获取到的验证码，填入Plan中，就可以永久激活了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e36ee28a9e910cd915111e16899364ad.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728967773.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装社区节点&#34;&gt;安装社区节点
+&lt;/h3&gt;&lt;p&gt;在n8n工作流中，拥有众多的社区节点，可以理解为社区服务，这些工具可以让我们更便利的使用n8n。&lt;/p&gt;
+&lt;p&gt;🔻按图示顺序，选择安装社区节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/27ccb99a4059bf846067a7377fb24817.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745729062622.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;🔻我这里提供了我常用的几个节点，核心的插件是MCP。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 飞书精简版工具&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n8n-nodes-feishu-lite  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# MCP社区节点&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n8n-nodes-mcp 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;🔻下面是我在用的一些服务，包括之前介绍过的tudo工具，planka，可以结合起来玩。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/175d882d473c279450d4ef64eab7a52a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745903778613.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;自动日报工作流&#34;&gt;自动日报工作流
+&lt;/h2&gt;&lt;p&gt;这里首先要说明一下，任意工作流都是需要数据源的，AI 不可能凭空给我们生成日报/周报。&lt;/p&gt;
+&lt;p&gt;我的日常工作主要督促项目进度，重点在于项目文档的编制、分类、汇总。主要表现在催促同事A交文档，催同事B交材料，然后自己进行汇总、分类等等。因此我的日报、周报内容，主要围绕的是项目进度、文档进度，以及里程碑内容的完成情况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;⭐最终成效：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1️⃣&lt;/strong&gt;
+ 工作流每天下午16:00，根据日期生成次日的空文件夹，用于存放资料。
+&lt;strong&gt;2️⃣&lt;/strong&gt;
+ 工作流每天下午16:30，读取当日的文件夹，解析word并生成日报。
+&lt;strong&gt;3️⃣&lt;/strong&gt;
+ 工作流在完成日报书写后，将日报同步到电脑端，然后我手动修改一下。&lt;/p&gt;
+&lt;h3 id=&#34;同步资料&#34;&gt;同步资料
+&lt;/h3&gt;&lt;p&gt;那么如何做呢？第一步，就是完成PC到NAS的数据同步，利用绿联NAS的&lt;strong&gt;同步与备份&lt;/strong&gt;工具，将我电脑里的文档同步到NAS端（这个路径就是我们刚才配置到n8n容器内的路径）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cbcd1dcac5d587ea120582f260530077.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745903924381.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;为了让AI更准确的写日报、周报，我们要通过高级设置，过滤掉无用的文件，确保只有.doc，.docx等文档被同步进来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f1c989c479aeafa0d08fce48bf3e6093.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745904448669.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;自定义工作流&#34;&gt;自定义工作流
+&lt;/h3&gt;&lt;p&gt;由于每个人的工作流都不同，要结合实际去操作，这里就展示大致的思路：&lt;/p&gt;
+&lt;p&gt;1.N8N 工作流——每天定时执行任务，根据日期读取文件，并且生成次日文件。&lt;/p&gt;
+&lt;p&gt;2.每天把汇总的材料丢到当日的文件夹中。&lt;/p&gt;
+&lt;p&gt;3.利用绿联私有云同步任务，将当日文件夹同步到绿联私有云中。&lt;/p&gt;
+&lt;p&gt;4.N8N 工作流——从绿联私有云FTP获取实时同步的资料&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/06c0adafdb29cb44fe21f5138ef0b67d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745909601800.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;5.遍历FTP文件，根据日期获取自动下载同步的资料&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a190347209c82f88a4c37bda39820d69.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745909922262.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;6.循环所有文件，解析Word的文字内容&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34591c65d14fa3662ff6287695ba10a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746290933754.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;7.通过 AI / Mcp等插件，提炼、总结word中的内容，并生成日报/周报总结&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/30bcef480ccc65bf68d2505454ea9fec.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746291021271.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;8.将生成的文档合并，形成txt文件，并上传到绿联私有云FTP&lt;/p&gt;
+&lt;p&gt;9.通过绿联私有云的同步任务，将日报/周报同步回电脑端&lt;/p&gt;
+&lt;p&gt;🔻下面是我最终的工作流：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a5596fd7ab927f9cdd7ea6bfda25768a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746287852273.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;n8n新手排坑指南&#34;&gt;n8n新手排坑指南
+&lt;/h3&gt;&lt;p&gt;在N8N工作流制作中，有很多坑点，这里分享一下自己的经验。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1️⃣循环&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先N8N工作流中，是内置了循环指令的，这一点和我们常用的代码循环是不一样的。比如从FTP下载获取列表后，我们只需要配置从FTP下载文件即可，工作流会自动遍历所有文件并下载。&lt;/p&gt;
+&lt;p&gt;但是在N8N中，还是有一个FOR循环指令，这个目的是实现&lt;strong&gt;NxM的循环&lt;/strong&gt; 以及 &lt;strong&gt;内循环&lt;/strong&gt;。简单的说，就是需要逐条去执行循环内的一整套流程。&lt;/p&gt;
+&lt;p&gt;比如在我的工作流中，有一个解压缩的指令，用于解压word文件，这个指令在循环后只会执行一次。因此我们需要将循环设置成单条循环，确保每一个word文件都可以被解压缩。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1305f22915aca3e19b67408e9d594ef5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362446072.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2️⃣解析word文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;第二个坑点，是N8N暂时不支持直接读取DOCX文件的，这导致国内以word为工作载体的工作方式玩不转了！&lt;/p&gt;
+&lt;p&gt;我搜索了一些资料，找到了三种方案来解决：
+&lt;strong&gt;第一种&lt;/strong&gt;就是通过pandoc来转换，但是需要手动修改dockerfile，比较麻烦；
+&lt;strong&gt;第二种&lt;/strong&gt;是通过Google OneDrive 和 Google Doc来转换，但是这个需要配置API，并且通过程序认证，及时性太低；
+&lt;strong&gt;第三种&lt;/strong&gt;是通过unzip指令解压word文件，然后读取word/document.xml文件来获取word文件内容，并且通过多次解析转换以读取文件。&lt;/p&gt;
+&lt;p&gt;我在尝试过之后，使用了第三种方法，这种方法可操作性最强，也不需要额外配置任何东西，唯一的缺点就是记得删除解压后的文件，否则遍历会卡住。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5aa36ebf1960ecd9acfa507d0421be15.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362656850.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3️⃣自定义代码块&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;自定义代码块支持 PY 和 JS 脚本，这就让整个工作流的可操作性增加了很多，无论是爬虫、解析还是脚本任务。&lt;/p&gt;
+&lt;p&gt;我这里使用了官方提供的解析word的xml文档的js脚本，将xml中的文本拼凑起来，生成类似word下的效果。&lt;/p&gt;
+&lt;p&gt;而在爬虫类工作流下，则可以通过py来处理爬虫信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b6e90775a7330155952ca39f80c445e8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362680243.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;在AI 越来越强大的现在，如N8N、Dify等支持Docker自托管部署的 AI 工作流工具，也让低代码开发成为每个人都可以轻松掌握的技能。&lt;/p&gt;
+&lt;p&gt;在这种趋势下，NAS 7 x24开机的优势，和 AI API 无需本地硬件的特征，让 NAS + AI 的组合可以帮助我们完成很多日常工作中的重复劳动。这也是为什么，以绿联私有云为例，越来越多的 NAS 将 AI 控制台或 AI 工具融入到了应用中心里的根本原因。&lt;/p&gt;
+&lt;p&gt;如果你的工作中有很多重复劳动，并且可以通过代码或者脚本代替的，那赶快来试一试N8N之类的AI工作流平台，释放本职工作，把更多的时间用于副业、外快！！&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>斩获86K Star！最强开源MCP平台【双向&#43;本地MCP】自由度拉满，太绝了～</title>
+        <link>https://ai.programnotes.cn/p/%E6%96%A9%E8%8E%B786k-star%E6%9C%80%E5%BC%BA%E5%BC%80%E6%BA%90mcp%E5%B9%B3%E5%8F%B0%E5%8F%8C%E5%90%91-%E6%9C%AC%E5%9C%B0mcp%E8%87%AA%E7%94%B1%E5%BA%A6%E6%8B%89%E6%BB%A1%E5%A4%AA%E7%BB%9D%E4%BA%86/</link>
+        <pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%96%A9%E8%8E%B786k-star%E6%9C%80%E5%BC%BA%E5%BC%80%E6%BA%90mcp%E5%B9%B3%E5%8F%B0%E5%8F%8C%E5%90%91-%E6%9C%AC%E5%9C%B0mcp%E8%87%AA%E7%94%B1%E5%BA%A6%E6%8B%89%E6%BB%A1%E5%A4%AA%E7%BB%9D%E4%BA%86/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;n8n支持双向MCP，既可以作为客户端使用MCP-Server，也可以作为服务端发布MCP-Server。&lt;/li&gt;
+&lt;li&gt;n8n集成了1500+工具和模板，支持通过SSE远程连接外部MCP-Server，例如高德地图MCP-Server。&lt;/li&gt;
+&lt;li&gt;n8n通过安装社区节点，可以支持本地MCP-Server的使用，并通过配置两个Tool节点实现MCP工具的列出和执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  袋鼠帝袋鼠帝AI客栈 2025-04-29 00:58&lt;/p&gt;
+&lt;p&gt;开源项目n8n,最强开源AI workflow平台,这么快（半个月）就从75K Star干到86K Star了？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5c48964d4811c53cdbdc4b275f70d567.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最关键的是，在最近的1.88.0版本，n8n终于官宣支持MCP了！&lt;/p&gt;
+&lt;p&gt;而且它不仅支持双向MCP，还支持添加本地（stdio）MCP。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bfae6707d7f0ccb44c6b9a44ecb63b3b.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b799293236152650dea3b1eb890fad0d.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;双向MCP：既可以作为MCP客户端，去添加使用各种MCP-Server。又可以作为MCP服务端，发布MCP-Server供其他客户端使用。&lt;/p&gt;
+&lt;p&gt;MCP-Server目前有两种使用方式，一种是把MCP-Server的工具集成到本地使用，一种是远程调用。而n8n两种都支持了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/932b35af2c9bc485d1d6c797b2c9cac8.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;加之n8n是最强AI Workflow出身，本身就集成了1500+工具和模板。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;n8n工作流用法&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;袋鼠帝，公众号：袋鼠帝AI客栈&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s/jC_bPFcha-SZmBO_EMGJMg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;DeepSeek+开源n8n打造24h推特(X)热点监控Workflow，太绝了！【附赠：完整工作流】&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;现在n8n支持MCP，拥抱MCP生态后，更是有上万的MCP-Server可随意接入，我愿称之为最强开源MCP平台。&lt;/p&gt;
+&lt;p&gt;注意：n8n是平台，而不仅仅是Cusor、Trae、Cherry Studio等 的MCP客户端。&lt;/p&gt;
+&lt;p&gt;区别在于MCP客户端只是安装在电脑上的客户端软件，只能在本地添加使用MCP-Server，但无法对外提供服务。&lt;/p&gt;
+&lt;p&gt;而n8n是可部署的Web服务（比如通过docker部署），可以部署到云服务器，不管是制作的MCP-Server，亦或是开发的MCP应用，都可以一键发布到公网，对外提供服务。&lt;/p&gt;
+&lt;p&gt;好了，话不多说，接下来我们一起看看，在n8n上如何使用MCP。&lt;/p&gt;
+&lt;p&gt;PS：本期所有工作流文件都可以在公众号后台私信：“n8n-mcp” 获取&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;部署新版n8n&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;咱们本次还是用docker-compose一键部署&lt;/p&gt;
+&lt;p&gt;目前n8n的最新版是1.90.2&lt;/p&gt;
+&lt;p&gt;先创建一个docker-compose.yml文件（空格和缩进要严格按照下面yml文件格式来哦，不能乱改）&lt;/p&gt;
+&lt;p&gt;docker-compose.yml文件内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;l&#34;&gt;name: &amp;#39;n8n&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;n8nio/n8n:1.90.2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;container_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;always&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;5678:5678&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;n8n_data:/home/node/.n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;NODE_ENV=production&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;N8N_SECURE_COOKIE=false&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;N8N_HOST=你的外网IP/域名&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 可以根据需要添加其他环境变量&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;external: true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来就是进入docker-compose.yml文件所在路径的控制台/终端&lt;/p&gt;
+&lt;p&gt;通过docker-compose up -d 命令 一键部署（或更新）&lt;/p&gt;
+&lt;p&gt;如下图，就是部署成功了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1a72e1672d0e8affc6b83237c1f93ccc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不过要注意，镜像是在国外，需要开启科学上网。&lt;/p&gt;
+&lt;p&gt;没有科学上网的朋友，可以参考这篇&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzkwMzE4NjU5NA==&amp;amp;mid=2247506421&amp;amp;idx=1&amp;amp;sn=240d895a1b03de12d1035cc186e142ab&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;部署dify&lt;/a&gt;
+的方案。&lt;/p&gt;
+&lt;p&gt;成功之后直接浏览器访问：&lt;/p&gt;
+&lt;p&gt;http://127.0.0.1:5678&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1724290ac2e91612f2ad954494946044.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n的双向MCP&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n在1.88.0版本就支持了向MCP客服端提供MCP-Server工具的功能&lt;/p&gt;
+&lt;p&gt;同时也支持通过SSE远程使用外部的MCP-Server&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e03cdb30111f308da78392785c0c3eab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我将通过两个例子教大家怎么用&lt;/p&gt;
+&lt;p&gt;首先是通过SSE远程连接外部MCP-Server（以高德地图MCP-Server为例）&lt;/p&gt;
+&lt;p&gt;我们先创建一个工作流（如下图）&lt;/p&gt;
+&lt;p&gt;通过聊天触发，添加一个AI Agent节点，配置好大模型（这里我配置的DeepSeek V3），memory有没有都可以。&lt;/p&gt;
+&lt;p&gt;注意：n8n里面只有支持funcation call的大模型才能使用MCP&lt;/p&gt;
+&lt;p&gt;然后点击AI Agent中Tool的加号&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8a884be604d07f16f96a78c76256aaac.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;添加MCP Client Tool&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1102f6afa744db5bd6414810b8e98ea1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;高德的MCP-Server的SSE地址&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mcp.amap.com/sse?key=&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.amap.com/sse?key=&lt;/a&gt;在高德官网上申请的key&lt;/p&gt;
+&lt;p&gt;获取高德的key&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://console.amap.com/dev/key/app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.amap.com/dev/key/app&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c5c1b0e1c18c3fbca66ff1c82104fad9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置MCP Client Tool&lt;/p&gt;
+&lt;p&gt;把高德的MCP-Server的SSE地址填上去&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3e173c01185b0d9c9ed716b555301556.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;就ok啦&lt;/p&gt;
+&lt;p&gt;我们测试一下&lt;/p&gt;
+&lt;p&gt;通过chat发送消息（下图），可以看到成功的调用了高德MCP&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e4afddc4ffa8f88e72cb4b2cee4d8230.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后我们制作一个对外提供SSE调用的MCP-Server&lt;/p&gt;
+&lt;p&gt;向MCP客服端提供MCP-Server工具&lt;/p&gt;
+&lt;p&gt;另外新建一个工作流在触发节点选择使用 MCP Server Trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3a9207e7f6ed9a7de0b62a1d5997ef9f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到，MCP Server Trigger这里提供可外部访问的SSE地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/74de3c6bb0b6695a54e5b297768a9457.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接下来咱们只需要把想要提供出去的工具、工作流、Agent等添加到这个MCP Server Trigger节点后就行。&lt;/p&gt;
+&lt;p&gt;不过我们的n8n目前是部署在本地电脑上的，无法提供外网访问，这时需要用到内网穿透技术。&lt;/p&gt;
+&lt;p&gt;也没有多复杂，咱们安装一个提供内网穿透功能的软件：贝锐花生壳&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hsk.oray.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://hsk.oray.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;安装完毕，打开花生壳，点击增加映射&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ec399d9da3777f392b428f9e36d2835c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;按照下图进行配置&lt;/p&gt;
+&lt;p&gt;注意：如果不成功可能需要先去花生壳网页进行实名认证等操作&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/068a2b6f19c76442390f5dd488a247be.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;先在浏览器访问一下这个外网域名，如果能正常访问到本地的n8n就代表内网穿透配置成功！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5c1d585f28d4f1af9e877cf70a28f0ae.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我们需要再看一下这个外网域名的端口，因为设置的时候是随机端口，所以需要创建出来才知道。&lt;/p&gt;
+&lt;p&gt;可以看到我随机到的外网端口是29764&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7bb2d62d2734b45cddaa2ea530f28509.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后编辑一下，把内网端口和外网端口改成一样，保存&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/be5dc1004f9ad146bb16af9dcbd45121.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;修改docker-compose.yml配置&lt;/p&gt;
+&lt;p&gt;重点看下图红框中的配置&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bfae6707d7f0ccb44c6b9a44ecb63b3b.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b799293236152650dea3b1eb890fad0d.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;N8N_HOST=外网域名&lt;/p&gt;
+&lt;p&gt;增加- N8N_PORT=29746&lt;/p&gt;
+&lt;p&gt;把ports的值也都改成29746&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/932b35af2c9bc485d1d6c797b2c9cac8.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a2945f749e3a4f864e0b8cbe1be70dbc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;PS：因为这里花生壳给的外网端口是随机的，无法指定5678，所以只能把n8n的端口都改了，改成跟花生壳提供的一致。&lt;/p&gt;
+&lt;p&gt;保存之后，我们再一次在docker-compose.yml所在路径的控制台/终端执行docker-compose up -d，目前是让修改的配置生效&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e3a6c995d5270a107617c4e6c55387b3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这时再打开MCP Server Trigger，这里显示的SSE地址就变成外网可访问的地址了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/763105f1974e789b2c9bacc913cc87dd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击MCP Server Trigger的加号&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6b3ecd5c41d58efe9eb79422bca16f00.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这里可以添加任何工具、工作流、Agent等等&amp;hellip;&lt;/p&gt;
+&lt;p&gt;比如咱们可以把刚刚制作的MCP工作流添加上去&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/539de57e2631fe00cd10baa76d4ea006.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;调试好之后，记得保存和激活&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d57e9d33f40c631422b249ff03dbeef7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点开MCP Server Trigger，复制SSE地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/274d8ff8bdbb5d446e317a5e5f42ddfa.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;就可以在其他MCP客户端添加使用啦&lt;/p&gt;
+&lt;p&gt;比如在Cherry Studio中添加使用&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e4e8d1f67aa2a990b7a47023f558c254.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n集成本地MCP&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ec84596510133a5d4a1d6f1c2bdd11e.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;实际上，n8n官方的MCP，只支持通过SSE调用远程的MCP-Server使用。&lt;/p&gt;
+&lt;p&gt;要使用本地的MCP-Server，需要用到n8n的社区节点。&lt;/p&gt;
+&lt;p&gt;点击左下角头像-&amp;gt;setting-&amp;gt;community nodes输入n8n-nodes-mcp，点击install（安装）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/532e3fe902796661b81c576c70f3fe3f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;30秒左右，mcp的社区节点就安装完成了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9d3b1792e6332a07636b9edf85d6cf35.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我们可以在刚才制作的第一个工作流上测试&lt;/p&gt;
+&lt;p&gt;点击Tool的加号，在右边
+搜索mcp，可以看到有两个MCP Client Tool节点&lt;/p&gt;
+&lt;p&gt;其中，后面带有一个小盒子图标的就是刚刚安装的社区MCP节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/78735fca5d89752f674103a6c15ca40d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点开之后，进入配置页面,点击Create new credential&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cef98e514dc98f7a3ee89fe228a39a18.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;参考下图的方式进行配置，这里我们添加了一个firecrawl-mcp&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/927ec4df47f054707a78b101cd6a73aa.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置完，别忘了保存，也可以给这个MCP凭证改写名字&lt;/p&gt;
+&lt;p&gt;操作我们选择List Tools（列出MCP工具）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3941fda0525d235fd35598e7fb627406.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后再添加一个本地MCP，操作选择Execute Tool（执行工具），配置如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f9658b218c8e9e842b72eaa2953e5833.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Tool Name是固定写法（表示让大模型自己选择）&lt;/p&gt;
+&lt;p&gt;{{ $fromAI(&amp;rsquo;toolname&amp;rsquo;) }}&lt;/p&gt;
+&lt;p&gt;Tool Parameters也是固定写法（让大模型自己组装参数）&lt;/p&gt;
+&lt;p&gt;{{ $fromAI(&amp;lsquo;Tool_Parameters&amp;rsquo;, &amp;lsquo;&amp;rsquo;, &amp;lsquo;json&amp;rsquo;) }}&lt;/p&gt;
+&lt;p&gt;最后测试成功～&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/373d1aea03a2b6f87cd967c5c17bccfc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;一个MCP需要添加两个Tool节点，一个是列出该MCP-Server下所有的工具，另一个是让大模型选择合适的工具执行。&lt;/p&gt;
+&lt;p&gt;「写在最后」&lt;/p&gt;
+&lt;p&gt;本文介绍了n8n的MCP使用方式&lt;/p&gt;
+&lt;p&gt;n8n既可以作为MCP-Server对外提供服务&lt;/p&gt;
+&lt;p&gt;又可以作为MCP-Client添加SSE远程MCP-Server，或者本地MCP-Server使用。&lt;/p&gt;
+&lt;p&gt;可以说自由度拉满了，这套组合，可以搭配任意的MCP，实现各种高度定制化的需求。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</title>
+        <link>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</link>
+        <pubDate>Sat, 05 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;n8n是一个开源自动化平台，支持400+应用和服务集成，并可与DeepSeek等AI模型结合使用。&lt;/li&gt;
+&lt;li&gt;n8n结合DeepSeek，可以通过拖拽式操作和代码自定义，轻松构建复杂的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n支持自托管和云部署，具有企业级权限管理和审计日志功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  开源日记开源日记 2025-04-05 21:00&lt;/p&gt;
+&lt;p&gt;大家好 , 我是开源日记呀 !&lt;/p&gt;
+&lt;p&gt;你是否费尽心思写脚本、整集成，一周才能搞定一个简单的自动化流程？用闭源的扣子？有更好的选择吗？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4f7f5cf021fdb8137dc3a4b752e37519.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;n8n，一款兼具代码灵活性和可视化简单操作的开源神器&lt;/strong&gt;
+，让这些事情分分钟搞定！它支持 400+ 应用和服务，内置 AI 能力，既能拖拽完成任务，也能用代码搞定复杂逻辑，还能自托管，掌控所有数据。&lt;/p&gt;
+&lt;h2 id=&#34;什么是-n8n&#34;&gt;什么是 n8n
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb213e9eb7a6b2a12f304cdfb8c64310.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;n8n 是一个灵活的开源自动化平台&lt;/strong&gt;，支持 400+ 应用和服务集成，拥有强大的自定义代码能力，同时支持拖拽式操作，再复杂的流程都能轻松打造。更棒的是，&lt;strong&gt;DeepSeek&lt;/strong&gt; 的加入将其 AI 功能提升到新高度！&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;DeepSeek 提供两种核心模型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek V3 (Chat)：&lt;/strong&gt; 专注高效互动，适合实时应用，成本极低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek R1 (Reasoning)：&lt;/strong&gt; 专为复杂推理任务设计，提供深度分析能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结合 n8n，你可以在工作流中轻松嵌入 AI，并自托管保护数据安全，彻底解放生产力！&lt;/p&gt;
+&lt;h2 id=&#34;开源成就&#34;&gt;开源成就
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;GitHub Star 数：74.7k（处于全球最受欢迎的开源项目 Top 150！）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7df60b35f8d487e34026de4fd797cc56.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开发语言：90% TypeScript，8% Vue，极具现代化支持。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;核心功能&#34;&gt;核心功能
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9457e39be6e48c27a00641a368b1deee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;完美结合——代码与可视化&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;写 JavaScript 或 Python，随意添加 npm 包，突破标准化工具的限制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;无需从头写代码！通过拖拽界，组合出多层次的自动化组合，让繁琐任务自动完成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;内置前沿 AI 能力&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;基于 LangChain 构建 AI 工作流，轻松整合 LLM（如DeepSeek, OpenAI GPT 模型）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;让 AI 动起来！支持从外部系统提取数据、自动汇总分析和生成答案。&lt;img src=&#34;https://ai.programnotes.cn/img/ai/09bf3fc460d48d42fcb269aa0b19e709.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;企业级支持&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高级权限管理：SSO、RBAC 权限控制，支持闭环企业环境部署。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;审计日志追踪、自动化版本控制，轻松追溯和回滚。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;自托管 + 云部署可选&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;绝对自由！&lt;/strong&gt;
+ 你可选择托管在自己的服务器上，保护敏感数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;更喜欢省事？使用 n8n 的官方云服务也是妥妥的选择。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开源的力量&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高度可扩展：随时添加自定义节点或功能，打造独一无二的解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;400+ 即插即用的连接器，支持几乎所有主流应用工具（如 Slack、MySQL、GitHub）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4c173acd948fef47f055a0add89424f2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;快速上手指南&#34;&gt;快速上手指南
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;使用 npx 快速体验&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;用 Docker 自托管&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker volume create n8n_datadocker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动后访问http://localhost:5678，即可进入可视化界面！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb6589a3b7f56983245755daf7ae7ffb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;n8n 的强大与灵活，&lt;strong&gt;结合 DeepSeek 的极速 AI 推动&lt;/strong&gt;，让你的自动化能力全面升级。不论是聊天助手、业务流程自动化，还是复杂数据分析，n8n+DeepSeek 都能轻松处理，简化工作流，提高效率。更重要的是，自托管方案让你完全掌控数据，低成本的 DeepSeek 模型为企业节省开支，堪称技术团队的必备工具。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;开源地址https://github.com/n8n-io/n8n&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
