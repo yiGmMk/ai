@@ -36,14 +36,14 @@ image: ""
 2.**运行CLI：**在您的终端中执行以下命令：
 
    ```bash
-   NPX https://github.com/google-gemini/gemini-cli
+   npx https://github.com/google-gemini/gemini-cli
    ```
 
    或以：
 
    ```bash
-   npm install -G @google/gemini -cli
-   双子座
+   npm install -g @google/gemini -cli
+   gemini
    ```
 
 3.**选择颜色主题**
@@ -60,7 +60,7 @@ image: ""
 2.将其设置为终端中的环境变量。用生成的密钥替换`your_api_key`。
 
    ```bash
-   导出gemini_api_key =“ your_api_key”
+   export gemini_api_key =“ your_api_key”
    ```
 
 有关其他身份验证方法，包括Google Workspace帐户，请参见[authentication](https://github.com/google-gemini/gemini/gemini-cli/blob/main/main/main/docs/cli/authication.md)指南。
@@ -80,7 +80,7 @@ gemini
 
 ```sh
 git clone https://github.com/google-gemini/gemini-cli
-cd Gemini-Cli
+cd gemini-Cli
 gemini
 >给我摘要昨天进行的所有更改
 ```
