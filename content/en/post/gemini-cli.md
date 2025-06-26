@@ -5,7 +5,7 @@ tags: ["CLI", "AI", "Gemini", "command-line", "workflow"]
 categories: ["AI Tools", "Development"]
 description: "A command-line AI workflow tool that connects to your tools, understands your code and accelerates your workflows."
 author: "Unknown Author"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/cli/gemini-cli-1.png"
 ---
 
 Core:

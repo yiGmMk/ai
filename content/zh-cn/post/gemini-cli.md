@@ -5,7 +5,7 @@ tags: ["CLI", "AI", "Gemini", "command-line", "workflow"]
 categories: ["AI Tools", "Development"]
 description: "连接到工具，了解代码并加速工作流程的命令行AI工作流程工具。"
 author: "未知作者"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/cli/gemini-cli-1.png"
 ---
 
 核心内容：
