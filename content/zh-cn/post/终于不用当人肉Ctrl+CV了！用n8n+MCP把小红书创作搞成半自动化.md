@@ -2,10 +2,10 @@
 title: "终于不用当人肉Ctrl+CV了！用n8n+MCP把小红书创作搞成半自动化"
 date: "2025-06-24"
 tags: ["n8n", "MCP", "小红书", "自动化", "自媒体"]
-categories: ["自动化", "自媒体"]
+categories: ["自动化","n8n", "rsshub", "MCP",  "自媒体"]
 description: "通过n8n和MCP工具实现小红书创作半自动化，摆脱重复性工作，专注于内容创作。"
 author: "kayin9凯隐的无人化生产矩阵"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/1eb94b2f81a9e58a7c7df213db6b3ff7.png"
 ---
 
 - 利用n8n和MCP工具，将小红书创作流程半自动化，减少重复操作。
