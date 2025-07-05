@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>工具 on AI</title>
+        <link>https://ai.programnotes.cn/categories/%E5%B7%A5%E5%85%B7/</link>
+        <description>Recent content in 工具 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sun, 29 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Alfred(Mac上的效率神器)与大模型LLM的结合</title>
+        <link>https://ai.programnotes.cn/p/alfredmac%E4%B8%8A%E7%9A%84%E6%95%88%E7%8E%87%E7%A5%9E%E5%99%A8%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%BB%93%E5%90%88/</link>
+        <pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/alfredmac%E4%B8%8A%E7%9A%84%E6%95%88%E7%8E%87%E7%A5%9E%E5%99%A8%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%BB%93%E5%90%88/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/mcp/alfred.png" alt="Featured image of post Alfred(Mac上的效率神器)与大模型LLM的结合" /&gt;&lt;h2 id=&#34;什么是-alfred&#34;&gt;什么是 Alfred？
+&lt;/h2&gt;&lt;p&gt;如果你是 Mac 用户，并且一直在寻找提升工作效率的终极武器，那么你一定不能错过 Alfred。Alfred 是一款功能强大的生产力工具，它远不止一个简单的应用启动器。你可以把它看作是 Spotlight 的超级增强版，一个能够通过键盘快捷键、关键词和自定义工作流来帮你完成几乎任何任务的私人助理。&lt;/p&gt;
+&lt;p&gt;Alfred的功能很强大,与AI的结合使其如虎添翼,下面看效果,使用&lt;strong&gt;sunzsh&lt;/strong&gt;大佬制作的插件实现:&lt;/p&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1Z7KazQEQp&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;实现&#34;&gt;实现
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源仓库, sunzsh大佬制作的插件&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;AI小助手.alfredworkflow 仍处于测试阶段
+因为该插件可以&lt;strong&gt;直接运行AI写的脚本&lt;/strong&gt;，&lt;strong&gt;使用过程可能存在数据、文件误删等风险&lt;/strong&gt;，使用了此插件即代表您愿意承担风险，&lt;strong&gt;插件作者及本站不承担任何责任&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;最新版：v0.0.5
+利用大模型的Funciton Call，让大模型可以简单操作我们的电脑实现一些功能
+理论上支持所有OpenAI规范的大模型接口。以下厂商均经过测试：火山引擎、阿里云百炼、智谱AI、DeepSeek官方（其他未测试不代表不能使用）&lt;/p&gt;
+&lt;h2 id=&#34;核心功能&#34;&gt;核心功能
+&lt;/h2&gt;&lt;p&gt;Alfred 的强大之处在于其丰富且高度可定制的功能。&lt;/p&gt;
+&lt;h3 id=&#34;1-智能搜索&#34;&gt;1. 智能搜索
+&lt;/h3&gt;&lt;p&gt;Alfred 的基础功能是快速启动应用和查找文件，但它做得更出色。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;应用启动&lt;/strong&gt;：按下 &lt;code&gt;⌥ + Space&lt;/code&gt; (默认快捷键)，输入应用名称的几个字母，回车即可启动。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件搜索&lt;/strong&gt;：输入 &lt;code&gt;find&lt;/code&gt; 或 &lt;code&gt;open&lt;/code&gt; 加上文件名，可以快速定位到电脑深处的任何文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网页搜索&lt;/strong&gt;：输入 &lt;code&gt;google&lt;/code&gt;、&lt;code&gt;wiki&lt;/code&gt;、&lt;code&gt;youtube&lt;/code&gt; 等关键词，加上你的搜索内容，可以直接在浏览器中打开搜索结果，无需先打开浏览器。你还可以自定义任何网站的搜索。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-workflows-工作流&#34;&gt;2. Workflows (工作流)
+&lt;/h3&gt;&lt;p&gt;这是 Alfred 最强大的功能，也是它封神的原因（需要购买 Powerpack）。Workflow 允许你将一系列动作连接起来，创建一个自动化的任务流。网上有成千上万个由社区创建的现成工作流，你也可以自己创建。&lt;/p&gt;
+&lt;p&gt;一些热门的 Workflow 示例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dash 集成&lt;/strong&gt;：在 Alfred 中直接搜索 Dash 文档。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;有道翻译&lt;/strong&gt;：输入 &lt;code&gt;yd&lt;/code&gt; 加上要翻译的单词或句子，立刻看到翻译结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IP 地址查询&lt;/strong&gt;：输入 &lt;code&gt;ip&lt;/code&gt; 即可看到当前的公网和内网 IP。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;控制音乐&lt;/strong&gt;：无需切换到 Spotify 或 Apple Music，直接用关键词控制播放、暂停、下一首。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-clipboard-history-剪贴板历史&#34;&gt;3. Clipboard History (剪贴板历史)
+&lt;/h3&gt;&lt;p&gt;你是否曾因为复制了新内容而丢失了之前复制的重要信息？Alfred 的剪贴板历史功能可以帮你记住复制过的所有文本、图片和文件链接。你可以随时搜索和粘贴历史记录。&lt;/p&gt;
+&lt;h3 id=&#34;4-snippets-代码片段文本片段&#34;&gt;4. Snippets (代码片段/文本片段)
+&lt;/h3&gt;&lt;p&gt;对于经常需要输入的重复性文本，如邮箱地址、代码块、常用回复等，你可以创建 Snippets。只需输入一个简短的关键词，Alfred 就会自动将其扩展为完整的文本内容，极大节省打字时间。&lt;/p&gt;
+&lt;h3 id=&#34;5-系统命令&#34;&gt;5. 系统命令
+&lt;/h3&gt;&lt;p&gt;无需离开键盘，就可以执行各种系统命令：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;emptytrash&lt;/code&gt;：清空废纸篓&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sleep&lt;/code&gt;：让 Mac 睡眠&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;restart&lt;/code&gt; / &lt;code&gt;shutdown&lt;/code&gt;：重启或关机&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;eject&lt;/code&gt;：推出所有挂载的磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;为什么选择-alfred&#34;&gt;为什么选择 Alfred？
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;极致的速度&lt;/strong&gt;：习惯之后，你的双手几乎可以不离开键盘，操作行云流水。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高度可定制&lt;/strong&gt;：从外观主题到功能，几乎所有东西都可以根据你的喜好进行定制。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;强大的社区&lt;/strong&gt;：有无数现成的 Workflow 可供下载，你总能找到满足需求的工具。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;节省时间&lt;/strong&gt;：通过自动化和快捷操作，日积月累可以为你节省大量宝贵的时间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;Alfred 是一款值得每一位 Mac 用户投资的工具。它不仅仅是一个启动器，更是一个能融入你工作流、提升生产力的强大平台。一旦你开始使用并配置好适合自己的 Workflow，你就会发现再也离不开它了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型</title>
+        <link>https://ai.programnotes.cn/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/</link>
+        <pubDate>Wed, 04 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%B1%89%E9%9D%92hq%E5%8F%91%E5%B8%83ai%E5%8E%9F%E7%94%9Fmvsurreal%E5%87%A0%E4%B9%8E%E4%BD%BF%E7%94%A8%E6%89%80%E6%9C%89ai%E6%A8%A1%E5%9E%8B/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/mv/ai-mv.png" alt="Featured image of post 汉青HQ发布AI原生MV《SURREAL》：几乎使用所有AI模型" /&gt;&lt;p&gt;汉青HQ最新发布了 AI 原生 MV 系列第二弹《SURREAL》，该作品使用了几乎市面上所有的AI模型，每个模型都承担其最擅长的部分。&lt;/p&gt;
+&lt;p&gt;AI 技术使用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;动态表情、大动态运镜、精确手势控制、演唱口型和旋转机位运镜：使用 &lt;strong&gt;可灵 2.1&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;静态口型处理：采用 &lt;strong&gt;即梦 AI Omnihuman&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;实拍效果模拟：基于 &lt;strong&gt;Veo 3&lt;/strong&gt; 实现&lt;/li&gt;
+&lt;li&gt;二次元动漫风格：由 &lt;strong&gt;Vidu AI&lt;/strong&gt; 生成&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1La7hzCEiy&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;完整技术细节可以查看&lt;a class=&#34;link&#34; href=&#34;https://x.com/hq4ai/status/1929887309358629016&#34;  title=&#34;汉青团队X账号&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;汉青HQ&lt;/a&gt;的推文&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://x.com/hq4ai/status/1929887309358629016&#34;  title=&#34;汉青团队X账号&#34;
+     target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;汉青HQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>TAPD推出小程序智能反馈管理，DeepSeek帮你分析用户反馈</title>
+        <link>https://ai.programnotes.cn/p/tapd%E6%8E%A8%E5%87%BA%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%99%BA%E8%83%BD%E5%8F%8D%E9%A6%88%E7%AE%A1%E7%90%86deepseek%E5%B8%AE%E4%BD%A0%E5%88%86%E6%9E%90%E7%94%A8%E6%88%B7%E5%8F%8D%E9%A6%88/</link>
+        <pubDate>Mon, 26 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/tapd%E6%8E%A8%E5%87%BA%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%99%BA%E8%83%BD%E5%8F%8D%E9%A6%88%E7%AE%A1%E7%90%86deepseek%E5%B8%AE%E4%BD%A0%E5%88%86%E6%9E%90%E7%94%A8%E6%88%B7%E5%8F%8D%E9%A6%88/</guid>
+        <description>&lt;p&gt;核心内容:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TAPD推出小程序智能反馈管理能力，利用AI统一管理用户反馈。&lt;/li&gt;
+&lt;li&gt;通过智能标签和总结洞察，帮助管理者快速识别和分析用户反馈中的关键问题和情绪。&lt;/li&gt;
+&lt;li&gt;提供行动建议，帮助管理者改进小程序用户体验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为了帮助小程序管理者解决大量繁琐的用户反馈问题，腾讯TAPD推出了智能反馈管理能力。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;它可以把用户在小程序上的评价和反馈用 AI 统一管理起来，帮助管理者从成千上万条反馈中，快速总结出当下呼声最多的问题、情绪最大的抱怨和用户最关注的价值点，并给出改进建议&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;TAPD AI 帮你收集所有的反馈，并识别每条反馈的关键词与情绪强度&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/78bb9749aeae127de00f9092d31b759e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Deepseek 深度思考后，总结出关键结论和行动建议&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;﻿&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1️⃣ 首先登录微信公众平台&lt;/strong&gt;**，在微信公众平台-&amp;gt;开发与服务-&amp;gt;开发工具中找到上新的“智能反馈管理”应用**&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;2️⃣ 点击开通后，用管理员扫码开通，手机上确认授权即可开启（如遇问题，可扫文章底部二维码咨询）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/73bdec1faf4a37d0039ab6003db0acd8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d9ba3a7537e5b160f12f851ede43ca80.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;✅ 扫码授权后即自动进到智能反馈管理页面，此时小程序的反馈信息将自动同步到 TAPD 空间中，可以即刻开启体验啦！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可以看到 AI 已经帮你把反馈全部同步到了 TAPD 反馈管理中。你可以轻松查看每条反馈详情或进行统计分析。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/801b7492e8443c429050398141c7e3c3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;1. 智能标签&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;进入反馈列表，可以看到 AI 已经贴心帮你给每条反馈打上了标签，高优先级or低优先级，强烈负面or中立，还有各种跟业务强相关的关键词，有了这些智能标签，你就可以方便的进行反馈的过滤、排序和整理啦！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6b3c8151a694610ceabaecd3d61f6e5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;br&gt;
+ &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 总结洞察&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;点击“智能反馈分析“，即可让DeepSeek帮你把反馈全部分析一遍，然后告诉你当前业务最主要的、最迫切的、最应该关注的问题是哪些，具体表现如何，并且贴心的给出行动建议来！&lt;/p&gt;
+&lt;p&gt; &lt;img src=&#34;https://ai.programnotes.cn/img/ai/7321b7136f16a40b7f02efffa6cb7205.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b65cfb7ca35c3627a9bb2fbe1667054d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;不费吹灰之力就拥有一个靠谱的用户体验官，快进入微信小程序管理后台体验吧&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;也欢迎大家扫码加入腾讯专属体验群，给我们提建议，有机会领取礼品哦！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/59a05c79e55ed01c4cc5d8229cad0660.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;更多体验礼品等你领取‍&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8068cf411ccecdcf5154e64c5be2ebe9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>MCPify.ai:一句话构建一个MCP</title>
+        <link>https://ai.programnotes.cn/p/mcpify.ai%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAmcp/</link>
+        <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcpify.ai%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAmcp/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png" alt="Featured image of post MCPify.ai:一句话构建一个MCP" /&gt;&lt;p&gt;&lt;strong&gt;来源 | QOK AI&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/53502e707ea107f2427aa7249ed30c80.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCPify.ai是一个基于Model Context Protocol (MCP)构建的创新平台，允许用户快速创建能与Claude、Cursor等AI助手配合使用的定制化工具。它的核心价值在于让非技术人员也能轻松为AI助手扩展功能，而无需深入了解编程或MCP的技术细节。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;技术背景：MCP协议&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Model Context Protocol（MCP）是Anthropic在2024年11月推出的开源协议，旨在解决AI模型与外部工具、系统和数据源之间的连接问题。在MCP出现之前，AI系统往往被限制在预训练数据的范围内，而MCP允许AI助手接入实时数据和功能，显著扩展了它们的能力边界。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eb56555fd3da7ad0ec4099d3601b7b61.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCPify的核心功能&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCPify的主要优势在于它极大地简化了MCP工具的创建过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;简单易用的界面：用户只需描述想要的功能，平台就能自动生成相应的MCP工具&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;预设模板：提供多种常用工具模板，如智能计算器、天气API集成、金融工具包等&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;无代码解决方案：无需编写复杂代码，即可为AI助手创建功能扩展&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;兼容性：生成的工具可以与支持MCP的各种AI应用无缝集成&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;降低了技术门槛：MCPify最大的亮点是它使MCP工具的创建民主化，让非技术人员也能参与AI功能扩展。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;节省开发时间：对于开发者而言，使用MCPify可以大幅减少从概念到实现的时间，提高工作效率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;MCPify的长期成功将取决于其对用户反馈的响应速度和MCP生态系统的整体发展。如果能持续改进用户体验，并加强与各种AI助手的集成，MCPify有潜力成为AI工具创建领域的领导者。&lt;/p&gt;
+&lt;p&gt;对于考虑使用MCPify的团队，我建议从小规模试点开始，评估工具的实际表现和与现有系统的兼容性，然后再考虑更广泛的应用。特别是现在它处于免费阶段，正是尝试和学习的好时机。&lt;/p&gt;
+&lt;p&gt;MCPify代表了AI工具创建的未来方向，通过简化MCP工具的开发过程，它为AI助手的功能扩展提供了一条低门槛的路径。虽然目前仍处于早期阶段，但其潜力巨大，值得产品经理和开发者关注。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP客户端|Apify 测试版</title>
+        <link>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</link>
+        <pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" alt="Featured image of post MCP客户端|Apify 测试版" /&gt;&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 SSE 协议连接 MCP 服务器，实现与 Apify 执行器的交互。&lt;/li&gt;
+&lt;li&gt;提供类聊天界面，展示工具调用与结果。&lt;/li&gt;
+&lt;li&gt;客户端完全免费，仅需支付 LLM 服务商使用费和 Apify 平台资源消耗费。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;该客户端将 AI 智能体接入 Apify 生态系统中 5000+个网页抓取与自动化执行器（Actors），支持从网站、社交媒体、搜索引擎及地图中提取数据。&lt;/p&gt;
+&lt;h2 id=&#34;-核心功能&#34;&gt;🚀 核心功能
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;🔌 通过服务器推送事件(SSE)连接 MCP 服务器&lt;/li&gt;
+&lt;li&gt;💬 提供类聊天界面展示工具调用与结果&lt;/li&gt;
+&lt;li&gt;🇦 连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify MCP 服务器&lt;/a&gt;以调用多个 Apify 执行器&lt;/li&gt;
+&lt;li&gt;💥 根据上下文动态选用工具（需服务器支持）&lt;/li&gt;
+&lt;li&gt;🔓 采用授权头与 API 密钥保障安全连接&lt;/li&gt;
+&lt;li&gt;🪟 开源项目，可审查代码或提交改进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-功能场景&#34;&gt;🎯 功能场景
+&lt;/h2&gt;&lt;p&gt;连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;执行器-MCP-服务器&lt;/a&gt;后，您可通过交互式聊天界面：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询&amp;quot;最受欢迎的社交媒体抓取执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;获取&amp;quot;Instagram 爬虫最佳使用方案&amp;quot;&lt;/li&gt;
+&lt;li&gt;咨询&amp;quot;提取 LinkedIn 数据该选用哪个执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;了解&amp;quot;如何抓取谷歌搜索结果&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;客户端界面截图&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-工作原理&#34;&gt;📖 工作原理
+&lt;/h2&gt;&lt;p&gt;客户端通过 SSE 协议连接 MCP 服务器并实现以下功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过&lt;code&gt;/sse&lt;/code&gt;端点建立 SSE 连接&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;POST /message&lt;/code&gt;发送用户查询&lt;/li&gt;
+&lt;li&gt;实时接收流式响应（通过&lt;code&gt;GET /sse&lt;/code&gt;），内容可能包含：
+&lt;ul&gt;
+&lt;li&gt;大语言模型输出&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具调用&lt;/strong&gt;模块&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;根据响应协调工具调用并展示对话流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-使用方式&#34;&gt;⚙️ 使用方式
+&lt;/h2&gt;&lt;h3 id=&#34;标准模式apify-平台&#34;&gt;标准模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;在 Apify 平台运行客户端并连接任意支持 SSE 的 MCP 服务器。通过 UI 或 API 配置以下参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP 服务器 URL&lt;/li&gt;
+&lt;li&gt;系统提示词&lt;/li&gt;
+&lt;li&gt;API 密钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行后日志将生成动态访问链接（每次运行不同）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;INFO  请访问 https://......runs.apify.net 与MCP服务器交互
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;待机模式apify-平台&#34;&gt;待机模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;开发中 🚧&lt;/p&gt;
+&lt;h2 id=&#34;-计费方案&#34;&gt;💰 计费方案
+&lt;/h2&gt;&lt;p&gt;客户端完全免费，仅需支付：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM 服务商使用费&lt;/li&gt;
+&lt;li&gt;Apify 平台资源消耗费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;采用&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费&lt;/a&gt;模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;执行器启动费（按 128MB 内存单元计费）&lt;/li&gt;
+&lt;li&gt;运行时长费（每 5 分钟/128MB 单元计费）&lt;/li&gt;
+&lt;li&gt;查询应答费（根据模型计费，自带 API 密钥可免除）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用自有 LLM 密钥时，128MB 内存运行 1 小时约$0.06。
+Apify 免费版（无需信用卡 💳）每月可运行 80 小时——充分满足测试需求！&lt;/p&gt;
+&lt;h2 id=&#34;-技术架构&#34;&gt;📖 技术架构
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;浏览器 ← (SSE) → 测试客户端 ← (SSE) → MCP服务器
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该链路将定制化桥接逻辑封装在客户端内，保持 MCP 服务器纯净。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;访问&lt;code&gt;https://tester-mcp-client.apify.actor?token=API密钥&lt;/code&gt;（本地开发则用 http://localhost:3000）&lt;/li&gt;
+&lt;li&gt;从&lt;code&gt;public/&lt;/code&gt;目录加载&lt;code&gt;index.html&lt;/code&gt;和&lt;code&gt;client.js&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;浏览器通过&lt;code&gt;GET /sse&lt;/code&gt;建立 SSE 流&lt;/li&gt;
+&lt;li&gt;用户查询通过&lt;code&gt;POST /message&lt;/code&gt;提交&lt;/li&gt;
+&lt;li&gt;查询处理流程：
+&lt;ul&gt;
+&lt;li&gt;调用大语言模型&lt;/li&gt;
+&lt;li&gt;按需调用工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;sseEmit(role, content)&lt;/code&gt;返回分块结果&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;本地开发&#34;&gt;本地开发
+&lt;/h3&gt;&lt;p&gt;客户端已开源至&lt;a class=&#34;link&#34; href=&#34;https://github.com/apify/rag-web-browser&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;，可按需修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/apify/tester-mcp-client.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tester-mcp-client
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;参照&lt;code&gt;.env.example&lt;/code&gt;创建配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;APIFY_TOKEN=您的令牌
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LLM_PROVIDER_API_KEY=您的密钥
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行开发服务器：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;访问&lt;a class=&#34;link&#34; href=&#34;http://localhost:3000&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://localhost:3000&lt;/a&gt;即可开始测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;祝您与 Apify 执行器畅快对话！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-注意事项&#34;&gt;ⓘ 注意事项
+&lt;/h2&gt;&lt;p&gt;当前版本暂不支持：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Prompts 和 Resource 等 MCP 高级功能&lt;/li&gt;
+&lt;li&gt;对话历史存储（刷新页面将清空记录）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考资源&#34;&gt;参考资源
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;模型上下文协议&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify 执行器 MCP 服务器&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-are-ai-agents/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI 智能体详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-is-model-context-protocol/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 协议核心价值&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
