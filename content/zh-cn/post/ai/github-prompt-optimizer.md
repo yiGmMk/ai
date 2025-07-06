@@ -34,7 +34,7 @@ Prompt Optimizer是一个强大的AI提示词优化工具，帮助你编写更�
 ### 🎥 功能演示
 
 <div align="center">
-  <img src="prompt-optimizer-contrast.png" alt="功能演示" width="90%">
+  <img src="https://ai.programnotes.cn/img/github/prompt-optimizer-contrast.png" alt="功能演示" width="90%">
 </div>
 
 ## ✨ 核心特性

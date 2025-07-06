@@ -30,7 +30,7 @@ Prompt Optimizer is a powerful AI prompt optimization tool that helps you write 
 ### 🎥 Feature Demonstration
 
 <div align="center">
-  <img src="prompt-optimizer-contrast.png" alt="Feature Demonstration" width="90%">
+  <img src="https://ai.programnotes.cn/img/github/prompt-optimizer-contrast.png" alt="Feature Demonstration" width="90%">
 </div>
 
 ## ✨ Core Features
