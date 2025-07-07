@@ -5,7 +5,7 @@ tags: ["领克", "领克10 EM-P", "激光雷达", "新能源汽车", "智能驾�
 categories: ["汽车","激光雷达", "新能源"]
 description: "领克首款中大型插电式混合动力轿车领克10 EM-P全球首秀，全系标配激光雷达，预计第三季度末上市。"
 author: "Unknown Author"
-image: "https://ai.programnotes.cn/img/lidar/lingke-2.png"
+image: "https://ai.programnotes.cn/img/lidar/lingke-2.jpg"
 ---
 
 **核心内容:**
@@ -15,13 +15,13 @@ image: "https://ai.programnotes.cn/img/lidar/lingke-2.png"
 
 7月4日，全系标配RoboSense速腾聚创激光雷达，@领克汽车LYNKCO 首款中大型插电式混合动力轿车领克10 EM-P迎来全球首秀，预计今年第三季度末正式上市。作为二十万级别标配四驱系统的混动轿车，领克10 EM-P以“操控不将就，安全不妥协，智能不设限”等核心价值，在智能、操控、座舱、设计、舒适性等方面彰显领先姿态，以硬核科技实力掀起高端新能源市场的价值革命。
 
-![领克宣传图1](https://ai.programnotes.cn/img/lidar/lingke-1.png)
+![领克宣传图1](https://ai.programnotes.cn/img/lidar/lingke-1.jpg)
 
 智能化方面，领克10 EM-P全系标配RoboSense速腾聚创激光雷达，以更高清的三维视野，看得更准、更远，拥有快人一步的响应速度，与千里浩瀚H7智能辅助驾驶系统深度协同，依托海量数据与强大算力，实现全场景高阶智能辅助驾驶。无论是拥堵路段的自动跟车、高速路上的智能变道，还是令人头疼的自动泊车，领克10 EM-P都能轻松应对，以科技守护全方位出行安全。
 
 在以技术普惠为底色、以智能体验为内核的新能源出行新时代，RoboSense速腾聚创将与领克强强携手，以科技之力重新定义安全、便捷的出行边界。
 
-![领克宣传图1](https://ai.programnotes.cn/img/lidar/lingke-2.png)
+![领克宣传图1](https://ai.programnotes.cn/img/lidar/lingke-2.jpg)
 
 ## 领克
 
