@@ -96,3 +96,4 @@
 [√] 2天37K Star的Gemini CLI怎么登录使用？详细指南来了，只需4步.md
 [√] 告别镜像下载慢！一个简单又强大的 Docker 镜像加速方案.md
 [√] self-driving/lingke.md
+[√] Hugging Face发布SmolLM3，全流程全数据开源的3B参数多语言长上下文模型【AI早报 2025-07-09】.md
