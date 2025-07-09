@@ -5,7 +5,7 @@ tags: ["Hugging Face", "SmolLM3", "开源模型", "多语言", "长上下文"]
 categories: ["人工智能", "模型发布"]
 description: "Hugging Face发布SmolLM3，一款全流程全数据开源的3B参数多语言长上下文模型。"
 author: "橘鸭Juya"
-image: ""
+image: "https://ai.programnotes.cn/img/ai/8f3a805e2e62c42e0dbf7a52017ee0ba.png"
 ---
 
 核心内容:
