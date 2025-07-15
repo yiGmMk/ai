@@ -98,3 +98,4 @@
 [√] self-driving/lingke.md
 [√] Hugging Face发布SmolLM3，全流程全数据开源的3B参数多语言长上下文模型【AI早报 2025-07-09】.md
 [√] 面向L3！极氪9X搭载RoboSense 520线数字化激光雷达启动先享计划.md
+[√] 图解中国经济半年报.md
