@@ -102,3 +102,4 @@
 [√] bft.md
 [√] 搭载4颗E1！小马智行Robotaxi量产路测，年底扩至千辆.md
 [√] lidar/4颗禾赛主雷达！小马智行第七代Robotaxi量产路测双启.md
+[√] ai/AMD宣布将重启对华出口AI芯片.md
