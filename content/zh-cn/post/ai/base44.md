@@ -1,6 +1,6 @@
 ---
 title: "Base44: 用自然语言构建应用程序的无代码AI平台"
-date: 2025-07-17T15:00:00+08:00
+date: 2025-07-17
 draft: false
 tags: ["AI", "无代码", "应用开发", "Base44"]
 categories: ["AI"]
