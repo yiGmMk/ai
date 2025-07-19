@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>效率工具 on AI</title>
+        <link>https://ai.programnotes.cn/categories/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/</link>
+        <description>Recent content in 效率工具 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sat, 31 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>N8N 流程自动化 - 使用 N8N&#43;多维表格 自动编写周报和多渠道发送周报</title>
+        <link>https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/</link>
+        <pubDate>Sat, 31 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/n8n-%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96-%E4%BD%BF%E7%94%A8-n8n-%E5%A4%9A%E7%BB%B4%E8%A1%A8%E6%A0%BC-%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%91%A8%E6%8A%A5%E5%92%8C%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8F%91%E9%80%81%E5%91%A8%E6%8A%A5/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: 使用 N8N 和飞书多维表格实现任务管理流程的自动化。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点2&lt;/strong&gt;: 通过配置 N8N 节点，读取多维表格数据，并利用 AI 生成周报。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点3&lt;/strong&gt;: 实现周报的多渠道发送，如飞书、企业微信、邮件等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  数翼数翼 2025-05-31 00:21&lt;/p&gt;
+&lt;p&gt;今天介绍如何基于 &lt;strong&gt;多维表格&lt;/strong&gt;和&lt;strong&gt;N8N&lt;/strong&gt; 打造自己的任务管理流程和自动化进行周报编写发送。&lt;/p&gt;
+&lt;p&gt;内容包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 设计自己的任务管理流程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 创建飞书应用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 获取飞书应用访问凭证&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 安装配置N8N飞书节点&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 配置流程读取数据整理周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 相关应用授权操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 通过飞书消息发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 多渠道发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 如何查找社区节点&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文基于飞书实现，类似思路的大家也可以使用企业微信，钉钉，Notion 等服务，甚至是本地Excel文件来实现。 只需要把数据读取和处理的部分换成自己平台的数据即可。&lt;/p&gt;
+&lt;h2 id=&#34;设计自己的管理流程&#34;&gt;设计自己的管理流程
+&lt;/h2&gt;&lt;p&gt;每个人根据自己岗位不同、工作习惯不同、公司要求不同都会多多少少形成自己的任务管理流程以及方法论。&lt;/p&gt;
+&lt;p&gt;我今天介绍一个比较适合大家的方案，按周管理事务，每周进行轮转，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 用多维表格来记录和管理任务&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 每周五下午固定时间自动发送周报&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 每周一早上把任务转到本周&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 清理已完成的任务&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;新建飞书多维表格&#34;&gt;新建飞书多维表格
+&lt;/h2&gt;&lt;p&gt;我们新建一个飞书多维表格，名字叫做 工作任务和计划，添加你常用的列，比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 名称&lt;/li&gt;
+&lt;li&gt;• 优先级&lt;/li&gt;
+&lt;li&gt;• 状态&lt;/li&gt;
+&lt;li&gt;• 描述&lt;/li&gt;
+&lt;li&gt;• 进度&lt;/li&gt;
+&lt;li&gt;• 开始时间&lt;/li&gt;
+&lt;li&gt;• 结束时间&lt;/li&gt;
+&lt;li&gt;• 计划时间等等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bc3510b85c73cd43362dac1c69b64f35.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我建立了这样一个表格，并且录入了一些样例数据给大家做Demo用。&lt;/p&gt;
+&lt;h2 id=&#34;创建飞书应用&#34;&gt;创建飞书应用
+&lt;/h2&gt;&lt;p&gt;我们如果希望用 n8n 对飞书做自动化，需要创建一个飞书应用，然后获取应用的访问凭证。&lt;/p&gt;
+&lt;p&gt;大家可以打开下面链接，按照文档一步步操作。&lt;/p&gt;
+&lt;p&gt;如何创建企业应用[1]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/980c7d8ec86dca38251d79696e9e1a81.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击&lt;strong&gt;创建企业自建应用&lt;/strong&gt;，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/243040ab0035059ff1f5e2ee01d1cd2e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;输入应用名字，再点击 &lt;strong&gt;创建&lt;/strong&gt; 即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/63adbc85c05d26cf6e8c869319fc34d9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写应用信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写应用信息&lt;/p&gt;
+&lt;h3 id=&#34;获取应用访问凭证&#34;&gt;获取应用访问凭证
+&lt;/h3&gt;&lt;p&gt;接下来获取应用的访问凭证，拿到访问凭证就可以不在飞书应用里面也可以访问和操作飞书数据了。&lt;/p&gt;
+&lt;p&gt;如何获取应用访问凭证[2]&lt;/p&gt;
+&lt;p&gt;在刚才创建的应用页面，点击打开 &lt;strong&gt;凭证与基础信息&lt;/strong&gt; 子页面， 复制 App ID 和 App Secret 备用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/98c21243c92a2cff21f11ae3c8b0b071.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取&lt;/p&gt;
+&lt;h2 id=&#34;安装-n8n-飞书节点&#34;&gt;安装 n8n 飞书节点
+&lt;/h2&gt;&lt;p&gt;虽然 n8n 官方没有提供飞书节点，但是万能的社区有飞书节点的实现，安装也很简单：&lt;/p&gt;
+&lt;p&gt;社区节点的安装教程可以参考下面文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 
+如何安装社区节点[3]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;进入 n8n 应用的设置，点击设置页面的 Community nodes，点击 Install，填写我们要安装的界面名称 n8n-nodes-feishu-lite，然后再点击 Install，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/699b48a254e468e428c04e35513750db.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;等几秒钟，弹窗关闭就可以看到列表中有我们的节点了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/140089efadba33da973d24a125fd3801.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;使用飞书节点&#34;&gt;使用飞书节点
+&lt;/h2&gt;&lt;p&gt;新建一个 n8n 工作里，点击搜搜节点 feishu 可以看到我们安装的节点了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cb5ca5aaa0aa010b3f49eed5fe716e9b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;搜索Feishu节点&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;搜索Feishu节点,点击节点，选择一个操作，比如最后一个操作 获取当前应用AccessToken才测试一下链接是否可用。&lt;/p&gt;
+&lt;p&gt;在节点配置页面创建账户，点击 &lt;strong&gt;Credential&lt;/strong&gt; 的 &lt;strong&gt;Create new credential&lt;/strong&gt;, 选择 Feishu，填写我们刚刚复制的 App ID 和 App Secret，点击Save。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3abdf9ce94a0b63475a9c4283c82ff93.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写App信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写App信息&lt;/p&gt;
+&lt;p&gt;然后我们执行测试即可看到运行结果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d28524a2009d97527b2b0683e4ccb14a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;测试飞书连接&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试飞书连接&lt;/p&gt;
+&lt;h2 id=&#34;应用权限&#34;&gt;应用权限
+&lt;/h2&gt;&lt;p&gt;在执行飞书操作的过程中，如果没有授权就会遇到错误，根据错误信息中的地址，打开控制台进行授权即可，&lt;/p&gt;
+&lt;p&gt;比如任务相关而全新啊&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0218ce2d8b899bb58ffcdd7406599463.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;勾选权限点击开通&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;勾选权限点击开通&lt;/p&gt;
+&lt;p&gt;或者 ip_list 的权限：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0f47ca90023f20ce7675a4e99d747ac4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ip_list 权限&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;ip_list 权限&lt;/p&gt;
+&lt;p&gt;部分权限开通的时候需要你设置应用可见的权限范围，我们如果是开发测试，或者是自己用的话，直接选择全部就好了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/874d311ceae27b8a8026f5cceff4b1f3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;大家可以一次把权限设置好，也可以在任务出错的时候再设置，后续关于权限设置我就不再介绍了。&lt;/p&gt;
+&lt;h2 id=&#34;获取多维表格访问凭证&#34;&gt;获取多维表格访问凭证
+&lt;/h2&gt;&lt;p&gt;现在我们打开刚才创建的的多维表格，点击上面的复制链接按钮复制当前多维表格的链接，以便我们解析多维表格获取其 app_token
+。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b319074e17b3e2deb74114ab2fd383e8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;拷贝多维表格地址&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;拷贝多维表格地址&lt;/p&gt;
+&lt;p&gt;在 n8n 工作流中新增飞书节点，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 选择 &lt;strong&gt;资源&lt;/strong&gt; -&amp;gt; 多维表格&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;操作&lt;/strong&gt; -&amp;gt; 解析多维表格地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• &lt;strong&gt;多维表格地址&lt;/strong&gt; 粘贴你刚才拷贝的地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;点击测试，结果中可以看到多维表格的信息里面有一个 app_token，这个 Token 就是飞书多维表格的访问凭证。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/204767db6beb074101c1ee7640f1162a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;App Token&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;App Token&lt;/p&gt;
+&lt;p&gt;我们使用 获取多维表格元数据 来测试下 app_token 是否可用。&lt;/p&gt;
+&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;获取多维表格元数据&lt;/strong&gt;，把 app_token 拖入到 app_token 输入框中，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d8af5ea38b7252699c3c2181a5ed1ca6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;多维表元数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;多维表元数据&lt;/p&gt;
+&lt;p&gt;可以看到，我们能够正确获取多维表的名称信息。&lt;/p&gt;
+&lt;h2 id=&#34;列出数据表&#34;&gt;列出数据表
+&lt;/h2&gt;&lt;p&gt;一个多维表格可能有多个数据表，每个数据表的数据都不一样，我们可以通过 列出数据表
+ 来获取多维表格中的数据表列表，然后选择一个数据表来读取数据。&lt;/p&gt;
+&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;列出数据表&lt;/strong&gt;，把 app_token 拖入到 多维表格 Token 输入框中，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/51562ea60cf69a1715f5a4d05a382ac4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;列出数据表&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;列出数据表&lt;/p&gt;
+&lt;h2 id=&#34;读取数据&#34;&gt;读取数据
+&lt;/h2&gt;&lt;p&gt;在后面添加一个飞书节点，操作选择 &lt;strong&gt;查询记录&lt;/strong&gt;，把 &lt;strong&gt;获取元数据节点&lt;/strong&gt; 的 app_token 拖入到 多维表格 Token 输入框中， 把上一步的 Table ID 拖入到 多维表格ID 输入框，点击测试。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/324845897438b4fd37d48740c54754bc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;读取数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;读取数据&lt;/p&gt;
+&lt;p&gt;右侧执行结果就是我们多维表格的数据，大家测试的时候可以自行对照一下，是不是一样的。&lt;/p&gt;
+&lt;h2 id=&#34;处理数据&#34;&gt;处理数据
+&lt;/h2&gt;&lt;p&gt;我们现在希望把表格中的数据作为参考资料让 AI 帮我们整理成周报。但是 表格中的列比较多，很多是在周报中不需要的， 我们先获取我们需要的任务字段。&lt;/p&gt;
+&lt;p&gt;先增加一个 Split out 拆分节点，把数据进行拆分，独立处理。不需要什么配置，点击确认即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fbb3c9308b5e659631827592f902fb6d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;拆分数据&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;拆分数据&lt;/p&gt;
+&lt;p&gt;接着增加一个 Edit Fields 节点，把我们需要的字段拖入，测试无误，点击确认即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2badb1f6a3d3ade0d2fa80c20a9e2388.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;选择需要的字段&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;选择需要的字段&lt;/p&gt;
+&lt;p&gt;再增加一个 Edit Fields 节点，把任务数据组织成 Markdown 格式，当然我们也可以把这两个节点的功能放在一起完成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/115d8855443b580c50fd5fa672dfe0f5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我的 Markdown 格式是这样的：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## {{ $json.task }} - description: {{ $json.description }}- status: {{ $json.status }}- percent: {{ $json.percent }}- deadline: {{ $json.deadline }}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;再增加一个 Aggregate 节点，把之前拆分的数据聚合起来：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b4b37a0c0c432f77fd356e17d04dd627.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;聚合&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;聚合&lt;/p&gt;
+&lt;h2 id=&#34;ai-生成周报&#34;&gt;AI 生成周报
+&lt;/h2&gt;&lt;p&gt;现在我们已经把数据整理成 Markdown 格式，再用 AI 生成周报就很简单了。&lt;/p&gt;
+&lt;p&gt;添加一个 OpenAI 节点，我们选择 deepseek-v3 模型，输入系统提示词，并且把上一步的输出投入到用户提示词， 运行即可看到结果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/af0d5e5cf3deb91466032aec41f575e0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;系统提示词可以根据自己的岗位、角色、汇报对象、公司风格等多方面来限制，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;作为一家科技公司的设计总监，请根据我提供的本周任务清单，生成一份结构清晰、专业简洁的周报。周报需包含以下核心模块,使用Markdown格式，并体现数据驱动和结果导向：  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1.**本周核心任务概览**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 按优先级列出3-5项重点任务（例如：产品迭代推进、技术架构优化、跨部门协作等）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 标注每项任务的进度状态（已完成/进行中/受阻）及关键里程碑  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2.**量化成果展示**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 用数据量化成果（如：完成XX模块开发（100%）、系统性能提升XX%、解决XX个关键Bug）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 技术类任务需注明具体技术指标（如API响应时间、代码覆盖率等）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3.**风险与问题分析**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 列出遇到的瓶颈（如第三方服务延迟、测试环境不稳定）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 附上已采取的解决方案及待协调资源  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4.**下周计划与资源需求**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 明确下周3项核心目标（建议区分「延续性任务」和「新启动任务」）     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 提出需要支持的资源（人力、预算、其他部门配合等）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5.**行业洞察建议（可选）**   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 结合本周工作，附加1-2条对行业技术趋势的观察（如AI工具应用、竞品动态）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;**风格要求：**
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 避免流水账，用「结论先行+数据支撑」的表述  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 技术术语需易懂（如用「用户认证系统升级」而非「OAuth2.0改造」）  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 重要内容加粗或分点标注  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- 调理清晰，避免冗长请确保周报内容简洁、清晰，在500字以内。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;发送周报&#34;&gt;发送周报
+&lt;/h2&gt;&lt;p&gt;周报生成好了，我们现在发送给自己看看。&lt;/p&gt;
+&lt;p&gt;新建一个飞书节点，选择发送消息动作，配置接受者ID和消息内容。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/48f94f250ea3edd2685cba0d767ad516.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取联系人ID可以参考下面文档：&lt;/p&gt;
+&lt;p&gt;如何获取用户OpenID[4]&lt;/p&gt;
+&lt;p&gt;最简单的就是通过控制塔调试获取：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c06899b54aacfffcef74d3a9086746c4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取用户ID&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取用户ID&lt;/p&gt;
+&lt;p&gt;填入用户ID，进行测试，可以看到消息发送成功！&lt;/p&gt;
+&lt;p&gt;打开飞书消息，可以看到刚刚发送的消息：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1c1d4c4d3443a17317a3ac9acf58d63f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;飞书消息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;飞书消息&lt;/p&gt;
+&lt;p&gt;如果消息不满意，我们就可以修改前面的提示词，再次生成周报，直到满意为止。&lt;/p&gt;
+&lt;h2 id=&#34;构建多种通知方式&#34;&gt;构建多种通知方式
+&lt;/h2&gt;&lt;p&gt;有时候我们希望周报不仅仅是发送出来，而是希望多渠道通知，比如提交一份、发给自己一份、同时备份一份， 下面给看看如何实现同时发送多个地方。&lt;/p&gt;
+&lt;p&gt;增加一个 &lt;strong&gt;Edit Fields&lt;/strong&gt; 节点，把周报复制成一个数组，我们设置 length: 4 表示复制成四个：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/935fd067bddbac5a25ee8e6af28436a6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表达式填写如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{{ Array.from({ length: 4 }, (_, i) =&amp;gt; ({ key: i, value: $json.message.content })) }}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;数据转换不会写没关系，只要把你的需求告诉 AI（比如 DeepSeek、OpenAI 等），AI 写好拷贝进来就行。 如果有有流程不会实现，AI 也都会一步步教你。&lt;/p&gt;
+&lt;p&gt;然后增加一个 &lt;strong&gt;Split Out&lt;/strong&gt; 节点，执行拆分逻辑，默认配置即可。&lt;/p&gt;
+&lt;p&gt;增加一个 &lt;strong&gt;Switch&lt;/strong&gt; 节点，设置数组不同的逻辑，Switch 节点配合如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/aab2e4e363b462357794fd45b7707771.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到 Switch 节点后面有多个四个分支，每个分支都是一个新的消息，后续连接自己的逻辑即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/884ebf9ea9676672764f08e53df6c977.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个飞书发给自己&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个 HTTP 发送给企业微信&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个有邮件发送，汇报给领导&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;• 一个存储在数据库，以便我们你以后统计用&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f2995959afe900f571c0e2023ed2ad2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;发送邮件需要配置 SMTP 信息，和邮件客户端配置类似，大家自行配置即可。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;查找社区节点&#34;&gt;查找社区节点
+&lt;/h3&gt;&lt;p&gt;如果默认节点不满足你的需求，不用去百度找（效率太低），官方网站上都可以搜索到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;• 
+&lt;a class=&#34;link&#34; href=&#34;https://community.n8n.io/[5]&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://community.n8n.io/[5]&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f727ca4e14350a14f2a8ac941d541973.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;完整的流程如下，一条直线：最后 Switch 一下，我为了看着方便，换了行展示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ee2fd39cd407641062fca0bd4963dac6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;限于篇幅文章开始方案中的每周自动流传任务我们放到下一篇讲。&lt;/p&gt;
+&lt;h4 id=&#34;引用链接&#34;&gt;引用链接
+&lt;/h4&gt;&lt;p&gt;[1] 如何创建企业应用: https://open.feishu.cn/document/develop-process/self-built-application-development-process
+[2] 如何获取应用访问凭证: https://open.feishu.cn/document/server-docs/api-call-guide/calling-process/get-access-token?lang=zh-CN
+[3] 如何安装社区节点: https://docs.n8n.io/integrations/community-nodes/installation/
+[4] 如何获取用户OpenID: https://open.feishu.cn/document/faq/trouble-shooting/how-to-obtain-openid?lang=zh-CN
+[5]: https://community.n8n.io/&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>NAS &#43; AI工作流：绿联私有云N8N工作流使用初探，自动生成工作日报</title>
+        <link>https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/</link>
+        <pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/nas--ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%BB%BF%E8%81%94%E7%A7%81%E6%9C%89%E4%BA%91n8n%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%97%A5%E6%8A%A5/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: 介绍了在绿联NAS上部署n8n AI工作流，实现日报、周报自动生成的方法。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点2&lt;/strong&gt;: 分享了n8n的基础配置，包括激活社区永久免费版和安装社区节点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点3&lt;/strong&gt;: 详细讲解了如何自定义工作流，包括同步资料、利用AI插件生成日报/周报总结，以及n8n新手排坑指南。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  可爱的小Cherry可爱的小Cherry 2025-05-10 08:30&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c61fb35519aae82535f732c8e1303e31.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;项目均来源互联网，如有侵权，后台私信联系删除&lt;/p&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;关于 NAS + AI 的玩法，我之前已经分享过好几篇，尤其是针对绿联NAS，其自带的AI Plugins应用充分调用了 GPU的加速，满足dxp 4800 plus以上设备 14b小模型的日常使用。&lt;/p&gt;
+&lt;p&gt;但是 AI ，说到底还只是一个工具而已，如何运用 AI 发挥出更大的工作成效，帮助我们增加工作、生活的便利，才是最重要的。&lt;/p&gt;
+&lt;p&gt;这段时间，我一直在研究 AI 工作流这个新玩具，从dify、openwebui，到扣子空间，最终以本地部署&lt;strong&gt;n8n&lt;/strong&gt;
+作为了我的最终工作流工具，并且实现了日报、周报的自动生成！&lt;/p&gt;
+&lt;p&gt;所以这篇文章，我就把我关于在绿联NAS上部署 AI 工作流，以及日报、周报生成的模型做一个分享！&lt;/p&gt;
+&lt;p&gt;AI 工作流，顾名思义，就是将 AI 运作到一个固定模式的工作流程中。它其实是一种低代码拼搭 + 自动化的结合工具，为不懂代码，但是有想法的用户提供了很多自动化的实现路径。&lt;/p&gt;
+&lt;p&gt;n8n是一款很火的原生 AI 工作流自动化平台，在github上拥有87k star。它将可视化构建与自定义代码、自托管或云、400+ 集成相结合，支持目前很火的mcp服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0ce0c95afdedc899060c79de676ed3b2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901075416.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;部署n8n&#34;&gt;部署n8n
+&lt;/h2&gt;&lt;p&gt;🔻n8n的部署很简单，下列是项目的yaml文件，其中我们只需要根据自己的想法，修改ports左侧的地址就行了。&lt;/p&gt;
+&lt;p&gt;在environment环境变量中，我增加了2个Proxy的变量，主要是为了解决容器内链接各式各样国外服务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;container_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 根据自己的要求修改左侧端口&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;m&#34;&gt;35678&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5678&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 必须使用docker volume，否则有权限问题&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;n8n_data:/home/node/.n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 该变量解决http访问，否则需要代理https地址&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;N8N_SECURE_COOKIE=false&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;GENERIC_TIMEZONE=Asia/Shanghai&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 下面两个是你自己的代理地址&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;HTTP_PROXY=http://192.168.0.1:7890&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;HTTPS_PROXY=http://192.168.0.1:7890&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;docker.n8n.io/n8nio/n8n&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;n8n_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;🔻使用绿联私有云自带的Docker应用，选择&lt;strong&gt;项目-创建项目&lt;/strong&gt;，将yaml代码复制进去部署。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/babedf20b6820ee59f5fab1b456f3b99.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901932029.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;🔻该镜像仓库地址国内可直连，所以能直接下载镜像使用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/803faf0f064cc339e67780f2fb797ee5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745901999868.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;n8n基础配置&#34;&gt;n8n基础配置
+&lt;/h2&gt;&lt;h3 id=&#34;激活社区永久免费版&#34;&gt;激活社区永久免费版
+&lt;/h3&gt;&lt;p&gt;首次登录，自行配置管理员账号密码，这里的电子邮件请&lt;strong&gt;填写真实电子邮件&lt;/strong&gt;，后续用来接收n8n的&lt;strong&gt;社区更新日志&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/89adc63f13c83d78671dd40cade9cd3d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728748295.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录系统以后，会要求填写社区需求，随便填写一下就行了，这里没有太多讲究。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/565c914b918f71ebe896f56b566bc557.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728814341.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接着，系统会提供社区&lt;strong&gt;永久免费的激活密钥&lt;/strong&gt;，下面填写我们的接收邮箱，以获取许可证密钥。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bc78e907560852da3da41d6dd87569dd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728834223.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;将邮件里获取到的验证码，填入Plan中，就可以永久激活了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e36ee28a9e910cd915111e16899364ad.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745728967773.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装社区节点&#34;&gt;安装社区节点
+&lt;/h3&gt;&lt;p&gt;在n8n工作流中，拥有众多的社区节点，可以理解为社区服务，这些工具可以让我们更便利的使用n8n。&lt;/p&gt;
+&lt;p&gt;🔻按图示顺序，选择安装社区节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/27ccb99a4059bf846067a7377fb24817.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745729062622.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;🔻我这里提供了我常用的几个节点，核心的插件是MCP。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 飞书精简版工具&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n8n-nodes-feishu-lite  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# MCP社区节点&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n8n-nodes-mcp 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;🔻下面是我在用的一些服务，包括之前介绍过的tudo工具，planka，可以结合起来玩。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/175d882d473c279450d4ef64eab7a52a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745903778613.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;自动日报工作流&#34;&gt;自动日报工作流
+&lt;/h2&gt;&lt;p&gt;这里首先要说明一下，任意工作流都是需要数据源的，AI 不可能凭空给我们生成日报/周报。&lt;/p&gt;
+&lt;p&gt;我的日常工作主要督促项目进度，重点在于项目文档的编制、分类、汇总。主要表现在催促同事A交文档，催同事B交材料，然后自己进行汇总、分类等等。因此我的日报、周报内容，主要围绕的是项目进度、文档进度，以及里程碑内容的完成情况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;⭐最终成效：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1️⃣&lt;/strong&gt;
+ 工作流每天下午16:00，根据日期生成次日的空文件夹，用于存放资料。
+&lt;strong&gt;2️⃣&lt;/strong&gt;
+ 工作流每天下午16:30，读取当日的文件夹，解析word并生成日报。
+&lt;strong&gt;3️⃣&lt;/strong&gt;
+ 工作流在完成日报书写后，将日报同步到电脑端，然后我手动修改一下。&lt;/p&gt;
+&lt;h3 id=&#34;同步资料&#34;&gt;同步资料
+&lt;/h3&gt;&lt;p&gt;那么如何做呢？第一步，就是完成PC到NAS的数据同步，利用绿联NAS的&lt;strong&gt;同步与备份&lt;/strong&gt;工具，将我电脑里的文档同步到NAS端（这个路径就是我们刚才配置到n8n容器内的路径）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cbcd1dcac5d587ea120582f260530077.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745903924381.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;为了让AI更准确的写日报、周报，我们要通过高级设置，过滤掉无用的文件，确保只有.doc，.docx等文档被同步进来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f1c989c479aeafa0d08fce48bf3e6093.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745904448669.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;自定义工作流&#34;&gt;自定义工作流
+&lt;/h3&gt;&lt;p&gt;由于每个人的工作流都不同，要结合实际去操作，这里就展示大致的思路：&lt;/p&gt;
+&lt;p&gt;1.N8N 工作流——每天定时执行任务，根据日期读取文件，并且生成次日文件。&lt;/p&gt;
+&lt;p&gt;2.每天把汇总的材料丢到当日的文件夹中。&lt;/p&gt;
+&lt;p&gt;3.利用绿联私有云同步任务，将当日文件夹同步到绿联私有云中。&lt;/p&gt;
+&lt;p&gt;4.N8N 工作流——从绿联私有云FTP获取实时同步的资料&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/06c0adafdb29cb44fe21f5138ef0b67d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745909601800.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;5.遍历FTP文件，根据日期获取自动下载同步的资料&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a190347209c82f88a4c37bda39820d69.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1745909922262.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;6.循环所有文件，解析Word的文字内容&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34591c65d14fa3662ff6287695ba10a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746290933754.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;7.通过 AI / Mcp等插件，提炼、总结word中的内容，并生成日报/周报总结&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/30bcef480ccc65bf68d2505454ea9fec.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746291021271.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;8.将生成的文档合并，形成txt文件，并上传到绿联私有云FTP&lt;/p&gt;
+&lt;p&gt;9.通过绿联私有云的同步任务，将日报/周报同步回电脑端&lt;/p&gt;
+&lt;p&gt;🔻下面是我最终的工作流：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a5596fd7ab927f9cdd7ea6bfda25768a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746287852273.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;n8n新手排坑指南&#34;&gt;n8n新手排坑指南
+&lt;/h3&gt;&lt;p&gt;在N8N工作流制作中，有很多坑点，这里分享一下自己的经验。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1️⃣循环&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先N8N工作流中，是内置了循环指令的，这一点和我们常用的代码循环是不一样的。比如从FTP下载获取列表后，我们只需要配置从FTP下载文件即可，工作流会自动遍历所有文件并下载。&lt;/p&gt;
+&lt;p&gt;但是在N8N中，还是有一个FOR循环指令，这个目的是实现&lt;strong&gt;NxM的循环&lt;/strong&gt; 以及 &lt;strong&gt;内循环&lt;/strong&gt;。简单的说，就是需要逐条去执行循环内的一整套流程。&lt;/p&gt;
+&lt;p&gt;比如在我的工作流中，有一个解压缩的指令，用于解压word文件，这个指令在循环后只会执行一次。因此我们需要将循环设置成单条循环，确保每一个word文件都可以被解压缩。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1305f22915aca3e19b67408e9d594ef5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362446072.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2️⃣解析word文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;第二个坑点，是N8N暂时不支持直接读取DOCX文件的，这导致国内以word为工作载体的工作方式玩不转了！&lt;/p&gt;
+&lt;p&gt;我搜索了一些资料，找到了三种方案来解决：
+&lt;strong&gt;第一种&lt;/strong&gt;就是通过pandoc来转换，但是需要手动修改dockerfile，比较麻烦；
+&lt;strong&gt;第二种&lt;/strong&gt;是通过Google OneDrive 和 Google Doc来转换，但是这个需要配置API，并且通过程序认证，及时性太低；
+&lt;strong&gt;第三种&lt;/strong&gt;是通过unzip指令解压word文件，然后读取word/document.xml文件来获取word文件内容，并且通过多次解析转换以读取文件。&lt;/p&gt;
+&lt;p&gt;我在尝试过之后，使用了第三种方法，这种方法可操作性最强，也不需要额外配置任何东西，唯一的缺点就是记得删除解压后的文件，否则遍历会卡住。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5aa36ebf1960ecd9acfa507d0421be15.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362656850.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3️⃣自定义代码块&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;自定义代码块支持 PY 和 JS 脚本，这就让整个工作流的可操作性增加了很多，无论是爬虫、解析还是脚本任务。&lt;/p&gt;
+&lt;p&gt;我这里使用了官方提供的解析word的xml文档的js脚本，将xml中的文本拼凑起来，生成类似word下的效果。&lt;/p&gt;
+&lt;p&gt;而在爬虫类工作流下，则可以通过py来处理爬虫信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b6e90775a7330155952ca39f80c445e8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;QQ_1746362680243.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;在AI 越来越强大的现在，如N8N、Dify等支持Docker自托管部署的 AI 工作流工具，也让低代码开发成为每个人都可以轻松掌握的技能。&lt;/p&gt;
+&lt;p&gt;在这种趋势下，NAS 7 x24开机的优势，和 AI API 无需本地硬件的特征，让 NAS + AI 的组合可以帮助我们完成很多日常工作中的重复劳动。这也是为什么，以绿联私有云为例，越来越多的 NAS 将 AI 控制台或 AI 工具融入到了应用中心里的根本原因。&lt;/p&gt;
+&lt;p&gt;如果你的工作中有很多重复劳动，并且可以通过代码或者脚本代替的，那赶快来试一试N8N之类的AI工作流平台，释放本职工作，把更多的时间用于副业、外快！！&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>建议大家尽早开始搭建个人知识库</title>
+        <link>https://ai.programnotes.cn/p/%E5%BB%BA%E8%AE%AE%E5%A4%A7%E5%AE%B6%E5%B0%BD%E6%97%A9%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/</link>
+        <pubDate>Tue, 25 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BB%BA%E8%AE%AE%E5%A4%A7%E5%AE%B6%E5%B0%BD%E6%97%A9%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;介绍了利用AI技术搭建个人知识库的重要性，以应对信息过载。&lt;/li&gt;
+&lt;li&gt;详细阐述了AI时代书签管理的四步进化论，包括自动化采集、动态分类、深度整合和智能代谢。&lt;/li&gt;
+&lt;li&gt;推荐使用Cherry Studio搭建知识库，并介绍了其核心竞争优势和行业应用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  寒暄  IT技术小屋   2025-02-25 08:08&lt;/p&gt;
+&lt;h2 id=&#34;前言当信息过载遭遇ai革命&#34;&gt;前言：当信息过载遭遇AI革命
+&lt;/h2&gt;&lt;p&gt;97.3%的人正在经历「数据肥胖症」 每天人均接收信息量高达34GB，但有效转化率不足0.7%。斯坦福研究显示：那些能驾驭AI的5%精英群体，知识复用效率是常人的23倍。&lt;/p&gt;
+&lt;p&gt;真正的危机不是AI替代人类，而是人类沦为AI的数据附庸 我们正站在认知革命的临界点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;初级思维：&lt;/strong&gt;&lt;br&gt;
+信息收集 → 手动整理 → 随机调用（效率天花板：200卡路里/小时）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进化思维：&lt;/strong&gt;&lt;br&gt;
+AI采集 → 智能加工 → 强化外脑（效率爆发点：20000卡路里/小时）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;浏览器书签的逆袭从数字坟场到知识金矿的ai改造指南&#34;&gt;浏览器书签的逆袭：从「数字坟场」到「知识金矿」的AI改造指南
+&lt;/h2&gt;&lt;p&gt;或许我们大家每天都在进行海量的知识搜索，也在年复一年的把浏览器中优质的内容添加到书签当中，可是等到下次遇到相同的问题依然会去使用搜索引擎，或者使用AI工具进行搜索，我们保存在浏览器中成千上万的书签，能利用到的可能都不足3%。在大模型磅礴发展的今天，信息腐烂在手里是相当可怕的事情，我们应该想办法重复利用这些花时间和精力收集的知识。&lt;/p&gt;
+&lt;h3 id=&#34;ai时代书签管理四步进化论&#34;&gt;AI时代书签管理四步进化论
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Step 1 自动化采集：告别手动保存&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;工具方案：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Raindrop.io 自动同步浏览器/移动端书签&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Omnivore 实现「稍后读+AI摘要」一体化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AI增强点：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 自动提取关键信息  def process_bookmark(url):      提取网页正文     → GPT生成3要点摘要 → 打上智能标签  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Step 2 动态分类：超越文件夹思维&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;三维分类体系：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1. 领域维度：#市场营销 #AI  2. 价值维度：⭐核心参考/⚡前沿动态/📁历史存档  3. 形态维度：📄报告/🎥视频/💻工具 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;智能打标：用ChatGPT分析内容自动生成标签（如#AIGC-视频生成）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Step 3 深度整合：打通知识孤岛&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;双向链接策略：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在Obsidian/Logseq中通过[[ ]]关联书签与本地笔记 -示例：[[消费者行为分析报告]]→关联相关书签 +会议纪要+用户调研数据[[消费者行为分析报告]]→关联相关书签+会议纪要+用户调研数据&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Step 4 智能代谢：对抗信息熵增&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;自动化保鲜系统：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每周检查链接有效性（使用LinkChecker）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每月用GPT评估内容时效性（如标注「2023年前营销策略已过时」）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;季度性归档低价值书签（基于点击率+关联笔记数量）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2024书签管理工具箱&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5044f21ffda439364b721db60677635a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;使用cherry-studio喂数据搭建知识库&#34;&gt;使用Cherry Studio喂数据搭建知识库
+&lt;/h2&gt;&lt;h3 id=&#34;什么是cherry-studio&#34;&gt;什么是Cherry Studio
+&lt;/h3&gt;&lt;p&gt;Cherry Studio 是由国内开发者打造的开源多模态AI开发平台，在GitHub斩获 5.7k 星标认证。该平台通过可视化界面实现AI应用全流程开发，特别针对中文开发者优化，提供从模型管理、知识库构建到智能体部署的一站式解决方案，已成为技术社区炙手可热的新星。&lt;/p&gt;
+&lt;h3 id=&#34;核心竞争优势解析&#34;&gt;核心竞争优势解析
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;安全可信架构&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;全栈开源：Apache 2.0协议保障代码透明性&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;本地化部署：支持私有云/本地服务器部署方案&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据隔离机制：企业级知识库实现物理级隔离&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开发者友好设计&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;中文文档体系：从安装指南到API文档全覆盖&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;低代码配置：拖拽式界面+预置模板库&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;智能调试工具：内置prompt调试沙箱&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;全场景AI能力矩阵&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;多模态引擎：集成文本生成、图像合成、智能搜索&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;扩展式架构：支持30+主流模型服务商接入&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;智能体工厂：基于知识库的自动化工作流构建&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;行业应用标杆&#34;&gt;行业应用标杆
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;作为华为硅基流动平台指定工具，Cherry Studio已成功应用于：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;制造业：设备知识库构建与故障诊断系统&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;金融业：合规文档智能检索与风险预警&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;教育行业：教学资源库与智能助教系统&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;【技术选型建议】&lt;br&gt;
+对于需要构建本地化智能知识系统的企业，Cherry Studio&lt;br&gt;
+凭借其开箱即用的中文支持、灵活的本地部署方案以及企业级安全特性，相较AnythingLLM&lt;br&gt;
+等同类工具展现出显著优势。其创新的文件夹直连功能，支持实时同步本地文档库，是构建私有知识中枢的理想选择。&lt;/p&gt;
+&lt;h3 id=&#34;选择模型&#34;&gt;选择模型
+&lt;/h3&gt;&lt;p&gt;先打开设置面板&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/567341f9e47dd8f536c8c07539620e8e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在模型选择上，除了本地的 ollama 以外，其他我全部都不勾选。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cfb16d4768daaee31a2af48416e4cedf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;添加模型&#34;&gt;添加模型
+&lt;/h3&gt;&lt;p&gt;如果这里你在 ollama 中添加了多个模型，这里也会显示多个模型&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6c9db83761f889a8dd4ade174bd1bf91.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Cherry Studio的个人知识库也非常好用，下面是配置个人知识库的过程。&lt;/p&gt;
+&lt;p&gt;首先点击知识库，添加一个知识库。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b0e8a4c2c9e10a83992ceea32f49b6ea.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上传文件和设置网站&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/613886a871a0ae786604fa24f92dda5e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后回到对话窗口，创建一个“AI学习助手”，右键选择“编辑助手”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e3489317ab0c81d591bccfb64426a31f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;先配置“模型设置”，选择 DeepSeek R1 ，然后点击“知识库设置”，选择刚才创建的知识库。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fe050fc431cd21d9dd81029c1be815c9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置完成后，我们就可以问他问题了，比如我问 “DeepSeek赋能职场”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/75a1949bdf552d0b485c55ed8aa3b208.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;当GPT-5 的参数规模突破百万亿级，个人竞争力的护城河不再是知识储量，而是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如何将AI转化为认知增强器官&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如何让经验数据产生复利价值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如何构建持续进化的数字分身&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b0b0d65a8077fe5fc54ccd945913d458.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzA5ODQ5ODgxOQ==&amp;amp;mid=2247485908&amp;amp;idx=1&amp;amp;sn=fe6b212c52969e7e3c69843bff7c3f50&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;清华大学：DeepSeek从入门到精通（2025）&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cherry-ai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cherry Studio官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cherry-ai.com/download&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cherry Studio免费下载&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP客户端|Claude 桌面应用</title>
+        <link>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFclaude-%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/</link>
+        <pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFclaude-%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容点:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过模型上下文协议(MCP)实现与 Claude AI 模型的无缝交互。&lt;/li&gt;
+&lt;li&gt;支持多种高级功能，帮助用户在日常工作中提升效率。&lt;/li&gt;
+&lt;li&gt;可以通过配置 MCP 服务器扩展功能，例如文件操作、数据处理等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一款通过模型上下文协议与 Claude AI 交互的强大桌面应用程序。&lt;/p&gt;
+&lt;p&gt;Claude 桌面应用是 Anthropic 公司推出的官方客户端软件，通过模型上下文协议(MCP)实现与 Claude AI 模型的无缝交互。作为一款功能强大的 AI 助手工具，它不仅提供了原生桌面体验，还支持多种高级功能，帮助用户在日常工作中提升效率。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mcp.programnotes.cn/images/claude-desktop-ui.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Claude Desktop UI&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;核心功能详解&#34;&gt;核心功能详解
+&lt;/h2&gt;&lt;h3 id=&#34;原生桌面体验&#34;&gt;原生桌面体验
+&lt;/h3&gt;&lt;p&gt;Claude 桌面应用针对不同操作系统进行了专门优化，提供了比网页版更加流畅的使用体验：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;键盘快捷键支持&lt;/strong&gt;：提供丰富的快捷键组合，如创建新对话、搜索内容、撤销操作等&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;系统集成&lt;/strong&gt;：与操作系统深度集成，支持通知推送、剪贴板操作等系统功能&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;离线会话存储&lt;/strong&gt;：对话历史保存在本地，确保数据安全和快速访问&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模型上下文协议mcp支持&#34;&gt;模型上下文协议(MCP)支持
+&lt;/h3&gt;&lt;p&gt;作为 MCP 的官方实现客户端，Claude 桌面应用支持通过协议扩展 AI 的能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;服务器连接&lt;/strong&gt;：可配置连接到各种 MCP 服务器，扩展 Claude 的功能&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具使用&lt;/strong&gt;：支持通过 MCP 协议调用各种工具，如文件系统操作、网络搜索等&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;上下文管理&lt;/strong&gt;：能够有效管理对话上下文，提高模型理解能力&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;多模型支持&#34;&gt;多模型支持
+&lt;/h3&gt;&lt;p&gt;Claude 桌面应用提供对 Anthropic 全系列模型的访问：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Claude 3 Opus&lt;/strong&gt;：最强大的模型，适合复杂推理和创意工作&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Claude 3 Sonnet&lt;/strong&gt;：平衡了性能和速度的模型&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Claude 3 Haiku&lt;/strong&gt;：响应速度最快的模型，适合日常对话&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;文件处理能力&#34;&gt;文件处理能力
+&lt;/h3&gt;&lt;p&gt;Claude 桌面应用支持处理多种文件格式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;文档阅读&lt;/strong&gt;：支持 PDF、Word、Excel 等文档的上传和分析&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;图像处理&lt;/strong&gt;：能够理解和描述上传的图片内容&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码分析&lt;/strong&gt;：支持多种编程语言的代码理解和优化&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;批量处理&lt;/strong&gt;：可以同时上传多个文件进行分析&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;安装与设置指南&#34;&gt;安装与设置指南
+&lt;/h2&gt;&lt;h3 id=&#34;下载与安装&#34;&gt;下载与安装
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;访问&lt;a class=&#34;link&#34; href=&#34;https://claude.ai/download&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方下载页面&lt;/a&gt;获取安装程序&lt;/li&gt;
+&lt;li&gt;根据您的操作系统选择相应版本：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Windows&lt;/strong&gt;：下载并运行.exe 安装文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;macOS&lt;/strong&gt;：下载.dmg 文件，将应用拖到应用程序文件夹&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;首次启动时，按照向导完成账号登录和初始设置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置-mcp-服务器&#34;&gt;配置 MCP 服务器
+&lt;/h3&gt;&lt;p&gt;Claude 桌面应用的独特优势在于可以通过配置 MCP 服务器扩展功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开 Claude 菜单并选择&amp;quot;设置&amp;quot;&lt;/li&gt;
+&lt;li&gt;在设置面板左侧选择&amp;quot;开发者&amp;quot;&lt;/li&gt;
+&lt;li&gt;点击&amp;quot;编辑配置&amp;quot;打开配置文件&lt;/li&gt;
+&lt;li&gt;配置文件位置：
+&lt;ul&gt;
+&lt;li&gt;macOS: &lt;code&gt;~/Library/Application Support/Claude/claude_desktop_config.json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Windows: &lt;code&gt;%APPDATA%\Claude\claude_desktop_config.json&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;文件系统服务器示例配置&#34;&gt;文件系统服务器示例配置
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;filesystem&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;npx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;-y&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;@modelcontextprotocol/server-filesystem&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/用户名/桌面&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/用户名/下载&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;配置完成后重启 Claude 桌面应用，您将在输入框右下角看到工具图标，表示服务器已连接成功。&lt;/p&gt;
+&lt;h2 id=&#34;高级使用技巧&#34;&gt;高级使用技巧
+&lt;/h2&gt;&lt;h3 id=&#34;工具调用&#34;&gt;工具调用
+&lt;/h3&gt;&lt;p&gt;启用 MCP 服务器后，Claude 可以执行各种操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;文件操作&lt;/strong&gt;：阅读、创建、移动或删除文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件搜索&lt;/strong&gt;：在指定目录中查找特定文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码生成&lt;/strong&gt;：直接将生成的代码保存到文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据处理&lt;/strong&gt;：分析本地文件中的数据并生成报告&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;每次工具调用前，Claude 都会请求您的确认，确保安全性。&lt;/p&gt;
+&lt;h3 id=&#34;会话管理&#34;&gt;会话管理
+&lt;/h3&gt;&lt;p&gt;Claude 桌面应用提供了高效的会话管理功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;多会话支持&lt;/strong&gt;：同时维护多个独立对话&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;会话导出&lt;/strong&gt;：将对话内容导出为多种格式&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;历史搜索&lt;/strong&gt;：快速检索历史对话内容&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;会话继续&lt;/strong&gt;：随时恢复之前的对话上下文&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;快捷键优化&#34;&gt;快捷键优化
+&lt;/h3&gt;&lt;p&gt;掌握以下快捷键可提高使用效率：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Ctrl+N&lt;/strong&gt;：创建新对话&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ctrl+S&lt;/strong&gt;：保存当前对话&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ctrl+F&lt;/strong&gt;：搜索对话内容&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ctrl+Z&lt;/strong&gt;：撤销上一步操作&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ctrl+/+?&lt;/strong&gt;：显示快捷键帮助&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;应用场景示例&#34;&gt;应用场景示例
+&lt;/h2&gt;&lt;h3 id=&#34;开发辅助&#34;&gt;开发辅助
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;代码审查与优化&lt;/li&gt;
+&lt;li&gt;API 文档生成&lt;/li&gt;
+&lt;li&gt;调试问题分析&lt;/li&gt;
+&lt;li&gt;项目架构设计&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;内容创作&#34;&gt;内容创作
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;文章撰写与编辑&lt;/li&gt;
+&lt;li&gt;创意构思与头脑风暴&lt;/li&gt;
+&lt;li&gt;内容翻译与本地化&lt;/li&gt;
+&lt;li&gt;市场文案创作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;数据分析&#34;&gt;数据分析
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;本地数据文件分析&lt;/li&gt;
+&lt;li&gt;数据可视化建议&lt;/li&gt;
+&lt;li&gt;报告生成与总结&lt;/li&gt;
+&lt;li&gt;数据洞察提取&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;学习辅助&#34;&gt;学习辅助
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;概念解释与学习辅导&lt;/li&gt;
+&lt;li&gt;研究材料总结&lt;/li&gt;
+&lt;li&gt;学习计划制定&lt;/li&gt;
+&lt;li&gt;知识图谱构建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;系统要求&#34;&gt;系统要求
+&lt;/h2&gt;&lt;h3 id=&#34;windows&#34;&gt;Windows
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Windows 10 或更新版本（64 位）&lt;/li&gt;
+&lt;li&gt;4GB RAM（推荐 8GB 以上）&lt;/li&gt;
+&lt;li&gt;500MB 可用存储空间&lt;/li&gt;
+&lt;li&gt;宽带网络连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;macos&#34;&gt;macOS
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;macOS 11 (Big Sur) 或更新版本&lt;/li&gt;
+&lt;li&gt;4GB RAM（推荐 8GB 以上）&lt;/li&gt;
+&lt;li&gt;500MB 可用存储空间&lt;/li&gt;
+&lt;li&gt;宽带网络连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;开发环境要求用于-mcp-服务器&#34;&gt;开发环境要求（用于 MCP 服务器）
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Node.js 环境&lt;/li&gt;
+&lt;li&gt;NPM 包管理器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语
+&lt;/h2&gt;&lt;p&gt;Claude 桌面应用通过实现模型上下文协议，将 AI 助手能力与本地系统无缝集成，为用户提供了一个功能强大且灵活的智能助手工具。无论是日常工作、开发编程还是创意写作，它都能显著提升效率和体验。通过合理配置和使用 MCP 服务器，您可以根据自己的需求进一步扩展 Claude 的能力，创造更多可能性。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
