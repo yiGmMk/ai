@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /home/xwb/code/doc/ai/.venv/bin/activate
+source /home/xwb/code/doc/ai/.env
+
 # Get the absolute path to the directory containing the script
 script_dir=$(dirname "$(readlink -f "$0")")
 
