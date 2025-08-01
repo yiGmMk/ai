@@ -1,0 +1,1748 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Serverless on AI</title>
+        <link>https://ai.programnotes.cn/tags/serverless/</link>
+        <description>Recent content in Serverless on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/serverless/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</title>
+        <link>https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/</link>
+        <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" alt="Featured image of post MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配" /&gt;&lt;p&gt;核心内容点1: MCP协议解析，包括STDIO和SSE两种传输方式的比较。
+核心内容点2: 函数计算平台作为MCP Server的优势，解决分布式系统复杂性、资源限制和安全挑战。
+核心内容点3:  MCP技术演进方向预测，包括协议架构升级、通用性扩展、新交互模式和生态系统扩展。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 西流  Serverless   2025-04-27 18:02&lt;/p&gt;
+&lt;p&gt;在人工智能技术高速发展的今天，数据孤岛、工具碎片化、上下文割裂问题已成为制约大模型发挥潜力的关键瓶颈。Model Context Protocol（MCP）作为 Anthropic 于 2024 年推出的开源协议，正引领着 AI 与数据交互的标准化进程。MCP 通过构建 Client-Server 架构，将大型语言模型（LLM）与分散的垂类数据源无缝连接，不仅解决了传统开发中&amp;quot;一事一议&amp;quot;的高成本难题，更通过 JSON-RPC 通信机制实现了跨平台互操作。其创新性体现在工具（Tools）、资源（Resources）、提示（Prompts）等五大核心原语的设计，使得 AI 应用既能安全访问本地数据库，又可灵活调用云端 API。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;作为 AI 领域的&amp;quot;USB-C 接口&amp;quot;，MCP 正重构智能系统与数字世界的连接方式，为下一代自主智能体的发展奠定技术基石。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;然而 MCP Server 在真实部署中面临分布式系统复杂性、资源限制（如连接池/超时控制）及长连接身份验证等安全挑战。函数计算平台通过协议原生支持与架构级优化（如自动扩缩容、会话持久化机制），系统性化解技术痛点，成为承载 MCP Server 的理想计算底座。 &lt;br&gt;
+本系列将从技术原理到实战场景，深入解析函数计算如何攻克上述难题——本文作为开篇，将揭示 MCP 协议深度解析和云上最佳适配。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f106fa3b49058bdffcdf84db7dfc4af.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片,MCP Timeline&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-mcp&#34;&gt;&lt;strong&gt;什么是 MCP?&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP Clearly Explained [1]&lt;/p&gt;
+&lt;p&gt;MCP 引入堪称 AI 协作的 USB-C 接口，其建立了通用的数据交互标准，数据提供者可以通过 MCP 服务器向 AI 系统提供结构化信息，而 AI 系统则可通过 MCP 客户端高效访问这些信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Host（如 Claude Desktop、Cursor IDE、Cline）可视作一个 AI Agent，通过 LLM 实现意图解析与任务编排，协调 MCP Server 执行原子化子任务，同时维护全生命周期对话管理，是整个系统的启动入口。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Server 提供特定功能（工具、数据访问、领域提示）的外部程序，连接到 Google Drive、Github、数据库和 Web 浏览器等各种数据源），就像工具箱中的工具，每个服务器都专注于特定任务，这种设计使得在不破坏整个系统的情况下，可以轻松地替换或升级单个组件，能让大模型能很好地理解工具的功能范围及使用方法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 是 MCP Host 引用的中间件，负责与 MCP Server 建立连接，处理STDIO/SSE 等&lt;br&gt;
+通信协议、消息格式化和状态管理，确保人工智能模型与服务器之间进行可靠且安全的通信。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 协议已经成为大语言模型（LLM）生态系统中不可或缺的核心组件，其解决了流式响应、实时交互、工具调用等场景中的众多技术挑战：&lt;/p&gt;
+&lt;p&gt;a.流式传输优先：采用增量传输而非整体响应&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;b. 协议一致性&lt;/strong&gt; ：保证不同模型实现间的互操作性&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;c. 低延迟高效率&lt;/strong&gt;：最小化传输开销和响应时间&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;d. 可扩展性&lt;/strong&gt;：支持未来新功能的无缝集成&lt;/p&gt;
+&lt;h2 id=&#34;mcp-协议解析&#34;&gt;&lt;strong&gt;MCP 协议解析&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;01 生命周期&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66348da8788c0eeccccf977af0df6e06.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP LifyCycle [2]&lt;/p&gt;
+&lt;p&gt;02 传输方式&lt;/p&gt;
+&lt;p&gt;MCP 使用 JSON-RPC 来编码消息。JSON-RPC 消息必须使用 UTF-8 编码，协议目前定义了两种用于客户端-服务器通信的标准传输机制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;STDIO，通过标准输入和标准输出进行通信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;SSE,HTTP 与服务器发送事件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;STDIO&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[客户端] → stdin请求 → [MCP服务器] → stdout响应 → [客户端]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;STDIO（标准输入输出）是 MCP 协议在本地或容器化环境中的主要实现方式。在技术层面，其工作原理如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;- 进程间通信机制&lt;/strong&gt;  ：MCP 利用操作系统提供的标准 IO 流（文件描述符 0 [stdin]、1 [stdout]）在进程间传递数据&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JSON 序列化&lt;/strong&gt; ：消息以 JSON 格式序列化，每行一个完整的 JSON 对象&lt;/p&gt;
+&lt;p&gt;在本地计算环境或容器化部署场景中，基于 STDIO 的实现通常会被打包为独立的二进制可执行文件。不同技术栈的实现形态各具特色：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Node.js 生态通常通过 npx 提供，例如 &amp;ldquo;npx -y  @amap/amap-maps-mcp-server&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python 生态则以 uvx 提供,  例如 &amp;ldquo;uvx mcp-server-time &amp;ndash;local-timezone=Asia/Shanghai&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种交付方式不仅简化了部署流程，还显著降低了环境依赖和配置的复杂性，使得跨平台部署变得极其轻量和高效。STDIO 以 JSON 行（JSON Lines/JSONL）格式进行通信，一个典型的交互流程如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;initialize&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;protocolVersion&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2024-11-05&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;capabilities&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;sampling&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;roots&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;listChanged&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:true}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;clientInfo&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;mcp-inspector&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;0.7.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.505Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;npm run build-server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.530Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt; @modelcontextprotocol/server-filesystem@0.6.2 build-server&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;gt; webpack --config webpack.config.js --env target=server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.707Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;asset index.js 286 KiB [compared for emit] (name: main) 1 related asset&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;orphan modules 288 KiB [orphan] 48 modules&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;./server.ts + 47 modules 291 KiB [not cacheable] [built] [code generated]&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;webpack 5.98.0 compiled successfully in 618 ms&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.007Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;node dist/server/index.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.017Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;start server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.053Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;protocolVersion&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2024-11-05&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;capabilities&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;serverInfo&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;example-server&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;-0.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.056Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;notifications/initialized&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.064Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools/list&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:2-855Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;calc ohyee&amp;#39;s add a and b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;inputSchema&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;object&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;properties&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;required&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;additionalProperties&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:false,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;$schema&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;http://json-schema.org/draft-07/schema#&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}}]},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:2-858Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools/call&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;_meta&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;progressToken&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2}}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.869Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;get 1 + 2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.873Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}]},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.873Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;interrupt&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Process interrupted by user&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:42.514Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;TIPS：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;开发 STDIO MCP Server 期间,  将调试日志打印到文件描述符 2 [stderr] 是一个不错的实践。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SSE&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                HTTP POST请求
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              ↗---------------→
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[客户端]                            [MCP服务器]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              ↖-----------------↙
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                 SSE事件流推送
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;SSE（Server-Sent Events）是 MCP 在网络环境中的主要实现技术，尤其适合云服务和远程 API 调用场景。其技术实现细节包括：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;- HTTP 长连接&lt;/strong&gt; ：SSE 建立在 HTTP/-1 或 HTTP/2 协议之上，使用 Content-Type: text/event-stream头&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 增量数据传输&lt;/strong&gt; ：服务器按照 SSE 格式推送事件数据，每个事件以 data: &lt;br&gt;
+前缀标识&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 事件解析&lt;/strong&gt;：客户端使用 EventSourceAPI 或兼容库自动解析事件流&lt;/p&gt;
+&lt;p&gt;一个最简单的典型 MCP SSE 请求时序图如下： &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/47a73e98fc5b44cd7e97dbf15aafc51d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP SSE 请求时序图&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Client 发起一个 GET 请求，建立了一个 SSE 长连接&lt;br&gt;
+ &lt;strong&gt;[Connection1]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Server 回复 path 以及 sessionId**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client 使用2 中 path 及 sessionId发起 initialize HTTP POST 请求 &lt;strong&gt;[Connection2]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client 发送包含协议版本和能力的 initialize请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无 body &lt;strong&gt;[Connection2]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 3 请求的响应真正的 message**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Server 以其协议版本和能力响应&lt;/strong&gt;&lt;/p&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;Client 使用2 中 path 及 sessionId  发起 initialized HTTP POST 请求作为确认 &lt;strong&gt;[Connection3]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection3]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client使用2 中 path 及 sessionId 发起 list tools HTTP POST 请求 &lt;strong&gt;[Connection4]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection4]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 8 请求的响应真正的 message，即工具列表**[Connection1]**
+1- Client使用 2 中 path 及 sessionId 发起 call tool HTTP POST 请求 &lt;strong&gt;[Connection5]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection5]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 11 请求的响应真正的 message，即工具调用结果**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;接下来，我们可以通过一个 hello_world MCP Server + curl 工具来完整演示整个流程：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Terminal 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ curl -v http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/sse
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Terminal 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# initialize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{ &amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;id&amp;#34;: 0, &amp;#34;method&amp;#34;: &amp;#34;initialize&amp;#34;, &amp;#34;params&amp;#34;: { &amp;#34;protocolVersion&amp;#34;: &amp;#34;2024-11-05&amp;#34;, &amp;#34;capabilities&amp;#34;: { &amp;#34;roots&amp;#34;: { &amp;#34;listChanged&amp;#34;: true }, &amp;#34;sampling&amp;#34;: {} }, &amp;#34;clientInfo&amp;#34;: { &amp;#34;name&amp;#34;: &amp;#34;ExampleClient&amp;#34;, &amp;#34;version&amp;#34;: &amp;#34;-0.0&amp;#34; } } }&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# initialized&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{ &amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;method&amp;#34;: &amp;#34;notifications/initialized&amp;#34; }&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# list tools&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;id&amp;#34;: 1, &amp;#34;method&amp;#34;: &amp;#34;tools/list&amp;#34;, &amp;#34;params&amp;#34;: {}}&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# call tool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;jsonrpc&amp;#34;:&amp;#34;2.0&amp;#34;,&amp;#34;id&amp;#34;:2,&amp;#34;method&amp;#34;:&amp;#34;tools/call&amp;#34;,&amp;#34;params&amp;#34;:{&amp;#34;name&amp;#34;:&amp;#34;hello_world&amp;#34;,&amp;#34;arguments&amp;#34;:{}}}&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/04873c393a48def35b1e5a1829ca57a0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;从上面的时序图以及一个具体实践的流程看过来，我们可以明显看到 SSE 的优势和不足：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;优势：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;协议轻量化, 基于 HTTP 协议实现，无需复杂握手，兼容现有基础设施，开发成本低&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实时流式推送 ，支持服务器主动推送文本数据（如日志、进度更新），适合长任务交互&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;资源效率高，单连接复用推送&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;不足：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;单向通信限制， 仅支持服务端→客户端推送，需配合 HTTP 请求实现双向交互，这个就要求 SSE 长连接和后续配合该会话的 HTTP 请求必须在同一个 MCP Server 服务实例， 对于 MCP Server 实例需要横向扩展的场景提出了 Session 会话亲和的技术要求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;协议演进趋势 ，  Streamable HTTP 提案 2025.3.17 通过，后者支持动态流式升级与无状态服务，更适应云原生架构&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;TIPS:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重要的事情说三遍，重要的事情说三遍， 重要的事情说三遍&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 端应该为所有请求实现适当的超时，以防止连接挂起和资源耗尽&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 端应该及时释放掉，应防止 MCP Client 端的泄露导致服务端 SSE 长连接数目一直增长消耗服务端资源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;服务端应该设计合理的 Server Timeout 自动清理连接时长明显有问题的 SSE 长连接&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;MCP Proxy&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;鉴于 SSE 协议的配套实现在 2025 年 4 月左右才正式推出， 结合 MCP 时间线，当前市场中存量 MCP Server 绝大部分采用 stdio 传输机制实现,  为了在不改动任何存量 MCP Server 代码的前提下，实现从 stdio 到 SSE 的无缝转换，我们需要提供一个 stdiotosse 的 proxy，通过这一代理层，为 MCP 生态描绘一条平滑、低成本的技术演进路径，确保了协议创新不会给开发者带来额外的迁移负担。&lt;/p&gt;
+&lt;p&gt;MCP Stdio 传输方式和上古 Web 开发 &lt;/p&gt;
+&lt;p&gt;CGI[3](Common Gateway Interface) 程序特别类似，如下图，http client 发送请求到 http server，http server 将 method，header 等信息，body 通过 stdin 传给 CGI 程序，CGI 程序执行动态页面渲染，最后把渲染后的 HTML 页面通过 stdout 返回给 http server,  最后再返回给 client 端&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c48a5d0fdbcad7201de0b50644390a00.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;借助这个思路， 很快就能推导出下面的 proxy 方案：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6c5b1561d502b55a82782885e23043f8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;社区里面也有了相关的轮子，比如热门的supergateway  ,  只要输入如下命令即可实现一个存量的 stdio server 即可转换成 SSE Server&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;supergateway \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --stdio &amp;#34;npx -y @modelcontextprotocol/server-filesystem ./my-folder&amp;#34; \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --port 8000 --baseUrl http://localhost:8000 \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --ssePath /sse --messagePath /message
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Subscribe to events: GET http://localhost:8000/sse&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Send messages: POST http://localhost:8000/message&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;但是这会带来另外一个问题， 承载 SSE 协议的是一个 http server,  天然就需要去支撑一定的并发能力，单个 mcp server stdio process 没有并行处理能力，支持不了一定的并发处理。为此，我们借鉴 CGI 的思想继续推导：PHP 在 Web 领域的实践，使用的是 fastcgi 进程池，如下图中的 FastCGI 进程管理器：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d28a7d11ddc0aeadb8ffd32852fa6def.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;发送到服务器的 Web 请求将被分配给进程池中的 CGI 进程。该 CGI 进程将处理该单个请求。如果同时收到多个请求，则将启动多个 CGI 进程并行处理它们。然而，每个进程一次只能处理一个请求。服务器能够通过对 CGI 进程进行上下文切换来处理并发请求。操作系统调度程序将跟踪所有 CGI 进程，并在需要时切换正在 CPU 上运行的 CGI 进程，以使每个 CGI 进程在需要时都能获得属于自己的、公平的 CPU 时间份额。&lt;/p&gt;
+&lt;p&gt;因此， 将 stdiotosse 的 proxy 设计成如下方案是一个很不错的抉择，通过一个 MCP Server Stdio Process Pool 来提高并行处理能力，从而让前面支持 sse 协议的 http server 有更好的并行并发处理能力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d80d9a514ca1cb5b8aae26855c53a4e5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前我们在supergateway[4] 的基础上， 增加了动态 MCP Server Stdio 进程池的实现，这个进程池的默认初始化值为 1， 最大进程数目为 10，这个两个值可以通过两个环境变量 MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 来设置。MCP Server Stdio 进程池管理流程如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/423d627cc16ead159e96e316be7fd03e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;实现的 diff：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TIPS:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果 MCP Server Stdio Process 是 IO 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调大一些来支持更高的并发处理能力&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果 MCP Server Stdio Process 是 CPU 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调小一些，同时实例 CPU 和内存规格也要按需调大一些&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;并发压测：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Stdio Server 逻辑如 index.ts 所示，latency 为 0.15s ~ 1s 随机， 实例规格为 1C2G&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1a2f53ee4c4a21143ad8a3a7a070ba0b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;压测客户端代码(100 个并发 client， 每次 client 串行执行 3 次, 执行正常  )：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;67
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;68
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;69
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;70
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;71
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;72
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;73
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;74
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;75
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;76
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;77
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;78
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;79
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;80
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;81
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;82
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;83
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;84
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;85
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;86
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sse&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sse_client&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ClientSession&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;basicConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;level&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;INFO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;LoadTestClient&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 控制最大并发数&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;CONCURRENCY_LIMIT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Semaphore&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 根据服务器能力调整&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;robust_client_instance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CONCURRENCY_LIMIT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sse_client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mcp-server-gi-mmqoiftdwm.cn-hangzhou.fcapp.run/sse&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;headers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Authorization&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Bearer YOUR_API_KEY&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;X-Instance-ID&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ConnectionError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;SSE连接失败&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ClientSession&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;read_stream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;write_stream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;initialize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id}; initialize 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wait_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;list_tools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id};list_tools 工具数: {len(r.tools)}; 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;c1&#34;&gt;# 执行操作&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;c1&#34;&gt;# 设置call_tool超时&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wait_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;call_tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;b&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id}; 第 {i} 次迭代; call_tool 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用成功: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;nb&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;ne&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TimeoutError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代操作超时&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;continue&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 跳过当前迭代继续执行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 最终失败: {str(e)}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;tasks&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;robust_client_instance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tasks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;return_exceptions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;为什么选择函数计算&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;作为 MCP Server 托管运行时真实世界中部署 MCP Server 面临的技术挑战包括[5]：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;分布式系统复杂性&lt;/strong&gt;  ：需要在多节点环境中维护连接状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;2. 资源限制处理&lt;/strong&gt;  ：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;连接池管理：有效分配和复用连接资源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;超时控制：处理未响应或长时间计算情况&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;负载均衡：在多实例间均衡分配请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;3. 安全隐患&lt;/strong&gt;  ：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;针对长连接的 DDoS 攻击防护&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;身份验证与会话维护：在长时间连接中保持认证状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;4. 故障恢复机制&lt;/strong&gt;  ：服务中断时的会话恢复和状态保持&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;5. 高资源利用率与低成本  ：绝大多数 MCP Server 的业务流量呈现典型的稀疏性（Sparse Access）与突发性（Burstiness）特征——请求分布高度离散且流量峰谷波动显著。传统固定实例池（Instance Pool）的常驻模式导致资源闲置率过高。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;阿里云函数计算作为阿里云 Serverless 计算平台， 有极致的按需自动弹性扩缩容速度和能力、零服务器管理免运维、多 AZ 容灾的高可用以及毫秒级按需计费能力。 在此基础上， 我们针对 MCP Server 远程服务能力做了如下增强：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;推出支持 SSE 协议且具备并发能力的 MCP Runtime（内置我们上文阐述的 MCP Proxy），存量 STDIO 模式的 MCP Server 无需任何改动即可变为符合 SSE 协议的远端服务&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在满足 MCP 场景 SSE 协议亲和调度的基础上（见 SSE 协议不足 1），让业务在面对 burst 流量 ，依然有快速弹性扩容能力。后续我们会专门出一篇文章来介绍 &amp;ldquo;MCP Server SSE 请求亲和性的技术与实战&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Server SSE 作为远程服务需要鉴权访问等安全能力：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数 HTTP 触发器及自定义域名提供多种鉴权方式，针对 AI 场景新提供了基于 Opaque Bearer Authorization 访问鉴权能力，与现有 AI 服务身份认证体系无缝对接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数计算支持针对具体函数设置执行角色，运行时提供动态获取临时 Token，实现完全的无 AK 方案，这对接入阿里云体系内产品的 MCP Server 是一个非常安全合规的企业级姿势。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每个函数运行环境都是一个安全容器， 平台侧负责函数实例沙箱容器的漏洞修复及安全升级， 某个实例的 OOM 等异常不会扩散。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数计算函数最大执行时长为 24 小时，基本可以满足绝大部分的长连接请求， 同时设置合理的 timeout，可以解决因为客户端 client 泄露导致的长连接一直消耗服务端资源的问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以上可以看出， 函数计算 Serverless 平台解决了绝大部分列出的真实世界中部署 MCP Server 面临的技术挑战；对于由于 SSE 协议本身带来的&lt;br&gt;
+不支持断线重连/恢复会话，我们也持续跟进社区 &lt;br&gt;
+Streamable HTTP**[6]**&lt;br&gt;
+ 协议进展，让 Streamable HTTP 更顺利在&lt;br&gt;
+函数计算 Serverless 平台落地。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;上手案例：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;直接登录 Function AI**[7]**  平台体验 Mcp Server 一键部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;参考 &lt;a class=&#34;link&#34; href=&#34;https://github.com/devsapp/mcp-servers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/devsapp/mcp-servers&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;查看各种 MCP Server on FC 的代码示例&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;合作方：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;阿里云百练 MCP 广场 https://bailian.console.aliyun.com/?tab=mcp#/mcp-market&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;魔搭社区 MCP 广场 https://www.modelscope.cn/mcp&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;宜搭: 钉钉客户端创建 ai 助理的技能正在灰度中&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCP 的演进本质是加速 AI 基础设施的普及：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;技术层&lt;/strong&gt;  ：通过协议标准化降低开发门槛，使中小开发者能快速构建复杂 AI 应用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;商业层&lt;/strong&gt;  ：催生“MCP 工具商店”等新商业模式，工具开发者可通过协议分成获利。 &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;社会层&lt;/strong&gt;  ：推动 AI 从“专家系统”转向“普惠技术”，例如农民通过自然语言指令操作智能农业设备。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;随着 Anthropic、OpenAI 等巨头加速协议迭代，MCP 或将成为 AI 时代的&amp;quot; USB-C接口&amp;quot;  ——&lt;strong&gt;既奠定技术底座，又重构产业规则&lt;/strong&gt;&lt;br&gt;
+。&lt;br&gt;
+开发者需密切关注协议演进，提前布局工具链生态，把握先机。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCP 技术演进的核心方向预测：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;协议架构升级：从 SSE 到 Streamable HTTP 的跨越&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通用性扩展， 多模态统一接口， 扩展同一协议支持文本、图像、音频和视频&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新交互模式， 分布式协作， 多个模型协同工作的协议扩展&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;生态系统扩展与标准化博弈，会有一个类似 npm 这样的 MCP Server Registry 出现&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;函数计算 Serverless 平台致力解决生产环境部署 MCP Server 面临的技术挑战，革新 MCP Server 的部署范式，给 MCP 社区蓬勃发展和 MCP Server 大规模落地、行业加速创新提供坚实的技术基础,  &lt;br&gt;
+让全球开发者无障碍构建下一代 AI 服务,  重构行业创新速度，普惠 AI 黄金时代！&lt;/p&gt;
+&lt;h2 id=&#34;相关链接&#34;&gt;相关链接：
+&lt;/h2&gt;&lt;p&gt;[1] 图解「模型上下文协议（MCP）」：从与传统 API 的比较入手&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.51cto.com/article/81154-html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.51cto.com/article/81154-html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] MCP Specification&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] CGI&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baike.baidu.com/item/CGI/607810&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://baike.baidu.com/item/CGI/607810&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[4] supergateway&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/supercorp-ai/supergateway&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/supercorp-ai/supergateway&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[5] AI 中的 MCP 技术解析：stdio 与 SSE 实现&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wicos.me/jishu/1160/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://wicos.me/jishu/1160/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[6] &lt;br&gt;
+Streamable HTTP&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[7] Function AI&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cap.console.aliyun.com/explore?lang=MCP&amp;#43;Server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cap.console.aliyun.com/explore?lang=MCP+Server&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>FunctionAI MCP 开发平台：助力AI应用连接数字生态</title>
+        <link>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</link>
+        <pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 封崇  阿里云云原生   2025-04-14 18:02&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/087ee75c2a26ff67233996986126ecfa.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP：AI 时代的“操作系统接口”,Cloud Native:&lt;/p&gt;
+&lt;p&gt;2024 年 11 月，Anthropic 发布模型上下文协议（MCP），这一开放标准迅速引发开发者社区的&amp;quot;协议觉醒&amp;quot;。其本质是通过标准化接口实现 LLM 与外部世界的双向交互，正如 USB 协议统一外设接入，MCP 正成为 AI 应用连接数字生态的通用总线。随着 Cursor、Claude &lt;br&gt;
+Desktop &lt;br&gt;
+等开发工具相继集成，特别是 OpenAI 宣布全面兼容 MCP 协议，标志着 MCP 从技术实验迈入产业级标准，这一标准化接口正重塑 AI 与数字世界的交互范式。&lt;/p&gt;
+&lt;p&gt;截至 2025 年 4 月，MCP.so【1】上已经已有超过 8000 个注册的 MCP Server，涵盖数据处理、文件系统、API 网关、聊天机器人、数据库等服务类别，这一数量还在迅速增长。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;生态暴发期的痛点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;尽管 MCP 生态呈现指数级增长，GitHub 仓库星标数半年突破 3.5 万，但生产级落地仍面临三重挑战：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 本地化瓶颈&lt;/strong&gt;&lt;br&gt;
+：当前绝大多数 MCP server 都采用传统 STDIO 模式，该模式没有鉴权能力（缺乏 OAuth 2.1 标准的双向认证机制、无法实现基于角色的访问控制），在复杂业务场景下暴露出调试困难、网络隔离性差等缺陷，难以实现访问内网环境的数据安全管控，内网穿透导致攻击面扩大；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 弹性困境&lt;/strong&gt;&lt;br&gt;
+：MCP 工具调用流量呈现显著的非稳态特征以及&amp;quot;脉冲式&amp;quot;波动，比如智能客服系统的峰谷效应非常明显，传统虚拟机部署造成大量资源浪费；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 开发断层&lt;/strong&gt;&lt;br&gt;
+：从本地调试到云端部署需要重构鉴权、变量管理、日志、中间件等基础组件，改造成本高，开发者大量的精力消耗在非业务代码的开发上；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serverless 是 MCP 托管的最佳解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们观察到大部分的 MCP server 有以下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;稀疏调用，而且对算力的需求都比较小，0.5c/1G 的规格基本能够应对大部分场景；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;代码体积比较小（&amp;lt;100MB），Node.js、Python 解释型语言是 MCP 的一等公民，大部分 MCP server 直接通过 npx、uv 就能一键运行；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP server 的迭代非常快，新增、修改或弃用 MCP server 的场景会非常高频，对 MCP server 元数据管理的需求非常普遍；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;因此灵活部署、弹性扩展的运行时对于 MCP server 的托管非常契合，这恰恰是 Serverless 的最大优势。&lt;/strong&gt;&lt;br&gt;
+以阿里云函数计算为例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;天然的事件驱动模型，提供毫秒级弹性能力、按量付费、安全沙箱的运行时环境，完美解决了云上托管对于性能、成本、安全的需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;官方对于 Node.js、Python 运行时的支持完善，内置代码包加速能力以及层的扩展，大幅降低代码启动时间；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;控制台、SDK、ServerlessDevs 工具提供丰富的函数元数据的管理能力；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些能力让 Serverless 正成为托管 MCP 的最优解。作为 MCP &lt;br&gt;
+的最佳运行时，函数计算已经支持阿里云百炼 MCP 服务【2】。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzUzNzYxNjAzMg==&amp;amp;mid=2247573406&amp;amp;idx=1&amp;amp;sn=a9e215ecbf675b6058bf5f726063a316&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Function AI 是基于函数计算构建的 Serverless AI 应用开发平台，基于函数计算的运行时能力上线了完整的 MCP 开发能力，成为真正意义上的 MCP 开发平台。您可以进入FunctionAI 控制台【3】，快速体验 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式一：通过模板一键部署&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1选择-mcp-模板&#34;&gt;1. 选择 MCP 模板
+&lt;/h3&gt;&lt;p&gt;进入FunctionAI 控制台【4】，选择探索-&amp;gt;筛选应用模板（MCP Server），选择一个 MCP 模板进行部署&lt;br&gt;
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8eaac6393e6591a3066bc7b143fd0a95.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-填写模板配置部署项目&#34;&gt;2. 填写模板配置，部署项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a7fa62b44c44e08f70f71b3fc4504de4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3-查看部署进度&#34;&gt;3. 查看部署进度
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cc0d4f2dd8f2833d543882bc611b63de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式二：创建自定义 MCP 服务&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1创建空白项目&#34;&gt;1. 创建空白项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb40530090e7acd185b2eb51ae8639e9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2创建-mcp-服务&#34;&gt;2. 创建 MCP 服务
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/62ee312927e0fcb139bb81cf658c8270.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3编辑-mcp-服务配置完成后点击预览部署&#34;&gt;3. 编辑 MCP 服务配置，完成后点击预览&amp;amp;部署
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1cc1b3db23afe5b9bdf7e12e76a8528c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4查看部署进度等待部署完成&#34;&gt;4. 查看部署进度，等待部署完成
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0edb2bfd8a9cd1e90b3f95833401ee14.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式三：使用 ServerlessDevs 工具本地部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 正式发布了 ServerlessDevs【5】工具的 MCP 组件，实现本地部署 MCP 工程到 FunctionAI 的能力&lt;/p&gt;
+&lt;h3 id=&#34;1安装-serverlessdevs-工具&#34;&gt;1. 安装 ServerlessDevs 工具：
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install @serverless-devs/s -g
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2初始化-mcp-项目&#34;&gt;2. 初始化 MCP 项目
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s init start-fcai-mcp-nodejs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3查看-syaml&#34;&gt;3. 查看 s.yaml
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;edition&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;cn-hangzhou&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;world&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;component&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fcai&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;props&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;deployed&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;devs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;transport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# stidio | sse&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;cpu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;memorySize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;rootDir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;./&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;code&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;oss&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auto&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#默认构建器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 构建环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;languages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 执行步骤&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;startCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;node ./dist/index.js&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 启动命令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;instanceQuota&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 实例数配额&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;4执行部署&#34;&gt;4. 执行部署
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s deploy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/65cbedb605963231d21a24f01a6411a0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录到控制台，可以查看云端的部署详情&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9008afa9b766f18ec8870be548f7eca5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 支持托管 STDIO/SSE 协议的 MCP server。如果 MCP server 代码采用 STDIO，FunctionAI 会启动一个 SSE 服务来代理 STDIO 的请求，客户端访问需要使用 SSE 方式。&lt;/p&gt;
+&lt;p&gt;当 MCP 服务部署完成后，平台会生成一个 SSE 的连接地址，并且会生成 MCP server 的 schema 用于测试。&lt;/p&gt;
+&lt;p&gt;用户可以直接在控制台上测试连接、测试工具，也可以使用官方的 Inspector 在本地进行测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 1：FunctionAI 控制台测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1b500d2ecbe51c3bd818ab0a2d241d31.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看日志和监控&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/64428131f50c544e1eb810049aa74148.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/625f7be471aa00cb5795a70448e9bdb4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 2：Inspector 本地测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;复制 FunctionAI 生成的公网访问地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/827d8ce0c33c9ca0e0377d7e76adedd4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地启动 inspector，输入访问地址进行调试&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx @modelcontextprotocol/inspector
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2fb2f7c95d741f82ad78f0ce8c95fdf5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;高阶能力&lt;/p&gt;
+&lt;p&gt;Cloud Native&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;鉴权&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 的鉴权只适用于 SSE 的协议，而且必须遵循 OAuth2.1 协议标准，对于大量的 STDIO 的 MCP 服务托管的改造难度非常之高，企业落地 MCP 鉴权是一个非常痛点的问题。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了网关侧的 Bearer 鉴权能力，用户只需要开启鉴权功能，使用平台生成的 Bearer Token，就可以让 MCP 服务自带鉴权能力。&lt;/p&gt;
+&lt;h3 id=&#34;使用方式&#34;&gt;使用方式
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;编辑服务配置，点击开启鉴权，保存并且部署。开启后，平台会对服务生成一个只读的 Bearer Token。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/176da26d1e64590fb48d8e7e9324fcc8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9023eafd8409b7fe75ef35e317d59183.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;测试鉴权生效&#34;&gt;测试鉴权生效
+&lt;/h3&gt;&lt;p&gt;使用平台生成的 Bearer Token，可以正常访问 MCP 服务&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7d5c7f3aa4dc7d4fdeab04d14dbf5154.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用错误的 token 时，访问失败&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f7d5043ba19bec75038798cf94fc5e8a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用本地的 Inspector，输入服务的 token，访问正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6807b4d0e56bbfc668a8d870fba77f27.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;变量管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;很多的 MCP Server 代码都需要访问第三方服务，比如高德地图、Github 等，需要持有用户的访问秘钥，比如 API-Key、AccessToken，这些秘钥通常以环境变量加载或者启动命令参数注入。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了变量管理能力，并且支持敏感变量托管，可以实现 MCP 服务访问秘钥的安全可靠管理。&lt;/p&gt;
+&lt;h3 id=&#34;配置方式设置服务变量&#34;&gt;配置方式：设置服务变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;选择服务-&amp;gt;服务变量，添加服务变量的 Key 和 Value&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/15b09c554b6a7fbbc9bdd1ba2f2e310e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-1环境变量&#34;&gt;加载方式 1：环境变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 上配置的服务变量会默认注入到函数启动的环境变量中，MCP 服务代码可以直接通过系统环境变量读取&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/43ad2532377ad53c8c93e3cf34ccd342.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-2启动参数&#34;&gt;加载方式 2：启动参数
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 的服务变量支持通过 ${self.KEY_NAME} 的方式引用，可以在启动命令中修改命令行参数，使用变量的引用，在启动阶段注入变量的值。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/11f9f30a1e47a380071e5affa1db4312.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f074718d0e6abbc83b8cf03b356d8c67.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;绑定代码仓库进行持续部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 的 MCP 服务面向开发态能力，提供以代码仓库托管 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;使用方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编辑 MCP 服务配置，选择代码仓库，目前支持了 Github、Gitee、Codeup、GitLab、OSS 代码仓库。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择仓库分支、MCP 工程在代码仓库中的根目录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择构建环境：对于多语言的工程，可以选择多个构建环境&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编辑构建命令：例如 npm build、pip install -r requirements.txt&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可选：开启构建缓存，缓存目录根据不同语言可以设置~/.npm（Node.js）、&lt;del&gt;/.cache（Python）、&lt;/del&gt;/.m2、（Java）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e22ee2e9b7cbfb185a2ba94c6cd73174.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;绑定 Git 仓库后，如果指定的分支有 push 操作，会自动触发服务的持续部署&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a0391910a8ba2fd0f98201c8ea7c8de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;极速模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于延迟敏感性的业务，FunctionAI 提供了极速模式，可以提前预留指定数量的实例快照，降低频繁冷启动带来的开销，并且只有在有活跃请求时才会产生 vCPU 费用，可以实现性能和成本的平衡。&lt;/p&gt;
+&lt;p&gt;另外由于 MCP SSE 请求的 session 机制，同一个 session id 访问到不同实例会导致上下文丢失，因此建议开启预置快照为 1 并且实例限额为 1，这样可以让 SSE 请求打到不同弹性实例的概率更小。&lt;/p&gt;
+&lt;p&gt;FunctionAI 后面会上线会话亲和性能力，尽情期待。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66ea83970635dde4a3af53a4472379ab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;开启后，可以在函数监控页面看到预留实例的个数&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d5dacedc72983e325007e050a13c84c5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 现在已经支持了完整的 MCP 开发能力，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;部署形式上，支持模板直接部署、自定义 MCP 服务、ServerlessDevs 工具本地部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;托管能力上，支持 STDIO/SSE 的自动托管，无需业务改造既能生成可用于访问的 SSE 地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调试能力上，支持控制台直接调试以及 Inspector 本地调试&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;二次开发能力上，支持变量管理、鉴权、绑定代码仓库进行持续部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可观测能力上，支持函数监控、实例监控以及日志&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;弹性调度上，支持标准模式以及极速模式&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 的价值是统一了 Agent 和 LLM 之间的标准化接口，有了 MCP Server 的托管以及开发态能力只是第一步，接下来重要的是做好 MCP 和 Agent 的集成，FunctionAI 即将上线 Agent 开发能力，敬请期待。&lt;/p&gt;
+&lt;p&gt;【1】MCP.so &lt;a class=&#34;link&#34; href=&#34;https://mcp.so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.so/&lt;/a&gt;&lt;br&gt;
+【2】Serverless MCP 运行时业界首发，函数计算让 AI 应用最后一公里提速&lt;br&gt;
+【3】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【4】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【5】ServerlessDevs  &lt;a class=&#34;link&#34; href=&#34;https://www.serverless-devs.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.serverless-devs.com/&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</title>
+        <link>https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/</link>
+        <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" alt="Featured image of post 把MCP和AI代理部署在无服务器架构上，大幅提升业务性能" /&gt;&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | maxlong  腾讯云原生&lt;/p&gt;
+&lt;p&gt;MCP协议通过标准化接口实现AI模型与外部工具的无缝连接，而Serverless架构提供弹性计算资源，两者结合可解决AI代理的动态资源需求。例如，企业内大量AI智能体（如千人规模）的实时调度，可通过Serverless函数动态部署MCP服务器，按需扩展计算能力。这种模式尤其适用于低频但需快速响应的场景（如临时视频处理、数据查询），避免传统软件采购的高昂成本。同时在 Serverless 环境中，每个函数执行都有独立的执行环境，这种隔离性确保了不同 AI 代理之间的安全性。通过精细的权限控制和资源访问管理，可以有效防止数据泄露和未经授权的访问，增强系统的安全性。&lt;/p&gt;
+&lt;h3 id=&#34;1-mcp&#34;&gt;1. MCP
+&lt;/h3&gt;&lt;h4 id=&#34;11简介&#34;&gt;1.1. 简介
+&lt;/h4&gt;&lt;p&gt;模型上下文协议（Model Context Protocol，简称 MCP）是由 Anthropic 推动的一项开放标准，它标准化了应用程序向 LLM 提供上下文的方式。可以将 MCP 视为 AI 应用程序的 USB-C 端口。正如 USB-C 提供了一种将设备连接到各种外围设备和配件的标准化方式一样，MCP 提供了一种将 AI 模型连接到不同数据源和工具的标准化方式。&lt;/p&gt;
+&lt;p&gt;近期，OpenAI 对其 Agent SDK 进行了重大更新，正式支持 MCP 协议。这一举措使开发者能够在统一的接口标准下，快速集成多种工具，极大地扩展了 AI 模型的能力。这一变化标志着 MCP 协议在业界的广泛认可和应用，进一步推动了人工智能技术的发展。&lt;/p&gt;
+&lt;h4 id=&#34;12为什么用mcp&#34;&gt;1.2. 为什么用MCP
+&lt;/h4&gt;&lt;p&gt;MCP可以帮助我们在LLM之上构建Agent或者复杂的工作流，对于一些经常需要与数据和工具集成的场景，MCP协议提供以下功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;基于协议实现的集成数据集或工具可以以插件方式快速连接到LLM。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;解耦工具和LLM，使得应用可以在多个LLM提供商切换。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据和工具不需要上传远端，保护数据隐私。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;13总体架构&#34;&gt;1.3. 总体架构
+&lt;/h4&gt;&lt;p&gt;MCP 的核心是客户端-服务器架构，其中主机应用程序可以连接到多个服务器：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;● MCP 主机：希望通过 MCP 访问数据的程序，例如 Claude Desktop、IDE 或 AI 工具&lt;/p&gt;
+&lt;p&gt;● MCP 客户端：与服务器保持 1:1 连接的协议客户端&lt;/p&gt;
+&lt;p&gt;● MCP 服务器：轻量级程序，每个程序都通过标准化模型上下文协议公开特定功能&lt;/p&gt;
+&lt;p&gt;● 本地数据源：MCP 服务器可以安全访问的您的计算机文件、数据库和服务&lt;/p&gt;
+&lt;p&gt;● 远程服务：MCP 服务器可通过互联网（例如通过 API）连接到的外部系统&lt;/p&gt;
+&lt;h3 id=&#34;2mcpserveronserverless&#34;&gt;2. MCPServerOnServerless
+&lt;/h3&gt;&lt;h4 id=&#34;21效果展示&#34;&gt;2.1. 效果展示
+&lt;/h4&gt;&lt;p&gt;先看看效果，模仿mcp 官方server例子开发一个天气查询的mcp server，同时部署到腾讯云云函数。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c5e2e4e2d1cd92eaad5b2ebf0473722a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;22-天气查询mcp-server代码&#34;&gt;2.2. 天气查询MCP Server代码
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fastmcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FastMCPimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;osimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loggingimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;httpximport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Initialize FastMCP servermcp = FastMCP(&amp;#34;weather&amp;#34;, host=&amp;#34;0.0.0.0&amp;#34;, port=9000)# Constants# 天气API地址 设置对应天气api接口地址 如腾讯天气api接口地址https://apis.map.qq.com/ws/weather/v1/NWS_API_BASE = &amp;#34;api url&amp;#34;USER_AGENT = &amp;#34;weather-app/1.0&amp;#34;API_KEY = &amp;#34;api key&amp;#34;#以下为腾讯天气api接口伪代码，需要自行完善@mcp.tool()def get_weather(city: str) -&amp;gt; str:    &amp;#34;&amp;#34;&amp;#34;    获取某个城市的天气    Args:    city: 城市    &amp;#34;&amp;#34;&amp;#34;        try:        # 使用 HTTPS 协议并验证 SSL        client = httpx.Client(verify=True)                # 构建请求参数        params = {            &amp;#34;key&amp;#34;: API_KEY,            &amp;#34;city&amp;#34;: city,            &amp;#34;output&amp;#34;: &amp;#34;json&amp;#34;        }                # 使用新的天气API地址        response = client.get(            &amp;#34;https://apis.map.qq.com/ws/weather/v1/&amp;#34;,            params=params,            timeout=10        )                # 打印响应状态和内容以便调试        logging.info(f&amp;#34;Status Code: {response.status_code}&amp;#34;)        logging.info(f&amp;#34;Response: {response.text}&amp;#34;)                weather_data = response.json()                if weather_data.get(&amp;#34;status&amp;#34;) != 0:            returnf&amp;#34;获取天气信息失败: {weather_data.get(&amp;#39;message&amp;#39;, &amp;#39;未知错误&amp;#39;)}&amp;#34;                    # 获取实时天气数据        data = weather_data.get(&amp;#34;result&amp;#34;, {})        observe = data.get(&amp;#34;realtime&amp;#34;, {})        infos = data.get(&amp;#34;infos&amp;#34;, {})                ifnot observe:            return&amp;#34;无法获取天气信息: 数据为空&amp;#34;                    # 返回格式化的天气信息        weather_info = f&amp;#34;&amp;#34;&amp;#34;            天气: {infos.get(&amp;#39;weather&amp;#39;, &amp;#39;&amp;#39;)}            温度: {infos.get(&amp;#39;temperature&amp;#39;, &amp;#39;&amp;#39;)}°C            湿度: {infos.get(&amp;#39;humidity&amp;#39;, &amp;#39;&amp;#39;)}%            风力: {infos.get(&amp;#39;wind_power&amp;#39;, &amp;#39;&amp;#39;)}级        &amp;#34;&amp;#34;&amp;#34;        return weather_info            except httpx.HTTPError as e:        error_msg = f&amp;#34;HTTP请求失败: {str(e)}&amp;#34;        logging.error(error_msg)        return error_msg    except Exception as e:        error_msg = f&amp;#34;获取天气信息失败: {str(e)}&amp;#34;        logging.error(error_msg)        return error_msg    finally:        if&amp;#39;client&amp;#39;in locals():            client.close()if __name__ == &amp;#39;__main__&amp;#39;:    logging.basicConfig(level=logging.INFO)    mcp.run(transport=&amp;#39;sse&amp;#39;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;特别注意的地方是函数镜像或者web代码都需要设置9000的监听端口，所以代码要设置server 端口为9000&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mcp = FastMCP(&amp;#34;weather&amp;#34;, host=&amp;#34;0.0.0.0&amp;#34;, port=9000)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;23相关依赖&#34;&gt;2.3. 相关依赖
+&lt;/h4&gt;&lt;p&gt;requirements.txt&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;httpxmcp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;24部署到云函数&#34;&gt;2.4. 部署到云函数
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;Remote MCP Server VS Local MCP Server&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/23d0067d60a3138eaf17af6dd92d2233.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h5 id=&#34;241通过镜像部署云函数&#34;&gt;2.4.1. 通过镜像部署云函数
+&lt;/h5&gt;&lt;p&gt;Dockerfile内容&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 使用官方的 Python 3.13 镜像作为基础镜像FROM python:3.13.2-slim# 设置工作目录WORKDIR /app# 复制当前目录下的所有文件到工作目录COPY . /app# 安装依赖RUN pip install --no-cache-dir .# 暴露端口EXPOSE 9000# 运行应用CMD [&amp;#34;python&amp;#34;, &amp;#34;weather.py&amp;#34;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;``&lt;/p&gt;
+&lt;p&gt;构建好Docker镜像，将Docker进行push到tcr镜像仓库&lt;/p&gt;
+&lt;p&gt;tcr镜像仓库详见：&lt;br&gt;
+ https://cloud.tencent.com/document/product/1141&lt;/p&gt;
+&lt;p&gt;web镜像函数：&lt;br&gt;
+ https://cloud.tencent.com/document/product/583/56051&lt;/p&gt;
+&lt;p&gt;上传好镜像之后，可以开始创建云函数，选择使用&lt;strong&gt;容器镜像&lt;/strong&gt;&lt;br&gt;
+，函数类型&lt;strong&gt;选择Web函数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b2b3b40923f2906a68469544c512a4a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;选择&lt;strong&gt;函数镜像&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d04975d6f7667fc1c1a3108e06119bee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在高级配置中需要&lt;strong&gt;设置超时时间&lt;/strong&gt;&lt;br&gt;
+为较长时间，比如120s，因为sse服务需要进行长连接，如果时间太短，连接会被快速断开。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1a980411da4722c593cf20c8ceff4723.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时需要设置函数支持&lt;strong&gt;请求多并发。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ad40b3314af401f11c9517856e15845a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【保存】&lt;/strong&gt;&lt;br&gt;
+之后就完成了mcp server函数的创建&lt;/p&gt;
+&lt;p&gt;最后一步&lt;strong&gt;创建函数的URL&lt;/strong&gt;&lt;br&gt;
+，使用该URL提供给mcp client进行sse方式的访问：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/31a5b8736fcca6e112afea7baa82867b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时使用&lt;strong&gt;镜像加速，&lt;/strong&gt;&lt;br&gt;
+云函数拉取镜像会比较快：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/125b8cd25723570ec8f331f8f0c57caf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最后在cursor mcp中设置好函数的url即可进行mcp tools的使用了&lt;/p&gt;
+&lt;h5 id=&#34;242通过代码函数部署&#34;&gt;2.4.2. 通过代码函数部署
+&lt;/h5&gt;&lt;p&gt;区别于镜像方式部署，通过代码部署的云函数拉取代码的耗时会比镜像耗时小&lt;/p&gt;
+&lt;p&gt;创建函数的方式以下图例子方式创建即可，其它步骤同镜像部署&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fb824ab3f171b3d09f763eb217d43fe1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;app.py代码使用前面的代码范例即可&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用云函数的CLI工具能更快速（秒级）的部署MCP Server服务，相对于tke或者CVM部署速度和管理成本极低&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;云函数也支持java，go，nodejs，php的代码&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;25使用云函数的收益&#34;&gt;2.5. 使用云函数的收益
+&lt;/h4&gt;&lt;h5 id=&#34;251云函数相比k8s优势&#34;&gt;2.5.1. 云函数相比K8S优势
+&lt;/h5&gt;&lt;p&gt;腾讯云云函数（SCF, Serverless Cloud Function）和 Kubernetes（K8s）相比，也有一些明显的优势，尤其是在特定的应用场景下。以下是腾讯云云函数相对于 Kubernetes 的一些优势：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 无服务器架构 (Serverless)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无需管理基础设施&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是完全托管的计算服务，用户不需要关注底层服务器、虚拟机、容器集群等基础设施的管理。与此相比，Kubernetes 需要管理集群中的节点、容器生命周期以及各种资源调度。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动扩展和缩减&lt;/strong&gt;&lt;br&gt;
+：云函数会根据实际的事件或请求数量自动扩展和缩减，用户无需手动配置和调整。Kubernetes 的扩展则需要配置 Horizontal Pod Autoscaling（HPA）或 Vertical Pod Autoscaling（VPA），并且通常还需要设置资源池和负载均衡策略。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 按需计费&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;按请求和执行时间计费&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是按请求数和执行时间计费的，用户只需为实际使用的计算资源付费。相比之下，Kubernetes 中通常需要为整个集群中的节点付费，即使节点没有承载任何负载也需要支付固定费用，可能导致资源的浪费。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;零资源消耗&lt;/strong&gt;&lt;br&gt;
+：当没有请求时，云函数不会消耗任何计算资源，而 Kubernetes 需要至少保持最小的节点运行状态，即使没有容器或任务需要处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 简化的运维和管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动化运维&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数完全托管，自动管理所有的计算资源和基础设施，包括计算、存储和网络资源，减少了运维负担。相比之下，Kubernetes 需要用户自己管理集群、节点、负载均衡、网络配置等，增加了运维复杂度。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无需管理容器或集群&lt;/strong&gt;&lt;br&gt;
+：云函数抽象了底层容器或虚拟机的管理，用户只需关注业务逻辑，而 Kubernetes 则需要开发者管理容器化应用的构建、镜像推送、容器调度、服务暴露等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 快速部署和启动&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速响应时间&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是事件驱动的，可以在几毫秒内响应并启动，特别适合短时间、瞬时计算的任务。Kubernetes 的容器虽然也支持快速启动，但仍然需要更多的时间来调度和运行，尤其是涉及到节点的资源分配和容器的启动。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化的部署流程&lt;/strong&gt;&lt;br&gt;
+：云函数支持从代码直接部署，不需要预先构建和管理镜像，而 Kubernetes 通常要求将应用打包为容器镜像，推送到容器注册表并进行部署。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 事件驱动&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无缝与事件源集成&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数能够直接与腾讯云其他服务（如对象存储 COS、消息队列 CKafka、数据库等）进行事件驱动的集成，支持自动触发，简化了应用架构的设计。Kubernetes 虽然也能与事件源进行集成，但通常需要额外的配置和工具（如通过消息队列或触发器调度 Pod）。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动触发&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数可以轻松响应云端各种事件，如文件上传、数据库变更、HTTP 请求等，而 Kubernetes 通常需要设置外部系统来触发容器启动或服务处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6. 自动弹性伸缩&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无限扩展&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数能够根据请求自动扩展，支持从零到上千个实例的快速扩展，用户无需担心如何管理资源的扩展和缩减。Kubernetes 需要手动配置集群的资源池，并根据需要调整节点或Pod数量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;零延迟扩展&lt;/strong&gt;&lt;br&gt;
+：云函数可以非常迅速地应对突发流量，Kubernetes 可能需要一定的时间来扩展节点并启动新容器，特别是在大规模应用中，可能会受到集群资源的限制。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7. 低成本和高效能&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;精细的资源使用&lt;/strong&gt;&lt;br&gt;
+：由于按执行时间和请求数计费，云函数的资源利用率非常高，能够确保不浪费资源。在 Kubernetes 中，虽然容器也可以相对轻量化，但资源消耗依赖于集群中配置的节点大小和容器数量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无闲置成本&lt;/strong&gt;&lt;br&gt;
+：Kubernetes 集群中即使没有请求，节点也可能保持活动，用户仍然需要为空闲的资源支付费用。而云函数在没有请求时完全不消耗资源，从而降低了成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;8. 开发和调试简化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简单的开发流程&lt;/strong&gt;&lt;br&gt;
+：开发者只需要关注代码的实现，上传到腾讯云云函数即可，开发和部署非常快速。而 Kubernetes 通常要求开发者将应用容器化，构建镜像、推送到容器注册表，并配置复杂的部署管道。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;内置集成调试工具&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数提供了调试和日志功能，能够方便地查看函数执行过程中的详细日志，帮助开发者快速定位问题。而 Kubernetes 的调试通常涉及到容器日志、Pod 状态和容器的网络配置，调试可能更为复杂。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;9. 简化的 CI/CD 流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无缝与 CI/CD 集成&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数可以直接与 CI/CD 工具集成（例如腾讯云开发工具、GitHub 等），实现自动化的代码部署。Kubernetes 则需要手动配置持续集成和持续交付流程，并且通常需要更多的工具和管理。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速更新&lt;/strong&gt;&lt;br&gt;
+：云函数支持快速更新和版本管理，开发者可以轻松更新代码并部署。Kubernetes 则需要通过滚动更新或蓝绿部署等方式来更新容器中的应用，管理相对更复杂。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;腾讯云云函数&lt;/strong&gt;&lt;br&gt;
+ 的优势在于完全托管的无服务器架构、按需计费、快速启动和事件驱动架构，使得它非常适合用于轻量级、事件驱动的应用场景，尤其是那些短时间、瞬时任务和弹性伸缩需求较高的场景。与此相比，&lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 更适合需要大规模、高度可配置、容器化管理的长时间运行的应用，尤其是在复杂的微服务架构中，Kubernetes 提供了更高的控制权和灵活性，但也增加了更多的管理复杂度。&lt;/p&gt;
+&lt;p&gt;如果你需要快速部署、低成本、简单运维的应用，云函数可能是更好的选择；如果你需要更复杂的应用架构、容器编排和集群管理，Kubernetes 则可能更适合。&lt;/p&gt;
+&lt;h5 id=&#34;252基于cube底座的云函数&#34;&gt;2.5.2. 基于Cube底座的云函数
+&lt;/h5&gt;&lt;p&gt;云函数是基于Cube安全容器来打造的Serverless服务，Cube 提供了高并发，高密度部署的运行环境，使Serverless场景下的安全容器的交付更加迅速，并在有限空间内提供高性能、低开销的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e49fc3e97cd18ab192c66b0818555428.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;并且通过CubeGW打通云函数和用户VPC网络，用户可以使用MCP来操作VPC内资源，比如数据库的操作，内部系统的访问等等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/adec5a3f4c4eebd72e134dca3a8f5fa9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用基于Cube底座的云函数，具备强隔离的安全性，灵活的规格可以支撑0.1C64M的MCP Server实例，启动速度在100ms以内（不包括mcp server启动时间）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/433dcd034b83471c276ff4f4ee479128.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h5 id=&#34;253cube安全容器优势&#34;&gt;2.5.3. Cube安全容器优势
+&lt;/h5&gt;&lt;p&gt;&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+在 AI 代理（AI Agent）和 MCP（模型上下文协议）方面，相较于传统的 Kubernetes (K8s) 和虚拟机 (VM)，具有以下优势：&lt;/p&gt;
+&lt;p&gt;**1.**&lt;strong&gt;更高的安全性和隔离性&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube&lt;/strong&gt;&lt;br&gt;
+使用安全容器技术，提供比传统容器更强的隔离性。每个容器都运行在独立的安全环境中，能够有效防止容器之间的攻击或数据泄漏，特别是在多租户环境中。对于 AI 代理和 MCP 服务器，这种强隔离能够确保不同代理或工具之间的操作不会互相影响，减少了潜在的安全风险。&lt;/p&gt;
+&lt;p&gt;● 相比之下，&lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和传统的虚拟机通常需要额外的配置来实现类似的隔离效果。Kubernetes 在多租户场景下的容器隔离依赖于操作系统的安全性，而虚拟机虽然提供更强的隔离，但由于资源消耗较大，可能无法高效处理大量小规模的容器化任务。&lt;/p&gt;
+&lt;p&gt;**2.**&lt;strong&gt;更轻量的资源消耗&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube安全容器&lt;/strong&gt;&lt;br&gt;
+比传统虚拟机轻量，具有虚拟机的隔离性，但启动时间和资源消耗接近容器。这使得它特别适合用于那些需要高度并发和快速响应的 AI 代理和 MCP 服务器场景，例如短期的推理请求、实时数据处理等。相对于虚拟机，Cube 容器能更高效地利用计算资源，减少开销。&lt;/p&gt;
+&lt;p&gt;● 在 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 中，虚拟机的资源消耗较高，启动时间较长，尤其是在多实例部署的场景下，K8s 集群的扩展可能会受到资源瓶颈的限制。而 Cube 的轻量级特性使得在这些场景中更具优势，尤其是对于需要弹性扩展的应用。&lt;/p&gt;
+&lt;p&gt;**3.**&lt;strong&gt;快速启动和高效扩展&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供接近容器的启动速度，但又具有虚拟机级别的隔离性，非常适合动态扩展的需求，例如 AI 代理需要快速启动多个实例来处理突发流量或大规模请求。在 Serverless 架构中，这种快速扩展的能力尤为重要，可以减少冷启动延迟，提高响应速度。&lt;/p&gt;
+&lt;p&gt;● 与传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 或 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 相比，Cube 容器的启动时间远远快于虚拟机，能够在高负载和高并发场景中提供更好的性能表现。&lt;/p&gt;
+&lt;p&gt;**4.**&lt;strong&gt;容器与虚拟化的完美平衡&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了容器的轻量级特性和虚拟机的隔离性，弥补了传统容器的不足。AI 代理和 MCP 服务器通常需要频繁与外部工具和数据源交互，容器化方式能够提高服务部署和管理的效率，Cube 的虚拟化特性进一步确保了在复杂场景下的高安全性和稳定性。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 虽然提供更强的隔离，但其资源开销较大，启动速度较慢，通常不适合用来处理高频、短时任务。而 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 本身并不提供虚拟化隔离，它依赖于容器和节点来提供服务，这会在某些高安全要求的场景中带来风险，尤其是当多个用户或服务共享同一 Kubernetes 集群时。&lt;/p&gt;
+&lt;p&gt;**5.**&lt;strong&gt;与 AI 和 MCP 的集成优势&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;AI 代理和 MCP 服务器&lt;/strong&gt;&lt;br&gt;
+ 需要快速处理大量数据并进行实时推理，尤其是在 AI 推理请求和数据交互密集的场景中。&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 能够为这些任务提供快速响应和动态扩展，同时保留虚拟机级别的安全隔离特性，从而提供更好的服务质量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 在大规模分布式部署和容器管理方面的优势毋庸置疑，但对于需要更高隔离性和快速响应的场景，&lt;strong&gt;Cube 安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了更好的选择。特别是在处理敏感数据或需要高安全性和资源隔离的任务时，Cube 提供了容器和虚拟机的最佳平衡。&lt;/p&gt;
+&lt;p&gt;**6.**&lt;strong&gt;更好的资源调度与成本优化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 能够高效地调度资源并优化成本，它在提供虚拟机隔离的同时，减少了虚拟机带来的资源消耗和成本。对于需要频繁扩展和收缩的 AI 代理和 MCP 服务器场景，Cube 容器提供了较传统虚拟机或 Kubernetes 更加高效的解决方案，减少了因过度预分配资源而产生的浪费。&lt;/p&gt;
+&lt;p&gt;● 传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 需要配置和管理节点，并且节点上常常有较多的资源冗余，造成资源浪费。而 &lt;strong&gt;Cube 容器&lt;/strong&gt;&lt;br&gt;
+ 能够在提供虚拟机级别的隔离的同时，减少这些冗余。&lt;/p&gt;
+&lt;p&gt;**7.**&lt;strong&gt;容器化与虚拟化的一体化管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了统一的容器化与虚拟化管理体验，简化了基础设施的管理和运维。相比于 Kubernetes 需要通过多个组件来管理容器和虚拟机，Cube 可以提供一体化的解决方案，降低管理复杂度，尤其适合多租户的 AI 和 MCP 部署。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结：Cube&lt;strong&gt;&lt;strong&gt;安全容器&lt;/strong&gt;&lt;/strong&gt;在 AI 代理与 MCP 部署中的优势&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 是一种高效、轻量、安全的容器化技术，特别适合 AI 代理和 MCP 服务器的动态扩展与快速响应需求。它在提供容器的灵活性和虚拟机的隔离性方面找到了完美的平衡，能够在多租户、高安全性需求的场景中提供显著优势。相比于传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+，Cube 更适合处理那些需要快速扩展、低延迟、强隔离的任务，特别是在 Serverless 架构下，能够为 AI 和 MCP 提供更高效、可靠和安全的运行环境。&lt;/p&gt;
+&lt;h4 id=&#34;26ai-on-serverless&#34;&gt;2.6. AI On Serverless
+&lt;/h4&gt;&lt;p&gt;将&lt;strong&gt;模型上下文协议（MCP）&lt;/strong&gt;&lt;br&gt;
+ 与 &lt;strong&gt;AI 代理（AI Agent）&lt;/strong&gt;&lt;br&gt;
+ 部署在无服务器（Serverless）架构上，展现出显著的优势：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 模型上下文协议（MCP）与无服务器架构的结合&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 旨在为大型语言模型（LLM）提供标准化的接口，使其能够连接和交互外部数据源和工具。在无服务器架构中，MCP 服务器可以作为轻量级的执行单元，动态处理 AI 代理的请求。这种结合带来了以下好处：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;弹性扩展&lt;/strong&gt;&lt;br&gt;
+：无服务器平台根据需求自动分配资源，确保 MCP 服务器在高负载时能够扩展，满足大量并发请求的处理需求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;按需计费&lt;/strong&gt;&lt;br&gt;
+：用户仅为实际使用的计算资源付费，避免了资源闲置带来的成本浪费。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化运维&lt;/strong&gt;&lt;br&gt;
+：无服务器架构由云服务商管理基础设施，开发者专注于业务逻辑的实现，减少了运维复杂度。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. AI 代理与无服务器架构的结合&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;AI 代理是能够自主执行任务的智能实体，需要频繁访问外部工具和数据源。无服务器架构为 AI 代理提供了以下优势：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;高可用性&lt;/strong&gt;&lt;br&gt;
+：无服务器平台通常具备高可用性和容错性，确保 AI 代理在各种条件下稳定运行。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速响应&lt;/strong&gt;&lt;br&gt;
+：无服务器函数的快速启动时间有助于 AI 代理及时响应外部事件和请求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;灵活性&lt;/strong&gt;&lt;br&gt;
+：无服务器架构支持事件驱动的执行模型，AI 代理可以根据不同事件触发相应的功能，提高系统的灵活性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. MCP 和 AI 代理在无服务器架构中的协同作用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将 MCP 与 AI 代理部署在无服务器架构中，二者相互补充，优势互补：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;标准化通信&lt;/strong&gt;&lt;br&gt;
+：MCP 提供统一的通信协议，使 AI 代理能够高效地与各种数据源和工具交互。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;动态资源分配&lt;/strong&gt;&lt;br&gt;
+：无服务器平台根据实际需求动态分配资源，确保 MCP 服务器和 AI 代理在高负载时获得足够的计算能力。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化开发流程&lt;/strong&gt;&lt;br&gt;
+：开发者可以专注于业务逻辑的实现，无需关心基础设施的管理，提高了开发效率。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 适用场景&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将 MCP 和 AI 代理部署在无服务器架构上，适用于以下场景：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;动态生成 AI 代理&lt;/strong&gt;&lt;br&gt;
+：随着业务需求变化，动态生成和部署大量 AI 代理，利用无服务器架构的弹性满足计算资源的波动需求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;工具和数据源集成&lt;/strong&gt;&lt;br&gt;
+：需要将 AI 代理与多种工具和数据源集成的场景，MCP 提供了标准化的集成方式，简化了开发和维护工作。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 结论&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;综合来看，将 MCP 和 AI 代理部署在无服务器架构上，是一种非常契合的组合，能够充分发挥各自的优势。这种架构在需要高弹性、动态扩展和简化运维的场景中，表现尤为出色。然而，具体的应用效果还需根据实际业务需求和技术环境进行评估和实施。&lt;/p&gt;
+&lt;h4 id=&#34;27应用场景&#34;&gt;2.7. 应用场景
+&lt;/h4&gt;&lt;p&gt;1.访问数据库的MCP Server访问内部数据库进行数据分析&lt;/p&gt;
+&lt;p&gt;2.通过云API的MCP Server管理资源&lt;/p&gt;
+&lt;p&gt;3.通过CLS的MCP Server来进行日志的分析&lt;/p&gt;
+&lt;p&gt;4.通过云监控的MCP Server分析系统运行状态&lt;/p&gt;
+&lt;p&gt;5.通过云函数的MCP Server来调度云函数的Job以及各种ai agent服务&lt;/p&gt;
+&lt;p&gt;6.基于云函数执行Puppeteer实现爬虫或者页面操作任务&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e7c079505661a80e3f02e592471a5f49.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>当 MCP 遇上 Serverless，AI 时代的最佳搭档</title>
+        <link>https://ai.programnotes.cn/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/</link>
+        <pubDate>Mon, 07 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 墨飏 阿里云云原生&lt;/p&gt;
+&lt;p&gt;核心内容点：MCP, Serverless, 智能体, 弹性算力,  数据安全&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/087ee75c2a26ff67233996986126ecfa.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;随着 AI 技术的飞速发展，MCP（模型上下文协议） 逐渐崭露头角。这项由 Anthropic 公司（Claude 的创造者）于 2024 年 11 月推出的开放协议，正在重新定义 AI 与数字世界的交互方式。&lt;br&gt;
+这项开放协议不仅让 AI 突破传统对话边界，更赋予其执行现实任务的能力，堪称人工智能向&amp;quot;行动智能体&amp;quot;进化的里程碑。&lt;strong&gt;然而从火热概念到落地业务，MCP 还需要找到云端“好搭档”。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;****从 LLM 到 MCP 的进化之路Cloud Native&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;悬崖跳舞 or 火山口野餐？&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;从传统 LLM 到 MCP 的进化之路，本质上是一场关于数据交互安全的范式革命。&lt;/p&gt;
+&lt;p&gt;在传统的 AI 应用中，语言模型在处理用户数据时，开发者往往面临非此即彼的困境：要么像传统聊天场景那样将数据全量上传至云端（但面临隐私泄露风险和数据规模限制），要么赋予模型 Open Interpreter 式的本地管理员权限（可能因恶意代码执行导致系统沦陷）。&lt;strong&gt;这种&amp;quot;全有或全无&amp;quot;的安全策略，就像让用户选择在悬崖边跳舞还是在火山口野餐。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/224b666e58d883d8d495966f73b4b623.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然而 MCP 协议的出现从根本上解决了用户的两难困境：MCP 协议的突破性在于构建了智能交互的&lt;br&gt;
+标准范式&lt;br&gt;
+。通过标准化的通信协议，它在模型与数据源之间建立了安全隔离带。想象一下，当你用 LLM 分析财务数据时，&lt;strong&gt;MCP 允许模型像外科医生一样通过标准接口&amp;quot;零接触式&amp;quot;实施“远程手术”。这意味着既不需要将敏感报表上传至云端，也不必开放整个本地文件系统&lt;/strong&gt;&lt;br&gt;
+。这种设计类似操作系统的沙箱技术，不可信进程或不可信代码必须运行在虚拟环境，通过隔离的上下文环境访问受限数据，从而减少被攻击面。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是，过多的安全设计往往会带来开放性的损失，MCP 优化了安全的风险，也需考虑开发者的“开放性”诉求。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fb94c1b147e8c9cad0cc49e007bde238.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;从风格各异到风格统一&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;&#34;&gt;
+&lt;/h2&gt;&lt;p&gt;MCP 将不同工具开发者的“个人风格”抽象为统一接口，就像为 AI 世界制定了通用的 USB-C 规范。无论是本地 SQL 数据库还是云端 API，开发者只需实现标准协议即可对接，这&lt;strong&gt;显著降低了工具开发和智能体集成工具的边际成本&lt;/strong&gt;&lt;br&gt;
+。SaaS 厂商和独立开发者将最先从 MCP 的“开放性”受益，MCP 的火热也为这批成功的“尝鲜者”带来巨大的访问流量激增。根据统计，Github MCP Server 的 star 数 2 周内从 0 增长到 4.3k，Figma MCP Server 的 star 数 6 周内从 0 增长到 4.4k。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是，MCP 仍只是智能应用的过程工具，MCP 要走向智能体，协助智能体完成任务协作。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/69639d952948c5354876125f51ea0a43.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1cf31c3750c690c540757058b1440b5a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;爆火之后，算力成新问题&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 降低了智能体接入工具的门槛。以近期大火的 OpenManus（4周内 star 从 0 到 40k） 为例，不同于大模型“大而全”的响应模式，OpenManus 的特点是极简可插拔框架，通过模块化、可扩展的工具集，以 ReAct 模式，以工具为核心驱动 Agent 的行动，逐步解决复杂的真实世界问题。在 OpenManus 这套多模型、多工具的设计方案中，工具调用的频次由大模型结合提示词进行“&lt;br&gt;
+规划→分配→执行”，&lt;strong&gt;调用热点不可预测，一旦出现热点工具算力层面不足而产生报错/卡顿现象，将会极大降低 OpenManus 智能体的任务协作效率。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1829ce2e828a3acd20e84fe267480f0c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serverless 解决算力不足的「破窗效应」&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Serverless 提供的弹性算力重构智能体协作范式，突破资源静态分配桎梏，使得高频 MCP Server 具备毫秒级扩缩容能力实现流量自适应，低频 MCP Server 则自动休眠成本趋近于零。智能体的执行效率依赖子任务的执行成功率，子任务的执行成功率则受到工具调用失败/卡顿的影响，特别是热点工具的调用失败/卡顿极易引发“破窗效应”，导致错误无限扩展，无法达成规划目标。为 MCP 服务/工具提供 Serverless 弹性算力是最优解决方案。&lt;/p&gt;
+&lt;p&gt;Serverless：MCP 落地的“最佳搭档”Cloud Native&lt;/p&gt;
+&lt;p&gt;Serverless 与 MCP 珠联璧合，是云原生架构与 AI 协议标准的&amp;quot;化学反应&amp;quot;。当 MCP 试图构建 AI 世界的通用接口时，Serverless 提供了最佳运行环境 - 就像 USB-C 设备仍需要配备自适应功率的电源适配器才可适配不同的电压标准。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a5036959b7e1b46186555d235cdf359.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其技术协同性体现在三个维度：&lt;/p&gt;
+&lt;p&gt;弹性扩展与按需计费：&lt;br&gt;
+MCP 服务天然适配 Serverless 的事件驱动模型。例如当 LLM 发起数据库查询时，函数计算即时冷启动执行 SQL 解析，响应完成后立即释放资源。实测数据显示，这种模式相比常驻容器节省 83% 的计算成本。&lt;/p&gt;
+&lt;p&gt;安全沙箱与零信任架构&lt;br&gt;
+：&lt;br&gt;
+Serverless 的临时执行环境完美契合 MCP 服务的安全隔离需求。每个 MCP 请求都在独立的上下文中处理，执行完毕后自动销毁实例，消除传统常驻服务的上下文残留，降低数据泄露风险。&lt;/p&gt;
+&lt;p&gt;生态集成与敏捷交付：&lt;br&gt;
+阿里云 Serverless 平台已内置 MCP 运行时。开发者通过函数计算 FC 控制台可直接部署预置的 MCP 模版，如函数计算的 &amp;ldquo;amap-maps-mcp-server&amp;rdquo; 模版可在 30 秒内完成和高德地图的服务对接。&lt;/p&gt;
+&lt;p&gt;这种组合正在重塑 AI 应用架构。&lt;br&gt;
+某出行科技公司的实践显示，其基于 FC+ MCP 构建的智能体系统，在应对突发流量时展现出显著优势：当流量波动引发工具调用洪峰（QPS 从 50 激增至 2000），系统在 500 毫秒内自动扩展出 200 个可并行执行的 MCP 函数实例，全程未触发任何限流告警。这印证了 Serverless 作为 MCP &amp;ldquo;弹性算力&amp;quot;的核心价值 - 让 MCP 既具备协议标准的统一性，又拥有云原生的弹性基因。&lt;/p&gt;
+&lt;p&gt;立即体验：一键部署热门 MCP ServerCloud Native&lt;/p&gt;
+&lt;p&gt;接下来您可以跟着教程快速实现开源 MCP Server 一键托管，假如您搭建的 AI Agent 中需要加入导航服务，您可能会需要高德社区提供的 MCP Server ，接下来我们将以开源项目 amap-maps-mcp-server 为例演示如何一键部署 MCP Server 到函数计算 FC 上，后续您可以在不同工具（如 Cherry-Studio、Cline 和 Cursor）中继续配置云端 MCP 服务。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;第一步： 模版部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;点击【1】进入CAP控制台。填入从高德开发者申请的 Token（立刻申请完成），&lt;br&gt;
+可以在【2】&lt;br&gt;
+申请。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/73c100681b65b142d2d513add98aa00b.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;第二步： 测试 MCP Server 提供的工具能力&lt;/p&gt;
+&lt;p&gt;部署成功之后，通过触发器页面，拿到测试 URL 可对当前 MCP Server 进行测试。如果希望将部署的 MCP Server 用于生产，建议使用自定义域名代替测试 URL。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/83a13de547df1db2fde80f63157e45bb.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试步骤一：本地终端运行命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx @modelcontextprotocol/inspector  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7db5677320c2cc28a59479a40e4dc8ec.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试步骤二：浏览器中打开本地提供的测试地址“&lt;br&gt;
+http://localhost:5173/#tools&lt;br&gt;
+”进行测试，在 URL 表单中填入上面获取的 URL，添加 /sse 后缀填入 URL 表单中，点击 Connect 会看到开源 MCP Server 提供的 Tools 列表，可以点击置顶 Tool 进行交互验证。&lt;br&gt;
+  &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/108f8f05a2f8d71b9a09de744c05fb98.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果您对于产品有更多建议或者对 MCP server 云端托管有更多想法可以加入钉钉群（群号：64970014484）与我们取得联系。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;更多开源 MCP Server 一键部署&lt;/strong&gt;&lt;br&gt;
+  &lt;/p&gt;
+&lt;table&gt;&lt;tbody&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 28.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border: 1px solid rgb(221, 221, 221);max-width: 100%;box-sizing: border-box !important;height: 28.5pt;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;MCP 开源地址&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;编程语言&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;一键部署&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Server 类型&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/baidu-maps/mcp/tree/main/src/baidu-map/node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-nodejs-baidu-map&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/github&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-github&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/everart&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-ever-art&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/fetch&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Python&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-fetch&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-brave-search&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/time&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Python&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-time&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/devsapp/amap-maps-mcp-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-amap-maps&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/everything&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-everything&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;sse&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/aws-kb-retrieval-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-aws-kb-retrieval-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-gitlab&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/template-detail?template=start-mcp-puppeteer&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;sse&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-sequentialthinking&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;  
+&lt;p&gt;【1】https://cap.console.aliyun.com/create-project?template=start-mcp-amap-maps&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://lbs.amap.com/api/webservice/create-project-and-key&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;点击,立即体验&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
