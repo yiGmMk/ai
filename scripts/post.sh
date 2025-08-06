@@ -141,3 +141,4 @@
 [√] 亮证女司机被拘留.md
 [√] 60亿美元：晶泰科技与Dovetree达成AI制药合作协议.md
 [√] 近60亿美元！晶泰科技与DoveTree达成AI制药合作.md
+[√] self-driving/tesla-2.md
