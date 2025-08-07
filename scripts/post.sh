@@ -143,3 +143,4 @@
 [√] 近60亿美元！晶泰科技与DoveTree达成AI制药合作.md
 [√] self-driving/tesla-2.md
 [√] economy/黑暗的一天，特朗普生吞冯德莱恩.md
+[√] self-driving/EM4+E1成新一代Robotaxi首选配置，加速商业化运营落地.md
