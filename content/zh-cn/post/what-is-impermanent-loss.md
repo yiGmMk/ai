@@ -16,7 +16,7 @@ image: ""
 
 *此损失被称为“无常”，因为如果令牌价格返回其原始价值，则可以缓解它。
 
-*尽管无常损失有风险，但提供流动性也通过交易费和额外的[tokens]（https://www.coinbase.com/learn/learn/crypto-basics/what-is-a-a-token）提供奖励。
+*尽管无常损失有风险，但提供流动性也通过交易费和额外的[tokens](https://www.coinbase.com/learn/learn/crypto-basics/what-is-a-a-token)提供奖励。
 
 了解无常损失
 ------------------------------------------
@@ -46,7 +46,7 @@ Impermanent Loss = 2 * sqrt(price_ratio) / (1+price_ratio) -  1
 
 虽然您无法避免无常损失，但可以减少曝光率。以下是一些可以提供帮助的提示：
 
-*资产的波动越多，可能发生的无常损失就越多。使用更稳定的代币，例如[stablecoins]（https://www.coinbase.com/learn/learn/crypto-basics/what-is-a-a-stablecoin）或[btc]（https://wwwww.coinbase.com/learn/learn/learn/clearn/creryn/crerypto-basics/what-is-bitcoin）。
+*资产的波动越多，可能发生的无常损失就越多。使用更稳定的代币，例如[stablecoins](https://www.coinbase.com/learn/learn/crypto-basics/what-is-a-a-stablecoin)或[btc](https://wwwww.coinbase.com/learn/learn/learn/clearn/creryn/crerypto-basics/what-is-bitcoin)。
 
 *确保您还使用经过久经考验的自动做市商来减少您对市场操作的接触。
 
@@ -55,4 +55,4 @@ Impermanent Loss = 2 * sqrt(price_ratio) / (1+price_ratio) -  1
 无常损失保护
 ---------------------------------------
 
-无常损失保护（ILP）是一种保护流动性提供者免受意外损失的保险。如果[挖矿]的好处（https://blog.coinbase.com/around-the-block-7-understanding-yield-farming-and-the-latest-developments-in-defi-ef9f1ac910fb）超过临时损失的成本。但是，如果流动性提供者遭受损失，他们可以利用ILP来保护自己免受无常损失。要激活ILP，必须将令牌分配给农场。
+无常损失保护（ILP）是一种保护流动性提供者免受意外损失的保险。如果[挖矿的好处](https://blog.coinbase.com/around-the-block-7-understanding-yield-farming-and-the-latest-developments-in-defi-ef9f1ac910fb)超过临时损失的成本。但是，如果流动性提供者遭受损失，他们可以利用ILP来保护自己免受无常损失。要激活ILP，必须将令牌分配给农场。
