@@ -144,3 +144,4 @@
 [√] self-driving/tesla-2.md
 [√] economy/黑暗的一天，特朗普生吞冯德莱恩.md
 [√] self-driving/EM4+E1成新一代Robotaxi首选配置，加速商业化运营落地.md
+[√] 巴基斯坦已列装中国制造的直-10ME攻击直升机，国防部回应.md
