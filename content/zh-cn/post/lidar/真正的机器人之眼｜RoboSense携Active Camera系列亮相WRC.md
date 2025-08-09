@@ -2,10 +2,10 @@
 title: "真正的机器人之眼"
 date: "2025-08-11"
 tags: ["Active Camera", "机器人视觉", "激光雷达", "AI生态", "3D感知"]
-categories: ["机器人技术", "AI与自动化"]
+categories: ["机器人技术","激光雷达", "AI与自动化"]
 description: "RoboSense速腾聚创在WRC 2025上展示了其Active Camera系列及新一代激光雷达，推动机器人视觉感知技术的发展。"
-author: "Unknown Author"
-image: ""
+author: "RoboSense"
+image: "https://ai.programnotes.cn/img/ai/39ac3166306b99ed28de7398cc513ff4.jpeg"
 ---
 
 核心内容点：
