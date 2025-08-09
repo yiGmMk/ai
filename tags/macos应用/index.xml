@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>MacOS应用 on AI</title>
+        <link>https://ai.programnotes.cn/tags/macos%E5%BA%94%E7%94%A8/</link>
+        <description>Recent content in MacOS应用 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Mon, 14 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/macos%E5%BA%94%E7%94%A8/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>2万行代码，Claude Code完成95%！一位独立开发者发布APP的实录</title>
+        <link>https://ai.programnotes.cn/p/2%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81claude-code%E5%AE%8C%E6%88%9095%E4%B8%80%E4%BD%8D%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%91%E5%B8%83app%E7%9A%84%E5%AE%9E%E5%BD%95/</link>
+        <pubDate>Mon, 14 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/2%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81claude-code%E5%AE%8C%E6%88%9095%E4%B8%80%E4%BD%8D%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%91%E5%B8%83app%E7%9A%84%E5%AE%9E%E5%BD%95/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AI 编程极大地提高了开发效率，开发者主要负责思考和决策，AI 负责执行和试错。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通过“预激活”、强制“深度思考”和提供清晰的“需求文档”，可以有效提升 AI 的代码产出质量。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 不仅能辅助核心编码，还能承担生成模拟数据、自动化发布流程等繁琐的杂活，让开发者更专注于核心价值。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  付奶茶  夕小瑶科技说   2025-07-14 13:29&lt;/p&gt;
+&lt;p&gt;家人们，先来开个脑洞：&lt;/p&gt;
+&lt;p&gt;一款功能贼复杂、UI 巨精美的 macOS 应用，从一个空文件夹到上架 App Store，只花了一周。&lt;/p&gt;
+&lt;p&gt;这个项目总代码量超过 2 万行，&lt;strong&gt;95% 是 AI 写的。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这是不是听起来像某书上哪个人编的爽文？&lt;/p&gt;
+&lt;p&gt;但这确实是来自一位资深 Mac 开发者的亲身经历，刷新了我们对 AI 编程能力的上限。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cf82f6eb6d7bfa88f11b2f106c378882.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这位开发者名叫 Indragie Karunaratne，从 2008 年开始就开始搞 Mac 软件开发。&lt;/p&gt;
+&lt;p&gt;最近，他用 AI 编程工具 Claude Code，从零撸了个叫“Context”的 App，并且都上架了。最后统计发现，他自己手写的代码，竟然不到 1000 行，95% 的开发工作，都是 Claude Code 完成的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“整个过程几乎没怎么写代码，反而像是在给一个特别聪明的远程实习生发指令。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;听起来挺暴力的，Indragie 把整个过程写成了博客，直接在开发者圈子里炸了锅。&lt;/p&gt;
+&lt;p&gt;这已经不是单纯的“炫技”，而是他摸索出了一套“人机协作”的教科书式开发教程，教大家如何把“代码工具”调教成一个能扛起整个项目的“主力”，人全程只需要负责动嘴和审查。&lt;/p&gt;
+&lt;p&gt;下面一起看看他完整的开发历程，包括如何选择工具，这些工具的优缺点，以及最重要的，你该如何利用它们，最大限度地提升代码产出质量，特别是当你也想构建一款原生应用时。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7597ec09a8b23067571621850d00ff59.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ai-编程究竟能做到什么地步&#34;&gt;AI 编程，究竟能做到什么地步？
+&lt;/h2&gt;&lt;p&gt;这个“Context”的 App，是一款用于调试 MCP 服务器的原生 macOS 应用，基于苹果的 SwiftUI 框架。&lt;/p&gt;
+&lt;p&gt;作者 Indragie 察觉到目前构建和测试 MCP 服务器的体验相当繁琐，所以想要尝试构建一个原生应用来解决这个问题，“Context”便诞生了。&lt;/p&gt;
+&lt;p&gt;Indragie 摸索出的这套工作流，核心思想就是是：&lt;strong&gt;人类负责思考和决策，AI 负责执行和试错。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Indragie 只下达指令，不纠结代码细节；Claude 会根据指令，迅速生成一整块、甚至一整个文件的代码。Indragie 拿到代码后，几乎不审查逻辑。他只做一件事——全选、复制、粘贴到 Xcode 里，然后“编译”。Indragie 再把所有错误日志，原封不动地再“甩”回给 Claude。Claude 立刻理解错误道歉，然后提供修复后的新版本代码。&lt;/p&gt;
+&lt;p&gt;“下指令 -&amp;gt; AI 编码 -&amp;gt; 运行 -&amp;gt; 甩回错误 -&amp;gt; AI 修复”的循环，是整个项目的推进主轴。&lt;/p&gt;
+&lt;p&gt;Indragie 也给出了最直接的评价：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;搭载了最新 Sonnet 4 和 Opus 4 模型的 Claude Code，代码能力极为出色。虽不及“顶尖 1%”的人类程序员，但其输出质量已“明显高于普通开发者”。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;面对一个功能需求，Claude 能做到的事情，几乎覆盖了开发的完整闭环：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;阅读理解：&lt;/strong&gt;&lt;br&gt;
+ 自主定位并阅读项目源码，理解相关上下文和代码风格。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;学习消化：&lt;/strong&gt;&lt;br&gt;
+ “喂”给它外部文档或 API 规范，它能自己啃下来。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;代码生成：&lt;/strong&gt;&lt;br&gt;
+ 根据需求实现功能，生成配套的测试用例。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;构建测试：&lt;/strong&gt;&lt;br&gt;
+ 自主编译程序、运行测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;自主修复：&lt;/strong&gt;&lt;br&gt;
+ 遇到编译错误或测试失败能像人一样反复迭代、尝试修复，直到通过。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;视觉调试：&lt;/strong&gt;&lt;br&gt;
+ 通过分析截图或控制台日志，来定位并修复 Bug。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f52862024e799628a4d9e25ba8208a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;AI 最强大的地方在于能自主迭代，人类最大的功能是给 AI 建立反馈闭环。&lt;/p&gt;
+&lt;p&gt;最让 Indragie 感到不可思议的是，完成这一切所花的时间，仅仅是人类开发者的一小部分：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;“这就像让一个对项目零背景的新员工，在短短几分钟内，就完整交付一个功能。”&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;一句make-it-more-beautiful就能让-ui-升级&#34;&gt;一句“Make it more beautiful” 就能让 UI 升级
+&lt;/h2&gt;&lt;p&gt;作者选择了最新的技术栈：Swift 6.1 和 SwiftUI。想看看在训练数据远少于 Python 或 JavaScript 的情况下，Claude 写 Swift 代码的表现如何。&lt;/p&gt;
+&lt;p&gt;好消息是，Claude 能胜任 Swift 5.5 之前的大部分语言特性。&lt;/p&gt;
+&lt;p&gt;但对于之后引入的 Swift Concurrency（并发），它就有点抓瞎，比如会固执地用老 API，或者第一次写的 UI 丑得不忍直视。&lt;/p&gt;
+&lt;p&gt;但好消息是，它的学习和纠错能力极强。你只需提点几句，经过几次迭代，它就能写出设计精良的现代化代码。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ccdd73a763201c3ec31bc0757c0e8f89.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;更惊人的是，它甚至在遇到 Swift 编译器那个著名的“类型检查超时”错误后：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The compiler is unable to type-check this expression in reasonable time&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;能够自主将复杂代码重构成了更小的部分，在不破坏原有逻辑的前提下，完美解决问题。&lt;/p&gt;
+&lt;h2 id=&#34;提升产出的核心上下文工程&#34;&gt;提升产出的核心：上下文工程
+&lt;/h2&gt;&lt;p&gt;此外，Indragie 发现，AI 越聪明，瓶颈就越不是“怎么问”，而是“它能记住多少”。“上下文窗口”是有限的，高效利用这有限的“记忆”，才是关键。&lt;/p&gt;
+&lt;p&gt;他总结了三个核心技巧：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. “预激活”（Priming）：先让 AI 学习，再让 AI 工作&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;别直接派活！&lt;/p&gt;
+&lt;p&gt;在让 AI 开始工作前，先让它“预热”——阅读额外的上下文，以提高输出质量。比如，先抛给它这样的指令：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“阅读 文件A.swift&lt;br&gt;
+, 文件B.swift&lt;br&gt;
+ 和 这篇网页上的文档&lt;br&gt;
+，然后总结你学到了什么。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;它会先去阅读和学习，这个“总结”的动作能强迫它思考，并将关键信息保留在上下文中，对后续任务的质量有极大提升。&lt;/p&gt;
+&lt;p&gt;Claude 还会贴心地显示剩余上下文容量的提示条，当 token 耗尽时系统会启动&amp;quot;对话压缩&amp;quot;机制。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8b92d9df0f39eddebafb7345d3b9717d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 强制让 AI“深度思考”（Ultrathink）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Claude 有时会跳过充分思考，直接“莽”上去写代码，结果自然不理想。&lt;/p&gt;
+&lt;p&gt;Indragie 发现，Claude 有一个“隐藏技能”，你可以通过一些关键词让它进行更深度的思考。这些关键词是：think&lt;br&gt;
+ &amp;lt; think hard&lt;br&gt;
+ &amp;lt; think harder&lt;br&gt;
+ &amp;lt; ultrathink&lt;br&gt;
+。&lt;/p&gt;
+&lt;p&gt;ultrathink&lt;br&gt;
+ 会消耗最多的 Token，但能产出最好的结果。在指令中加入这个词，它会先制定一个周密的计划，而不是直接动手写代码，这能有效避免走弯路。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 给 AI 清晰的“需求文档”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;“一句话造应用”的梦还没照进现实。想让 AI 构建真正可用的复杂功能，前提是你能给一份清晰的需求文档。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3b2c040ab748c1ceaa65fd2211ef384d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“花点时间把想法写清楚，绝对比后面花大把时间调试它写的烂代码要划算得多。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;垃圾进，垃圾出，这铁律在 AI 时代依然有效。&lt;/p&gt;
+&lt;h2 id=&#34;建立反馈循环&#34;&gt;建立反馈循环
+&lt;/h2&gt;&lt;p&gt;如果说以上三点是与 AI 相处的技巧，那下面这点，则是 Claude 最让 Indragie 震撼的“执行”能力。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;它能够独立驱动一个“构建 -&amp;gt; 测试 -&amp;gt; 修复”的反馈循环。&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这意味着，AI 可以自主地完成一个迭代周期：&lt;/p&gt;
+&lt;p&gt;全自动能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;构建 (Build):&lt;/strong&gt;&lt;br&gt;
+ Claude 能直接运行 swift build 来编译 Swift 包。对于复杂的 macOS 应用，开发者需要预先配置好 xcodebuild 等工具，AI 可以调用这些工具。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;测试 (Test):&lt;/strong&gt;&lt;br&gt;
+ 同样，它可以自主执行 swift test 来运行单元测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;半自动化能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;收集、修复 Bug:&lt;/strong&gt;&lt;br&gt;
+ AI 知道通过日志进行调试，但它无法自行操作应用界面来复现一个特定的 Bug。因此，开发者需要手动操作应用，并将相关的控制台日志或错误信息粘贴给 AI，AI 才能进行分析和修复。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;修复 UI 问题（迭代）&lt;/strong&gt;&lt;br&gt;
+: 对于 UI 的调整，也需要开发者先将应用运行到需要修改的界面，然后提供截图给 Claude。开发者通过在截图上标记或用文字描述，来指导 AI 进行界面元素的调整和优化。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;让杂活变得免费&#34;&gt;让杂活变得“免费”
+&lt;/h2&gt;&lt;p&gt;除了核心编码，AI 在干那些“吃力不讨好”的杂活上，同样表现惊人。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;秒级生成模拟数据：&lt;/strong&gt;&lt;br&gt;
+手动创建高质量的模拟数据（Mock Data）足以扼杀许多 UI 探索的灵感。而 Claude 能在几秒内生成以假乱真的数据，让他能快速迭代 UI 原型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ed1314e437855516c3a3509b38c58f70.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;“免费”的自动化发布流：&lt;/strong&gt;&lt;br&gt;
+对独立开发者来说，最痛苦的莫过于打包发布。代码签名、软件公证、生成更新日志、上传版本…一套流程下来，身心俱疲。过去 Indragie 只能勉强拼凑一个简陋脚本，而这次，他通过与 Claude 迭代，生成了一个近 2000 行的 Python 发布脚本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/179dee3240b2d0115c7b93dc6d9c9688.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这个脚本功能全面、界面美观，能自动完成从生成更新日志到打包签名、发布到 GitHub、上传调试符号等所有繁琐工作。这个过去需要花费数小时甚至数天的任务，现在成了“一次点击，喝杯咖啡”的享受 ～&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语
+&lt;/h2&gt;&lt;p&gt;Indragie 算了一笔账：&lt;strong&gt;AI 带来了“每天凭空多出 5 个小时”的感觉，让他重新找回了将项目打磨并成功发布的掌控感和乐趣。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;获得这种开发“超能力”的代价呢？仅仅是每月 200 美元。。。&lt;/p&gt;
+&lt;p&gt;Indragie 的实践并非个例。&lt;/p&gt;
+&lt;p&gt;最近，Reddit 上一个热帖《开发工作即将迎来彻底变革，而没有人做好准备》也引发了热议。发帖者激动地宣称，AI 让他一周内完成了拖延十年的项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3a0c35d2052cace97968d092d6075f72.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当然，评论区的反响并非一边倒的赞歌。许多开发者在肯定 AI 潜力的同时，也一针见血地指出：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“AI 生成的代码依然存在大量冗余，上下文管理仍是巨大挑战，离真正高质量、可维护的大规模生产应用，还有很长的路要走。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d397ec3c71a9e362a73110fabe6a4620.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这让网友们联想起了传奇程序员肯特·贝克（Kent Beck）的观点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1054c0913713ff17b90d01419438c09f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“你 90% 的编码技巧正在迅速贬值，但你 10% 的架构远见、设计品味和复杂性管理能力，正被放大 1000 倍。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这一点，奶茶我是非常认同的！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;人类程序员的价值正在从“如何写”，转移到“写什么”和“为何写”。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所以，朋友们，真正的问题已经不是“AI 会替代我吗？”，也不是“我该去学哪门新语言？”。&lt;/p&gt;
+&lt;p&gt;而是：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你那 10% 不可替代的价值，究竟是什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;以及，你准备好如何用 AI，将它放大 1000 倍了吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/becb445decf247b76b6c5f50799c3985.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考文献&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.indragie.com/blog/i-shipped-a-macos-app-built-entirely-by-claude-code&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.indragie.com/blog/i-shipped-a-macos-app-built-entirely-by-claude-code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.reddit.com/r/ClaudeAI/comments/1lhgdbd/dev_jobs_are_about_to_get_a_hard_reset_and/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.reddit.com/r/ClaudeAI/comments/1lhgdbd/dev_jobs_are_about_to_get_a_hard_reset_and/&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
