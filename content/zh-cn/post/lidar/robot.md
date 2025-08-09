@@ -1,6 +1,6 @@
 ---
-title: "RoboSense机器人之眼+越疆科技,助力新一代DOBOT Atom 重磅发布"
-date: "2025-08-11"
+title: "RoboSense助力越疆科技,新一代DOBOTAtom重磅发布"
+date: 2025-08-09
 tags: ["Airy", "DOBOT Atom", "具身智能", "激光雷达", "商业化落地"]
 categories: ["机器人技术","激光雷达",  "行业动态"]
 description: "RoboSense与越疆科技在WRC 2025上发布新一代DOBOT Atom人形机器人，搭载Airy半球形激光雷达，展示多场景操作能力。"

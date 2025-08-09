@@ -1,6 +1,6 @@
 ---
-title: "真正的机器人之眼"
-date: "2025-08-11"
+title: "速腾聚创-真正的机器人之眼"
+date: 2025-08-09
 tags: ["Active Camera", "机器人视觉", "激光雷达", "AI生态", "3D感知"]
 categories: ["机器人技术","激光雷达", "AI与自动化"]
 description: "RoboSense速腾聚创在WRC 2025上展示了其Active Camera系列及新一代激光雷达，推动机器人视觉感知技术的发展。"
