@@ -157,3 +157,4 @@
 [√] space/我国十大民营火箭公司之-蓝箭航天-首个成功入轨的液氧甲烷火箭.md
 [√] ai/实测GPT-5：写作坠入谷底，编程一骑绝尘。.md
 [√] ai/ThinkInAI Weekly AI周刊 VOL.12.md
+[√] lidar/robot-3.md
