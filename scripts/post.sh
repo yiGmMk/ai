@@ -158,3 +158,4 @@
 [√] ai/实测GPT-5：写作坠入谷底，编程一骑绝尘。.md
 [√] ai/ThinkInAI Weekly AI周刊 VOL.12.md
 [√] lidar/robot-3.md
+[√] ai/全国首台国产商业电子束光刻机在杭州“出炉”.md
