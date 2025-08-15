@@ -159,3 +159,4 @@
 [√] ai/ThinkInAI Weekly AI周刊 VOL.12.md
 [√] lidar/robot-3.md
 [√] ai/全国首台国产商业电子束光刻机在杭州“出炉”.md
+[√] lidar/禾赛发布2025 Q2财报：盈利大超预期，营收同比增长超50%.md

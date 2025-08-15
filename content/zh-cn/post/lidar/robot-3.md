@@ -1,6 +1,6 @@
 ---
 title: "RoboSense机器人之眼×灵宝CASBOT：加速CASBOT 02感知跃升丨WRC 2025"
-date: "2025-08-11 "
+date: "2025-08-11"
 tags: ["激光雷达", "人形机器人", "多模态感知", "具身智能", "战略合作"]
 categories: ["人形机器人", "激光雷达","产业合作"]
 description: "RoboSense与灵宝CASBOT在WRC 2025展示新一代激光雷达Airy与CASBOT 02人形机器人的协同应用，推动具身智能商业化进程。"
