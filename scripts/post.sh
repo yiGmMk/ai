@@ -162,3 +162,4 @@
 [√] lidar/禾赛发布2025 Q2财报：盈利大超预期，营收同比增长超50%.md
 [√] web3/v2ex-sol-2.md
 [√] lidar/搭载RoboSense 520线超级激光雷达，新一代智己LS6全面进化.md
+[√] lidar/hsai-奥迪.md
