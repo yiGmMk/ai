@@ -163,3 +163,4 @@
 [√] web3/v2ex-sol-2.md
 [√] lidar/搭载RoboSense 520线超级激光雷达，新一代智己LS6全面进化.md
 [√] lidar/hsai-奥迪.md
+[√] ai/DeepSeek发布V3.1模型,Gemini API截断及空回复问题即将修复.md
