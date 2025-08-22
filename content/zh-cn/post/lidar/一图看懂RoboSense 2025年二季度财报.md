@@ -2,7 +2,7 @@
 title: "一图看懂RoboSense 2025年二季度财报"
 date: "2025-08-21"
 tags: ["财报", "机器人业务", "毛利率提升", "EM平台", "数字化产品"]
-categories: ["科技", "财务报告"]
+categories: ["科技","激光雷达","人形机器人", "财务报告"]
 description: "RoboSense速腾聚创2025年第二季度财报显示营收4.6亿元，机器人业务增长显著，产品毛利率连续六季度提升，EM平台在多个领域取得突破性进展。"
 author: "RoboSense"
 image: "https://ai.programnotes.cn/img/ai/53d9c0e11f9ccef529867b3f832595c8.jpeg"
