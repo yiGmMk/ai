@@ -164,3 +164,4 @@
 [√] lidar/搭载RoboSense 520线超级激光雷达，新一代智己LS6全面进化.md
 [√] lidar/hsai-奥迪.md
 [√] ai/DeepSeek发布V3.1模型,Gemini API截断及空回复问题即将修复.md
+[√] lidar/速腾-25中报暴增.md
