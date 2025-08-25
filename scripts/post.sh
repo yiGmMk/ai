@@ -166,3 +166,4 @@
 [√] ai/DeepSeek发布V3.1模型,Gemini API截断及空回复问题即将修复.md
 [√] lidar/速腾-25中报暴增.md
 [√] lidar/一图看懂RoboSense 2025年二季度财报.md
+[√] lidar/速腾-M9.md
