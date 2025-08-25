@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Scanner on AI News</title>
+        <link>https://ai.programnotes.cn/en/tags/scanner/</link>
+        <description>Recent content in Scanner on AI News</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Thu, 08 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/en/tags/scanner/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Introducing MCP-Scan: Protecting MCP with Invariant</title>
+        <link>https://ai.programnotes.cn/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/</link>
+        <pubDate>Thu, 08 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/</guid>
+        <description>&lt;p&gt;MCP-Scan, a security scanner designed to protect your agentic systems from MCP-based security vulnerabilities, including Tool Poisoning Attacks and MCP Rug Pulls.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Repository&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://invariantlabs.ai/images/mcp-scan-launch.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 4: MCP-Scan&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Invariant is excited to announce &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;MCP-Scan&lt;/strong&gt;&lt;/a&gt;, a novel security scanning tool designed specifically to protect agentic AI systems from security vulnerabilities when using the Model Context Protocol (MCP).&lt;/p&gt;
+&lt;h2 id=&#34;why-mcp-scan&#34;&gt;Why MCP-Scan?
+&lt;/h2&gt;&lt;p&gt;As recent research uncovered (&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Tool Poisoning Attacks&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/whatsapp-mcp-exploited&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WhatsApp MCP Exploits&lt;/a&gt;), MCP implementations across various platforms—such as Cursor, Claude Desktop, Zapier, and others—are susceptible to dangerous attacks. These vulnerabilities include prompt injections, hidden malicious tool instructions (Tool Poisoning Attacks), and cross-origin escalations through tool shadowing.&lt;/p&gt;
+&lt;p&gt;Recognizing these serious security threats, we developed &lt;strong&gt;MCP-Scan&lt;/strong&gt; to help users quickly identify vulnerabilities within their MCP installations, ensuring safer and more secure agent interactions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Concerned about MCP and agent security?&lt;/strong&gt;&lt;br&gt;
+Sign up for early access to Invariant Guardrails, our security platform that goes beyond just scanning, covering many attack vectors and security issues, including MCP attacks. &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/guardrails&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Learn More&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;how-mcp-scan-protects-your-systems&#34;&gt;How MCP-Scan Protects Your Systems
+&lt;/h2&gt;&lt;p&gt;MCP-Scan proactively scans installed MCP servers and their tool descriptions to identify:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tool Poisoning Attacks:&lt;/strong&gt; Hidden malicious instructions embedded in MCP tool descriptions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP Rug Pulls:&lt;/strong&gt; Unauthorized changes to MCP tool descriptions after initial user approval.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cross-Origin Escalations:&lt;/strong&gt; Shadowing attacks that compromise trusted tools through malicious descriptions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prompt Injection Attacks:&lt;/strong&gt; Malicious instructions contained within tool descriptions that could be executed by the agent.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;quick-and-easy-security-checks&#34;&gt;Quick and Easy Security Checks
+&lt;/h2&gt;&lt;p&gt;MCP-Scan seamlessly integrates into your workflow and can be run with a simple command. No configuration is required.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx mcp-scan@latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The tool scans through your MCP configuration files, connecting to servers and retrieving tool descriptions, analyzing them locally and using the Invariant Guardrails API to identify malicious instructions.&lt;/p&gt;
+&lt;p&gt;To run this command, make sure you have the &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;code&gt;uv&lt;/code&gt;&lt;/a&gt; package manager installed on your system.&lt;/p&gt;
+&lt;p&gt;This will load the latest source and dependencies from PyPI, if you would rather run from source, check out the &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub repository&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;example-scan-result&#34;&gt;Example Scan Result
+&lt;/h2&gt;&lt;p&gt;Here&amp;rsquo;s an example of MCP-Scan in action, clearly identifying a vulnerable MCP tool:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://invariantlabs.ai/images/mcp-scan-output.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 5: MCP-Scan Example&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;In this example, MCP-Scan detects security risks, including prompt injections in the tool descriptions. Once identified, you can use &lt;code&gt;uvx mcp-scan@latest inspect&lt;/code&gt; to view the relevant tool descriptions and take action.&lt;/p&gt;
+&lt;h2 id=&#34;enhanced-security-through-tool-pinning&#34;&gt;Enhanced Security through Tool Pinning
+&lt;/h2&gt;&lt;p&gt;MCP-Scan includes built-in &lt;strong&gt;Tool Pinning&lt;/strong&gt; to detect and prevent MCP Rug Pull attacks, verifying the integrity of installed tools by tracking changes via tool hashing. This allows users to detect changes to tool descriptions.&lt;/p&gt;
+&lt;h2 id=&#34;cross-origin-escalation-detection&#34;&gt;Cross-Origin Escalation Detection
+&lt;/h2&gt;&lt;p&gt;MCP-Scan also identifies cross-origin escalation attacks or &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tool shadowing&lt;/a&gt;, where a malicious tool description can shadow a trusted tool. This is particularly important for users who rely on multiple MCP servers.&lt;/p&gt;
+&lt;p&gt;To mitigate these attacks, MCP-Scan scans specifically for cross-references among different MCP servers, ensuring hardened isolation on an instruction level.&lt;/p&gt;
+&lt;h2 id=&#34;inspect-your-installed-tools&#34;&gt;Inspect Your Installed Tools
+&lt;/h2&gt;&lt;p&gt;You can inspect detailed tool descriptions at any time using:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx mcp-scan@latestinspect
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;contributing-and-community&#34;&gt;Contributing and Community
+&lt;/h2&gt;&lt;p&gt;MCP-Scan is open source, and we welcome your contributions, suggestions, and feature requests. Join our &lt;a class=&#34;link&#34; href=&#34;https://discord.gg/dZuZfhKnJ4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Discord&lt;/a&gt; or &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt; to participate in securing the future of agentic systems.&lt;/p&gt;
+&lt;h2 id=&#34;data-privacy-during-scanning&#34;&gt;Data Privacy during Scanning
+&lt;/h2&gt;&lt;p&gt;MCP-Scan searches through your configuration files to find MCP server configurations. It connects to these servers and retrieves tool descriptions. It does so only when explicitly called via its command.&lt;/p&gt;
+&lt;p&gt;It then scans tool descriptions, both with local checks and by invoking Invariant Guardrailing models via an API. For this, tool names and descriptions are shared with Invariant. By using MCP-Scan, you agree to the Invariant Labs &lt;a class=&#34;link&#34; href=&#34;https://explorer.invariantlabs.ai/terms&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;terms of use&lt;/a&gt; and &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/privacy-policy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;privacy policy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;During scans, Invariant is collecting data for security research purposes (only about tool descriptions and how they change over time, not your user data). Do not use MCP-scan if you don&amp;rsquo;t want to share your tool descriptions. If you are interested in dedicated or private deployments, please &lt;a class=&#34;link&#34; href=&#34;mailto:mcpscan@invariantlabs.ai&#34; &gt;reach out to us&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;MCP-scan does not store or log any MCP usage data, i.e. the contents and results of your MCP tool calls.&lt;/p&gt;
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started
+&lt;/h2&gt;&lt;p&gt;Protect your agentic AI systems from MCP security vulnerabilities today with MCP-Scan. Star the repository or contribute to the project on GitHub to help us improve MCP-Scan and make it even more effective in securing agentic systems.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Try MCP-Scan Now&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;about-invariant&#34;&gt;About Invariant
+&lt;/h2&gt;&lt;p&gt;Invariant is dedicated to ensuring the safety and robustness of agentic AI systems. Our research and tools address critical vulnerabilities, enabling the safe and secure deployment of AI in real-world scenarios. &lt;a class=&#34;link&#34; href=&#34;mailto:hello@invariantlabs.ai&#34; &gt;Reach out&lt;/a&gt; if you are interested in collaborating with us to enhance the security and integrity of your agentic systems.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;invariantlabs,blog&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

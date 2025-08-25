@@ -1,0 +1,2016 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>开源 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E5%BC%80%E6%BA%90/</link>
+        <description>Recent content in 开源 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sat, 26 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>扣子，开源了！</title>
+        <link>https://ai.programnotes.cn/p/%E6%89%A3%E5%AD%90%E5%BC%80%E6%BA%90%E4%BA%86/</link>
+        <pubDate>Sat, 26 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%89%A3%E5%AD%90%E5%BC%80%E6%BA%90%E4%BA%86/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/f284fd3ef063d94b62b55c9f209f70d8.png" alt="Featured image of post 扣子，开源了！" /&gt;&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;扣子开源了Coze Studio和Coze Loop两个核心项目&lt;/li&gt;
+&lt;li&gt;提供了基于Apache2.0协议的开源版本，支持双核CPU+4G内存环境&lt;/li&gt;
+&lt;li&gt;包含完整的Docker部署流程和模型配置说明&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |冷逸沃垠AI 2025-07-26 02:16&lt;/p&gt;
+&lt;p&gt;夜，是不可能不熬的。 刚刚，扣子宣布开源，主要开源了两个核心项目：&lt;/p&gt;
+&lt;p&gt;1.Coze Studio（扣子开发平台）&lt;/p&gt;
+&lt;p&gt;2.Coze Loop（扣子罗盘）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a63f7efb4b965320ec8bc0c8ac88649d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;GitHub地址: &lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/coze-dev/coze-studio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/coze-dev/coze-studio&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/coze-dev/cozeloop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/coze-dev/cozeloop&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Coze Studio是扣子最核心的产品，你可以通过拖拽节点，自由编排任意具有workflow的AI Agent。通过Coze Studio提供的可视化设计与编排工具，开发者可以零代码或低代码，快速打造和调试智能体、应用和工作流。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f284fd3ef063d94b62b55c9f209f70d8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Coze Loop是一个面向开发者，专注于AI Agent开发与运维的管理平台。可以帮助开发者更高效地开发和运维AI Agen，比如提示词工程、Agent评测、上线后监控与调优等，提升Agent的运行效果和稳定性。&lt;/p&gt;
+&lt;p&gt;本次开源，采用极其宽松的Apache2.0协议开源。意味着，所有人都可以免费下载和商用。&lt;/p&gt;
+&lt;p&gt;安装环境，门槛超低，双核CPU+4G内存即可运行。基本上就是，是个电脑都能使用。&lt;/p&gt;
+&lt;p&gt;在Agent编排工具领域，Coze一直是独一档的存在。本次开源，可以看到字节Seed团队拥抱开源的决心。&lt;/p&gt;
+&lt;p&gt;任谁开源，都值得吼两嗓子，感谢扣子，感谢字节。以下，是开源版Coze的安装指南。&lt;/p&gt;
+&lt;h2 id=&#34;1coze-studio部署指南&#34;&gt;1.Coze Studio部署指南
+&lt;/h2&gt;&lt;p&gt;环境要求：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bcb1cff1e67340a54d82eff5ffd6ef96.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在安装 Coze Studio 之前，请确保您的机器满足以下最低系统要求： 2 Core、4 GB&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;提前安装 Docker、Docker Compose，并启动 Docker 服务。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;部署步骤：&lt;/p&gt;
+&lt;p&gt;1）获取源码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 克隆代码
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/coze-dev/coze-studio.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;2）配置模型&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;从模板目录复制doubao-seed-1.6模型的模版文件，并粘贴到配置文件目录。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cd coze-studio
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 复制模型配置模版
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cp backend/conf/model/template/model_template_ark_doubao-seed-1.6.yaml backend/conf/model/ark_doubao-seed-1.6.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在配置文件目录下，修改模版文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进入目录 backend/conf/model。打开复制后的文件ark_doubao-seed-1.6.yaml。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;设置 id、meta.conn_config.api_key、meta.conn_config.model 字段，并保存文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id：Coze Studio 中的模型 ID，由开发者自行定义，必须是非 0 的整数，且全局唯一。模型上线后请勿修改模型 id 。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;meta.conn_config.api_key：模型服务的 API Key，在本示例中为火山方舟的 API Key，获取方式可参考获取火山方舟 API Key。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;meta.conn_config.model：模型服务的 model ID，在本示例中为火山方舟 doubao-seed-1.6 模型接入点的 Endpoint ID，获取方式可参考获取 Endpoint ID。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3）部署并启动服务&lt;/p&gt;
+&lt;p&gt;首次部署并启动 Coze Studio 需要拉取镜像、构建本地镜像，可能耗时较久，请耐心等待。部署过程中，你会看到以下日志信息。如果看到提示 &amp;ldquo;Container coze-server Started&amp;rdquo;，表示 Coze Studio 服务已成功启动。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 启动服务
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cd docker
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cp .env.example .env
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose --profile &amp;#39;*&amp;#39; up -d
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;4）登录访问&lt;/p&gt;
+&lt;p&gt;启动服务后，通过浏览器访问 http://localhost:8888/ 即可打开 Coze Studio。其中 8888 为后端监听端口。 至此，你已成功部署 Coze Studio，可以根据页面提示注册账号、体验 Coze Studio 的各项功能与服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/876aa1d5ec8479eeb3e9f7c442367ac0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2coze-loop部署指南&#34;&gt;2.Coze Loop部署指南
+&lt;/h2&gt;&lt;p&gt;1）准备工作&lt;/p&gt;
+&lt;p&gt;在参考本文安装 CozeLoop 开源版之前，确保您的软硬件环境满足以下要求：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4171fda5beca8f878fafc8a2d9fb9a79.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;2）安装 CozeLoop&lt;/p&gt;
+&lt;p&gt;步骤一：获取源码&lt;/p&gt;
+&lt;p&gt;执行以下命令，获取 CozeLoop 最新版本的源码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 克隆代码 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;clone
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; https://github.com/coze-dev/cozeloop.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 进入cozeloop目录下&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; cozeloop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;步骤二：配置模型&lt;/p&gt;
+&lt;p&gt;正式安装 CozeLoop 开源版之前，你需要准备可选的模型，否则访问 CozeLoop 开源版时将无法选择模型来启动 Prompt 调试或评测。 此处以 OpenAI 和火山方舟模型为例，演示配置模型文件的操作步骤，你可以快速配置模型以便安装和测试 CozeLoop 开源版。对于 Llama 等其他模型，你可以参考模型配置文档填写配置文件。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;进入目录 conf/default/app/runtime/。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编辑文件 model_config.yaml，修改 api_key 和 model 字段。 以下内容表示为 CozeLoop 开源版配置火山方舟的豆包模型、OpenAI 模型。 使用以下内容覆盖原文件，然后修改其中的 api_key 和 model，将其替换为你的 OpenAI 和火山方舟模型的配置参数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;models&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;id: 1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;name: &amp;#34;doubao&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;frame: &amp;#34;eino&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;protocol: &amp;#34;ark&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;protocol_config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;api_key: &amp;#34;***&amp;#34;  # 火山方舟 API Key，获取方式可参考 https://www.volcengine.com/docs/82379/1541594&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;model: &amp;#34;***&amp;#34;    # 方舟模型 ID，可参考 https://www.volcengine.com/docs/82379/1330310&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;param_config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;param_schemas&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;temperature&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;生成随机性&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;调高温度会使得模型的输出更多样性和创新性，反之，降低温度会使输出内容更加遵循指令要求但减少多样性。建议不要与 “Top p” 同时调整。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;float&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;0.7&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;max_tokens&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;最大回复长度&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;控制模型输出的 Tokens 长度上限。通常 100 Tokens 约等于 150 个中文汉字。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;int&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;4096&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;2048&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;top_p&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;核采样概率&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;生成时选取累计概率达 top_p 的最小 token 集合，集合外 token 被排除，平衡多样性与合理性。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;float&amp;#34; #&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;0.001&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;0.7&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;id: 2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;name: &amp;#34;openapi&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;frame: &amp;#34;eino&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;protocol: &amp;#34;openai&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;protocol_config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;api_key: &amp;#34;***&amp;#34;  # OpenAI API Key&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;model: &amp;#34;***&amp;#34;    # OpenAI 模型 ID&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;param_config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;param_schemas&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;temperature&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;生成随机性&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;调高温度会使得模型的输出更多样性和创新性，反之，降低温度会使输出内容更加遵循指令要求但减少多样性。建议不要与 “Top p” 同时调整。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;float&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;0.7&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;max_tokens&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;最大回复长度&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;控制模型输出的 Tokens 长度上限。通常 100 Tokens 约等于 150 个中文汉字。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;int&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;4096&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;2048&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;name: &amp;#34;top_p&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;label: &amp;#34;核采样概率&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;desc: &amp;#34;生成时选取累计概率达 top_p 的最小 token 集合，集合外 token 被排除，平衡多样性与合理性。&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;type: &amp;#34;float&amp;#34; #&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;min: &amp;#34;0.001&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;max: &amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;default_val: &amp;#34;0.7&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;保存文件。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;步骤三：启动服务&lt;/p&gt;
+&lt;p&gt;执行以下命令，使用 Docker Compose 快速部署 CozeLoop 开源版。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 启动服务，默认为开发模式
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose up --build
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;首次启动需要拉取镜像、构建本地镜像，可能耗时较久，请耐心等待。部署过程中，你会看到以下日志信息。如果回显信息中”提示后端构建完成“，表示 CozeLoop 已成功启动。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2f062de4dfb1bd3d1eb48e9bba2d452b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;部署 Coze Loop 开源版时，启动模式默认为开发模式。关于启动模式的详细说明，可参考启动模式。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果启动过程中遇到 Docker 或 Docker Compose 相关问题，通常原因是环境配置、系统权限或网络问题，建议根据 Docker 报错查找相关解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;步骤四：访问 CozeLoop 开源版&lt;/p&gt;
+&lt;p&gt;启动服务后，通过浏览器访问 http://localhost:8082 即可打开 CozeLoop 开源版。其中8082 为前端监听端口，8888 为后端监听端口。 至此，你已成功部署 CozeLoop 开源版，可以体验 CozeLoop 的各项功能与服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/23556d04843ff83725abbc99bef96a7e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>我们差点忘了的Kimi，最近要‘杀’回来？</title>
+        <link>https://ai.programnotes.cn/p/%E6%88%91%E4%BB%AC%E5%B7%AE%E7%82%B9%E5%BF%98%E4%BA%86%E7%9A%84kimi%E6%9C%80%E8%BF%91%E8%A6%81%E6%9D%80%E5%9B%9E%E6%9D%A5/</link>
+        <pubDate>Tue, 15 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%88%91%E4%BB%AC%E5%B7%AE%E7%82%B9%E5%BF%98%E4%BA%86%E7%9A%84kimi%E6%9C%80%E8%BF%91%E8%A6%81%E6%9D%80%E5%9B%9E%E6%9D%A5/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/0f0a2be44dc0188fa21064143df0f4fa.jpeg" alt="Featured image of post 我们差点忘了的Kimi，最近要‘杀’回来？" /&gt;&lt;p&gt;&lt;strong&gt;摘要：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Kimi K2模型发布并展现接近闭源顶流的性能表现&lt;/li&gt;
+&lt;li&gt;与Claude、Gemini等模型进行多维度对比测试&lt;/li&gt;
+&lt;li&gt;月之暗面团队通过文艺氛围与技术创新吸引关注
+&lt;strong&gt;源自&lt;/strong&gt; |差评君差评X.PIN 2025-07-15 00:01&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;只能说，AI圈你追我赶的激烈程度，远比想象中猛烈。&lt;/p&gt;
+&lt;p&gt;怎么个事儿呢，这得说到前几天。 上周五深夜，Kimi放出了万亿参数的MoE模型Kimi K2，然后这款国产AI就因为 big and beautiful 在海外技术圈刷屏了，很火的那种。&lt;/p&gt;
+&lt;p&gt;有一说一，差评君上次测评Kimi的新产品，还是在今年1月。沉寂了半年，没想到Kimi这次直接选择了开源的旗舰模型，好好好，这格局简直了。&lt;/p&gt;
+&lt;p&gt;而且，仔细研究了一顿之后我发现，这个 K2，让老外着迷不是没有原因的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/25a4b11ea6c3c0b1bbbd827cd8e5e3c6.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;简单来说，这次的Kimi K2想要做的，
+不只是以前那种我问你答的聊天机器人了，而是有了初步的任务规划和使用工具的能力，只要告诉它有哪些工具可以使用，它就会根据任务的需求，自主地调用不同的工具来完成任务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/337e8a44d5eb5493b0750c77bbf515ab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 但重点是，对于一个开源大模型来说，Kimi 团队把K2的部分能力做到了接近闭源顶流的水平，这就很了不起了。&lt;/p&gt;
+&lt;p&gt;所以海外很多圈内大佬，这次也都坐不住了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8524bd742c936d4a4271191ce5724428.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;比如拿了黄仁勋投资，日本AI新秀Sakana AI Labs的创始人，就完全被Kimi K2的损失曲线征服了，说这是每个圈内工程师梦中的画面。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/72852b449169411ce86415839b969719.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Hyperbolic labs 的联合创始人兼首席技术官，看完更是直接爆粗口了，上来就一句Holy谢，说这简直太疯狂了，这么逆天的东西居然连论文都不发，只放到了博客上。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/11422b0e6c1799e55e03e6d7de42e179.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;还有不少AI博主，像是Prime Intellect的研究员，也直接高呼，一个新的DeepSeek Moment到了。&lt;/p&gt;
+&lt;p&gt;甚至不少人都开始挖，这Kimi的创始人是何许人也。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/58cb50a7c5826a08aaf676f5a219a5a4.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;除了这些，不少大咖也纷纷发推安利，像AI美术工具MagicPath 的CEO Pietro Schirano，用完直接爱上了。&lt;/p&gt;
+&lt;p&gt;他说这是自Claude 3.5 Sonnet以来，他用过的最舒服的模型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/766560fcb7b7ec045885092143abc909.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;还有一家市值十亿美元，做AI应用的公司Greywing，创办人Hrishi Olickel 把它跟同样前几天发布的Grok4对比了一下，发现Kimi K2直接给Grok4干碎了。&lt;/p&gt;
+&lt;p&gt;大家用的都是同一套提示词，结果Grok4愣是没一次能赢，直接抬走的水平。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bfa85cf8fee14acc001b275da0326851.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;更牛逼的是，我还看到Hugging face 联合创始人Thomas Wolf，也对Kimi K2大加赞赏，说这简直难以置信，还向外国网友们安利了一波月之暗面团队。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/86a30beff2c61b30b83e0bcf066b8670.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;就连估值 150 亿美元的知名AI 搜索公司 Perplexity ，他家CEO，前 OpenAI 研究科学家 Aravind Srinivas，都在推上公开圈了月之暗面，希望他们Perplexity以后能基于 Kimi K2 进行训练。&lt;/p&gt;
+&lt;p&gt;要知道，之前 DeepSeek R1 也被 Perplexity 用来训练过，可见这种认可的含金量。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ac7f92c8df38f8b75de9729310fce8b5.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;甚至有不少业内人士猜测说，OpenAI 甚至推迟了他们家开源模型的发布，不知道是不是为了暂避锋芒。。。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/617cae951d283599b97e906b4588fa70.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;反正从基准测试成绩上看，没准也有可能。&lt;/p&gt;
+&lt;p&gt;Kimi K2在代码、工具调用、数学、通用知识等性能测试中，表现都相当不错，一些项目甚至领先于顶尖的闭源模型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ad243170333fccf2e1f2ff4f3311d2ec.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;SWE-bench 榜单的作者Ofir Press，看到这成绩以后还专门发文点赞了Kimi团队。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8fa9fd4d0c112041977a84a84cc906df.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;说实话，评分这东西也就是个数字，是不是真的厉害那还得亲自上手了才知道。&lt;/p&gt;
+&lt;p&gt;结果等到哥们上手一测，发现这Kimi的实力是真的有点超出预期，特别是在写代码上，比如在html里实现3d场景生成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d7dfc51d279dd95fc2d5a10aebb1980a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 不多bb，直接看结果，咱拉来了性能最强，但也巨贵的Claude 和Gemini 2.5pro，让开源的，价格实惠的 Kimi K2，跟这俩同台竞技。&lt;/p&gt;
+&lt;p&gt;提示词给的也都是一样的，大概就是做一个3d版的地球出来，还要有夜间灯光那种。&lt;/p&gt;
+&lt;p&gt;首先看Kimi，我感觉它这个光线做的就非常舒服，没有特别亮的地方，暗部也不全黑，能看见城市灯光。
+而且这个地球上的云层，不是贴上去的，这玩意可以实时移动位置，真的是在飘的！&lt;/p&gt;
+&lt;p&gt;由于Sonnet略微跑题，为了讲武德，咱就直接让他家大哥来，Claude Opus4。&lt;/p&gt;
+&lt;p&gt;有一说一，这Opus确实给Claude长脸，试完以后结果属实是强了不少。&lt;/p&gt;
+&lt;p&gt;但相比而言，我感觉Opus的光线还是略差于Kimi，比如太阳直射点就一个大团，而且很多地方过曝了，云层也没有显示出来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/41c4c2aa353f64ae419dbbd217278c17.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 再看看Gemini的水平，乍一看好像很不错，但放大就会发现，这贴图质量属实有点差。不过也比Sonnet强，确实是做出来了，总体这一轮Kimi K2还是有优势的。&lt;/p&gt;
+&lt;p&gt;不过当我再给各自的提示词加上，生成太阳和月亮模型时，情况就有了变化。&lt;/p&gt;
+&lt;p&gt;Kimi 和 Claude 的画面质量依旧在线，但是Claude 整了个地心说出来，哥白尼看了都流泪。&lt;/p&gt;
+&lt;p&gt;而Gemini虽然丢了太阳，但它注意到了一个Kimi和Claude 都忽略的细节，三星连线的时候会有日食。&lt;/p&gt;
+&lt;p&gt;虽然Gemini想的多了点，但整体来看，这三家还是各有优势。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/539fc09fd2ef92eee7f8a0d3a7a68873.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 起码作为开源模型，Kimi K2的水平还是很高的，在模型生成这块我觉得已经可以比肩Claude Opus4 这些闭源大模型了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c911d99422e67ae636a1274ae1dc344e.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;除了模型生成，即使在一般的网页搭建上，Kimi K2的效果也挺惊艳。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b1a104a02213ae9b93274794bea5d212.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 我们测试的提示词是，“整理一份详细的酷玩乐队2025年演唱会出行计划”。同时喂给Kimi和Claude ，然后他俩都会自动去网页搜索演唱会的信息，地址，酒店等。&lt;/p&gt;
+&lt;p&gt;最后Kimi的答卷是这样：&lt;/p&gt;
+&lt;p&gt;该说不说，在色彩搭配上，这网页确实很有酷玩的风格。&lt;/p&gt;
+&lt;p&gt;再看Claude 这边，整理的资料比Kimi稍微详细一些，但整体风格跟Kimi还是很不一样，色彩用的更大胆一些。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1b43ca1b73c0ee008602ffd6e631e4b1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 不过&lt;strong&gt;就这块测试来说，我觉得Kimi确实是一个不容小觑的开源模型。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;但实际上，这还不是Kimi代码能力的上限。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因为上面的演示，都是我在网页版Kimi里测试出来的效果，而作为一个主打Agentic的模型，
+如果你想榨干它的全部能力，就必须在像Claude Code这样的AI编程平台上，调用api去实现。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2a6049ec1cb168b23aa2edf88088edab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 举个例子，还是同样的提示词，我们让Kimi和Claude 都各自生成一个可以交互的我的世界游戏。&lt;/p&gt;
+&lt;p&gt;先看Claude 的结果，工具栏，左键消除右键搭建都有，已经像模像样了。&lt;/p&gt;
+&lt;p&gt;在网页版的Kimi里，我的世界的效果，可以说跟Claude 彼此彼此，甚至还少了工具栏。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fc3e99c6a68ccee6b632a2fbd73762ff.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 然而，当你在部署api以后，Kimi就会开始全自动的谋划方案，调用，技术博客里给出的最后结果，
+我只能说是非常的Amazing啊：&lt;/p&gt;
+&lt;p&gt;虽然用本地的Kimi api跟Claude网页版比较，稍微有点不讲武德，但你就看这效果好不好吧。要不说是AI做的，我还真不好一眼分辨出来，而且交互也相当底流畅，很自然。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b3c00988d3861fd9cc1dfd4706bd28f4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 除了上面的这些案例，
+官方还发布了他们自己跑出来的一些很不错的案例，比如这个3D粒子的旋转星系，在光影的控制，交互上做的也很厉害。&lt;/p&gt;
+&lt;p&gt;而我们在本地，用Claude Code搭载Kimi的api测试下来，也完全可以实现类似的效果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6234c52c69556dbc056b9761c169bb0b.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这么看下来，外网的一堆博主对Kimi的能力表示钦佩，其实咱也能理解了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/95b0ab7a6463b8243a728d6ef0eabcff.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 跟顶流水平差不太多的模型，但价格只有 Claude Sonnet的1/5 ，Claude Opus的1/25，像哥们今天测了一天，跑了一堆案例，一看账户总消费不到五块钱。。。&lt;/p&gt;
+&lt;p&gt;属实是便宜大碗，性能上也有对标Claude的潜力，这性价比你上哪找去。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/97d51099aeb3dce37f8ec2190d29a47a.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以说有些时候，本事这玩意是很难藏着掖着的，你要真靠谱，想躲着不出名都难。
+比如新版Kimi app更新详情上，就很低调的只写了一句，新闻就是历史的初稿。&lt;/p&gt;
+&lt;p&gt;这句话来自1999年的一本散文集，用在这么大的版本更新上，确实又低调又文艺，而且充满自信。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0f0a2be44dc0188fa21064143df0f4fa.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;有意思的是，这确实也符合月之暗面这家公司的调性。&lt;/p&gt;
+&lt;p&gt;之前差评君和同事去北京拜访过月之暗面，本以为这是一家技术型的AI 公司，没想到里面的氛围反而跟咱差评编辑部有点像，
+甚至空气里有股文艺范儿。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/40fd71df95cf6b0138c5afe03835e482.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 公司门口就摆着一架能自动演奏的钢琴，上面是摇滚乐队Pink Floyd的专辑《The Dark Side of the Moon》（月之暗面）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/041ebdd6af59f7e7b8434ed549aa601d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;他们的会议室也不是数字编号，而是用乐队的名字命名，每个会议室里还挂着对应乐队的一张黑胶唱片，这真有点像是一群艺术家待的地儿&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dee867746b4d34e8da89f357ac3bb91c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt; 而就在K2发布的前夜，月之暗面的员工，
+用Kimi K2写了一个 MCP 工具来连接Mac电脑上的库乐队应用，让办公室那台钢琴，弹起了帕赫贝尔的《卡农》。&lt;/p&gt;
+&lt;p&gt;古典与科幻，在这个夜晚交融，谁又说创造智能，不是一种艺术呢。&lt;/p&gt;
+&lt;p&gt;至于这场AI的神仙打架大戏，和它们那波澜壮阔的技术蓝海，就留给我们这些时代的见证者，慢慢欣赏了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Index-AniSora技术升级开源：动漫视频生成强化学习</title>
+        <link>https://ai.programnotes.cn/p/index-anisora%E6%8A%80%E6%9C%AF%E5%8D%87%E7%BA%A7%E5%BC%80%E6%BA%90%E5%8A%A8%E6%BC%AB%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Tue, 20 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/index-anisora%E6%8A%80%E6%9C%AF%E5%8D%87%E7%BA%A7%E5%BC%80%E6%BA%90%E5%8A%A8%E6%BC%AB%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/aaaa0871e840d64dc1a6f9c8e2d9e060.png" alt="Featured image of post Index-AniSora技术升级开源：动漫视频生成强化学习" /&gt;&lt;ul&gt;
+&lt;li&gt;B站升级并开源Index-AniSora，一个动漫视频生成模型，采用强化学习技术。&lt;/li&gt;
+&lt;li&gt;该模型基于AniSora框架，已被IJCAI25接收，并提出了专为二次元视频生成的强化学习框架。&lt;/li&gt;
+&lt;li&gt;AnimeReward是一个专为动漫视频生成对齐设计的多维度高可信奖励系统。
+哔哩哔哩技术 2025-05-20 14:00&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;B站升级动画视频生成模型Index-AniSora技术并开源，支持番剧、国创、漫改动画、VTuber、动画PV、鬼畜动画等多种二次元风格视频镜头一键生成！&lt;/p&gt;
+&lt;p&gt;整个工作技术原理基于B站提出的 
+AniSora: Exploring the Frontiers of Animation Video Generation in the Sora Era&lt;/p&gt;
+&lt;p&gt;实现，&lt;strong&gt;该工作已经被IJCAI25接收&lt;/strong&gt;。再次基础上进一步提出了&lt;strong&gt;首个专为二次元视频生成打造的强化学习技术框架，全面提升动画内容的生产效率与质量&lt;/strong&gt;Aligning Anime Video Generation with Human Feedback（https://arxiv.org/abs/2504.10044）&lt;/p&gt;
+&lt;p&gt;**所有的工作全部开源！快戳地址：**&lt;a class=&#34;link&#34; href=&#34;https://github.com/bilibili/Index-anisora/tree/main&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/bilibili/Index-anisora/tree/main&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们提出了一套专门用于动漫视频生成任务的对齐管线，其整体框架如图1所示。我们构建了首个面向动漫领域的高质量奖励数据集，共包含 30,000 条人工标注的动漫视频样本。人工评估包括两个方面：&lt;strong&gt;视觉外观（Visual Appearance）&lt;strong&gt;与 &lt;strong&gt;视觉一致性（Visual Consistency）&lt;/strong&gt;。其中，&lt;strong&gt;视觉外观&lt;/strong&gt;的评价仅考虑视频帧的质量，包括视觉平滑度（VS）、视觉运动（VM）与视觉吸引力（VA）三个维度。而&lt;/strong&gt;视觉一致性&lt;/strong&gt;则进一步扩展了基本的文本-视频一致性（TC），引入了图像到视频（I2V）任务中的图像-视频一致性（IC）与动漫内容中特有的角色一致性（CC），确保更全面的评价。通过这六个维度，我们对动漫视频的整体质量进行系统性评估，从而更准确地反映人类在奖励建模中的偏好。基于此，我们进一步提出了 &lt;strong&gt;AnimeReward&lt;/strong&gt;，一个专为动漫视频生成对齐设计的多维度高可信奖励系统。由于不同维度所关注的视觉特征存在差异，我们为不同维度采用专门的视觉-语言模型进行奖励回归，以更贴近地拟合人类偏好。我们进一步提出了 &lt;strong&gt;差距感知偏好优化（GAPO）&lt;/strong&gt;
+ ，显式地将正负样本对之间的偏好差距融入损失函数，从而提升对齐训练的效率和最终性能。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/571e38823a421184f203153dae569c04.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图1 对齐管线整体概述&lt;/p&gt;
+&lt;h2 id=&#34;方法&#34;&gt;方法
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;动漫奖励数据集构建&lt;/strong&gt;
+为了增强数据集的动作类别多样性，我们收集的视频样本涵盖多种动作类别，包括说话、行走、挥手、亲吻、哭泣、拥抱、推拉等典型行为场景。通过人工标注，我们从 100 多种常见动作中总结出标准化的动作标签，对每个标签收集约 30～50 个视频片段，最终得到 &lt;strong&gt;5000&lt;/strong&gt; 条真实动漫视频作为基础数据源。在文本提示词的设计方面，我们采用 Qwen2-VL 模型[1]对视频打标自动生成提示词，并使用 CogVideoX[2]中提出的提示词优化策略，生成文本提示。原始图像采用每个视频的第三帧，以作为图像到视频生成的输入。基于这些提示词和原始图像，我们使用了 5 个先进的图像到视频生成模型（Hailuo、Vidu、OpenSora[3]、OpenSora-Plan[4]和 CogVideoX[2]），生成多样化的动漫视频。结合初始的 &lt;strong&gt;5000&lt;/strong&gt;条GT视频，我们构建了一个包含 &lt;strong&gt;30000&lt;/strong&gt; 条动漫视频的奖励数据集，用于奖励模型的训练。此外，我们还构建了一个包含 &lt;strong&gt;6000&lt;/strong&gt;条动漫视频的测试集，并严格保证测试集与训练集在初始图像和提示内容上无重叠，以确保测试评估的准确性与泛化性。&lt;/p&gt;
+&lt;p&gt;为了全方位评估生成动漫视频的质量，人工标注从两个方面衡量视频质量：&lt;strong&gt;视觉外观与视觉一致性&lt;/strong&gt;。其中，视觉外观主要衡量视频的基础质量，关注其视觉表现，包括视觉的平滑度（visual smoothness）、运动幅度（visual motion）以及整体的视觉吸引力（visual appeal）；而视觉一致性则更加侧重于多模态之间的协调性，具体包含文本与视频的语义对齐（text-video consistency）、图像与视频的时空一致性（image-video consistency），以及动漫角色在视频中的稳定性（character consistency）。我们共邀请了 &lt;strong&gt;6&lt;/strong&gt;名专业标注人员参与标注过程，对每段视频从上述 6 个维度分别打分，评分范围为 1 到 5 分，5 分表示质量最佳。每个维度的最终得分由所有标注者的打分取平均值，以确保评价的客观性和鲁棒性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AnimeReward训练&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;与依赖单一视觉-语言模型（VLM）统一训练回归所有维度的奖励分数的方法不同，AnimeReward 对不同维度使用专门的VLM，通过奖励分数回归分别训练它们。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Smoothness&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于动漫视频的视觉平滑度评估，我们基于Mantis-8B-Idefics2模型[5]，微调其视觉编码器，并在其后接入一个回归头，来让模型输出拟合人工打分结果。给定一个视频，我们的模型的平滑度评分机制如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/23e77f72ffe09793497a21ea24e0f1d7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，I_i 表示视频的第 i 帧，N 为视频的总帧数，Ev表示视觉编码器，Reg 为回归头模块。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Motion&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们基于 ActionCLIP[6] 构建了一个动作评分模型，用于评估动漫视频中主要人物的运动幅度。在模型训练过程中，我们设计了一系列动作提示语（motion prompts），用于引导模型学习不同运动幅度的语义表达。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;“主角在视频中有大幅度动作，如奔跑、跳跃、跳舞或挥手。”&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;“主角在视频中保持静止，没有明显的动作。”&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最终，模型根据输入视频与预设动作提示语之间的余弦相似度，计算出动作评分：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/de375de0b6d8f12a799b2891bd9ba126.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，MCLIP 表示动作模型，V 表示待评估的视频片段，Tm 表示设计好的动作提示语。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Appeal&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;视觉吸引力用于评估生成视频的基础质量，侧重于其整体美学表现。以往研究通常采用在真实世界图像数据集上训练的美学评分模型来进行评估。然而，这类模型在应用于动漫视频时效果不佳，不同方法生成的视频在评分上差异不明显，难以体现真实的美学偏好差异。为了解决这一问题，我们首先从视频中提取关键帧，然后对它们进行编码，训练一个美学回归模型来学习人类对动漫图像的审美标准，从而更精准地评估其视觉吸引力。吸引力评分的计算公式如下所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d350e008221b930f6a6abd84c34bf0f6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，I_i 表示关键帧，K是提取的关键帧数量，SigLIP 为特征编码器，Aes 表示美学评分模型。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Text-Video Consistency&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;为了评估文本与视频的一致性，我们利用动漫文本-视频对，微调了视觉编码器与文本编码器，并在其上接入回归头，以学习文本与视频之间的语义对齐程度。文本-视频一致性分数的计算公式如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3d27977f96222fb5bffb2aea6878f2e5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，Reg 表示回归头，Ev 和Et 分别表示视觉编码器和文本编码器。模型通过联合文本提示T 与对应视频V，学习它们之间的语义匹配关系。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Image-Video Consistency&lt;/strong&gt;
+在图像到视频生成任务中，生成视频应与输入图像尽量保持外观上的一致性。类似于文本-视频一致性的评估方法，我们微调了视觉编码器与回归头，对图像与视频之间的外观一致性进行建模评分：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1aec2b826dc80ca9fdd523c81a47d006.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，V 表示待评估的视频片段，Ip 表示输入图像，Ev 为视觉编码器，Reg为回归头。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Character Consistency&lt;/strong&gt;
+在动漫视频生成中，角色一致性是一个重要的因素。如果主角的身份和风格在视频中发生变化，即使视频质量较高，也可能存在侵权风险。因此，我们设计了一套系统性流程来评估角色一致性，流程包括：角色检测、分割与识别等多个阶段，该模型的框架如图2所示。具体而言，我们首先使用 GroundingDINO[7]、SAM[8] 以及追踪工具，对视频中的每一帧提取角色的掩膜（mask）。随后，我们使用 BLIP[9] 模型进行微调，以学习提取的人物掩膜与其对应的动漫角色（IP）之间的关联。&lt;/p&gt;
+&lt;p&gt;在推理阶段，我们通过计算生成视频中的动漫角色特征与角色库的对应特征之间的余弦相似度，来衡量角色在视频中的一致性。具体评分方式如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3715279853561adfbe309d1b614f9549.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，N 表示采样的角色帧数量，Mi 表示提取得到的第 i 帧的角色掩膜，fea_c表示对应参考角色的特征表示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/aaaa0871e840d64dc1a6f9c8e2d9e060.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图2 角色一致性训练和推理框架&lt;/p&gt;
+&lt;p&gt;我们将各个维度上经过训练的奖励模型整合，构建了多维动漫视频评价体系AnimeReward。对于动漫视频 v，初始帧为 x，对应的文本提示为 c，每个维度d∈D上的奖励得分记作 
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eb8850d677ce6e7e881427203e6af5b9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;
+。&lt;/p&gt;
+&lt;p&gt;其中
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eef353934a5ac2afd807e40af358d9bf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;
+表示该维度奖励模型的参数。&lt;/p&gt;
+&lt;p&gt;那么该视频的整体奖励分数R(v)通过对所有维度的评分取平均得到，公式如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45bd643ff1db6094078bc412f8e61f19.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;通过对人类偏好的学习，AnimeReward 能够为动漫视频生成对齐提供高质量的偏好反馈信号，提升视频生成模型的整体表现与人类认知的一致性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动漫视频生成对齐&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;传统的 DPO方法仅关注样本对之间的偏好概率 
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c8fdf7d73a31bc1d44f3da5cc4668f48.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;
+建模，其中vw 为样本对中得分较高（被偏好）的视频，vl为得分较低（不被偏好）的视频。然而，这种方法忽略了偏好强度的差异，即不同样本对的正负样本之间的偏好差距的大小。&lt;/p&gt;
+&lt;p&gt;为了解决这一问题，我们提出了差距感知偏好优化（Gap-Aware Preference Optimization, GAPO），首先为每个生成视频定义其奖励增益（Reward Gain），公式如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fda1e4fcd3e99c1df3a345566d1303e4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中，
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/985cade67480f1469baf61c56beb46f8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;
+表示视频vi 的归一化奖励得分，α是控制奖励增益强度的超参数。&lt;/p&gt;
+&lt;p&gt;对于每个偏好样本对（vw，vl），我们将正负样本的奖励增益差值作为差距权重因子，作用于原始 DPO 损失函数，得到 GAPO 的损失函数：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ecff8fc517abde2c0413a10315097d1a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;通过在对齐训练中显示引入偏好差距信息，GAPO 在优化时显著放大了偏好差异明显的样本对的影响，同时抑制了偏好差异较小的样本对的干扰，从而更高效地提升模型对人类偏好的对齐能力，特别是在动漫视频生成这类主观性强的任务中具有重要意义。&lt;/p&gt;
+&lt;h2 id=&#34;实验&#34;&gt;实验
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;数据集&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在对齐训练中，我们采用开源模型 &lt;strong&gt;CogVideoX-5B&lt;/strong&gt;[2]作为基线模型。我们首先构建了一个包含&lt;strong&gt;2000&lt;/strong&gt;条原始动漫图像及其对应文本提示的初始训练集。基于该数据集，我们使用基线模型为每组数据采样生成  段动漫视频，再利用 &lt;strong&gt;AnimeReward&lt;/strong&gt;
+ ，对每组生成视频进行偏好奖励评分，选择其中得分最高和得分最低的两个视频，构成一个偏好样本对。最终得到包含 &lt;strong&gt;2000&lt;/strong&gt;
+对偏好样本的集合作为后续偏好对齐优化的训练集。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实验结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们采用自动化评测和人工评测两种方式来评估模型的对齐效果。自动评测包含VBench-I2V[11], VideoScore[12]和我们提出的AnimeReward三种方法。人工评测邀请了三位专业的评测人员给出主观评价。只有当三位评测者中至少两位都认为视频  比  更好或更差时，视频  才会被认为赢或输  。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;VBench-I2V&lt;/strong&gt;
+ [11]基准的评测结果如表1所示，我们提出的偏好对齐方法在总分上取得了最优表现，在几乎所有评估指标上均显著优于基线模型，并在大多数情况下超越了 SFT（监督微调）模型。值得注意的是，在 I2V Subject 和 Subject Consistency 两个关键指标上的提升尤为显著，表明我们的对齐方法能够帮助视频生成模型在保持动漫角色一致性方面具备更强的能力。如表2所示，在 &lt;strong&gt;AnimeReward&lt;/strong&gt;
+评价体系下，除 Visual Motion 外，我们的方法在所有维度上均实现了大幅提升，说明我们的对齐模型在视觉外观与一致性方面更贴近人类偏好。在 &lt;strong&gt;VideoScore&lt;/strong&gt; [12]评估中，我们的方法在三个维度上均优于基线模型与 SFT 模型，表现出更好的视觉质量和时序稳定性。同时，我们也观察到了，在动态程度（即 Visual Motion/ Dynamic Degree）这一指标上，对齐后的模型表现略逊于基线与 SFT 方法。对此，我们认为，高动态程度的视频更容易引发空间扭曲与伪影，从而大大降低整体视觉质量，对人类主观偏好产生负面影响。这一结果也表明，人类通常喜欢具有&lt;strong&gt;更高视觉质量、更强一致性&lt;/strong&gt;与&lt;strong&gt;更好稳定性&lt;/strong&gt;的视频内容，而非单纯追求高动态幅度的生成结果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45d0457a4621fd1c9f99c960460c2306.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表1 在VBench-I2V上的定量性能比较&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f546aacff5ae687f9fbcc4a5d3bc53d4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表2 在AnimeReward和VideoScore上的量化性能比较&lt;/p&gt;
+&lt;p&gt;图3展示了人工评测的对比实验结果，我们的对齐模型相较于基线模型与 SFT 模型展现出显著优势，整体胜率超过&lt;strong&gt;60%&lt;/strong&gt;。尽管 SFT 模型使用了偏好分数最高的优质样本进行训练，但其生成视频的质量并未得到明显提升，甚至在人工评测中的胜率低于基线模型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d3f25d08c2d1f983ddb61863eb42f797.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图3 不同模型生成的动漫视频的人工评测结果&lt;/p&gt;
+&lt;h2 id=&#34;消融研究&#34;&gt;&lt;strong&gt;消融研究&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;为验证我们提出的&lt;strong&gt;差距感知偏好优化（GAPO）&lt;/strong&gt; 相较于传统DPO的优势，我们在保持实验设置一致的前提下，仅更换偏好优化算法，进行对比实验。我们在前述三种评价体系上对不同模型进行了系统评估，实验结果如表3所示。其中，&lt;strong&gt;AnimeReward（AR）&lt;/strong&gt; 和&lt;strong&gt;VideoScore（VS）&lt;/strong&gt; 的最终得分为各维度得分的平均值。从结果来看，GAPO 在三个评价体系中均取得了最优表现，尤其在**VBench-I2V （V-I2V）&lt;strong&gt;和&lt;/strong&gt;AnimeReward（AR）**上相较 DPO 获得了显著提升。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9ccb72b28d27825682b89e70fd34cbc9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表3 对GAPO在三个评价体系上的消融研究结果&lt;/p&gt;
+&lt;p&gt;为验证 &lt;strong&gt;AnimeReward&lt;/strong&gt; 奖励模型在动漫视频偏好对齐任务中的优势，我们设计了对比实验，使用&lt;strong&gt;VideoScore&lt;/strong&gt; [12]作为替代的奖励模型进行对齐训练。实验结果如表4所示。从结果可以看出，使用 AnimeReward 训练的模型在两个评价体系中均优于使用 VideoScore 训练的模型；而 VideoScore 仅仅在其自身评价体系中取得优势。为了更客观地评估两者的对齐性能，我们在图4展示了它们相对于基线模型在第三方评价基准&lt;strong&gt;VBench-I2V&lt;/strong&gt;[11]各个维度上的可视化评价结果。除 Dynamic Degree 外，基于 AnimeReward 的对齐模型在其余&lt;strong&gt;7&lt;/strong&gt;个维度上全面优于VideoScore。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0907666e112a4fe2055863ebef2f8017.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;表4 基于不同奖励模型的消融研究结果&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/58cc6f85b9421d89dee684da7e0398a1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图4 基于不同奖励模型在VBench-I2V多个维度上的可视化评估结果&lt;/p&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论
+&lt;/h2&gt;&lt;p&gt;本文提出了首个针对动漫视频生成的奖励模型 &lt;strong&gt;AnimeReward&lt;/strong&gt;，旨在模拟人类偏好对生成动漫视频进行全方位的评价。我们基于两大方面设计了六个评价维度，从多个角度衡量生成动漫视频的质量。基于 &lt;strong&gt;AnimeReward&lt;/strong&gt;，我们进一步提出了一种新颖的优化对齐策略 &lt;strong&gt;差距感知偏好优****化（Gap-Aware Preference Optimization, GAPO）&lt;/strong&gt;，在优化损失中显式引入偏好差距信息，从而高效提升生成模型的对齐性能。实验结果表明，仅仅依赖基线模型生成的视频数据，我们提出的对齐管线依然能够显著提升动漫视频的生成质量，使结果更贴近人类偏好，验证了该方法在偏好对齐任务中的有效性与实用性。&lt;/p&gt;
+&lt;h2 id=&#34;demo&#34;&gt;demo
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;对齐效果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;提示词：&lt;/strong&gt;
+画面中展现了石块发生爆炸的场景，发出刺眼的光芒，碎石四处飞散&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对齐前⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3793aac30508889546defa34a7669860.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;对齐后⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a2b992a2704dd40c647507ff0871e88.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;提示词：&lt;/strong&gt;
+画面中一个人在快速向前奔跑，他奔跑的速度很快使得人物有些模糊&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对齐前⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/853d39f41be7a2fd05bdeade26a2470c.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;对齐后⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/82d9aafdc77df6794d0355c750fb4689.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;提示词：&lt;/strong&gt;
+老人的目光紧盯着那颗宝石，右手轻微摆动着手中的放大镜，嘴巴在说话，仿佛它掌握着解开某种古老知识或秘密的关键。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对齐前⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b58b2f38c81c4ff15c57c91f7df144fb.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;对齐后⬇️&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d658207d1cd720ca4d75821a8e6f05c4.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;参考文献&#34;&gt;参考文献
+&lt;/h2&gt;&lt;p&gt;[1] Peng Wang, Shuai Bai, Sinan Tan, Shijie Wang, Zhihao Fan, Jinze Bai, Keqin Chen, Xuejing Liu, et al. Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution. arXiv preprint arXiv:2409.12191, 2024.&lt;/p&gt;
+&lt;p&gt;[2] Zhuoyi Yang, Jiayan Teng, Wendi Zheng, Ming Ding, Shiyu Huang, Jiazheng Xu, Yuanming Yang, et al. Cogvideox: Text-to-video diffusion models with an expert transformer. arXiv preprint arXiv:2408.06072, 2024.&lt;/p&gt;
+&lt;p&gt;[3] Zangwei Zheng, Xiangyu Peng, Tianji Yang, Chenhui Shen, Shenggui Li, Hongxin Liu, Yukun Zhou, Tianyi Li, and Yang You. Open-sora: Democratizing efficient video production for all. arXiv preprint arXiv:2412.20404, 2024.&lt;/p&gt;
+&lt;p&gt;[4] Bin Lin, Yunyang Ge, Xinhua Cheng, Zongjian Li, Bin Zhu, Shaodong Wang, Xianyi He, Yang Ye, Shenghai Yuan, Liuhan Chen, et al. Open-sora plan: Open-source large video generation model. arXiv preprint arXiv:2412.00131, 2024.&lt;/p&gt;
+&lt;p&gt;[5] Dongfu Jiang, Xuan He, Huaye Zeng, Cong Wei, Max Ku, Qian Liu, and Wenhu Chen. Mantis: Interleaved multi-image instruction tuning. arXiv preprint arXiv:2405.01483, 2024.&lt;/p&gt;
+&lt;p&gt;[6] Mengmeng Wang, Jiazheng Xing, and Yong Liu. Actionclip: A new paradigm for video action recognition. arXiv preprint arXiv:2109.08472, 2021.&lt;/p&gt;
+&lt;p&gt;[7] Tianhe Ren, Qing Jiang, Shilong Liu, Zhaoyang Zeng, Wenlong Liu, Han Gao, Hongjie Huang, Zhengyu Ma, Xiaoke Jiang, Yihao Chen, et al. Grounding dino 1.5: Advance the &amp;ldquo;edge&amp;rdquo; of open-set object detection. arXiv preprint arXiv:2405.10300, 2024.&lt;/p&gt;
+&lt;p&gt;[8] Nikhila Ravi, Valentin Gabeur, Yuan-Ting Hu, Ronghang Hu, Chaitanya Ryali, Tengyu Ma, Haitham Khedr, et al. Sam 2: Segment anything in images and videos. In ICLR, 2025.&lt;/p&gt;
+&lt;p&gt;[9] Junnan Li, Dongxu Li, Caiming Xiong, and Steven Hoi. Blip: Bootstrapping language-image pre-training for unified vision-language understanding and generation. In ICML, 2022.&lt;/p&gt;
+&lt;p&gt;[10] Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, and Chelsea Finn. Direct preference optimization: Your language model is secretly a reward model. In NeurIPS, 2023.&lt;/p&gt;
+&lt;p&gt;[11] Ziqi Huang, Yinan He, Jiashuo Yu, Fan Zhang, Chenyang Si, Yuming Jiang, Yuanhan Zhang, Tianxing Wu, Qingyang Jin, et al. Vbench: Comprehensive benchmark suite for video generative models. In CVPR, 2024.&lt;/p&gt;
+&lt;p&gt;[12] Xuan He, Dongfu Jiang, Ge Zhang, Max Ku, Achint Soni, Haonan Chen, Abhranil Chandra, Ziyan Jiang, et al. Videoscore: Building automatic metrics to simulate fine-grained human feedback for video generation. In EMNLP, 2024.&lt;/p&gt;
+&lt;p&gt;作者丨Bwin、HarryJ、高树、seasonyang&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来</title>
+        <link>https://ai.programnotes.cn/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/</link>
+        <pubDate>Wed, 23 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" alt="Featured image of post 关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来" /&gt;&lt;p&gt;核心内容点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP协议的设计理念，以及其与现有API的区别。&lt;/li&gt;
+&lt;li&gt;快速构建MCP服务器的方法，包括利用AI辅助编码。&lt;/li&gt;
+&lt;li&gt;MCP协议的未来发展方向，特别是关于Statefulness的讨论。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;转自&lt;/strong&gt; | Founder ParkAnthropic DataFunTalk 2025-04-23 13:01&lt;/p&gt;
+&lt;p&gt;在去年发布的 MCP 协议，今年因为 Manus 和 Agent 的热潮，突然成为了 AI 领域最热门的协议。OpenAI、微软、Google 等大厂也纷纷支持协议，国内阿里云百炼、腾讯云也迅速跟进，上线了快速搭建平台。但争议也不少，很多人质疑 MCP 和 API 区别不大、Anthropic 的工程师对互联网协议不怎么精通、以及协议太简单带来的安全问题等等。&lt;/p&gt;
+&lt;p&gt;让 MCP 协议的发明者来回答这些问题，再合适不过了。在 Latent Space 最近的一起播客中，他们邀请到了 Anthropic 团队 MCP 协议的发明者——Justin Spahr-Summers、 David Soria Parra，详细聊了聊 MCP 的起源，以及他们对于 MCP 诸多想法：为何推出 MCP、 MCP 与现有的 API 有何不同、如何让 MCP 更好利用好工具等等。信息量很大，建议收藏阅读。&lt;/p&gt;
+&lt;p&gt;对谈嘉宾介绍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Alessio Fanelli（主持人）&lt;/li&gt;
+&lt;li&gt;Decibel 合伙人兼 CTOswyx（主持人）&lt;/li&gt;
+&lt;li&gt;Small AI 创始人David Soria Parra&lt;/li&gt;
+&lt;li&gt;Anthropic 工程师Justin Spahr-Summers&lt;/li&gt;
+&lt;li&gt;Anthropic 工程师TLDR&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 概念的「灵光一闪」来自 Anthropic 的一个内部项目 LSP（Language Server Protocol），两位工程师借由 LSP 的启发，想到能否做一个类似 LSP 的东西，从而把「AI 应用与扩展之间的通信」标准化。MCP 的核心设计原则是：工具这个概念实际上不仅仅是工具本身，还与客户端应用程序息息相关，进而也与用户紧密相连。通过 MCP 的操作，用户应该拥有完全的控制权。工具由模型控制，指的是仅仅由模型来调用，而不是由用户主动指定使用某个工具（出于提示目的的情况除外）。开放 API 和 MCP 并非相互对立，而是非常互补。关键在于选择最适合特定任务的工具。如果目标是实现 AI 应用之间丰富的交互，MCP 更适合；如果希望模型能够轻松读取和解释 API 规范，开放 API 会是更好的选择。对于 MCP 服务器的快速构建，利用 AI 辅助编码是一种非常好的方式。在开发初期，将 MCP SDK 的代码片段放入 LLM 的上下文窗口，让 LLM 帮助构建服务器，结果往往很不错，细节可以在后期进一步优化，这是一种快速实现基本功能并进行迭代的好方法。同时，Anthropic 的 MCP 团队非常注重简化服务器的构建流程，便于 LLM 能够参与进来。&lt;/p&gt;
+&lt;p&gt;AI 应用、生态系统和 Agent 的未来发展方向会倾向于 Statefulness，同时这也是 Anthropic 的 MCP 核心团队内部最具争议的话题之一。在经过了多次讨论和迭代后，得出的结论是尽管目前看好 Statefulness 的未来，但不能因此背离现有的范式，必须在 Statefulness 的理念和实际操作的复杂性之间找到平衡。&lt;/p&gt;
+&lt;h2 id=&#34;1mcp-是如何诞生的&#34;&gt;&lt;strong&gt;1.MCP 是如何诞生的？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：首先，MCP 是什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+模型上下文协议，Model Context Protocol，简称 MCP，基本上是我们设计出来帮助 AI 应用拓展自身或集成插件生态系统的设计，具体而言，MCP 提供了一套通信协议，让 AI 应用（我们叫「客户端」）和各种外部扩展（我们叫「MCP 服务器」）能彼此协作。这里的「扩展」可以是插件、工具或者其它资源。&lt;/p&gt;
+&lt;p&gt;MCP 的目的就在于让大家在构建 AI 应用时，能够轻松引入外部服务、功能，或者调取更多数据，让应用拥有更丰富的能力。我们的命名中有「client-server」的概念，主要是为了强调交互模式，但本质就是在做一个「让 AI 应用更易扩展」的通用接口。&lt;/p&gt;
+&lt;p&gt;不过需要强调的是，MCP 关注 AI 应用而非模型本身，这是常见的误解。此外，我们认同将 MCP 类比为 AI 应用程序的 USB-C 接口，它是连接整个生态系统的通用接口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：客户端和服务器的特性意味着它是双向，就像 USB-C 接口一样，这很有意思。很多人尝试做相关研究、构建开源项目。我感觉 Anthropic 在争取开发者方面，比其他实验室都积极。好奇这背后是受外部影响，还是你们俩在某个房间里灵光一现想出来的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David&lt;/strong&gt;：&lt;br&gt;
+实际上，大多就是我们俩在房间里灵光一现想出来的。这不是宏大战略的一部分。2024 年 7 月，我加入 Anthropic 不久，主要负责内部开发者工具。期间，我思考如何让更多员工深入整合现有模型，毕竟这些模型很棒，而且前景更好，自然是希望大家多用自家模型。&lt;/p&gt;
+&lt;p&gt;在工作中，基于我在开发工具方面的背景，很快就觉得有点沮丧，一方面因为 Claude Desktop 功能有限，无法拓展，而 IDE 又缺少 Claude Desktop 的实用功能，所以我只能在两者间来回复制内容很麻烦。久而久之。我意识到这是个 MxN 的问题，也就是多个应用程序与多种集成的难题，而用一种协议解决再合适不过。当时我还在做一个与 LSP（Language Server Protocol）相关的内部项目，没什么进展。综合这些想法，琢磨几周后，我有了构建某种协议的念头：&lt;strong&gt;能不能做一个类似 LSP 的东西？把这种「&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用与扩展之间的通信」标准化。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;于是，我找到 Justin，分享了这个想法，幸运的是他很感兴趣，我们便一起着手构建。&lt;/p&gt;
+&lt;p&gt;从有想法开始，花了约一个半月构建协议并完成首次集成。Justin 在 Claude Desktop 首次集成中承担了大量工作，我则在 IDE 中做了许多概念验证，展示协议在 IDE 中的应用。在正式发布前，查看相关代码库能发现不少细节，这就是 MCP 大概的起源故事 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：时间线是怎样的呢？我知道 11 月 25 日是正式发布日期。你们什么时候开始着手做这个项目的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+7 月左右，David 提出想法后，我很快就兴奋地与他着手构建 MCP。最初几个月，因为搭建包含客户端、服务器和 SDK 的通信协议有大量基础工作，所以进展很缓慢。但当东西能通过协议通信后，便令人兴奋起来，能构建各种奇妙的应用。&lt;/p&gt;
+&lt;p&gt;后来我们内部办了一场黑客松，一些同事用 MCP 编了可以控制 3D 打印机的服务器，还有实现「记忆功能」之类的扩展。这些原型大受欢迎，让我们相信这个想法能带来很大潜力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：回到构建 MCP，我们看到的只是最终成果，它明显受 LSP 启发，这点你们俩也承认。想问问构建时的工作量如何？构建过程主要是大量编写代码，还是做大量设计工作？我感觉设计工作占比大，比如选用 JSON-RPC，借鉴 LSP 的程度如何？还有哪些部分难度较大 ？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+我们从 LSP 获得很多灵感。David 在开发工具方面对 LSP 经验丰富，我主要从事产品或基础设施工作，LSP 对我来说是新事物。&lt;/p&gt;
+&lt;p&gt;从设计原则看，LSP 解决了 David 提到的 M x N Problem。之前，不同 IDE、编辑器和编程语言各自为政，你无法在 Vim 中使用 JetBrains 出色的 Java 支持，也无法在 JetBrains 中使用 Vim 出色的 C 语言支持。LSP 通过创建通用语言让各方能 「交流」，LSP 统一了协议，让「编辑器-语言」各自只需要实现一次。而我们的目标类似，只不过场景换成了「AI 应用-扩展」之间的对接。&lt;/p&gt;
+&lt;p&gt;具体细节上，我们采用 JSON-RPC 和双向通信概念之后，走向了不同方向。LSP 注重功能呈现，思考并提供不同的基本元素，而非语义的原则，我们也应用到 MCP 中。之后，我们花大量时间思考 MCP 中的每个基本元素及其差异的原因，这是大量的设计工作。一开始，我们想支持 TypeScript、Python 以及用于 Zed 集成的 Rust 三种语言，构建含客户端和服务器的 SDK，打造内部试验生态系统，并让本地 MCP 概念（涉及启动子进程等）稳定下来。&lt;/p&gt;
+&lt;p&gt;我们参考了针对 LSP 的诸多批评意见，尽量在 MCP 中改进。例如 LSP 在 JSON-RPC 上的某些做法太复杂，我们就做了一些更直接的实现方式。因为构建 MCP 时，我们&lt;strong&gt;选择在特定领域创新，在其他方面借鉴成熟的模式&lt;/strong&gt;&lt;br&gt;
+，比如选择 JSON-RPC 之类的并不重要，而将重点放在基本元素等创新上，这些方面借鉴前人成果对我们很有帮助 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我对协议设计感兴趣，这里有很多内容能展开。你们已经提到 M x N Problem，其实从事开发者工具工作的人都遇到过，也就是 「万能盒子（Universal Box）」 问题。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;基础设施工程的基本问题和解决办法是，要将很多东西连接到 N 个不同事物，弄个 「万能盒子」 就好。像优步、GraphQL、我曾工作的 Temporal 以及 React 都有这类问题。好奇你们在脸书时有没有解决过 N 乘以 N 的问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9560fc9c652d0c299067df192e51f912.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+某种程度上确实如此。这是个很好的例子。我在版本控制系统等方面处理过很多这类问题。就是把问题都整合到一个大家能读写的东西里，构建「万能盒子」来解决。在开发者工具领域，这类问题随处可见。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+有趣的是，构建「万能盒子」的人都会面临同样问题，也就是可组合性、远程与本地问题等。Justin 提到的功能呈现问题，有些本质相同的东西，却要明确概念让它的呈现方式不同。&lt;/p&gt;
+&lt;h2 id=&#34;2mcp-的核心概念工具资源与提示缺一不可&#34;&gt;&lt;strong&gt;2.MCP 的核心概念：工具、资源与提示缺一不可&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：看 MCP 文档时我就有这个疑问，为什么这两个东西要有区别呢？很多人将工具调用当成万能解法，实际上不同类型的工具调用意义不同，有时是资源，有时是执行操作，有时是其他用途。我想了解你们将哪些概念归为相近类别？为什么强调它们的重要？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+我们从应用开发者角度思考每个基本概念。开发应用时，不管是 IDE、Claude Desktop 或 Agent 界面，从用户的角度想要从集成中获取的功能，就会清晰很多，同时，工具调用是必要的，还要区分不同功能。&lt;/p&gt;
+&lt;p&gt;所以，MCP 最初的核心基本概念，后来又有所增加：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;工具（Tool）&lt;/strong&gt;&lt;br&gt;
+：是核心。即直接给模型添加工具，让模型自行决定什么时候调用。对应用开发者而言，这类似「函数调用」，只是由模型发起的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;资源（Resource）&lt;/strong&gt;&lt;br&gt;
+：基本上指可添加到模型上下文的数据或背景信息，可由应用程序控制。例如：可能希望模型自动搜索并找到相关资源，进而将它们纳入上下文；也可能希望在应用程序中设置一个明确的用户界面功能，让用户通过下拉菜单、回形针式菜单等方式，使其成为发送给 LLM 信息的一部分，这些都是资源的应用场景。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;提示（Prompt）&lt;/strong&gt;&lt;br&gt;
+：特意设计为由用户发起或由用户替换的文本或消息。打个比方，如果处于编辑器环境中，就如同斜杠命令，或者类似自动补全功能，比如有一个宏想要直接插入使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过 MCP，我们对这些内容的不同呈现方式有自己的见解，但最终还是由应用开发者来决定。作为应用开发者，能得到这些以不同方式表达的概念很有用，可以根据这些确定合适的体验方式，形成差异化。从应用开发者的角度考虑，他们不想让应用千篇一律，在连接开放集成生态系统时，需要独特做法来创造最佳体验。&lt;/p&gt;
+&lt;p&gt;我觉得有两个方面：第一个方面是，目前工具调用在集成中占比超 95%，我期望更多客户端运用资源调用、提示调用。第一个实现的是提示功能，很实用，能构建可回溯的 MCP 服务器，这是用户驱动的交互，由用户决定信息导入时机，优于等待模型处理。同时希望更多 MCP 服务器用提示展示工具用法。&lt;/p&gt;
+&lt;p&gt;另一方面就是资源部分也很有潜力，设想一个 MCP 服务器公开文档、数据库等资源，客户端围绕这些构建一个完整的索引。因为资源内容丰富，不是由模型驱动公开，因为你可能拥有比在上下文窗口中实际可用的多得多的资源内容。期待未来几个月，应用程序能更好利用这些基本概念，打造更丰富的体验。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：拿着锤子，就想把所有东西都当成钉子，用工具调用解决一切问题。比如很多人用它进行数据库查询，而不是资源调用。我好奇在有&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;接口（如数据库）的情况下，使用工具和资源各有哪些优缺点？什么时候该用工具做 SQL 查询？什么时候该用资源处理数据？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+我们区分工具与资源的方式是：工具由模型发起调用，由模型自行判断找到合适的工具并应用，如果想让 LLM 能运行 SQL 查询，把它设为工具合理。&lt;/p&gt;
+&lt;p&gt;资源使用更灵活，不过目前因为很多客户端不支持，情况很复杂。理想状态下，对于数据库表架构等内容，可以通过资源调用。用户能借这个告知应用相关信息开启对话，或者让 AI 应用自动查找资源。只要有列出实体并读取的需求，把它建模为资源就合理。资源通过 URI 唯一标识，可视为通用转换器，例如用 MCP 服务器解读用户输入的 URI。以 Zed 编辑器为例，它有一个提示库和 MCP 服务器交互填充提示，双方需就 URI 及数据格式达成一致，这是资源应用的很酷的交叉示例。&lt;/p&gt;
+&lt;p&gt;再回到应用开发者的角度，思考需求，把这种思路应用到实际中，比如，看看现有的应用功能，如果采用这种方式，哪些功能可以分离出来，由 MCP 服务器实现。基本上，任何有附件菜单的 IDE，自然都可以建模为资源。只是这些实现方式已经存在。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）： 是的，我在 Claude Desktop 中看到@符号时，立刻想到了这和 Cursor 的功能是一样的，现在其他用户也可以利用这个功能了。这个设计目标很棒，因为功能本身已经存在，人们可以很容易地理解并使用。我展示了那张图表，你们肯定也认同它的价值，我认为它非常有帮助，应该放在文档首页，这是一个很好的建议。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+ &lt;br&gt;
+你愿意为此提交一个 PR（Pull Request）吗？我们非常喜欢这个建议。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+好的，我去提交。&lt;/p&gt;
+&lt;p&gt;作为一名开发者关系人员，我一直致力于为人们提供清晰的指引，比如先列出关键要点，然后再花两小时进行详细讲解。所以，用一张图来涵盖核心内容非常有帮助。我很欣赏你们对提示（Prompt）的重视。在 ChatGPT 和 Claude 发展的早期，很多人尝试创建类似 GitHub 上的提示库、提示管理器库，但最终都没有真正流行起来。&lt;/p&gt;
+&lt;p&gt;确实，在这个领域需要更多的创新。人们期望提示具有动态性，而你们提供了这种可能性。我非常认可你们提到的多步骤提示（multi-step prompt）概念，这说明有时为了让模型正常运行，需要采取多步骤的提示方式或是突破一些限制。提示不仅仅是单次的对话输入，有时它是一连串的对话过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我觉得这正是资源和工具概念存在一定融合的地方，因为你现在提到有时需要一定程度的用户控制或应用程序控制，而在其他时候又希望由模型来控制。所以，现在我们是否只是在选择工具的一个子集？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+ 是的，我认为这是一个合理的担忧。归根结底，这是 MCP 的一个核心设计原则，即工具这个概念实际上不仅仅是工具本身，它与客户端应用程序息息相关，进而也与用户紧密相连。通过 MCP 的操作，用户应该拥有完全的控制权。我们说&lt;strong&gt;工具由模型控制，指的是仅仅由模型来调用，而不是由用户主动指定使用某个工具&lt;/strong&gt;&lt;br&gt;
+（当然，出于提示目的的情况除外，但这不应该作为常规的用户界面功能）。&lt;/p&gt;
+&lt;p&gt;但我认为，客户端应用程序或用户决定对 MCP 服务器提供的内容进行筛选和优化是完全合理的，例如客户端应用可以从 MCP 服务器获取工具描述并进行优化展示。在 MCP 的范式下，客户端应用应该拥有完全的控制权。此外，我们还有一个初步的想法：在协议中添加功能，允许服务器开发者对提示、资源和工具这些基本元素进行逻辑分组。这些分组可以被视为不同的 MCP 服务器，然后由用户根据自己的需求将它们组合起来使用。&lt;/p&gt;
+&lt;h2 id=&#34;3mcp-与-openapi竞争还是互补&#34;&gt;&lt;strong&gt;3.MCP 与 OpenAPI：竞争还是互补？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;strong&gt;&lt;strong&gt;想&lt;/strong&gt;&lt;/strong&gt;谈谈 MCP 与开放&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;（Open API）的对比，毕竟这显然是大家非常关注的问题之一。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 从根本上讲，开放 API 规范是一个非常强大的工具，我在开发 API 及其客户端时经常使用。但是，对于大型语言模型（LLM）的应用场景而言，开放 API 规范显得过于细化，它没有充分体现更高级别的、针对 AI 的特定概念，比如我们刚才提到的 MCP 基本概念以及应用开发者的思维模式。与仅仅提供一个 REST API 让模型去自由发挥相比，模型能够从专门为其设计的工具、资源、提示以及其他基本概念中获得更多益处。&lt;/p&gt;
+&lt;p&gt;另一方面，在设计 MCP 协议时，我们刻意使其具有一定的状态性。这是因为 AI 应用和交互在本质上更倾向于 Statefulness（有状态）。尽管 Stateless（无状态） 在一定程度上始终有其用武之地，但随着交互模式（如视频、音频等）的不断增加，Statefulness 会变得越来越受欢迎，因此，Statefulness 的协议也显得尤为有用。&lt;/p&gt;
+&lt;p&gt;实际上，开放 API 和 MCP 并非相互对立，而是相辅相成的。它们各有强大之处，而且非常互补。我认为关键在于选择最适合特定任务的工具。如果&lt;strong&gt;目标是实现&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用之间丰富的交互，那么 MCP 就更适合&lt;/strong&gt;&lt;br&gt;
+；如果希望模型能够轻松读取和解释 API 规范，那么开放 API 会是更好的选择。早期已经有人在这两者之间搭建了桥梁，有一些工具可以将开放 API 规范转换为 MCP 形式进行发布，反之亦然，这很棒。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我在 AGI 工作室联合主持了一场黑客马拉松。作为个人 Agent 开发者，我看到有人构建了一个能够生成 MCP 服务器的个人 Agent：只需要输入&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;规范的 URL，它就可以生成对应的 MCP 服务器。你们如何看待这种现象？是不是意味着大多数 MCP 服务器仅仅是在现有 API 之上增加了一个层，而没有太多独特的设计？未来会一直是这样，主要依靠&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;来对接已有的 API，还是会出现全新的、前所未有的 MCP 体验？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为这两种情况都会存在。&lt;strong&gt;一方面，「通过连接器将数据引入应用程序」这类需求始终是有价值的。&lt;/strong&gt;&lt;br&gt;
+尽管目前更多的是默认使用工具调用，但未来其他的基本概念或许更适合解决这类问题。即使它仍然是一个连接器或适配器层，通过适配不同的概念也能增加其价值。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;另一方面，确实有机会出现一些有趣的应用场景，构建不仅仅充当适配器的 MCP 服务器。&lt;/strong&gt;&lt;br&gt;
+例如，一个内存 MCP 服务器可以让 LLM 在不同的对话中记住信息；一个顺序思维 MCP 服务器可以提升模型的推理能力。这些服务器并非与外部系统集成，而是为模型提供全新的思考方式。&lt;/p&gt;
+&lt;p&gt;无论如何，利用 AI 来构建服务器是完全可行的。即使需要实现的功能并非适配其他 API，而是具有&lt;strong&gt;源自&lt;/strong&gt; | 性，模型通常也能找到实现的途径。确实，很多 MCP 服务器将会是 API 封装器，这既合理又有效，能帮助你取得很大进展。但我们目前仍处于探索阶段，还在不断探索能够实现的可能性。&lt;/p&gt;
+&lt;p&gt;随着客户端对这些基本概念支持的不断完善，将会涌现出丰富的体验。例如，一个能够「总结 Reddit 版块内容」的 MCP 服务器，目前还没有人构建，但协议本身完全能够实现。我认为，当人们的需求从「我只是想把我关心的事物连接到 LLM 上」转变为「我想要一个真正的工作流程，一个真正更丰富、我希望模型能够深入互动的体验」时，你就会看到这些创新应用应运而生。不过，目前在客户端支持的能力与服务器开发者想要实现的功能之间，确实存在着一个「先有鸡还是先有蛋」的问题。&lt;/p&gt;
+&lt;h2 id=&#34;04怎么快速构建-mcp-服务器用-ai-编程&#34;&gt;&lt;strong&gt;04.怎么快速构建 MCP 服务器：用 AI 编程&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我觉得 MCP 还有一个方面人们讨论得相对较少，那就是服务器的构建。对于那些想要开始构建 MCP 服务器的开发者，你们有什么建议吗？作为服务器开发者，如何在提供详细描述（让模型理解）与直接获取原始数据（留给模型后续自动处理）之间找到一个最佳平衡点？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我有一些建议。MCP 的一个优点在于，构建一些简单的功能非常容易，大约半小时就能搭建好，虽然可能不完美，但足以满足基本需求。最好的入门方法是：选择你喜欢的编程语言，如果有相应的 SDK 就直接使用；构建一个你希望模型能与之交互的工具；搭建 MCP 服务器；将这个工具添加到服务器中；简单地编写一下工具的描述；通过标准输入输出协议将其连接到你喜欢的应用程序；然后观察模型能够如何使用它。&lt;/p&gt;
+&lt;p&gt;对于开发者来说，能够快速看到模型作用于他们所关注的事物上，这一点非常有吸引力，能够激发他们的热情，进而促使他们深入思考还需要哪些工具、资源和提示，以及如何评估效果并优化提示。这是一个可以不断深入探索的过程，但首先从简单的事情入手，看看模型如何与你关心的内容进行交互，这本身就充满了乐趣。MCP 为开发增添了趣味性，能够让模型快速发挥作用。&lt;/p&gt;
+&lt;p&gt;我还倾向于&lt;strong&gt;利用&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;辅助编码&lt;/strong&gt;&lt;br&gt;
+。在开发初期，我们就发现可以将 MCP SDK 的代码片段放入 LLM 的上下文窗口，让 LLM 帮助构建服务器，结果往往很不错，细节可以在后期进一步优化。这是一种快速实现基本功能并进行迭代的好方法。从一开始，我们就非常注重简化服务器的构建流程，以便于 LLM 能够参与进来。在过去几年里，启动一个 MCP 服务器可能只需要 100 到 200 行代码，确实非常简单。如果没有现成的 SDK，你也可以将相关的规范或其他 SDK 提供给模型，让它帮助你构建部分功能。在喜欢的语言中进行工具调用通常也非常直接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;strong&gt;&lt;strong&gt;我发现，服务器构建者在很大程度上决定了最终返回的数据格式和内容。比如在工具调用的例子中，像 Google Maps，返回哪些属性是由构建者决定的。如果缺少某种属性，用户就无法覆盖或修改它。这和我对一些 SDK 的不满之处类似：当人们构建&lt;/strong&gt;&lt;/strong&gt;API****封装的 SDK 时，如果他们遗漏了 API 新增的参数，我就无法使用这些新功能。你们如何看待这个问题？用户应该拥有多大的干预能力，还是完全由服务器设计者来决定？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+关于 Google Maps 的例子，我们或许有一定的责任，因为它是我们发布的一个参考服务器。一般来说，至少目前，对于工具调用的结果，我们有意设计它不一定是结构化的 JSON 数据，也不一定需要匹配特定的模式，而是以文本、图像这类可以直接输入 LLM 的消息形式呈现。也就是说，&lt;strong&gt;我们倾向于返回大量的数据，并相信 LLM 能够从中筛选并提取它所关心的信息。&lt;/strong&gt;&lt;br&gt;
+我们在这方面做了很多努力，旨在让模型能够灵活地获取所需信息，因为这正是它的强项。我们思考的是如何充分发挥 LLM 的潜力，而不是过度地限制或指定，从而避免随着模型的改进而变得难以扩展。因此，在示例服务器中，理想的状态是所有结果类型都能直接从被调用的 API 原封不动地传递过来，由 API 自动传递数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 在哪里划定这个界限确实是一个很难做出的决定。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+这里我可能需要稍微强调一下 AI 在其中的作用。很多示例服务器是由 Claude 编写的，这一点并不令人意外。目前，人们往往习惯于用传统的软件工程方法来处理问题，但实际上我们需要重新学习如何为 LLM 构建系统并信任它们的能力。随着 LLM 每年都取得显著的进步，现在将处理数据的任务交给擅长此道的模型是一个明智的选择。这意味着我们可能需要放下过去二三十年、甚至四十年的传统软件工程实践经验。&lt;/p&gt;
+&lt;p&gt;从另一个角度来看 MCP，AI 的发展速度令人惊叹，既令人兴奋又带着一丝担忧。&lt;strong&gt;对于模型下一波能力的提升，最大的瓶颈可能在于与外部世界交互的能力&lt;/strong&gt;&lt;br&gt;
+，比如读取外部数据源、采取 Statefulness 的行动。在 Anthropic 工作时，我们非常重视安全的交互，并采取了相应的控制和校准措施。随着 AI 的发展，人们会期望模型具备这些能力，而将模型与外部连接是提升 AI 生产力的关键。MCP 也正是我们对未来发展方向及其重要性的一种押注。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 说得对，我觉得任何带有「格式化」（formatted）字样的 API 属性都应该被移除。我们应该从所有接口获取原始数据。为什么需要预先格式化呢？模型肯定足够智能，能够自己对地址等信息进行格式化。所以这部分应该由终端用户来决定。&lt;/p&gt;
+&lt;h2 id=&#34;5怎么让-mcp-更好调用更多工具&#34;&gt;&lt;strong&gt;5.怎么让 MCP 更好调用更多工具？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）： 我还想问一个问题，一个 MCP 实现能够支持多少个相关功能？这涉及到广度与深度的问题，也与我们刚才讨论的 MCP 嵌套直接相关。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2024 年 4 月 Claude 推出首个百万 token 上下文示例时，曾表示能够支持 250 个工具，但在很多实际情况下，模型并不能真正有效地使用这么多工具。从某种意义上说，这是一个广度问题，因为没有工具调用工具的情况，只有模型和一层平铺的工具层级结构，这样很容易出现工具混淆。当工具的功能相似时，模型就可能调用错误的工具，导致结果不理想。对于在任何特定时间启用的 MCP 服务器的最大数量，你们有什么建议吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+ 坦白说，这个问题没有一个绝对的答案。一方面取决于你使用的模型，另一方面取决于工具的命名和描述是否足够清晰，能够让模型准确理解，避免混淆。理想的状态是将所有信息提供&lt;br&gt;
+给 LLM，完全由它来处理一切，这也是 MCP 所设想的未来蓝图。但在现实应用中，客户端应用程序（即 AI 应用）可能需要做一些补充工作，比如筛选工具集，或者利用一个小型且快速的 LLM 先&lt;br&gt;
+筛选出最相关的工具，然后再传递给大型模型。此外，也可以通过将一些 MCP 服务器设置为其他 MCP 服务器的代理来进行筛选。&lt;/p&gt;
+&lt;p&gt;至少对于 Claude 来说，支持数百个工具是比较稳妥的。不过对于其他模型的情况，目前还不清楚。随着时间的推移，情况应该会越来越好，所以对待限制需要保持谨慎，以免阻碍这种发展。能够支持的工具数量在很大程度上取决于描述的重叠程度。如果服务器的功能各不相同，工具名称和描述清晰且独特，那么能够支持的工具数量可能就会多于存在相似功能服务器（比如同时连接 GitLab 和 GitHub 服务器）的情况。&lt;/p&gt;
+&lt;p&gt;此外，这也与 AI 应用的类型有关。在构建高度智能化的应用时，你可能会减少向用户提问以及界面的可配置性；但在构建像 IDE 或聊天应用这样的程序时，允许用户在不同的时刻选择他们想要的功能集，而不是始终启用全部功能，这是完全合理的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;strong&gt;&lt;strong&gt;最后，我们重点谈谈顺序思维服务器&lt;/strong&gt;&lt;/strong&gt;（Sequential Thinking MCP Server）****。它具备分支功能，还能提供「更多编写空间」的能力，这些都非常有趣。另外，Anthropic 上周发布了一篇新的工程博客，介绍了他们的思考工具（Thinking Tool），社区对于顺序思维服务器和这个思考工具之间是否存在重叠产生了一些疑惑。实际上，这只是不同团队以不同的方式在做类似的事情，毕竟实现方法多种多样。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 据我所知，顺序思维服务器与 Anthropic 的思考工具没有直接的共同渊源。但这确实反映了一个普遍现象：为了让 LLM 进行更周全的思考、减少幻觉或达成其他目标，存在着许多不同的策略，可以从多个维度更全面、更可靠地展现效果。这正是 MCP 的强大之处——你可以构建不同的服务器，或者在同一个服务器中设置不同的产品或工具来实现多样化的功能，让 LLM 应用特定的思维模式来获得不同的结果。&lt;/p&gt;
+&lt;p&gt;所以，并不存在一种理想的、规定好的 LLM 思考方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我认为不同的应用会有不同的用途，而 MCP 正是允许你实现这种多样化，对吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 没错。我觉得一些 MCP 服务器所采用的方法，恰恰填补了模型在当时自身能力上的空白。模型训练、准备和研究需要耗费大量时间，才能逐步提升其能力。就拿顺序思维服务器来说，它看起来可能很简单，但实际上并非如此，而且它可以在短短几天内搭建好。然而，如果想在模型内部直接实现这种复杂的思考功能，那绝不是几天就能完成的事情。&lt;/p&gt;
+&lt;p&gt;打个比方，如果我使用的模型不太可靠，或者有人觉得当前模型生成的结果整体上不够可靠，我可以设想构建一个 MCP 服务器，让模型针对一个查询尝试生成三次结果，然后再从中挑出最佳的一个。借助 MCP，就能够实现这种递归且可组合的 LLM 交互方式。&lt;/p&gt;
+&lt;h2 id=&#34;06复杂的-mcp-和-agent-有什么区别&#34;&gt;&lt;strong&gt;06.复杂的 MCP 和 Agent 有什么区别？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我接下来想问关于可组合性的问题。你们怎么看待将一个 MCP 引入另一个 MCP 的概念？对此有什么相关计划吗？比如，如果我想构建一个用于总结 Reddit 版块内容的 MCP，这可能需要调用一个对应 Reddit&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;的 MCP，以及一个提供总结功能的 MCP。那么，我该如何构建这样一个「超级 MCP」呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 这是一个非常有意思的话题，可以从两个方面来看。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;一方面，考虑构建像总结功能这样的组件&lt;/strong&gt;&lt;br&gt;
+。虽然它可能会调用 LLM，但我们希望它能够保持与具体的模型无关。这就涉及到了 MCP 的双向通信功能。以 Cursor 为例，它管理着与 LLM 的交互循环。服务器开发者可以通过 Cursor 向客户端（即用户所在的应用程序）请求执行某些任务，比如让客户端使用用户当前选择的模型进行总结，并将结果返回。这样，总结模型的选择就取决于 Cursor，而开发者无需在服务器端引入额外的 SDK 或 API 密钥，从而实现了与具体模型无关的构建。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;另一方面，利用 MCP 构建更复杂的系统是完全可能的&lt;/strong&gt;&lt;br&gt;
+。你可以设想一个 MCP 服务器，它为 Cursor 或 Windsurf 这样的服务提供支持，同时这个服务器自身也作为一个 MCP 客户端，调用其他的 MCP 服务器来创造更丰富的体验。这体现了一种递归特性，在规范的授权等方面也体现了这种模式。你可以将这些既是服务器又是客户端的应用程序串联起来，甚至利用 MCP 服务器构建有 DAG （Directed Acyclic Graph）来实现复杂的交互流程。智能的 MCP 服务器甚至可以利用整个 MCP 服务器生态系统的能力。对此，人们已经做过相关的实验。如果再考虑到自动选择、安装等功能，还有很多可以实现的可能性。&lt;/p&gt;
+&lt;p&gt;目前，我们的 SDK 还需要添加更多细节，以便开发者能够更轻松地构建既是客户端又是递归 MCP 服务器的应用，或者更方便地复用多个 MCP 服务器的行为。这些是未来有待完善的内容，但它们已经可以展示一些目前虽然可行但尚未被广泛采纳的应用场景。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）： 这听起来非常令人兴奋，我相信很多人会从中获得很多想法和灵感。那么，这种既是服务器又是客户端的 MCP，可以算作是一种 Agent 吗？从某种程度上说，Agent 是你发出一个请求，它会去执行一些你可能不完全清楚的底层操作。在你和最终的原始数据来源之间存在一层抽象。你们对于 Agent 有什么独到的见解吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为通过 MCP 的方式确实可以构建一个 Agent。这里需要区分的是，仅仅作为一个 Agent 的 MCP 服务器加上客户端，与一个真正的 Agent 之间的区别。例如，在一个 MCP 服务器内部，可以借助客户端提供的 sample loop（示例循环）来丰富体验，并让模型调用工具，这样来构建一个真正的 Agent，这种构建方式相对直接。&lt;/p&gt;
+&lt;p&gt;在 MCP 与 Agent 的关系方面，我们有几种不同的思考方向：&lt;/p&gt;
+&lt;p&gt;其一，MCP 可能是一种很好的方式来表达 Agent 的能力，但也许目前还缺少一些能够提升用户交互体验的特性或功能，这些应该被考虑纳入到 MCP 协议中。&lt;/p&gt;
+&lt;p&gt;其二，可以将 MCP 作为构建 Agent，或者让不同 Agent 之间相互组合的基础通信层。 当然，也存在其他可能性，比如认为 MCP 更应该专注于 AI 应用层面的集成，而不是过多地关注 Agent 的概念本身。 这仍然是一个正在探讨中的问题，每个方向都有其权衡之处。回到之前关于「万能盒子」的类比，在设计协议和管理生态系统时，我们需要特别小心的一点是避免功能过于繁杂，不能让协议试图包罗万象，否则可能导致其在各个方面都表现不佳。关键的问题在于，Agent 在多大程度上能够自然地融入现有的模型和范式框架内，又或者在多大程度上它应该作为一个独立的实体存在，这仍然是一个尚未完全解决的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为，当实现双向通信，让客户端和服务器能够合二为一，并且可以将工作委托给其他的 MCP 服务器时，它就更像是 Agent 了。我很欣赏你们始终牢记简洁性的重要，不试图解决所有问题。&lt;/p&gt;
+&lt;h2 id=&#34;7mcp下一步如何让协议更可靠&#34;&gt;&lt;strong&gt;7.MCP下一步：如何让协议更可靠？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：近期关于从有状态服务器到无状态服务器的更新引起了大家的兴趣。你们选择服务器发送事件（SSE）作为发布协议和传输方式，并且支持 pluggable（可插拔，指更具灵活性）的传输层，这背后的原因是什么？是受到了&lt;strong&gt;&lt;strong&gt;Jared Palmer&lt;/strong&gt;&lt;/strong&gt;推文的影响，还是早已在筹备之中？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;J&lt;strong&gt;&lt;strong&gt;ustin&lt;/strong&gt;&lt;/strong&gt;/David：&lt;/strong&gt;&lt;br&gt;
+并不是，几个月前我们就在 GitHub 上公开讨论过 Statefulness 与 Stateless 相关的难题，并一直在权衡。&lt;strong&gt;我们认为&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用、生态系统和 Agent 的未来发展方向倾向于 Statefulness&lt;/strong&gt;&lt;br&gt;
+。这是 MCP 核心团队内部最具争议的话题之一，经过了多次讨论和迭代。最终的结论是，&lt;strong&gt;尽管我们看好 Statefulness 的未来，但不能因此背离现有的范式，必须在 Statefulness 的理念和实际操作的复杂性之间找到平衡。&lt;/strong&gt;&lt;br&gt;
+因为如果要求 MCP 服务器保持长期持续连接，部署和运营的难度会非常大。最初的 SSE 传输设计，其基本理念是你部署一个 MCP 服务器后，客户端可以连接进来并保持近乎无限期的连接，这对任何需要进行大规模运营的人来说，都是一个很高的要求，不是一个理想的部署或运营模式。&lt;/p&gt;
+&lt;p&gt;因此，我们思考如何平衡 Statefulness 的重要性与操作维护的简便性。我们推出的可流式传输的 HTTP 传输方式，包括 SSE，其设计思路是循序渐进的。服务器可以是一个普通的 HTTP 服务器，通过 HTTP POST 请求获取结果。然后可以逐步增强功能，比如支持结果的流式传输，甚至允许服务器主动向客户端发出请求。只要服务器和客户端支持 Session Resumption（会话恢复，即可以在断开连接后重新连接并继续传输），就能够在兼顾 Statefulness 交互的同时，实现便捷的扩展，并能更好地应对网络不稳定等状况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;strong&gt;&lt;strong&gt;是的，还包括会话 ID。关于未来的身份验证，你们有什么计划吗？目前，对于一些 MCP，我只需要在命令行中粘贴我的&lt;/strong&gt;&lt;/strong&gt;API****密钥。你们认为未来的发展方向是什么？会不会有类似于 MCP 专属的配置文件之类的东西来管理认证信息？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 在协议的下一版修订草案中，我们已经纳入了授权（authentication）规范。目前主要关注的是用户到服务器的授权，采用的是 OAuth 2.1 或其现代子集。这种方式的效果不错，大家也正在以此为基础进行构建。这能够解决不少问题，因为你肯定不希望用户随意粘贴 API 密钥，特别是考虑到未来大多数服务器会是远程服务器，它们之间需要进行安全的授权。&lt;/p&gt;
+&lt;p&gt;在本地环境下，由于授权信息定义在传输层，这意味着需要进行数据帧封装（设置请求头），而标准的输入输出（stdin/stdout）是无法直接实现的。不过，在本地运行使用标准输入输出的程序时，操作非常灵活，甚至可以打开浏览器来处理授权流程。&lt;strong&gt;关于在本地是否使用 HTTP 进行授权，我们内部目前尚未完全确定，贾斯汀倾向于支持，而我个人不太赞同，存在争议。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于授权设计，我认为和协议的其他内容一样，我们力求相当精简，解决实际痛点，功能先做到最简化，再根据实际需求和痛点逐步扩展，避免过度设计。设计协议需要非常谨慎，因为一旦犯错，基本上就无法挽回，否则会破坏向后兼容性。因此，我们只接受或添加那些经过充分考量和验证的内容，先让社区通过扩展机制进行临时尝试，直到有更广泛的共识表明某些功能确实应该添加到核心协议中，并且我们有能力在未来持续提供支持，这样做会更容易、更稳健。&lt;/p&gt;
+&lt;p&gt;以授权和 API 密钥为例，我们进行了大量头脑风暴。当前的授权方式（OAuth 2.1 子集）已经能够满足 API 密钥的使用场景。一个 MCP 服务器可以作为 OAuth 授权服务器并添加相关功能，但如果你访问其「/authorize」网页，它可能只是提供一个文本框让你输入 API 密钥。虽然这可能不是最理想的方式，但因为它确实符合现有的模式，并且在当下是可行的。我们担心如果添加过多其他选项，客户端和服务器都需要考虑和实现更多情况，反而增加了复杂性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 你们有没有考虑过 scopes（作用域）的概念？昨天我们和 Agent.ai 的创建人&lt;strong&gt;&lt;strong&gt;Dharmesh Shah&lt;/strong&gt;&lt;/strong&gt;做了一期节目。他举了一个关于电子邮件的例子：他拥有自己所有的电子邮件，希望能有更细粒度的 Scopes 控制，比如「你只能访问这些类型的邮件」，或者「只能访问发给这个人的邮件」。如今，大多数作用域通常是基于 REST&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;设计的，即你能访问哪些特定的端点。你们认为未来模型有可能理解并利用 Scopes 层，从而动态地限制传输的数据吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我们认识到 Scopes 存在潜在的需求，也进行过讨论，但&lt;strong&gt;将它添加到协议中需要非常谨慎&lt;/strong&gt;&lt;br&gt;
+。我们的标准是，首先要找到当前实现方式无法解决的实际问题，然后在 MCP 结构的可扩展性基础上进行原型构建，并且证明它能够带来良好的用户体验后，才会考虑将其正式纳入协议。授权（authentication）的情况有所不同，它更多是从顶层（top-down）设计的。&lt;/p&gt;
+&lt;p&gt;每次听到对 Scopes 的描述，我们都觉得很有道理，但我们需要具体的端到端用户案例来明确当前实现方式的不足之处，这样才能进一步展开讨论。考虑到可组合性和逻辑分组的设计理念，&lt;strong&gt;我们通常建议将 MCP 服务器设计得比较小巧，大量不同的功能最好由独立的、离散的服务器来实现，然后在应用层进行组合。&lt;/strong&gt;&lt;br&gt;
+也有人提出反对意见，不赞成让单个服务器承担对多个不同服务的授权任务，认为这些服务本身就应该对应各自独立的服务器，然后再在应用层面进行组合。&lt;/p&gt;
+&lt;h2 id=&#34;8mcp-服务器分发的安全问题&#34;&gt;&lt;strong&gt;8.MCP 服务器分发的安全问题&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;Alessio（主持人）：&lt;br&gt;
+ 我认为 MCP 一个很出色的设计是它的编程语言无关性。据我了解，Anthropic 没有官方的 Ruby SDK，OpenAI 也没有。尽管像 Alex Rudall 这样的开发者在构建这些工具包方面表现出色，但有了 MCP，我们不再需要为各种编程语言分别适配 SDK，只需要创建一个被 Anthropic 认可的标准接口就可以了，这一点非常棒。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+关于 MCP 的注册中心（MCP Registry），目前已经出现了五六个不同的注册中心，而且官方最初宣布的注册中心已经停止运营了。注册中心的服务模式，如提供下载量、点赞数、评价和信任机制等，很容易让人联想到传统的软件包仓库（比如 npm 或 PyPI），但这让我觉得不太可靠。因为即使有了社交证明，下一次更新也可能让一个原本受信赖的软件包面临安全威胁。这种滥用信任系统的情况，感觉就像是建立信任体系反而因为信任系统本身而遭受损害。因此，我更倾向于鼓励人们使用 MCP Inspector，因为它只需要查看通信流量，很多安全问题或许就能通过这种方式被发现并解决。你们如何看待注册中心的安全问题和供应链风险？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 没错，您说得完全正确。这确实是所有注册中心都可能面临的典型供应链安全问题。针对这个问题，行业内有不同的解决方案。比如，可以采取类似苹果 App Store 的模式，对软件进行严格审核，组建自动化系统和人工审核团队来完成这项工作。这确实是解决这类问题的一种方法，在某些特定的场景下是可行的。但我认为在开源生态系统中，这种模式可能不太适用，因为开源生态系统通常采用的是类似 MCP 注册中心、npm 包管理器和 PyPI（Python 包索引）这样的去中心化或社区驱动的方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 这些仓库本质上都面临着供应链攻击的问题。目前已经在官方代码库中发布的一些核心服务器，特别是像内存服务器、推理/思考服务器这类比较特殊的服务器。它们似乎不仅仅是简单地封装现有 API，而且使用起来可能比直接操作 API 更便捷。&lt;/p&gt;
+&lt;p&gt;以内存服务器为例，虽然市场上有一些专注于内存功能的初创公司，但使用这个 MCP 内存服务器，代码量大约只有 200 行，非常简单。当然，如果需要更复杂的扩展，可能需要采用更成熟的方案。但如果只是想快速引入内存功能，它提供了一个非常好的实现，可能就不需要依赖那些公司的产品了。&lt;strong&gt;对于这些非&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;封装型的特殊服务器，你们有没有什么特别的故事可以分享？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 其实没有太多特别的故事。很多这类服务器都源于我们之前提到的黑客马拉松。当时，人们对 MCP 的想法很感兴趣，Anthropic 内部一些想要实现内存功能或尝试相关概念的工程师，就可以借助 MCP 快速搭建出以往难以实现的原型。你不再需要成为某个领域的端到端专家，也不需要特定的资源或私有代码库，就能为你的应用或服务添加例如内存之类的功能。很多服务器就是这样诞生的。同时，我们在发布时也在考虑要展示多大范围的功能可能性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 我完全同意。我认为这在一定程度上成就了你们发布的成功，&lt;strong&gt;提供了丰富的示例供人们直接复制粘贴并在此基础上进行扩展&lt;/strong&gt;&lt;br&gt;
+。我还想重点提一下文件系统 MCP 服务器，它提供了编辑文件的功能。我记得之前在播客中，Eric 曾展示过他出色的 bench 项目，社区对其中开源的文件编辑工具非常感兴趣。市面上有一些相关的库和方案将这种文件编辑能力视为核心知识产权，而你们直接将这个功能开源出来，这真的非常酷。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+文件系统服务器是我个人最喜欢的功能之一。它解决了我当时遇到的一个实际限制，我有一个业余的游戏项目，非常希望能将它与云服务以及 David 之前提到的「工件（artifacts）」关联起来。而能够让云服务与本地机器进行交互，这一点意义非常重大，我非常喜欢这个功能。&lt;/p&gt;
+&lt;p&gt;这是一个典型的例子，这个服务器的诞生源于我们在创建 MCP 过程中遇到的挫折以及对这种功能的需求。从遭遇问题，到开发出 MCP 和这个服务器，有着清晰直接的演进脉络，Justin 对此尤其有感触。所以，它在我们心中占有特殊的地位，可以被视为这个协议的一种精神起源点。&lt;/p&gt;
+&lt;h2 id=&#34;9mcp-现在已经是多家公司参与的大型项目了&#34;&gt;&lt;strong&gt;9.MCP 现在已经是多家公司参与的大型项目了&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）： 关于 MCP 的讨论非常热烈。如果人们想参与这些辩论和讨论，应该通过什么渠道呢？是直接在规范的代码库讨论页面上吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+在互联网上发表意见相对容易，但真正去付诸实践却需要付出努力。我和 Jason 都是传统的开源理念支持者，我们认为在开源项目中，实际的贡献至关重要。如果你通过实际工作，用具体的例子展示了你的成果，并且为你在软件开发工具包（SDK）中想要的扩展功能投入了精力，那么你的想法更有可能被项目采纳。如果只是停留在发表意见的层面，你的声音可能会被忽略。我们当然重视各种讨论，但考虑到有限的时间和精力，我们会优先关注那些投入了更多实际工作的人。&lt;/p&gt;
+&lt;p&gt;关于 MCP 相关的讨论和通知数量非常庞大，我们需要找到更具扩展性的架构来与社区进行互动，从而确保讨论是有价值和成效的。运营一个成功的开源项目，有时需要做出一些可能让部分人不满意的艰难决定。作为项目的维护者和管理者，必须明确项目的实际愿景，并坚定地朝着既定的方向推进，即使有人不认同也没有关系，因为总可能存在更适合他们理念的项目。&lt;/p&gt;
+&lt;p&gt;以 MCP 为例，它只是解决通用领域相关问题的众多方案之一。如果你不认可核心维护者所选择的方向，开源的优势就在于你有更多的选择，你可以选择「fork」项目。我们确实期望获得社区反馈，也努力让反馈机制更具扩展性，但同时我们也会凭直觉做出我们认为正确的抉择。这可能会在开源讨论中引发很多争议，但这有时也是这类开源项目，尤其是在快速发展领域项目的本质所在。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+幸运的是，你们对于做出艰难决定似乎并不陌生。Facebook 的开源项目提供了不少经验可以借鉴，即使没有直接参与，也能了解参与者的做法。我深度参与了 React 的生态系统，之前成立了一个工作小组，讨论过程是公开的。工作小组的每个成员都有发言权，而且都是有实际工作和重要贡献的人，这种模式在一段时间内很有帮助。关于 GraphQL，它的发展轨迹和早期热度与现在的 MCP 有些相似。我经历了 GraphQL 的发展过程，最终 Facebook 将其捐赠给了开源基金会。&lt;/p&gt;
+&lt;p&gt;这引出了一个问题：MCP 是否也应该这样做？这个问题并非简单的「是」或「否」，其中存在权衡。&lt;strong&gt;目前大多数人对 Anthropic 在 MCP 上的工作是满意的，毕竟是你们创造并管理着它。但当项目发展到一定规模时，可能会遇到瓶颈，意识到这是一个由公司主导的项目。人们最终会期望真正的开放标准由非营利组织来推动，具备多方利益相关者和良好的治理流程，例如由 Linux 基金会或 Apache 基金会管理的那些项目。我知道现在讨论这个问题可能为时尚早，但想听听你们对此的看法？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 开源领域的治理确实是一个有趣且复杂的问题。一方面，我们全力致力于将 MCP 打造成一个开放标准、开放协议和开放项目，欢迎所有有兴趣的人参与进来。目前进展顺利，例如可流式传输 HTTP 的很多想法就来自于 Shopify 等不同的公司，这种跨公司的合作非常有效。但我们确实担心官方标准化，尤其是通过传统的标准化机构或相关流程，在 AI 这样快速发展的领域，这些流程可能会显著拖慢项目的发展速度。因此，我们需要找到一个平衡点：如何在保持现有各方积极参与和贡献的同时，解决他们在治理模式方面可能存在的顾虑或问题，找到正确的未来方向，而无需经历反复的组织架构变动。&lt;/p&gt;
+&lt;p&gt;我们真心希望 MCP 是一个真正的开放项目。虽然它由 Anthropic 发起，并且我和 David 都在 Anthropic 工作，&lt;strong&gt;但我们不希望它仅仅被视为「Anthropic 的协议」。&lt;/strong&gt;&lt;br&gt;
+我们希望各个 AI 实验室和公司都能参与进来或者利用它。这非常有挑战性，需要努力平衡各方利益，避免陷入「委员会决策导致项目停滞」的困境。开源领域存在多种成功的管理模式，我认为其中大部分微妙之处都围绕着企业的赞助和企业在决策过程中的话语权。我们会妥善应对这些相关问题，我们绝对希望 MCP 最终成为一个真正的社区项目。&lt;/p&gt;
+&lt;p&gt;实际上，目前已经有很多非 Anthropic 的员工拥有 MCP 代码的提交和管理权限。例如，Pydantic 团队对 Python SDK 拥有提交权限；Block 等公司对规范做出了诸多贡献；Java、C#、Kotlin 等语言的 SDK 分别由 Microsoft、JetBrains、Spring AI 等不同的公司负责完成，并且这些团队拥有完全的管理权限。所以，如果你仔细观察，它实际上已经是一个由多家公司共同参与的大型项目，很多人都在其中贡献力量，不仅仅是我们两个人对项目拥有提交权限和相关权利。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 对于未来的 MCP 服务器或客户端，你们有什么特别的「愿望清单」吗？有没有哪些你们特别希望人们能够构建，但目前还没有实现的功能？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我希望看到更多 Support for Sampling 的客户端。我也希望有人能构建一些特定的服务器，比如能够总结 Reddit 讨论线程内容的服务器，或者获取《星战前夜：晨曦》（EVE Online）上周动态的服务器。我特别希望前者（采样客户端）能够与模型无关——并不是说我不想用除了 Claude 之外的其他模型（因为目前 Claude 是最好的），而是纯粹希望有一个 Support for Sampling 的客户端框架。&lt;/p&gt;
+&lt;p&gt;更广泛地说，如果能有更多支持完整 MCP 规范的客户端就更好了。我们在设计时考虑了逐步采用的可能性，如果这些精心设计的基本概念能够得到广泛应用，那将非常棒。回想我最初参与 MCP 工作的动机，以及对文件系统服务器的兴奋点——&lt;/p&gt;
+&lt;p&gt;我在业余时间是一名游戏开发者，所以我非常希望能够看到一个与 Godot 引擎集成的 MCP 客户端或服务器（我当时就是用 Godot 引擎开发游戏）。这样一来，将 AI 集成到游戏中就会变得非常轻松，或者能够让 Claude 来运行和测试我的游戏。比如说，让 Claude 玩《宝可梦》游戏。现在已经有实现这个想法的基础了。再进一步，从现在开始，让 Claude 使用 Blender 为你构建 3D 模型，怎么样？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+坦白说，甚至像着色器代码（shader code）之类的东西理论上都可以实现。这确实已经超出了我的专业领域了。但当你给予开发者们支持和工具后，他们能做到的事情真的非常惊人。我们正和 David Hersh 一起筹备一场「Claude 玩《宝可梦》」的黑客马拉松。本来我并没有将 MCP 融入其中的计划，但现在看来或许可以考虑了。&lt;/p&gt;
+&lt;p&gt;往期推荐&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764686&amp;amp;idx=1&amp;amp;sn=2f3571f51d06fee33492079ada3295b3&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;基于DeepSeek数据爬取新范式&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764674&amp;amp;idx=1&amp;amp;sn=6a1a612fb8701ededec975dc4e7566e6&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;不止ChatBI，数势科技SwiftAgent 3.0 重磅升级!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764692&amp;amp;idx=1&amp;amp;sn=76111663e132d1d218c0dc7037b903d1&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cursor AI客服戏精上身编造&amp;quot;单机政策&amp;quot;，程序员集体炸锅：这届GPT学会PUA用户了！&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764672&amp;amp;idx=1&amp;amp;sn=cc8bc52c2c2bb51d44083cd1600cc698&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;人形机器人半马冠军，为什么会选择全尺寸？&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764566&amp;amp;idx=1&amp;amp;sn=358852f5991598153683e65a088ba5c8&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;硅谷AI初创要让60亿人失业，网友痛批人类叛徒！Jeff Dean已投&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764523&amp;amp;idx=1&amp;amp;sn=a513b9e0df290f8c152eda40bf39bf97&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;干翻英伟达，总共分几步？&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764545&amp;amp;idx=1&amp;amp;sn=7005c6334372f304a22aa4b68060b350&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;杀疯了！Gemini 2.5狂飙「高尔顿板」测试，编码横扫所有OpenAI模型&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764523&amp;amp;idx=2&amp;amp;sn=41e4af204045e06cee33a2cd9753cb2f&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Chat2DB创始人姬朋飞：AI在 text2sql应用领域的实践&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764531&amp;amp;idx=1&amp;amp;sn=170a9e010897a37f87597c4aefdcd451&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;仅需0.4GB，参数只有0和±1！微软开源首个原生1 bit模型，CPU轻松跑&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764524&amp;amp;idx=1&amp;amp;sn=beac9e1ee61b847a0e3f50feb5531216&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;全球顶尖AI来考公，不会推理全翻车！致命缺陷曝光，被倒数5%人类碾压&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>支付宝被AI调用，一句话运营小红书！国内最大MCP社区来了，开发者狂欢</title>
+        <link>https://ai.programnotes.cn/p/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%A2%ABai%E8%B0%83%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%BF%90%E8%90%A5%E5%B0%8F%E7%BA%A2%E4%B9%A6%E5%9B%BD%E5%86%85%E6%9C%80%E5%A4%A7mcp%E7%A4%BE%E5%8C%BA%E6%9D%A5%E4%BA%86%E5%BC%80%E5%8F%91%E8%80%85%E7%8B%82%E6%AC%A2/</link>
+        <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%A2%ABai%E8%B0%83%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%BF%90%E8%90%A5%E5%B0%8F%E7%BA%A2%E4%B9%A6%E5%9B%BD%E5%86%85%E6%9C%80%E5%A4%A7mcp%E7%A4%BE%E5%8C%BA%E6%9D%A5%E4%BA%86%E5%BC%80%E5%8F%91%E8%80%85%E7%8B%82%E6%AC%A2/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/640.png" alt="Featured image of post 支付宝被AI调用，一句话运营小红书！国内最大MCP社区来了，开发者狂欢" /&gt;&lt;p&gt;核心内容点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支付宝、MiniMax明星服务在魔搭MCP广场独家首发，近1500款MCP服务全领域覆盖。&lt;/li&gt;
+&lt;li&gt;通过MCP协议，实现AI智能体一键打通AI商业化最后一公里，例如一句话就能完成小红书的自动发布。&lt;/li&gt;
+&lt;li&gt;MCP（模型上下文协议）降低了AI应用的开发门槛，重构了大模型应用的生态关系，开发者可以像搭积木一样自由组合各种模型和工具。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 新智元  新智元 2025-04-15 13:49&lt;/p&gt;
+&lt;p&gt;国内最大MCP中文社区上线了，支付宝、MiniMax明星服务在魔搭MCP广场独家首发，还有近1500款MCP服务全领域覆盖，再次降低AI开发门槛。&lt;/p&gt;
+&lt;p&gt;MCP玩家，又新增一员！这次还是全开源开放的！&lt;/p&gt;
+&lt;p&gt;今天，中国第一开源社区魔搭ModelScope重磅上线「MCP广场」，国内最大MCP中文社区真的来了。&lt;/p&gt;
+&lt;p&gt;近1500多款热门MCP同时登陆，覆盖了搜索、地图、支付、开发者工具等前沿领域。值得一的是，支付宝、MiniMax明星MCP服务更是独家首发。接下来，我们演示下如何在Cline这样的智能体工具中，只需「动动嘴」，就能实现支付宝MCP服务配置。比如让它创作诗歌，只能免费写一首，之后写诗需要充值，每首扣除0.01元，剩余的钱还可以退回。&lt;/p&gt;
+&lt;p&gt;写出详细的提示后，Cline就可以自动调用支付宝的MCP服务，创建支付链接、生成支付二维码，查询确认用户支付后再继续生成诗歌。
+当然，在移动端，也可以通过支付宝的百宝箱完成同样的操作。打字、说话都可以完成交互，相当方便。有了支付宝的MCP服务，大大简化了应用、游戏和各种服务的支付环节，未来，任何人皆可通过AI智能体连上支付宝完成交易、查询、退款，一键打通AI商业化最后一公里。像支付宝MCP这样的服务，在魔搭上还有近1500种。无需复杂的配置，也不需要代码，只需要非常简单的配置，就可在魔搭的MCP实验场体验。直接将部署MCP服务的门槛拉到地面。&lt;/p&gt;
+&lt;p&gt;还有本地搭建的小红书自动发布器，一句话让AI从生成文本、图片，甚至是视频，就连发布也能完成，一键解放人类双手，再你也不用操心内容问题。&lt;/p&gt;
+&lt;h2 id=&#34;文本模型秒变多模态一手体验魔搭mcp&#34;&gt;文本模型秒变多模态一手体验魔搭MCP
+&lt;/h2&gt;&lt;p&gt;除了支付宝MCP首发上线魔搭，MiniMax也将语音（生成/克隆）、图像、视频生成能力封装为统一的MCP工具，让文本模型瞬间晋级为多模态「全能选手」。&lt;/p&gt;
+&lt;p&gt;通过魔搭提供的免费云端资源部署，我们率先体验了这一MCP服务。
+首先，需要在MiniMax开放平台拿到一个API，然后在MCP广场找到MiniMax的MCP服务，填好后就可拿到SSE URL了。接着我们在魔搭的MCP Playground里，找到配置选项，将拿到的包含SSE URL的JSON文件粘贴下来就搞定了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/640.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;mcp Playground&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置成功后，就可以在实验场里看到我们刚刚配置好的MiniMax-MCP服务了。
+这样我们就能通过MCP服务用上MiniMax模型强大的多模态能力了。比如，让它念一首诗。无需提示，模型就会自己判断调用合适的MCP工具[MiniMax-MCP]text to audio，完成后就会在下面给出音频链接。生成过程很快，一次就成功了。整个的朗读效果也很流畅，还有一些感情的起伏。大家可以听一下效果。除了将诗歌读出来，大模型还可以调用[MiniMax-MCP]服务将李白的这首诗变成一张图像及视频。这种全新的调用多模态模型的方法，也展现了MCP更广阔的应用空间。&lt;/p&gt;
+&lt;h2 id=&#34;开发效率倍增迈向ai互操作生态未来&#34;&gt;开发效率倍增迈向AI互操作生态未来
+&lt;/h2&gt;&lt;p&gt;MCP全称是「模型上下文协议」（Model Context Protocol），被誉为「AI界的USB-C接口」。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/641.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;mcp Playground&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;无论是云端模型与本地数据交互，还是多模态模型之间的协同，「一根线」就可连接到不同AI模型、工具、数据，可极大简化开发者的集成工作。为什么MCP如此重要？
+2025年，成为科技圈认定的「智能体元年」，AI智能体的爆发式增长正在重塑各行各业。MCP的出现，恰如一座桥梁，连接了高性能模型、外部资源与实际应用场景。在开发过程中，开发者需要调用的工具越多，越能凸显出MCP的价值，比如同样是100个AI智能体和100个外部工具：传统API：配置次数为100×100=10000MCP：配置次数为100+100=200开发者摆脱锁定，拥抱灵活MCP另一个重大的突破在于，实现了与供应商解耦的开发。传统的AI搭建中，开发者通常被锁定在某个AI供应商的生态系统，或单一的工具链中。比如，为OpenAI插件编写的代码难以复用至其他平台。&lt;/p&gt;
+&lt;p&gt;MCP开放标准，彻底打破了这一桎梏。无论是Claude、Gemini，还是Qwen、DeepSeek等开源大模型，开发者都能无缝调用任何MCP服务器。&lt;/p&gt;
+&lt;p&gt;这种灵活性让开发者可以自由「混搭」，假设用Claude处理文本任务，同时可以切换到开源模型处理多模态任务，而底层MCP集成保持不变。也正因此，开发者无需关心底层工具的复杂实现，只需聚焦于创意本身。对于工具开发者来说，也是一个福音。传统工具依赖GUI/API面向人类用户，而MCP让工具天生具备AI驱动的能力。举个栗子，Unity MCP服务器的创建者称，MCP可以让Claude与Unity直接交流，全程只用一个提示就能创建整个游戏。这样不仅加快了测试速度，也预示着一个未来，AI成为软件的「一等用户」，而非事后才考虑的对象。AI智能体效率，指数级飙升不仅如此，MCP还赋予了智能体前所未有的能力扩展。&lt;/p&gt;
+&lt;p&gt;过去，AI智能体需要依赖开发者预设的自定义插件，才能从第三方应用程序中获取某些信息，功能大幅受限。如今，MCP的出现让AI直接开箱即用处理多种任务，多系统自动化、智能体的应用场景被极大地扩宽。一个典型的案例是，AI智能体通过MCP服务器，从发送邮件、更新表格，再到创建Jira工单，流畅地完成复杂工作流。开发者Siddharth Ahuja在连接Blender后感叹道，MCP真正开启了智能自动化的新时代。再比如，想象一个助手，它能够自主扫描GitHub提交记录，提前发现bug；或是在读取日历时，在截止日期前提醒团队。MCP的崛起，正在重塑AI智能体生态系统，开启新一代自主、多模态、深度集成的AI体验。而魔搭MCP广场正成为这一愿景的实验田。所有人都在拥抱MCP魔搭上线最大MCP中文社区2024年11月，这套开源的标准化协议由Anthropic首次推出，如今正成为科技大厂们认可的统一标准。&lt;/p&gt;
+&lt;p&gt;今年年初，海外平台如Cursor、Windsurf、Cline等率先接入MCP协议。3月底，奥特曼官宣OpenAI旗下一系列产品将全面支持MCP，包括Agents SDK、ChatGPT桌面端和Responses API。仅仅几天后， 谷歌也在Gemini API中新增了对MCP的支持。在国内，阿里云对MCP展开了惊人的生态战略布局。先是4月9日，阿里云百练上线了业界首个全生命周期MCP服务；10日，无影推出支持MCP协议的云电脑服务AgenBay。而现在，随着MCP广场的上线，不仅标志着魔搭社区在AI开源生态建设又一次突破，也为全球AI开源者开启了通往智能化未来新大门。这种「模型 × MCP」的组合，不仅降低了AI应用的开发门槛，还为Agent生态的未来探索提供了无限可能。5万开源模型，「搭积木」搭出AI的想象力从5万个模型，到数据集，到工具，到创空间，再到MCP广场，魔搭社区上的每个功能模块均能以解耦的原子化形式输出、对外开放，开发者不必局限在平台内部，而是可以像搭积木一样自由组合。&lt;/p&gt;
+&lt;p&gt;除此以外，魔搭上还活跃着许多的多模态模型，同样可以封装成标准的MCP服务对外。开发者们未来也都可以在魔搭上贡献自己的MCP，魔搭还可以为优质的MCP服务提供托管服务，让开发者在不同环境上直接获取MCP能力，真正发挥出AI开源社区的共创优势。推出MCP Bench，MCP解锁新型生态关系随着MCP的爆火，市面上也涌现出了大量的MCP服务，但良莠不齐的质量，让开发者头痛。比如，该如何分辨哪个是自己需要的，哪个是优质的？为了一探各种MCP的真正能力，魔搭特地做了一项面向开源社区的MCP Bench工作。他们设计了一组针对Web Search场景的调用效果对比，由模型连接MCP进行问答，对回答的精度采用模型打分。实验结果显示，各个MCP服务的效果差异性很大，最高的Bing web search（64%）和最低的DuckDuckGo（10%）相差了54pt。MCP服务之间的效率差异性更大，最快的bing web search和Brave search仅需要15秒以内，而最慢的Exa search需要231秒。不过，它们之间的Token消耗量接近，基本都是在150-250tokens之间，说明模型总是会精炼地回答，而不相关于其使用的MCP。&lt;/p&gt;
+&lt;p&gt;更多的讨论，详见MCP Bench社区的持续迭代：https://github.com/modelscope/MCPBench&lt;/p&gt;
+&lt;p&gt;虽然当下，MCP协议并非技术上的灵丹妙药，魔搭团队也指出，目前MCP对生产力的显著改观还不够，但MCP依旧是有价值的，它更重要的意义在于，通过标准化接口设计，重构了大模型应用的生态关系。中心化框架下的角色错配问题被解决，模型厂商、DevOps平台、工具提供者和应用构建者，就达成了解耦合作。新生产关系所产生的价值重构，也就在眼前了。MCP正处于大爆炸前夜2022年11月，魔搭社区成立之初，就希望通过开源开放的方式，降低AI模型使用门槛。截至目前，这个中国最大开源AI社区，已经托管超5万+模型，还有多种数据集、创空间等全链路工具，服务全球1300多万开发者。近1500款MCP服务+MCP Bench评估加持+云端/本地部署灵活性，让开发者能够快速验证创意、迭代应用。以MCP协议为钥匙，AI作为软件「一等用户」的崭新时代正在到来。想象这样一个未来：你只需告诉AI想要的结果，它便能洞悉需求，流畅调用应用程序，精准到操作每个步骤。它就如同一个全能助手，甚至是一支超能团队，为开发者打工。这不是科幻，正是MCP铺就的现实。而现在，我们正处于大爆炸前夜，这座通往未来的桥梁才刚刚打开。&lt;/p&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.modelscope.cn/mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.modelscope.cn/mcp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</title>
+        <link>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</link>
+        <pubDate>Fri, 11 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;n8n 是一个开源的工作流程自动化工具，通过拖放方式连接不同的应用程序和服务，支持 400+ 应用和服务集成。&lt;/li&gt;
+&lt;li&gt;n8n 采用节点式架构，用户可以轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管，保护商业利益，又让用户能自主部署。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt;| INFOQ 作者｜冬梅  &lt;/p&gt;
+&lt;p&gt;77.5k star GitHub 项目官宣融资&lt;/p&gt;
+&lt;p&gt;此轮融资由 Highland Europe 领投，HV Capital 以及之前的投资者 Sequoia、Felicis 和 Harpoon 也参与其中。&lt;/p&gt;
+&lt;p&gt;n8n 是一个开源的、可扩展的工作流程自动化工具，它提供了直观的界面，让用户可以通过拖放方式连接不同的应用程序和服务，从而创建自定义的自动化流程。n8n 支持 400+ 应用和服务集成，包括各种常见的应用程序和服务，如 Google、Slack、GitHub、Trello 等。&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼首席执行官 Jan Oberhauser 表示：“自动化不应是一个黑匣子——企业需要透明度、定制化和成本效益。通过 n8n，我们构建的不仅仅是一个平台；我们还建立了一个热爱我们并信赖我们的社区。从个人贡献者到全球企业，n8n 让每个人都拥有 10 倍开发者的能力，这在人工智能在职场爆炸式增长的今天至关重要。”&lt;/p&gt;
+&lt;p&gt;过去一年，n8n 经历了一年的爆炸式增长，去年活跃用户已超过 20 万，年度经常性收入 (ARR) 增长了 5 倍。&lt;/p&gt;
+&lt;p&gt;目前，n8n 已经在 GitHub 平台斩获 77.5k star。那么，这款开源软件为何如此受欢迎？&lt;/p&gt;
+&lt;p&gt;GitHub 项目地址：https://github.com/n8n-io&lt;/p&gt;
+&lt;p&gt;n8n 什么来头？&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 于 2019 年创立了工作流自动化平台 n8n。该平台通过将 AI 功能与业务流程自动化相结合，为技术团队提供了兼具代码级灵活性和无代码操作速度的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e054ef704f5ec886bfb9953df59a489c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼 CEO Jan Oberhauser&lt;/p&gt;
+&lt;h2 id=&#34;解决个人痛点的私人项目&#34;&gt;解决个人痛点的私人项目
+&lt;/h2&gt;&lt;p&gt;和许多创始人一样，Jan Oberhauser 最初创建 n8n 是为了解决自身遇到的技术卡点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/504b1d7908959c4aa42ae5b1c0b2c1fe.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;2018 年 9 月 n8n（预发布版本）&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 曾在视觉效果行业工作多年，职责是通过自动化技术帮助艺术家摆脱繁琐的重复性任务，提升工作效率。这段经历让他发现了一个长期被忽视的问题：自动化工具的高度依赖性。每当团队遇到工作流问题时，必须等待工程师开发定制解决方案，而真正需要自动化的人却无法自主解决问题。&lt;/p&gt;
+&lt;p&gt;这一洞察让他萌生了创业想法。&lt;/p&gt;
+&lt;p&gt;2018 年，Jan 开始启动了这个项目，初衷是为了解决自己遇到的实际问题。当时他调研了现有解决方案，发现都不太理想，于是决定按照自己的需求来设计工具。在接下来的一年半里，他利用业余时间进行开发——白天仍在其他创业公司工作，同时兼职另一份工作来维持收入。&lt;/p&gt;
+&lt;p&gt;2019 年 6 月，他将最初的解决方案命名为“Nodemation”——一个允许用户通过可视化界面（而非代码）自动化任务的平台。但由于域名被占用，他最终将其简化为 n8n（即“Nodemation”的缩写），并正式推出。&lt;/p&gt;
+&lt;p&gt;2020 年初，n8n 完成了首轮 150 万美元的融资，同年 4 月迎来了第一批四位团队成员加入。在拿到这笔融资之前，Jan 一直一个人维持着这个项目。&lt;/p&gt;
+&lt;p&gt;2021 年，n8n 在 A 轮融资中又筹集了 1200 万美元。本轮融资由 Felicis Ventures 领投，红杉资本、firstminute Capital 和 Harpoon Ventures 也参与了投资。据称，谷歌和 Zendesk 的一些未透露姓名的早期员工也参与了本轮融资。这家初创公司截至 2021 年已融资约 1400 万美元，但未披露估值。&lt;/p&gt;
+&lt;p&gt;据 n8n 分析，当前价值 221 亿欧元的工作流自动化领域中，大多数工具难以应对复杂且大容量的工作流程。这一局限性迫使企业团队依赖耗时且维护困难的内部开发和自定义脚本，而 n8n 正是为解决这一问题而生。&lt;/p&gt;
+&lt;p&gt;n8n 本质上是一个可视化工作流自动化工具（类似 Zapier 或 Make.com，但侧重点不同）。它采用节点编辑器模式：每个节点代表一个独立操作，用户可以通过连线将数据在不同节点间传递。举个例子：当 PipeDrive CRM 中有新线索时，自动发送邮件通知。这些工作流可以非常简单，也能构建包含条件分支、数据合并等复杂逻辑的自动化流程，让用户快速完成各种复杂任务的自动化。&lt;/p&gt;
+&lt;p&gt;据 Jan 介绍，节点式设计正是 n8n 在自动化领域的独特创新。与其他工具相比：Zapier 采用线性流程适合初学者，Make（原 Integromat）虽然支持分支但仍非真正的可视化编程。而 n8n 通过完整的“if-else”条件节点实现了真正的可视化编程范式，这种更高阶的抽象能力既是最突出的优势，也确实提高了使用门槛。&lt;/p&gt;
+&lt;p&gt;关于目标用户群体，Jan 表示在最初立项时自己就确立了“双向适配”的设计哲学：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;对业务人员：保留拖拽式操作的易用性，满足基础自动化需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对开发者：开放 JavaScript 自定义节点、API 调用等高级功能；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种设计源于 Jan 在影视行业的工作观察——最有效的工具应该既能满足艺术家快速操作，又能让工程师深度定制。n8n 本质上是在尝试解决这个普世矛盾：如何平衡“易用性”与“灵活性”。&lt;/p&gt;
+&lt;p&gt;如今，n8n 为 3000 多家企业提供关键任务工作流程支持，使其能够无缝集成任何语言模型（包括 DeepSeek 在内的最先进的模型），将其与自定义代码步骤相结合，并融入人机交互机制，以保持控制力和合规性。n8n 表示，这种方法使企业能够完全掌控其自动化和 AI 基础设施。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34ceac13aced943e4d8c23ca72a6f868.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;从沮丧到迎来快速增长&#34;&gt;从沮丧到迎来快速增长
+&lt;/h2&gt;&lt;p&gt;早期的日子充满挑战——Jan 时常写代码写到深夜，甚至一度怀疑自己正在开发的东西是否会有人想要。但后来人们开始使用 n8n，分享工作流程，并在该项目的基础上进行开发。社区自然而然地发展壮大，用户数量不断增长。&lt;/p&gt;
+&lt;p&gt;至于为何会迎来快速增长？原因很简单：能用简单操作应对复杂场景。&lt;/p&gt;
+&lt;p&gt;n8n 采用节点式架构让用户能够轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/p&gt;
+&lt;p&gt;在这个平台上，每个节点都代表一个独立的功能模块，可以执行诸如读取文件、发送邮件、触发通知等具体操作。这些节点既可以单独运行，也可以通过可视化界面相互连接，形成完整的自动化工作流。这种设计使得 n8n 既能处理简单的日常任务自动化，又能胜任复杂的业务场景整合。&lt;/p&gt;
+&lt;p&gt;还具备丰富的功能与灵活的扩展性。&lt;/p&gt;
+&lt;p&gt;具体而言，n8n 平台内置了 600 多个预定义工作流模板，覆盖了绝大多数常见的业务自动化场景，让团队能够快速实现流程自动化，显著提升工作效率。&lt;/p&gt;
+&lt;p&gt;采用 JSON 格式保存工作流配置，这种设计不仅方便用户复用和分享自己的自动化方案，还能充分利用开源社区的海量模板资源。&lt;/p&gt;
+&lt;p&gt;在集成能力方面，n8n 已经原生支持 350 多个主流应用程序，但其真正的优势在于近乎无限的扩展性。即使某些工具不在官方支持列表中，用户仍然可以通过 HTTP 请求节点连接其 API 接口，实现自定义集成。这意味着无论是小众工具还是企业内部系统，只要提供 API 接口，n8n 都能实现无缝对接。&lt;/p&gt;
+&lt;p&gt;更重要的是，n8n 不仅仅是一个简单的自动化工具，它更是一个完整的工作流开发平台。平台采用直观的可视化操作界面，降低了使用门槛，让非技术人员也能快速上手。同时，它又保留了足够的灵活性，支持通过 JavaScript 编写自定义逻辑，满足开发者的高级需求。&lt;/p&gt;
+&lt;p&gt;平台还提供流程快照功能，可以完整保存工作流配置，避免重复搭建。在企业级应用方面，n8n 能够支持高并发和复杂业务逻辑的处理，满足规模化部署的需求。&lt;/p&gt;
+&lt;p&gt;如今，n8n 这支团队已经扩展到拥有 80 多位成员，已发展到拥有超过 20 万用户、全球 Docker 拉取量达到 1 亿多，在 GitHub 代码库也跻身史上排名前 150 的项目之列。&lt;/p&gt;
+&lt;p&gt;根据 Sifted 的数据，n8n 是 2024 年欧洲增长最快的第 25 家初创企业。该公司的年增长率高达 378%。&lt;/p&gt;
+&lt;p&gt;网友怎么看？&lt;/p&gt;
+&lt;p&gt;如今在 GitHub 上声名鹊起的开源项目，在实际部署中，开发者对它的评价也是褒贬不一。&lt;/p&gt;
+&lt;p&gt;在 Hacker News 上，有正在使用 n8n 工具的用户称，&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们团队目前在一些项目中使用了这个工具。虽然我们经理没有任何编程基础，但他却用它构建了一个相当复杂的后端系统——整合了Postgres数据库和若干REST API，还能处理计划任务和Webhook触发的任务，这让我感到非常 impressive。不过这个工具存在一些明显缺点，比如偶尔会出现随机错误，现阶段我们只能通过重试机制来应对。好在听说这个问题近期可能会被修复。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;也有用户表示虽然它并非是最佳选择，但也会因为其开源、免费的属性而使用它。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们将其部署在自建的Kubernetes集群上，这对我来说没什么技术门槛。免费版确实存在诸多限制，比如用户管理功能简陋，甚至缺乏OIDC集成这种基础功能。但考虑到我们严格控制软件采购预算，有总比没有强。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;有用户认为，它更倾向于基础薄弱的技术人员使用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“就个人偏好而言，我更倾向于使用正统的编程技术栈。但对于编程基础薄弱的人员（需要具备SQL、数据库原理和HTTP等基础知识），我还是会推荐这个工具。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;作为一款自动化管理平台，它难免被拿来与其他工具相比较。不少用户就拿它与 Zapier 进行了对比，但发现它的表现不如 Zapier。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我发现 n8n 的一个主要问题是，许多集成功能似乎还不够成熟。不到一年前，我们曾尝试用它替代 Zapier，但遇到了一些明显的限制：FTP 节点 不支持 TLS 加密传输（安全性不足）、AWS SES 节点 无法附加文件到邮件（功能缺失）、Salesforce 节点 可用选项极少（集成深度不足）。虽然只列举了几个例子，但这些限制让我们当时非常失望。n8n 本身是一款设计精良的优秀软件，但某些集成节点似乎只是为了凑数（比如标榜“支持 N 个集成”），而没有真正打磨可用性。或许现在情况有所改善，但无论如何，他们确实需要在这些集成功能上投入更多精力。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;但也有用户将 Zapier 和 n8n 两者比较仍然觉得 n8n 是个不错的选择，该用户称：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我已经使用 n8n 超过一年了。相比流行的 Zapier，我更喜欢 n8n 提供的灵活性和自托管能力。虽然它存在一些小问题，但这些问题通常只有在深度使用并查阅社区论坛后才能发现。我唯一不太推荐的是他们的云服务版本——相比我的自托管实例，云服务似乎存在更多漏洞和不稳定情况（比如频繁超时，可能是由于共享资源限制）。不过对于寻找 Zapier 经济实惠的开源替代方案的用户，我仍然会推荐 n8n。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;事实上，除了国际上知名的同类工具 Zapier 和 Make.com 这类工具外，其实国内类似于 n8n 的工具 Coze 也备受欢迎。&lt;/p&gt;
+&lt;p&gt;Coze 是字节跳动于 2023 年推出的新型自动化平台，其最大特色是深度整合了大语言模型等 AI 能力。Coze 目前已经由完全免费转为专业业务收费模式。&lt;/p&gt;
+&lt;p&gt;在技术架构上，Coze 强调低代码和自然语言交互，大大降低了使用门槛，使其特别适合快速搭建 AI 客服等简单自动化场景。不过需要注意的是，Coze 目前仅提供云端服务，不支持私有化部署。&lt;/p&gt;
+&lt;p&gt;也有一些用户将 n8n 与字节跳动 Coze 进行了对比。Coze 把自己定位为”任何人都能使用的 AI 聊天机器人平台”。它提供现成模板和拖放界面来定义机器人的对话逻辑。对于不懂代码的营销人员或客服人员，Coze 让他们可以像搭积木一样设计问答流程、训练聊天内容，然后通过集成测试实时试用效果。这种设计使得构建聊天机器人像制作幻灯片一样简单：选择一个模板（例如 FAQ 机器人），修改问题和回答，配置一点触发渠道，就可以上线。&lt;/p&gt;
+&lt;p&gt;该用户称，在易用性上，Coze 与 n8n 是不相上下的，coze 基本达到了”傻瓜式操作”的程度。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“新手通常可以在短时间内创建出一个简单的聊天机器人。需要指出的是，由于产品仍在完善中，一些用户反馈 Coze 当前的界面和体验存在不足，可能需要摸索。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;n8n-的代码公平理念&#34;&gt;n8n 的“代码公平”理念
+&lt;/h2&gt;&lt;p&gt;据 n8n 团队称，他们的目标是让工具平民化。不过 Jan 认“平民化”应该是个过渡阶段，最终要走向完全无代码。这点和 Bubble 很像——虽然入门曲线陡峭，但能实现强大功能。&lt;/p&gt;
+&lt;p&gt;从 n8n 的产品定位中可见，虽然 n8n 追求平民化，但内核始终保留专业组件。&lt;/p&gt;
+&lt;p&gt;Jan 表示：“作为程序员，我始终为‘同类人’设计产品——很多重复代码根本没必要重写。我们内置代码模块，用户随时可以回退到代码层，这解决了开发者在使用无代码工具时的束缚感。”&lt;/p&gt;
+&lt;p&gt;就像 Excel 无处不在一样，n8n 的通用性让它适用于聊天机器人、安全自动化、电商等各类场景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bbf63714fee480bc699694486b6a50d8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不可否认，在构建现代化软件中，这种部署灵活性确实非常关键。但与此同时，另一个需要关注的问题是代码的透明、可观测性。在这个方向上，Jan 提出了“公平代码”（Fair Code）的理念。&lt;/p&gt;
+&lt;p&gt;Jan 表示，目前很多开源项目都处于这样一种困境——传统开源模式容易被谷歌这种大型云厂商套利，他们直接用开源代码做托管服务盈利，而原团队却要免费维护。Elasticsearch 等公司被迫转向“开放核心”（open core），但这等于人为阉割产品。&lt;/p&gt;
+&lt;p&gt;而 n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管。这样既保护商业利益，又让用户能自主部署。就像 GitLab 有社区版 / 企业版，但 n8n 不会把用户管理这类基础功能设为付费墙。&lt;/p&gt;
+&lt;p&gt;合作伙伴通过授权协议将 n8n 集成到他们的 SaaS 产品中，这种模式让技术价值和商业回报真正对齐。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那么问题又来了，这种模式会对融资造成受影响吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Jan 看来，这种模式不仅不会造成影响，反而会更加吸引资本。Jan 表示：“实际上 VC 现在很看好开源模式。不过开源项目的用户规模很难量化——我们每天 Docker 拉取量从 2 万到 100 万波动，这些数据参考价值有限。”&lt;/p&gt;
+&lt;h2 id=&#34;参考链接&#34;&gt;&lt;strong&gt;参考链接：&lt;/strong&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://thepixeljets.com/blog/n8n/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://thepixeljets.com/blog/n8n/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.n8n.io/series-b/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.n8n.io/series-b/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>狂揽74.7K星 !!! 再见扣子 , 搭配DeepSeek , 效率飞快 , 太6了</title>
+        <link>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</link>
+        <pubDate>Sat, 05 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%8B%82%E6%8F%BD74.7k%E6%98%9F-%E5%86%8D%E8%A7%81%E6%89%A3%E5%AD%90-%E6%90%AD%E9%85%8Ddeepseek-%E6%95%88%E7%8E%87%E9%A3%9E%E5%BF%AB-%E5%A4%AA6%E4%BA%86/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;n8n是一个开源自动化平台，支持400+应用和服务集成，并可与DeepSeek等AI模型结合使用。&lt;/li&gt;
+&lt;li&gt;n8n结合DeepSeek，可以通过拖拽式操作和代码自定义，轻松构建复杂的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n支持自托管和云部署，具有企业级权限管理和审计日志功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  开源日记开源日记 2025-04-05 21:00&lt;/p&gt;
+&lt;p&gt;大家好 , 我是开源日记呀 !&lt;/p&gt;
+&lt;p&gt;你是否费尽心思写脚本、整集成，一周才能搞定一个简单的自动化流程？用闭源的扣子？有更好的选择吗？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4f7f5cf021fdb8137dc3a4b752e37519.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;n8n，一款兼具代码灵活性和可视化简单操作的开源神器&lt;/strong&gt;
+，让这些事情分分钟搞定！它支持 400+ 应用和服务，内置 AI 能力，既能拖拽完成任务，也能用代码搞定复杂逻辑，还能自托管，掌控所有数据。&lt;/p&gt;
+&lt;h2 id=&#34;什么是-n8n&#34;&gt;什么是 n8n
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb213e9eb7a6b2a12f304cdfb8c64310.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;n8n 是一个灵活的开源自动化平台&lt;/strong&gt;，支持 400+ 应用和服务集成，拥有强大的自定义代码能力，同时支持拖拽式操作，再复杂的流程都能轻松打造。更棒的是，&lt;strong&gt;DeepSeek&lt;/strong&gt; 的加入将其 AI 功能提升到新高度！&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;DeepSeek 提供两种核心模型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek V3 (Chat)：&lt;/strong&gt; 专注高效互动，适合实时应用，成本极低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DeepSeek R1 (Reasoning)：&lt;/strong&gt; 专为复杂推理任务设计，提供深度分析能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结合 n8n，你可以在工作流中轻松嵌入 AI，并自托管保护数据安全，彻底解放生产力！&lt;/p&gt;
+&lt;h2 id=&#34;开源成就&#34;&gt;开源成就
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;GitHub Star 数：74.7k（处于全球最受欢迎的开源项目 Top 150！）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7df60b35f8d487e34026de4fd797cc56.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开发语言：90% TypeScript，8% Vue，极具现代化支持。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;核心功能&#34;&gt;核心功能
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9457e39be6e48c27a00641a368b1deee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;完美结合——代码与可视化&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;写 JavaScript 或 Python，随意添加 npm 包，突破标准化工具的限制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;无需从头写代码！通过拖拽界，组合出多层次的自动化组合，让繁琐任务自动完成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;内置前沿 AI 能力&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;基于 LangChain 构建 AI 工作流，轻松整合 LLM（如DeepSeek, OpenAI GPT 模型）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;让 AI 动起来！支持从外部系统提取数据、自动汇总分析和生成答案。&lt;img src=&#34;https://ai.programnotes.cn/img/ai/09bf3fc460d48d42fcb269aa0b19e709.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;企业级支持&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高级权限管理：SSO、RBAC 权限控制，支持闭环企业环境部署。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;审计日志追踪、自动化版本控制，轻松追溯和回滚。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;自托管 + 云部署可选&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;绝对自由！&lt;/strong&gt;
+ 你可选择托管在自己的服务器上，保护敏感数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;更喜欢省事？使用 n8n 的官方云服务也是妥妥的选择。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开源的力量&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高度可扩展：随时添加自定义节点或功能，打造独一无二的解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;400+ 即插即用的连接器，支持几乎所有主流应用工具（如 Slack、MySQL、GitHub）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4c173acd948fef47f055a0add89424f2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;快速上手指南&#34;&gt;快速上手指南
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;使用 npx 快速体验&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;用 Docker 自托管&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker volume create n8n_datadocker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动后访问http://localhost:5678，即可进入可视化界面！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb6589a3b7f56983245755daf7ae7ffb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;n8n 的强大与灵活，&lt;strong&gt;结合 DeepSeek 的极速 AI 推动&lt;/strong&gt;，让你的自动化能力全面升级。不论是聊天助手、业务流程自动化，还是复杂数据分析，n8n+DeepSeek 都能轻松处理，简化工作流，提高效率。更重要的是，自托管方案让你完全掌控数据，低成本的 DeepSeek 模型为企业节省开支，堪称技术团队的必备工具。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;开源地址https://github.com/n8n-io/n8n&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Introducing Index-1.9B</title>
+        <link>https://ai.programnotes.cn/p/introducing-index-1.9b/</link>
+        <pubDate>Fri, 14 Jun 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/introducing-index-1.9b/</guid>
+        <description>&lt;p&gt;核心内容:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;哔哩哔哩技术团队发布了Index-1.9B系列轻量级开源语言模型，包括基座模型、纯净模型、对话模型和角色扮演模型。&lt;/li&gt;
+&lt;li&gt;通过模型结构优化（如Norm-Head和调整模型形状）、学习率调度和数据配合等方式，提升了模型的预训练性能。&lt;/li&gt;
+&lt;li&gt;通过SFT和DPO对齐，以及RAG技术，增强了模型的对话能力、指令遵循能力和角色扮演能力。
+&lt;strong&gt;源自&lt;/strong&gt; |  Index team  哔哩哔哩技术   2024-06-14 12:00&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;简介&#34;&gt;&lt;strong&gt;简介&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;大家好，今天我们很高兴首次发布Index系列模型中的轻量版本：Index-1.9B系列&lt;/p&gt;
+&lt;p&gt;本次开源的Index-1.9B 系列包含以下模型： &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Index-1.9B base&lt;/strong&gt; : 基座模型，具有 19亿 非词嵌入参数量，在2.8T 中英文为主的语料上预训练，多个评测基准上与同级别模型比处于领先. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Index-1.9B pure&lt;/strong&gt; : 基座模型的对照组，与base具有相同的参数和训练策略，不同之处在于我们严格过滤了该版本语料中所有指令相关的数据，以此来验证指令对benchmark的影响（详见2.3章节）. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Index-1.9B chat&lt;/strong&gt; : 基于index-1.9B base通过SFT和DPO对齐后的对话模型，我们发现由于预训练中引入了较多定向清洗对话类语料，聊天的&lt;strong&gt;趣味性&lt;/strong&gt;明显更强 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Index-1.9B character&lt;/strong&gt; : 在SFT和DPO的基础上引入了RAG来实现&lt;strong&gt;fewshots角色扮演定制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;目前，我们已在GitHub（https://github.com/bilibili/Index-1.9B），HuggingFace（&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/IndexTeam&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://huggingface.co/IndexTeam&lt;/a&gt;）上开源。期待听到你们的使用反馈！&lt;/p&gt;
+&lt;h2 id=&#34;模型基本性能&#34;&gt;&lt;strong&gt;模型基本性能：&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6413d872986cb0d6afcf5862af241130.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注: 一些模型采用了report的分数，我们做了注释；其中MiniCPM[1]-Decay为官方放出的history里注明的280000步的ckpt。&lt;/p&gt;
+&lt;h2 id=&#34;输出示例&#34;&gt;&lt;strong&gt;输出示例&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a6f8bd9eb9672ed1f3f04eeb96418bfa.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6597d969969352c35422a225b39fa1ef.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;预训练优化&#34;&gt;&lt;strong&gt;预训练优化&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;注：下列章节中的实验指标分数，是评测Ceval(5-shot), CMMLU(5-shot), MMLU(5-shot), Arc-C(0-shot),  Arc-E(0-shot), Hellaswag(0-shot)，求平均得到平均指标分数。我们以此作为观察模型表现的指标，进行消融实验。&lt;/p&gt;
+&lt;h3 id=&#34;模型结构的优化&#34;&gt;&lt;strong&gt;模型结构的优化&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;稳定的LM-Head层: Norm-Head&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;模型不同层的梯度尺度分布非常不同，&lt;strong&gt;最后一层LM-Head的梯度，占据了绝大部分的梯度大小&lt;/strong&gt;。而词表的稀疏性让LM-Head层稳定性较低，影响模型训练稳定性，进而影响模型性能表现，所以稳定的LM-Head层对于训练非常重要。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/626f5e913b3a189b94c2b07cd38f37d1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;模型不同层的梯度尺度分布观察，LM-Head层梯度占据绝大部分&lt;/p&gt;
+&lt;p&gt;我们认为Norm-Head&lt;a class=&#34;link&#34; href=&#34;%e5%8d%b3%e5%af%b9LM-Head%e5%b1%82%e8%bf%9b%e8%a1%8cNorm%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%8a%a8%e6%80%81%e7%9a%84%e7%bc%a9%e6%94%beLM-Head%e5%b1%82%e5%a4%a7%e5%b0%8f&#34; &gt;2&lt;/a&gt;，有利于更稳定的训练，我们引入此机制并做实验观察，实验结果如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Norm-Head版本稳定高于Base版本&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;观察Gradient Norm，Norm-Head版本的绝对值更高，初始有一个快速上升，整体相对Base的上扬幅度更低&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;实验设置：基于1B的模型训练1T数据，Cosine学习率，Max-LR为2e-4，对照组添加Norm-Head。我们在0.1B规模上观察到了同样的表现&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e2a13b0020deb7962cd4b3c0ca06c1fb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/994e42d999bde78281aae7a675ebc740.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;左：norm-head指标对比，右：norm-head的gradient norm对比&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;矮胖 or 高瘦？模型的形状也会影响性能&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;模型应该设置多少层，瘦点好还是胖点好，还是没影响？OpenAI 著名的Scaling Law[3]文章，指出模型大小是影响模型性能的最核心因素，形状无关；而DeepMind在前LLM的BERT时代，曾指出高瘦的模型形状相对于矮胖，在下游微调任务上GLUE任务集性能更好[4]。带着这样的疑问，我们做了固定参数大小(Flops也等价)，不同层数的实验。&lt;/p&gt;
+&lt;p&gt;我们基于实验观察，&lt;strong&gt;同样大小前提下，适当增加深度指标更好&lt;/strong&gt;。但有两个注意问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;显存增加的问题。同参数下，增加层数(矮胖-&amp;gt;高瘦)会增加显存。这是因为训练中Activation占大头，Activation显存占用与(层数L *hidden_size)正比，而参数量&amp;amp;FLOPS和(层数L *hidden_size *hidden_size)正比。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;层数加深到多大的程度收益微弱？这个我们还未充分实验，留待以后进一步探索。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;实验设置: Base 36层， 对照组9层，维持模型参数基本一致，均为1.01B non-emb参数。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9c76864ed0d4503b21be2ef9facba75f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;base和更宽更浅的模型对比&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学习率Matters&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在LLM训练中，&lt;strong&gt;朴素的设定常常产生深刻的影响，学习率设定就是典型&lt;/strong&gt;。我们基于实践发现，学习率的设定会对模型的训练性能产生非常深刻的影响。学习率调度和数据配合，更能让模型性能再获突破。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学习率大小的影响&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;仅仅改变学习率大小，能够让模型性能产生稳定而显著的差别，合适的更大的学习率有利于模型的表现。&lt;/p&gt;
+&lt;p&gt;实验设置：基于1B的模型训练1T数据，Cosine学习率，其中Base Max-LR为2e-4，对照组Max LR 为 5e-4&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5a0054ee6e9427d11d3aa6b1e4d7456f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;仅仅改变学习率大小，能够让模型性能产生稳定而显著的差别&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;不同学习率调度有何影响？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cosine, Linear和WSD&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Cosine学习率调度是大多数LLM的训练默认选择，但是否是唯一解，其他学习率调度影响如何？&lt;/p&gt;
+&lt;p&gt;基于0.1B的模型我们分别使用 Cosine, Linear和WSD学习率调度，训练1T的数据，可以发现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;三种学习率曲线的valid loss最终收敛到一起&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;WSD的Stable阶段Loss偏高，进入Decay阶段则loss快速下降&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;指标评测上基本接近&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们可以发现，不同的学习率调度，&lt;strong&gt;只要学习率收敛尺度一致，最终loss和指标都是接近的&lt;/strong&gt;，这就为学习率调度和数据配合打下了基础。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e9dbe041881551eb9f4d639edfc25985.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e57d6bb5e24469596c83f11ac2af6ce8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;左：0.1B模型学习率调度实验：Cosine, Linear, WSD的学习率和loss曲线&lt;/p&gt;
+&lt;p&gt;右：0.1B模型学习率调度实验：Cosine, Linear, WSD的评测指标相近&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学习率如何和数据配合？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们有如下初步假设：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;WSD学习率在Decay阶段有一个Loss快速下降的过程，&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;模型学习后期加入更多精选数据有利于模型效果&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这两者是否能结合达到最佳的效果？我们做了如下消融实验：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;cosine: Cosine学习率，无数据调整&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;wsd: WSD学习率，无数据调整&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;cosine+quality: Cosine学习率，后10%加入更多精选数据配比&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;wsd+quality: WSD学习率，后10% 进入Decay阶段，并加入和cosine+quality同样的精选数据配比&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们发现，&lt;strong&gt;学习率和数据配合可以让模型性能获得突破&lt;/strong&gt;：WSD学习率调度下，Decay阶段加入高质量数据，可以获得最佳效果。&lt;/p&gt;
+&lt;p&gt;其中cosine+quality比无数据调整，指标略低，我们猜测可能有数据适应过程，且cosine末期学习率太低。我们会在未来补充更多的实验来验证。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c161844d0d2183079a483f57959c82fc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不同学习率和数据策略组合的实验&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;预训练加入指令对benchmark的影响&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在预训练中是否加入指令是个值得讨论的地方，但目前公开的讨论较少，我们有如下问题想进行实验探究：&lt;/p&gt;
+&lt;p&gt;1.  加入指令是否能大幅提高benchmark表现，从而变成打榜”优等生“&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt; 能提高多少？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dabf92a1fcdfe980e3974adc7a281b6c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;说明: 天工技术报告[5]（https://arxiv.org/pdf/2310.19341）中指出部分模型，将GSM8K训练集/测试集加入预训练但未明确阐述&lt;/p&gt;
+&lt;p&gt;我们做了相应的探索，设置两组实验，Stable结束后的Decay阶段训练5w步，细节设定如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;**index-1.9b-ablation-pure:**Decay阶段自然文本数据，精选数据做重新放入增加浓度（书籍、论文、百科、专业等类别）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;**index-1.9b-ablation-boost:**实验组在Decay阶段自然文本数据的基础上，额外加入占比7%的指令（唯一变量）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MMLU对比曲线如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4f823ee1e5eb62a5221340ee430c570b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以观察到：&lt;/p&gt;
+&lt;p&gt;1.  进入Decay阶段后，指标均会大幅上升&lt;/p&gt;
+&lt;p&gt;2. &lt;strong&gt;额外添加7%的指令，能明显提升指标&lt;/strong&gt;，MMLU指标的差距在7.x个百分点&lt;/p&gt;
+&lt;p&gt;全面的指标评测如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d65b905f203ee60e53710cc221c4e564.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注: 此为实验对比版本，非最终release版本&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;其他观察：训练中的涌现&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;训练1.9B模型过程中，在还未Decay的Stable阶段，观测到了一次模型性能的突涨:&lt;/p&gt;
+&lt;p&gt;1.  前1T数据: Ceval / MMLU 一直在27.x / 26.x 附近震荡&lt;/p&gt;
+&lt;p&gt;2.  1T ~ 1.2T: Ceval / MMLU 快速上涨到 36.x / 33.x，这个指标已经超过了一批7B的模型&lt;/p&gt;
+&lt;p&gt;我们还不能很好解释原因，可能得益于高质量数据和高学习率的稳定，让模型Decay之前已获得了不错性能，这个留待以后进行进一步的研究。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e7979c610c481a200b70670e4ea6806d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注: Stable阶段的MMLU分数曲线，可以明显观察到训练至1T~1.2T区间指标迅速上涨（语料无变动）&lt;/p&gt;
+&lt;h2 id=&#34;对齐讨论&#34;&gt;&lt;strong&gt;对齐讨论&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;为了进一步对齐人类的偏好，我们基于Index 1.9b base model进行了SFT和DPO训练。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SFT&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;数据：我们收集了10M以上的高质量中英文指令数据，参照了主流的聚类增强多样性和奖励模型打分策略对数据进行清洗和筛选，筛选出高质量且多样的子集；同时，对sft表现欠缺的指令任务，构造和标注了相应数据。最终得到不超过10万条的高质量指令数据集。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;训练：chat模型采用system-query-response的格式。优化器和训练参数和预训练阶段保持一致，采用1e-5学习率。packing方式和预训练大体保持一致，采用crossdoc拼接batch的方式以提高训练效率，不同之处在于sft阶段我们会mask掉非response部分不参与loss计算。我们实验了是否&lt;strong&gt;加载预训练优化器&lt;/strong&gt;参数和是否按一定比例&lt;strong&gt;replay预训练语料&lt;/strong&gt;。最终发现加载参数并且保持sft指令参与loss计算的tokens占比在60%是较优设置。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;系统指令跟随：通过调整系统指令，能够引导模型给出不同设定和风格的回答，从而实现角色扮演，语言风格转化等能力。具体的示例见附录的输出样例。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;附：sft实验的内部评测结果（3分满分）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a08bc87939774f3670658785cf7671b3.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DPO&lt;/strong&gt;&lt;br&gt;
+DPO阶段[6]，我们主要针对写作类、指令遵循和安全进一步对齐。一方面，对于写作类任务，回答具备开放性，单一的目标文本并不一定是最优的回答，模型在DPO优化中能学会优劣的标准，从而生成更符合人类偏好的回答；另一方面，对于指令遵循和安全性任务，通过学习对比chosen和reject回答，模型能掌握指令的要求以及拒答的类型，从而更进一步对齐人类偏好，一个比较好的例子是指令遵循中的字数控制。总的来说，我们认为&lt;strong&gt;评价标准偏判别而非枚举的任务&lt;/strong&gt;通过偏好学习可以取得最大的收益。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据：针对生成类数据，我们从sft数据集中筛选出偏生成写作类的prompt，用我们自训练的奖励模型对模型生成的回答进行打分，然后整理成pair对；针对指令遵循类的数据，我们通过人工构造和标注了对应的pair数据；针对安全类数据，我们尝试了两种方案，示例如下表所示。第一种方案是人工编写了一个拒答集合，从该集合中抽取拒答话术作为chosen，SFT模型生成的回答作为reject；第二种方案是调整系统指令，让我们的SFT模型针对问题生成拒答作为chosen，reject保持。在DPO优化中，我们发现第二种方案可以让模型更好的针对安全问题学会拒答，原因是人工构造的拒答样本在sft模型中的ppl过高，如果强行对齐又会导致拒答率较高，带来灾难性遗忘。因此我们采用了第二种方案。最终，我们一共整理构造了超过10w条高质量的pair数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/65d62b1020bb801f6379cfd6a3280ef2.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;训练：与SFT相同的训练格式。学习率设置为1e-6，调度器采用cosine，损失函数中的超参数beta设置为0.1。训练进行了1个epoch。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;角色扮演&#34;&gt;&lt;strong&gt;角色扮演&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们收集了大量网络公开数据中的台词剧本和人物设定数据，从中抽取角色对话，利用角色奖励模型进行了筛选，并清洗了数据集，得到了8万条左右的高质量角色对话数据集，覆盖一千多个角色。我们利用RAG检索与当前对话相关的角色过往台词片段，作为参考拼入prompt，最终得到训练数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;评估结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;采用角色扮演领域的权威benchmark CharacterEval进行评估，该评测集从角色一致性、对话能力、角色扮演吸引力多个粒度进行评测，我们的1.9b模型整体均分排名第九，显著优于其他同量级模型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/64c69c7b75c692fc5b16db36ea444233.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;结果展示&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;用户可以通过上传符合要求的角色对话语料实现few shots角色定制&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/10833c04ce42eb6a52dde599d009fef2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;局限性&#34;&gt;&lt;strong&gt;局限性&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;我们在模型训练的过程中，利用合规性检测等方法，最大限度地确保使用数据的合规性。虽然我们已竭尽全力确保在模型训练中使用数据的合法性，但鉴于模型的复杂性和使用场景的多样性，仍然可能存在一些尚未预料到的潜在问题。因此，对于任何使用开源模型而导致的风险和问题，包括但不限于数据安全问题，因误导、滥用、传播或不当应用带来的风险和问题，我们将不承担任何责任。&lt;/p&gt;
+&lt;p&gt;受限于模型参数量，模型的生成可能存在事实错误或指令理解不到位的情况，我们后续会尝试通过对齐和rag等技术方向的迭代来优化此类问题。&lt;/p&gt;
+&lt;p&gt;查看详细技术报告：&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://github.com/bilibili/Index-1.9B&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/bilibili/Index-1.9B&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;&lt;strong&gt;Reference&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;1.  Hu S, Tu Y, Han X, et al. Minicpm: Unveiling the potential of small language models with scalable training strategies[J]. arXiv preprint arXiv:2404.06395, 2024.&lt;/p&gt;
+&lt;p&gt;2.  Yang A, Xiao B, Wang B, et al. Baichuan 2: Open large-scale language models[J]. arXiv preprint arXiv:2309.10305, 2023.&lt;/p&gt;
+&lt;p&gt;3.  Kaplan J, McCandlish S, Henighan T, et al. Scaling laws for neural language models[J]. arXiv preprint arXiv:2001.08361, 2020.&lt;/p&gt;
+&lt;p&gt;4.  Tay Y, Dehghani M, Rao J, et al. Scale efficiently: Insights from pre-training and fine-tuning transformers[J]. arXiv preprint arXiv:2109.10686, 2021.&lt;/p&gt;
+&lt;p&gt;5.  Wei T, Zhao L, Zhang L, et al. Skywork: A more open bilingual foundation model[J]. arXiv preprint arXiv:2310.19341, 2023.&lt;/p&gt;
+&lt;p&gt;6.  Rafailov R, Sharma A, Mitchell E, et al. Direct preference optimization: Your language model is secretly a reward model[J]. Advances in Neural Information Processing Systems, 2024, 36.&lt;/p&gt;
+&lt;p&gt;作者丨Index team&lt;/p&gt;
+&lt;h2 id=&#34;往期精彩指路&#34;&gt;&lt;strong&gt;往期精彩指路&lt;/strong&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;amp;mid=2247498723&amp;amp;idx=1&amp;amp;sn=a13fdc862f3cc9e4832219cad27e7bcf&amp;amp;chksm=cf2f3ec6f858b7d02c9afdf02f4d955d46e36d6bec8f441d91bf1c38f7b1a166aecdb24fcb17&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;万字长文解析：大模型需要怎样的硬件算力&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;amp;mid=2247495018&amp;amp;idx=1&amp;amp;sn=2845aaddc80d7fd08ad7cfdf879c782e&amp;amp;chksm=cf2f284ff858a15943ea5df90ea476245d1c67da5265622bdc29ecfd57ea0128f607e89a8871&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;哔哩哔哩大规模AI模型推理实践&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&amp;amp;mid=2247484579&amp;amp;idx=1&amp;amp;sn=e08a24e12c12a00f6a2666e3e0ec32aa&amp;amp;chksm=cf2cc186f85b4890269e0008c633e1113e46522af9d5b7ff8cec455597a3fcbd06a795adff20&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;B站开源自研动漫超分辨率模型， 助力动漫UGC视频高清化&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=3289447926347317252#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;通用工程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=2390333109742534656#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;大前端&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=3297757408550699008#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;业务线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=2329861166598127619#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;大数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=2782124818895699969#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg3Njc0NTgwMg==&amp;amp;action=getalbum&amp;amp;album_id=2532608330440081409#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;多媒体&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

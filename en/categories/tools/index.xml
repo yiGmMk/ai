@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tools on AI News</title>
+        <link>https://ai.programnotes.cn/en/categories/tools/</link>
+        <description>Recent content in Tools on AI News</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Sun, 29 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/en/categories/tools/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Alfred (Productivity Godsend on Mac) Combined with Large Language Models (LLMs)</title>
+        <link>https://ai.programnotes.cn/en/p/alfred-productivity-godsend-on-mac-combined-with-large-language-models-llms/</link>
+        <pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/alfred-productivity-godsend-on-mac-combined-with-large-language-models-llms/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/mcp/alfred.png" alt="Featured image of post Alfred (Productivity Godsend on Mac) Combined with Large Language Models (LLMs)" /&gt;&lt;h2 id=&#34;what-is-alfred&#34;&gt;What is Alfred?
+&lt;/h2&gt;&lt;p&gt;If you&amp;rsquo;re a Mac user and have been searching for the ultimate weapon to boost your productivity, you can&amp;rsquo;t miss Alfred. Alfred is a powerful productivity tool that is much more than a simple application launcher. You can think of it as a super-enhanced version of Spotlight, a personal assistant that can help you accomplish almost any task through keyboard shortcuts, keywords, and custom workflows.&lt;/p&gt;
+&lt;p&gt;Alfred&amp;rsquo;s functionality is powerful, and its integration with AI gives it wings. Let&amp;rsquo;s see the effect, implemented using a plugin created by the master &lt;strong&gt;sunzsh&lt;/strong&gt;:&lt;/p&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1Z7KazQEQp&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;implementation&#34;&gt;Implementation
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Open source repository, plugin created by sunzsh&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;The AI Assistant.alfredworkflow is still in the testing phase.
+Because this plugin can &lt;strong&gt;directly run scripts written by AI&lt;/strong&gt;, &lt;strong&gt;there may be risks of data and file deletion during use&lt;/strong&gt;. Using this plugin means you are willing to bear the risks. &lt;strong&gt;The plugin author and this site do not assume any responsibility&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Latest version: v0.0.5
+Utilizing the Function Call of large models, it allows the large model to simply operate our computer to achieve some functions.
+In theory, it supports all large model interfaces that comply with the OpenAI specification. The following vendors have been tested: Volcano Engine, Alibaba Cloud Bailian, Zhipu AI, DeepSeek official (others not tested does not mean they cannot be used).&lt;/p&gt;
+&lt;h2 id=&#34;core-features&#34;&gt;Core Features
+&lt;/h2&gt;&lt;p&gt;Alfred&amp;rsquo;s power lies in its rich and highly customizable features.&lt;/p&gt;
+&lt;h3 id=&#34;1-smart-search&#34;&gt;1. Smart Search
+&lt;/h3&gt;&lt;p&gt;Alfred&amp;rsquo;s basic function is to quickly launch applications and find files, but it does it better.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Application Launch&lt;/strong&gt;: Press &lt;code&gt;⌥ + Space&lt;/code&gt; (default shortcut), type a few letters of the application name, and press Enter to launch.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;File Search&lt;/strong&gt;: Type &lt;code&gt;find&lt;/code&gt; or &lt;code&gt;open&lt;/code&gt; followed by the file name to quickly locate any file deep on your computer.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Web Search&lt;/strong&gt;: Type keywords like &lt;code&gt;google&lt;/code&gt;, &lt;code&gt;wiki&lt;/code&gt;, &lt;code&gt;youtube&lt;/code&gt;, followed by your search query, to open the search results directly in your browser without opening the browser first. You can also customize searches for any website.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-workflows&#34;&gt;2. Workflows
+&lt;/h3&gt;&lt;p&gt;This is Alfred&amp;rsquo;s most powerful feature and the reason it&amp;rsquo;s considered legendary (requires purchasing the Powerpack). Workflows allow you to connect a series of actions to create an automated task flow. There are thousands of community-created workflows available online, and you can also create your own.&lt;/p&gt;
+&lt;p&gt;Some popular Workflow examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dash Integration&lt;/strong&gt;: Search Dash documentation directly within Alfred.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Youdao Translate&lt;/strong&gt;: Type &lt;code&gt;yd&lt;/code&gt; followed by a word or sentence to get an instant translation.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IP Address Query&lt;/strong&gt;: Type &lt;code&gt;ip&lt;/code&gt; to see your current public and private IP addresses.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Music Control&lt;/strong&gt;: Control play, pause, and next track for Spotify or Apple Music directly with keywords, without switching to the app.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-clipboard-history&#34;&gt;3. Clipboard History
+&lt;/h3&gt;&lt;p&gt;Have you ever lost important information you copied because you copied something new? Alfred&amp;rsquo;s clipboard history feature can remember all the text, images, and file links you&amp;rsquo;ve copied. You can search and paste from your history at any time.&lt;/p&gt;
+&lt;h3 id=&#34;4-snippets&#34;&gt;4. Snippets
+&lt;/h3&gt;&lt;p&gt;For repetitive text you frequently type, such as email addresses, code blocks, or common replies, you can create Snippets. Just type a short keyword, and Alfred will automatically expand it into the full text, saving a significant amount of typing time.&lt;/p&gt;
+&lt;h3 id=&#34;5-system-commands&#34;&gt;5. System Commands
+&lt;/h3&gt;&lt;p&gt;You can execute various system commands without leaving your keyboard:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;emptytrash&lt;/code&gt;: Empty the Trash&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sleep&lt;/code&gt;: Put your Mac to sleep&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;restart&lt;/code&gt; / &lt;code&gt;shutdown&lt;/code&gt;: Restart or shut down&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;eject&lt;/code&gt;: Eject all mounted disks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;why-choose-alfred&#34;&gt;Why Choose Alfred?
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Extreme Speed&lt;/strong&gt;: Once you get used to it, your hands will barely leave the keyboard, and your operations will be fluid.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Highly Customizable&lt;/strong&gt;: From themes to functionality, almost everything can be customized to your liking.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Powerful Community&lt;/strong&gt;: There are countless ready-made Workflows to download, so you can always find a tool that meets your needs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Saves Time&lt;/strong&gt;: Through automation and shortcuts, you can save a lot of valuable time in the long run.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary
+&lt;/h2&gt;&lt;p&gt;Alfred is a tool worth investing in for every Mac user. It&amp;rsquo;s not just a launcher, but a powerful platform that can be integrated into your workflow to boost productivity. Once you start using it and configure the right Workflows for yourself, you&amp;rsquo;ll find you can&amp;rsquo;t live without it.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP Client|Apify Beta</title>
+        <link>https://ai.programnotes.cn/en/p/mcp-clientapify-beta/</link>
+        <pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/mcp-clientapify-beta/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" alt="Featured image of post MCP Client|Apify Beta" /&gt;&lt;p&gt;&lt;strong&gt;Core content:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connect to the MCP server through the SSE protocol to achieve interaction with the Apify executor.&lt;/li&gt;
+&lt;li&gt;Provide a class chat interface to display tool calls and results.&lt;/li&gt;
+&lt;li&gt;The client is completely free, and only needs to pay for the LLM service provider usage fee and the Apify platform resource consumption.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This client connects AI agents to 5,000+ web crawlers and automated actuators (Actors) in the Apify ecosystem, supporting data extraction from websites, social media, search engines and maps.&lt;/p&gt;
+&lt;h2 id=&#34;-core-functions&#34;&gt;🚀 Core functions
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;🔌 Connect to the MCP server via Server Push Event (SSE)&lt;/li&gt;
+&lt;li&gt;💬 Provides class chat interface display tool calls and results&lt;/li&gt;
+&lt;li&gt;🇦 Connect &lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify MCP Server&lt;/a&gt; to call multiple Apify executors&lt;/li&gt;
+&lt;li&gt;💥 Dynamically select tools based on context (server support is required)&lt;/li&gt;
+&lt;li&gt;🔓 Use authorization headers to ensure secure connections with API keys&lt;/li&gt;
+&lt;li&gt;🪟 Open source project, can review code or submit improvements&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-functional-scene&#34;&gt;🎯 Functional Scene
+&lt;/h2&gt;&lt;p&gt;After connecting to [Executor-MCP-Server] (&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://apify.com/apify/actors-mcp-server)&lt;/a&gt;, you can use the interactive chat interface:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Query &amp;ldquo;The Most Popular Social Media Crawler Actuator&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Get &amp;ldquo;The Best Instagram Crawlers&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Consult &amp;ldquo;Which executor should be used to extract LinkedIn data&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Learn about &amp;ldquo;How to Crawl Google Search Results&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Client interface screenshot&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-how-it-works&#34;&gt;📖 How it works
+&lt;/h2&gt;&lt;p&gt;The client connects to the MCP server through the SSE protocol and implements the following functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Establish an SSE connection through the &lt;code&gt;/sse&lt;/code&gt; endpoint&lt;/li&gt;
+&lt;li&gt;Send user query via &lt;code&gt;POST /message&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Receive streaming responses in real time (via &lt;code&gt;GET /sse&lt;/code&gt;), which may contain:
+&lt;ul&gt;
+&lt;li&gt;Large language model output&lt;/li&gt;
+&lt;li&gt;**Tool calls **Module&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Call and display the dialogue flow according to the response coordination tool&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;how-to-use&#34;&gt;⚙️How to use
+&lt;/h2&gt;&lt;h3 id=&#34;standard-mode-apify-platform&#34;&gt;Standard Mode (Apify Platform)
+&lt;/h3&gt;&lt;p&gt;Run the client on the Apify platform and connect to any SSE-enabled MCP server. Configure the following parameters via the UI or API:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP Server URL&lt;/li&gt;
+&lt;li&gt;System prompt words&lt;/li&gt;
+&lt;li&gt;API Key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After running, the log will generate a dynamic access link (different for each run):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;INFO Please visit https://.........runs.apify.net to interact with the MCP server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;standby-mode-apify-platform&#34;&gt;Standby mode (Apify platform)
+&lt;/h3&gt;&lt;p&gt;In development 🚧&lt;/p&gt;
+&lt;h2 id=&#34;-billing-plan&#34;&gt;💰 Billing Plan
+&lt;/h2&gt;&lt;p&gt;The client is completely free, only pay:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM service provider usage fee&lt;/li&gt;
+&lt;li&gt;Apify platform resource consumption&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Adopt the [Bill by Event] (&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&lt;/a&gt;) mode:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Actuator startup fee (billed at 128MB memory unit)&lt;/li&gt;
+&lt;li&gt;Runtime fee (billed per 5 minutes/128MB unit)&lt;/li&gt;
+&lt;li&gt;Query response fee (billed according to the model, and the built-in API key can be exempted)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When using your own LLM key, 128MB of memory runs for about $0.06 for 1 hour.
+Apify free version (no credit card required) can run for 80 hours per month - fully meet testing needs!&lt;/p&gt;
+&lt;h2 id=&#34;-technical-architecture&#34;&gt;📖 Technical Architecture
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Browser ← (SSE) → Test Client ← (SSE) → MCP Server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This link encapsulates customized bridge logic within the client, keeping the MCP server pure.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Visit &lt;code&gt;https://tester-mcp-client.apify.actor?token=API key&lt;/code&gt; (using http://localhost:3000 for local development)&lt;/li&gt;
+&lt;li&gt;Load &lt;code&gt;index.html&lt;/code&gt; and &lt;code&gt;client.js&lt;/code&gt; from the &lt;code&gt;public/&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;The browser creates SSE stream through &lt;code&gt;GET /sse&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;User query is submitted through &lt;code&gt;POST /message&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Query processing flow:
+&lt;ul&gt;
+&lt;li&gt;Calling large language model&lt;/li&gt;
+&lt;li&gt;Call the tool on demand&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Return chunking results through &lt;code&gt;sseEmit(role, content)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;local-development&#34;&gt;Local Development
+&lt;/h3&gt;&lt;p&gt;The client has been open sourced to &lt;a class=&#34;link&#34; href=&#34;https://github.com/apify/rag-web-browser&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;, and can be modified as needed:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/apify/tester-mcp-client.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tester-mcp-client
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Create a configuration file with reference to &lt;code&gt;.env.example&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;APIFY_TOKEN=Your token
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LLM_PROVIDER_API_KEY=Your key
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Run the development server:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Visit &lt;a class=&#34;link&#34; href=&#34;http://localhost:3000&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://localhost:3000&lt;/a&gt; to start the test.&lt;/p&gt;
+&lt;p&gt;**I wish you a happy conversation with the Apify actuator! **&lt;/p&gt;
+&lt;h2 id=&#34;-notes&#34;&gt;ⓘ Notes
+&lt;/h2&gt;&lt;p&gt;The current version does not support:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Advanced MCP features such as Prompts and Resource&lt;/li&gt;
+&lt;li&gt;Dialogue History Storage (refreshing the page will clear the record)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;reference-resources&#34;&gt;Reference Resources
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ModelContextProtocol&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify Executor MCP Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Billing instructions by event&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-are-ai-agents/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Detailed explanation of AI agent&lt;/a&gt;\n- &lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-is-model-context-protocol/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP protocol core value&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
