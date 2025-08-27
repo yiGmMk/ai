@@ -170,3 +170,4 @@
 [√] ai/google-nano-banana.md
 [√] space/马斯克星舰终结「四连炸」！未来有望 40 分钟内到达地球上任何地方.md
 [√] lidar/Jetson Thor首发！RoboSense亮相英伟达机器人生态阵容.md
+[√] lidar/“人工智能+农业”：3D 激光雷达如何让农机卷出新高度？.md
