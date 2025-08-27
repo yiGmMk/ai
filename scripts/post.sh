@@ -167,3 +167,6 @@
 [√] lidar/速腾-25中报暴增.md
 [√] lidar/一图看懂RoboSense 2025年二季度财报.md
 [√] lidar/速腾-M9.md
+[√] ai/google-nano-banana.md
+[√] space/马斯克星舰终结「四连炸」！未来有望 40 分钟内到达地球上任何地方.md
+[√] lidar/Jetson Thor首发！RoboSense亮相英伟达机器人生态阵容.md
