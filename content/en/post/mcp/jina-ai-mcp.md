@@ -106,7 +106,7 @@ Cursor and Claude Desktop (Windows) [have a bug](https://www.npmjs.com/package/m
 
 [Likely a UI bug from Cursor](https://forum.cursor.com/t/why-is-my-mcp-red/100518), but the MCP works correctly without any problem. You can toggle off/on to "restart" the MCP if you find the red dot annoying (fact is, since you are using this as a remote MCP, it's not a real "server restart" but mostly a local proxy restart).
 
-![cursor shows red dot](https://ai.programnotes.cn/img/ai/jina/3.jpg)
+![cursor shows red dot](https://ai.programnotes.cn/img/ai/jina/3.png)
 
 ### My LLM never uses some tools
 
