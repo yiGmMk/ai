@@ -171,3 +171,6 @@
 [√] space/马斯克星舰终结「四连炸」！未来有望 40 分钟内到达地球上任何地方.md
 [√] lidar/Jetson Thor首发！RoboSense亮相英伟达机器人生态阵容.md
 [√] lidar/“人工智能+农业”：3D 激光雷达如何让农机卷出新高度？.md
+[√] ai/Nano Banana一战封神，我总结了10种官方不会告诉你的神级技巧.md
+[√] ai/Nano Banana又出13种邪修玩法，插画转手办已经落后N个版本了.md
+[√] ai/用 Banana 生成「一图读懂xxx」| 附 prompt.md

@@ -1,0 +1,251 @@
+---
+title: "Nano Banana一战封神，我总结了10种官方不会告诉你的神级技巧"
+date: "2025-08-31"
+tags: ["AI绘图工具", "视觉推理", "cosplay生成", "游戏UI设计", "一致性优化"]
+categories: ["AI", "Gemini"]
+description: "本文分享了Nano Banana在AI绘图领域的10种高级用法，涵盖手办制作、角色cosplay、游戏UI设计等，展示了其强大的视觉推理和一致性生成能力。"
+author: "数字生命卡兹克"
+image: "https://ai.programnotes.cn/img/ai/fc8b0d97b05c7f72d57232bf9009772c.png"
+---
+
+核心内容:
+- 通过提示词生成1/7手办及产品内部结构图，展现高度一致性与细节还原能力
+- 利用照片进行角色cosplay生成，实现跨角色形象转换与服装道具精准复现
+- 支持漫画分镜创作、游戏UI设计及AR场景标注等创意应用场景
+
+**源自** |  数字生命卡兹克 数字生命卡兹克 2025-08-30 11:59
+
+这两天，Nano Banana正式上线后，已经刷爆了我的所有社交媒体，而它，现在也成了AI绘图领域，口喷改图的当之无愧的版本真神。
+
+![](https://ai.programnotes.cn/img/ai/6fe4be5015011cfb9490bf621bcff564.png)
+
+今天加更一期，Nano Banana最新用法合集，让大家看看这玩意有多强。****
+
+**话不多说，直接开始。**
+
+**一. 制作手办**
+
+最近最出圈的用法，没有之一。
+
+这是提示词：
+
+create a 1/7 scale commercialized figure of thecharacter in the illustration, in a realistic styie and environment.Place the figure on a computer desk, using a circular transparent acrylic base without any text.On the computer screen, display the ZBrush modeling process of the figure.Next to the computer screen, place a BANDAl-style toy packaging box printedwith the original artwork.
+
+我先做了一个芙宁娜。
+
+![](https://ai.programnotes.cn/img/ai/54bbefbd5ad25e8ec972bdc62cb63951.png)
+
+然后做了一个猫。
+
+NB真的很细，连脏脏的猫脚都还原了。。。
+
+![](https://ai.programnotes.cn/img/ai/fc8b0d97b05c7f72d57232bf9009772c.png)
+
+兴致所至，我还做了一个老朋友。
+
+![](https://ai.programnotes.cn/img/ai/6bc3ec17fbc296e9466494d176f3b83a.png)
+
+**二. 玩cosplay**
+
+只需要给NB一张你的照片，和你想cos的角色的照片，提示词非常简单：让图一的人物cosplay图二的角色，服饰、妆容、道具和图二一致。
+
+![](https://ai.programnotes.cn/img/ai/d52bcf18c81a39b2c90c01dd85a465ab.png)
+
+然后你就会得到——
+
+![](https://ai.programnotes.cn/img/ai/4e4a0dce2900732ce1890874ea44a649.jpeg)
+
+虽然没有完全还原，枪长的不太一样，脖子上的项圈有些微的不同，裤子也不是及膝裤而是长裤。
+
+但整体的效果，还是很对味的，而且服装道具啥的都还挺有质感的。
+****
+
+**三. 换动作**
+
+还是用上面cosplay的栗子。
+
+提示词：让图二的人物做出图一的动作。
+
+NB的理解能力还是有点强的，即使只是给它画一堆火柴人，它也知道你是啥意思。
+
+![](https://ai.programnotes.cn/img/ai/4393b8bdea9278ea28bd5ff8a0e57934.png)
+
+我还挺喜欢它在金克斯身边加的这几道线条的，感觉多了一些动漫感，有种次元壁打破的感觉。
+
+![](https://ai.programnotes.cn/img/ai/99085269e36bb96a70d2ed7fd2f2e515.png)
+
+然后孩子打累了，倒头就睡。。。
+
+![](https://ai.programnotes.cn/img/ai/8be395c16f497dfa581d07624e646930.png)
+
+是一个对灵魂画手很友好的功能。
+
+**四. 产品内部结构图**
+
+然后是这个生成产品内部结构的方式，太酷了。
+
+提示词在此：Ultra-detailed exploded view of a product, metallic parts and electronic components floating in mid-air, perfectly aligned, revealing inner structure, futuristic technology aesthetic, 8K resolution, soft cinematic lighting, highly realistic.
+
+![](https://ai.programnotes.cn/img/ai/d05cf0caf2d3a1e68cfe857e9b15493a.png)
+
+![](https://ai.programnotes.cn/img/ai/39d9f658322c55fdae76c4f13a3174fc.png)
+
+生成完图片之后，还可以用可灵的首尾帧，直接做个视频。
+
+创作之间的衔接非常丝滑。
+
+
+**五. 转线稿&上色**
+
+受到这位大佬的启发，我也试了试转线稿和上色的能力。
+
+提示词：
+按图一的色卡的配色给图二的线稿上色。
+
+![](https://ai.programnotes.cn/img/ai/989807cbeadd7129e51a7b2df0440335.png)
+
+体验就是，非常丝滑。
+
+转线稿我只抽卡了一次就成功了。
+
+![](https://ai.programnotes.cn/img/ai/3b5077007b69bc04bd332487adb44ac0.png)
+
+上色抽了五六次，最终的结果是这样，不能说完全遵循了色卡，但整体的色调是对的。
+
+![](https://ai.programnotes.cn/img/ai/12e144cba9d5fce61de7be31d33a3f75.png)
+
+另一个还不错的上色案例也放在这里给你们看看。
+
+![](https://ai.programnotes.cn/img/ai/ce7007c248674ea5045ceda75630872d.png)
+
+**六. 制作游戏UI**
+
+这个UI界面，也让我觉得很惊艳。
+
+提示词：A fantasy RPG game screenshot, featuring the single main character in the picture standing in the center,handing a book and a torch， detailed ruined temple environment with ancient stone pillars, vines, stained glass windows, glowing magical atmosphere, cinematic lighting. Include RPG-style UI elements: character portrait in the corner, health and mana bar at the top, minimap at the bottom right, dialogue text at the bottom saying "This must be the place...". Highly detailed, anime-inspired game art, immersive atmosphere, ultra quality.
+
+![](https://ai.programnotes.cn/img/ai/b424ad96f2245d3dff821c6aa87d86f6.png)
+
+提示词：A galgame visual novel screenshot, set inside a luxurious Rococo-style castle interior, with ornate decorations, chandeliers, golden details, elegant furniture and pastel colors.The single character in the picture stands in the center foreground, anime-style illustration, expressive face. Include galgame UI elements: dialogue text box in english at the bottom with character name displayed, choices menu buttons, clean interface design. Soft lighting, romantic atmosphere, high quality visual novel style artwork.
+
+![](https://ai.programnotes.cn/img/ai/5b24cd8b1a6b5e834e8a10b6317dc137.png)
+
+画面效果是好的，但这张图上的文字我抽了好几次卡还是没法用，文字生成能力，是大香蕉的短板。
+
+**七. 漫画分镜**
+
+提示词：根据图片内容生成九格漫画，用画面和镜头讲故事。
+
+![](https://ai.programnotes.cn/img/ai/2a5d7bcda4c7cba2c49265678338754c.png)
+
+这是NB给到的结果。
+
+![](https://ai.programnotes.cn/img/ai/e52ec5b4604448874b7b6d30bb62d62d.png)
+
+还有另一张，虽然画面有瑕疵，但我还挺喜欢它插入闪回的讲故事方式。
+
+![](https://ai.programnotes.cn/img/ai/e28b849ed1626ea8df8f41372a1c3d82.png)
+
+**八. 打光**
+
+提示词：给这个男人生成一张艺术肖像照片，通过半明半暗的打光效果，赋予男人亦正亦邪的特征。
+
+![](https://ai.programnotes.cn/img/ai/244ac85d34eb3ed33da366315e9125e0.png)
+
+提示词：让这张照片中的天空变成晚霞的颜色，空中有很多鸟在飞，和原图融为一体。
+
+![](https://ai.programnotes.cn/img/ai/9e56f7817c56ae6188a67525b3ff8d44.png)
+
+修图的效果，一致性的保持，都很好。
+
+尤其是应县木塔这张，氛围感一下子就出来了。
+
+**九. 做商品图**
+
+给被子印上lv老花，身价升级。
+
+提示词：给被子上面印上lv老花。
+
+![](https://ai.programnotes.cn/img/ai/a5f082579b854eddc348ef0184c27cf2.png)
+
+或者做一张口红广告的海报。
+
+提示词：做一张口红的商品宣传海报，图中的女人手握口红，看向镜头。
+
+![](https://ai.programnotes.cn/img/ai/94752a19c83c73aed01ed91989f559f5.png)
+
+在电商这个领域，NB的一致性已经能够让它非常游刃有余地生图了。
+
+**十. 生图+推理能力**
+
+NB还有一个很强的地方，就是它有视觉推理能力。
+
+可以给你讲解题目。
+
+![](https://ai.programnotes.cn/img/ai/e596c86e688138e77a9fbe39502af268.png)
+
+也可以帮你把地标照片，p成这种酷炫的AR版本。
+
+![](https://ai.programnotes.cn/img/ai/cbdb03cffd0f67fe23e2331114530cd3.png)
+
+我自己也做了一张。
+
+提示词拿好：you are a location-based AR experience generator. highlight [point of interest] in this image and annotate relevant information about it.
+
+![](https://ai.programnotes.cn/img/ai/b6754036a2bb7ad67b9e864522bb8d3b.png)
+
+## **写在最后**
+
+**最后，总结一下现在的Nano Banana。**
+
+比起几天前，用起来方便了很多。
+
+现在你可以直接在Google家的AI Studio和Gemini上用Nano Banana了，网址如下：
+
+https://aistudio.google.com/prompts/new_chat
+
+https://gemini.google.com/
+
+![](https://ai.programnotes.cn/img/ai/d0a97998a2c4b43ae2afbf540a76e188.png)
+
+lmarena也有了nano banana的正式版本，不用再抽卡。
+
+![](https://ai.programnotes.cn/img/ai/ae9880b76cc736a9fb6055d5d199d74e.png)
+
+lmarena网址：https://lmarena.ai/
+
+还有设计Agent Lovart，第一时间接入了Nano Banana，宣布周末限免，Agent+banana，还是很酷的：
+
+![](https://ai.programnotes.cn/img/ai/e7b0e8950c15bdb3852cfde35b45572f.png)
+
+https://www.lovart.ai/
+
+再说一下NB的能力，一致性确实NB。
+
+但是首先还是需要抽卡，得多抽一抽。
+
+然后主体不能多，多个主体还是很容易出问题。比如想把缺席的人p进大合照里，就不太现实。
+
+缺点也有，中文字真的非常拉跨，如果想在图片中加入中文，目前效果断档领先的依然即梦。
+
+![](https://ai.programnotes.cn/img/ai/7ea2fe30f343e1af95ab7ca0fca4bffa.jpeg)
+
+另外就是它的画质，确实会压缩。
+
+还好@阿真irene给我推荐了一个网站，可以帮助修复成高清。
+
+https://arc.tencent.com/zh/ai-demos/imgRestore
+
+还有个问题，就是我真的很需要它做个一键重新生成的功能。
+
+否则每次抽卡，都要再次上传图片和提示词，好烦。。。
+
+不过总体来说，Google这次还是非常扬眉吐气的。
+
+犹记得几个月前GPT-4o大显神威的时候，Google发布了用嘴改图的2.0flash，然后惨遭大家忽略，成为AI届汪峰。
+
+但现在Google终于扳回了一城。
+
+这家厂子的底蕴。
+
+还是太恐怖了。
