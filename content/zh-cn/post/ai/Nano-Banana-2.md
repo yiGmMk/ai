@@ -36,6 +36,10 @@ Please turn this screenshot of the game character into a character figure riding
 
 ![效果图](https://ai.programnotes.cn/img/ai/gemini/nano-banana-8.png)
 
+## 动漫少女
+
+![效果图](https://ai.programnotes.cn/img/ai/gemini/nano-banana-9.png)
+
 
 ## 使用地址
 
