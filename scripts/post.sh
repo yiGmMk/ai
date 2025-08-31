@@ -174,3 +174,4 @@
 [√] ai/Nano Banana一战封神，我总结了10种官方不会告诉你的神级技巧.md
 [√] ai/Nano Banana又出13种邪修玩法，插画转手办已经落后N个版本了.md
 [√] ai/用 Banana 生成「一图读懂xxx」| 附 prompt.md
+[√] ai/Nano-Banana-2.md
