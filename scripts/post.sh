@@ -177,3 +177,4 @@
 [√] ai/Nano-Banana-2.md
 [√] space/商业航天8月动态：SpaceX10天9发；星网“狂飙”入轨33颗卫星；长10首次系留点火；中国首艘、全球第五艘火箭回收船下水.md
 [√] mysql/explain.md
+[√] activity/alipay.md
