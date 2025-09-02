@@ -175,3 +175,4 @@
 [√] ai/Nano Banana又出13种邪修玩法，插画转手办已经落后N个版本了.md
 [√] ai/用 Banana 生成「一图读懂xxx」| 附 prompt.md
 [√] ai/Nano-Banana-2.md
+[√] space/商业航天8月动态：SpaceX10天9发；星网“狂飙”入轨33颗卫星；长10首次系留点火；中国首艘、全球第五艘火箭回收船下水.md
