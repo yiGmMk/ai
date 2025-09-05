@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>教程 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E6%95%99%E7%A8%8B/</link>
+        <description>Recent content in 教程 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>喂饭包会！快来实现你的第一次大模型API调用！</title>
+        <link>https://ai.programnotes.cn/p/%E5%96%82%E9%A5%AD%E5%8C%85%E4%BC%9A%E5%BF%AB%E6%9D%A5%E5%AE%9E%E7%8E%B0%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%A7%E6%A8%A1%E5%9E%8Bapi%E8%B0%83%E7%94%A8/</link>
+        <pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%96%82%E9%A5%AD%E5%8C%85%E4%BC%9A%E5%BF%AB%E6%9D%A5%E5%AE%9E%E7%8E%B0%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%A7%E6%A8%A1%E5%9E%8Bapi%E8%B0%83%E7%94%A8/</guid>
+        <description>&lt;p&gt;表格地址：https://docs.qq.com/smartsheet/DSFlBSWJpUElsbWxt
+随着我的内容传播，出现很多不会使用大模型 API Key，并且想知道如何使用的观众和读者。
+对于任何对 AI 感兴趣，想折腾的人，我愿意真诚地分享我的所有经历经验给你。
+折腾 AI 很快乐，试着用 AI 点缀我们的生活会很开心，享受这个时代吧。&lt;/p&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1FRuTzwEig&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+        </item>
+        <item>
+        <title>2天37K Star的Gemini CLI怎么登录使用？详细指南来了，只需4步</title>
+        <link>https://ai.programnotes.cn/p/2%E5%A4%A937k-star%E7%9A%84gemini-cli%E6%80%8E%E4%B9%88%E7%99%BB%E5%BD%95%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97%E6%9D%A5%E4%BA%86%E5%8F%AA%E9%9C%804%E6%AD%A5/</link>
+        <pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/2%E5%A4%A937k-star%E7%9A%84gemini-cli%E6%80%8E%E4%B9%88%E7%99%BB%E5%BD%95%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97%E6%9D%A5%E4%BA%86%E5%8F%AA%E9%9C%804%E6%AD%A5/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/614a18297fe90edfdfe7761281d2e997.png" alt="Featured image of post 2天37K Star的Gemini CLI怎么登录使用？详细指南来了，只需4步" /&gt;&lt;p&gt;&lt;strong&gt;核心内容&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gemini CLI登录问题解决方案&lt;/li&gt;
+&lt;li&gt;安装Node.js和Gemini CLI的步骤&lt;/li&gt;
+&lt;li&gt;配置Google Cloud权限和网络设置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  袋鼠帝袋鼠帝AI客栈 2025-06-28 14:08&lt;/p&gt;
+&lt;p&gt;大家好，前天分享了一篇介绍Gemini CLI的文章,但看评论区好些朋友说登录不上，授权那里会一直卡住&lt;/p&gt;
+&lt;p&gt;be like：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45ac9364660cbfbd7ed98f682ad0a14f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以，这篇文章，我带大家来解决一下这个登录不上的问题&lt;/p&gt;
+&lt;p&gt;另外，Gemini CLI的Github上提的问题太多了。。。目前已经有516个Issues&lt;/p&gt;
+&lt;p&gt;但是Star也涨的忒快，早上爬起来看还是35K，现在（中午）就37.1K了？？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da54596a7f302d5ae3c4f44d730dc1e1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;鉴于目前问题较多，大家可以再等等，毕竟开源的力量非常大（而且这个项目太火了）&lt;/p&gt;
+&lt;p&gt;我相信随着时间的推移（大家共建），Gemini CLI会越来越好用。&lt;/p&gt;
+&lt;p&gt;它的更新频率还不错，目前最新版v0.1.7&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6fb20306cbec692b0f1965677b67f869.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我们本次通过，下面的指令来安装Gemini CLI&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;1. 安装Node Js&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;前提是需要先安装Node.js，并且版本号要大于等于18&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://nodejs.org/zh-cn/download&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://nodejs.org/zh-cn/download&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;nodejs安装成功后，可以通过 node -v 查看版本号（注意-v前面有个空格）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1c765b22ae11129c115bdbf69789e5eb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 安装Gemini CLI&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;nodejs安装成功后,执行下面的命令安装Gemini CLI&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果Gemini CLI有版本更新可以重复执行上面这条指令，每次执行会拉取最新版本
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果是Mac或者Linux用户，建议在前面加上sudo（给系统权限），否则可能会执行失败
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装成功之后，通过 gemini &amp;ndash;version 来查看Gemini CLI的版本&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da4a56c56ce46936c08c5a80ea82aa32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;3. 开通Google Code Assist权限&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;然后我们要在Google Cloud检查一下Google Code Assist权限是否开通&lt;/p&gt;
+&lt;p&gt;如果没有开通，需要启用（Enable）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fe7ae725ab8421defcb765c1a5149efd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Google Code Assist地址：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://console.cloud.google.com/marketplace/product/google/geminicloudassist.googleapis.com?q=search&amp;amp;referrer=search&amp;amp;inv=1&amp;amp;invt=Ab1S8w&amp;amp;project=poetic-park-411205&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.cloud.google.com/marketplace/product/google/geminicloudassist.googleapis.com?q=search&amp;referrer=search&amp;inv=1&amp;invt=Ab1S8w&amp;project=poetic-park-411205&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;4. 获取Google Cloud的项目ID&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;获取Google Cloud的一个项目ID&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b799293236152650dea3b1eb890fad0d.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取Google Cloud项目地址：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://console.cloud.google.com/welcome?inv=1&amp;amp;invt=Ab1S-A&amp;amp;project=fast-gecko-411205&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.cloud.google.com/welcome?inv=1&amp;invt=Ab1S-A&amp;project=fast-gecko-411205&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;把整个项目ID复制备用（如果没有项目需要新建一下）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/472aa8a501b11cc9d811268ef465da4d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在控制台或者终端执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOOGLE_CLOUD_PROJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;项目ID
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;4. 配置网络&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;注意：需要魔法上网哦，登录的时候最好开启魔法的
+全局tun模式或者增强模式。&lt;/p&gt;
+&lt;p&gt;最好用美国节点&lt;/p&gt;
+&lt;p&gt;如果是Windows可以在控制台执行一下下面这条指令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;https_proxy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://127.0.0.1:7890
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果是Mac或Linux可以在终端执行下面这条&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;https_proxy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://127.0.0.1:7890
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以上操作最好都是新开一个控制台或者终端进行&lt;/p&gt;
+&lt;p&gt;看各自的代理端口是多少，大多数默认是7890&lt;/p&gt;
+&lt;p&gt;到这里，准备工作都做完了&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 登录Gemini CLI&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最后执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gemini
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;就开始自动登录了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/614a18297fe90edfdfe7761281d2e997.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;会拉起浏览器跳转到Google登录页，注意用刚刚在Google Cloud做了配置的那个Google邮箱登录&lt;/p&gt;
+&lt;p&gt;登录后你会跳转下面这个页面，就代表登录成功了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/186860e98241d9b1d4059fdd2e53997f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;切换到Gemini CLI，如下。可以在对话框里面对话了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c0cb8eabc3ad8f5375b5cef1826cae8a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录一次之后，下次再执行gemini，就会自动登录，不用重复跳转网页登录。&lt;/p&gt;
+&lt;p&gt;如果觉得有用，希望给个免费的三连支持一下，感恩～&lt;/p&gt;
+&lt;p&gt;如果操作完还是有问题，欢迎评论区沟通，大家一起想想办法。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>读懂字节开源AI框架Eino实现逻辑（第1期）</title>
+        <link>https://ai.programnotes.cn/p/%E8%AF%BB%E6%87%82%E5%AD%97%E8%8A%82%E5%BC%80%E6%BA%90ai%E6%A1%86%E6%9E%B6eino%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91%E7%AC%AC1%E6%9C%9F/</link>
+        <pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E8%AF%BB%E6%87%82%E5%AD%97%E8%8A%82%E5%BC%80%E6%BA%90ai%E6%A1%86%E6%9E%B6eino%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91%E7%AC%AC1%E6%9C%9F/</guid>
+        <description>
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1PB7nzfEbq&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;视频信息&#34;&gt;视频信息
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;描述:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;置顶评论:&lt;/strong&gt;
+感觉实际开发中基本不用这类框架 很难满足需求 不如自己按需手搓&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;热门评论:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;VAN:你知道的我不做eino[doge]&lt;/li&gt;
+&lt;li&gt;能别配bgm吗&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>这个我卖了$1500美金！一键将播客自动转成图文内容</title>
+        <link>https://ai.programnotes.cn/p/%E8%BF%99%E4%B8%AA%E6%88%91%E5%8D%96%E4%BA%861500%E7%BE%8E%E9%87%91%E4%B8%80%E9%94%AE%E5%B0%86%E6%92%AD%E5%AE%A2%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%88%90%E5%9B%BE%E6%96%87%E5%86%85%E5%AE%B9/</link>
+        <pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E8%BF%99%E4%B8%AA%E6%88%91%E5%8D%96%E4%BA%861500%E7%BE%8E%E9%87%91%E4%B8%80%E9%94%AE%E5%B0%86%E6%92%AD%E5%AE%A2%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%88%90%E5%9B%BE%E6%96%87%E5%86%85%E5%AE%B9/</guid>
+        <description>
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1C5jRzJE3v&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;视频信息&#34;&gt;视频信息
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;描述:&lt;/strong&gt;
+🌟 加入AI大师社群并运用AI创业赚钱👇
+&lt;a class=&#34;link&#34; href=&#34;https://www.skool.com/aiagent/about?ref=f2b566934c5c4639aaa47ab1fe39310e&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.skool.com/aiagent/about?ref=f2b566934c5c4639aaa47ab1fe39310e&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;📌 加入我的免费 Skool 社群，获取模板👇
+&lt;a class=&#34;link&#34; href=&#34;https://www.skool.com/aiagent8/about?ref=f2b566934c5c4639aaa47ab1fe39310e&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.skool.com/aiagent8/about?ref=f2b566934c5c4639aaa47ab1fe39310e&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;🚧 开始使用 n8n 构建自动化! 👇
+&lt;a class=&#34;link&#34; href=&#34;https://n8n.partnerlinks.io/fwp82h8azh6k&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://n8n.partnerlinks.io/fwp82h8azh6k&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;💻 想将 AI Agent整合到你的业务中？预约咨询👇
+&lt;a class=&#34;link&#34; href=&#34;https://www.officialharrylee.com/business1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.officialharrylee.com/business1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Apify🔗: &lt;a class=&#34;link&#34; href=&#34;https://console.apify.com/sign-up?fpr=t7woc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.apify.com/sign-up?fpr=t7woc&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;还在手动整理播客内容吗？这支影片教你用AI自动化工具，轻松将语音播客自动转换成图文稿与精选摘要，不仅省时省力，还能快速制作多平台内容！
+我会实战演示从播客音频上传，到AI自动生成图文、重点标注、甚至自动发布的完整流程。不论你是播客主、自媒体人还是内容行销人，这套工作流都能大幅提升你的内容产能，创造更多流量与价值！&lt;/p&gt;
+&lt;p&gt;商务合作请联系：
+📧 &lt;a class=&#34;link&#34; href=&#34;mailto:harry@harryleemedia.com&#34; &gt;harry@harryleemedia.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;置顶评论:&lt;/strong&gt;
+如果分辨率高点就更好了&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;热门评论:&lt;/strong&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>6000字&#43;6个案例：写给普通人的MCP入门指南</title>
+        <link>https://ai.programnotes.cn/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/6000%E5%AD%97-6%E4%B8%AA%E6%A1%88%E4%BE%8B%E5%86%99%E7%BB%99%E6%99%AE%E9%80%9A%E4%BA%BA%E7%9A%84mcp%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/2350f9eb8931846f12f8839acfc1eda7.png" alt="Featured image of post 6000字&#43;6个案例：写给普通人的MCP入门指南" /&gt;&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |歸藏的 AI 工具箱歸藏的AI工具箱 2025-04-02 15:22&lt;/p&gt;
+&lt;p&gt;最近 MCP 协议很火，自己也发掘了一些玩法，但是目前来看 MCP 的配置还是过于繁琐了，对普通人门槛有点高。&lt;/p&gt;
+&lt;p&gt;这几天终于摸索出来了一些方法让大家可以相对容易理解的方式配置 MCP 服务。&lt;/p&gt;
+&lt;p&gt;后面我也会直接给你几个常用的案例，教你从配置到使用的全过程，希望这个教程看完能让你顺滑的使用 MCP。&lt;/p&gt;
+&lt;p&gt;目前支持 MCP 服务的客户端主要是 Claude、Chatwise、Cherry Studio 这种聊天客户端或者是 Cursor、Windsurf 这种 AI 编程 IDE。&lt;/p&gt;
+&lt;p&gt;由于我们面向的主要还是普通人，所以演示部分我主要演示Chatwise的操作，配置部分我会讲ChatWise 和Windsurf的操作。&lt;/p&gt;
+&lt;h2 id=&#34;什么是-mcp&#34;&gt;什么是 MCP
+&lt;/h2&gt;&lt;p&gt;这里不过多解释，毕竟我们只是使用而不是实现。&lt;/p&gt;
+&lt;p&gt;简单来说 LLM使用不同工具时，以前需要同时修改模型和工具，
+因为各工具的API数据格式不统一，导致适配成本高、功能添加慢
+。&lt;/p&gt;
+&lt;p&gt;MCP协议统一了数据格式标准，规定了应用向LLM传输数据的方式。任何模型只要兼容MCP协议，就能与所有支持MCP的应用交互
+。&lt;/p&gt;
+&lt;p&gt;这将适配工作从双向简化为单向（仅应用端），且对于已有API的应用，第三方开发者也可基于其API进行MCP封装适配，无需官方支持。&lt;/p&gt;
+&lt;p&gt;可以看下面 Claude 画的这个图，虽然糙但是也可以理解了，哈哈。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/76272f7136d921964e47bc9924fc4d40.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b138191945435dfdf4b8d4c5dc2664ee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;配置准备工作&#34;&gt;配置准备工作
+&lt;/h2&gt;&lt;p&gt;注意：Windows 在环境配置和网络上的问题比 Mac 多很多，所以如果你没有编程经验并且是 Windows 电脑，出错不是你的问题，实在无法修复的话就算了。&lt;/p&gt;
+&lt;p&gt;MCP 现在一共有两种模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stdio：主要用在本地服务上，操作你本地的软件或者本地的文件，比如 Blender 这种就只能用 Stdio 因为他没有在线服务&lt;/li&gt;
+&lt;li&gt;SSE ：主要用在远程服务上，这个服务本身就有在线的 API，比如访问你的谷歌邮件，谷歌日历等。
+SEE 的配置方式非常简单基本上就一个链接就行，这个不需要教，如果你找到的是 SEE 的直接复制他的链接填上就行，而且现在使用 SEE 配置的 MCP 非常少，基本上都是 Stdio 的方式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Stdio 的配置比较复杂，我们需要做些准备工作，你需要提前安装需要的命令行工具。&lt;/p&gt;
+&lt;p&gt;Stdio 主要需要两个开始的命令一个是 uvx 一个是 npx。&lt;/p&gt;
+&lt;p&gt;其中 uvx 我们需要安装 uv：如果你是 Windows 的话可以按“Win”键，点击搜索后输入&amp;quot;PowerShell&amp;quot;，然后右键选择“以管理员身份运行”，粘贴下面的命令回车就行，运行完记得重启。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;powershell -ExecutionPolicy ByPass -c &amp;#34;irm https://astral.sh/uv/install.ps1 | iex&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果你是 Mac 的话只需要点击你的“启动台”搜索“终端”应用，然后输入下面的代码回车就行。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -LsSf https://astral.sh/uv/install.sh | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来是 upx，这个简单我们只需要安装 Node.js 就行，访问官网（
+&lt;a class=&#34;link&#34; href=&#34;https://nodejs.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://nodejs.org/&lt;/a&gt;
+）点击下载正常安装就行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d8d84c126baeb58b2ce5ab9ece4417e6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;获取mcp&#34;&gt;获取MCP
+&lt;/h2&gt;&lt;p&gt;随着 MCP 的爆火已经有了很多 MCP 聚合网站，比如逗哥的 MCP.so 和 
+&lt;a class=&#34;link&#34; href=&#34;https://smithery.ai/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://smithery.ai/&lt;/a&gt;
+ 。&lt;/p&gt;
+&lt;p&gt;他们的使用也大同小异，一般在左侧输入这个 MCP 必要的 API 之后就可以帮你生成各种导入的 Json 命令了。&lt;/p&gt;
+&lt;p&gt;API 如何获取一般在左侧的介绍部分也有有写，我后面的案例部分也会帮你介绍我用的几个常见 MCP 的 API 获取地址。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2350f9eb8931846f12f8839acfc1eda7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下面的配置部分分别是 Windsurf 和 chatwise 的可以根据你使用的客户端选择查看。&lt;/p&gt;
+&lt;h2 id=&#34;&#34;&gt;
+&lt;/h2&gt;&lt;h2 id=&#34;配置-mcp-windsurf&#34;&gt;配置 MCP-Windsurf
+&lt;/h2&gt;&lt;p&gt;完之后我们就得配置了，如果你用的是 Windsurf 的话，可以在右上角头像部分打开“Windsurf Settings”在里面找到&lt;/p&gt;
+&lt;p&gt;MCP Servers 点击右边的“Add Server”按钮添加。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a8c124fa91eceba0210f8649320800db.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Windsurf 好的是他内置了一些常用的的 MCP 服务你可以直接用，同时由于是常见的 IDE 所以很多 MCP 网站都有适配命令很好找，上面获取 MCP 的部分我们已经说过了。&lt;/p&gt;
+&lt;p&gt;如果默认配置的没有你想要的 MCP 可以点击「Add custom sever」&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6dd6a96163fd8aa3fd82c09ecae9394.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;之后你会发现他打开了一个文件，你只需要将从网站复制的 Json 填写进去保存就行。&lt;/p&gt;
+&lt;p&gt;这里需要注意的是，当你需要配置第二个的时候，不要将网站给你的 Json 直接放在第一个下面，只需要将下面代码块的部分去掉，将剩下的部分放到原来剩下那部分结束就行。&lt;/p&gt;
+&lt;p&gt;如果你实在不会，你可以把你的整个配置文件复制给 AI 让 AI 帮你改，只需要说“这个 Json 写法有什么问题吗？如果有帮我修复”就行，然后将 AI 帮你修复的复制进去，记得保存修改。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;mcpServers&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/70bbe238713d4102bf2d280cd106d16e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果你配置无误的话应该会看到右边图示位置出现了你配置的 MCP 服务的名字，同时前面有个绿点，如果配置有问题的话就是红色的点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c4cdc2ef063d244faaf73db6bff2143b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;一旦你添加成功使用就很方便了，直接在右侧跟 AI 对话提出要求就好了，比如我这里就让他直接往我的 Flomo 笔记里面增加了一条笔记。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34f0225305f6ffdce86f1bdab32bdb96.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;&#34;&gt;
+&lt;/h2&gt;&lt;h2 id=&#34;配置-mcp-chatwise&#34;&gt;配置 MCP-ChatWise
+&lt;/h2&gt;&lt;p&gt;麻了，我昨天吭哧瘪肚教大家吧 Json 转成正常命令，结果今天 Chatwise 支持了一个新功能，可以直接从 Json 新建 MCP 了。&lt;/p&gt;
+&lt;p&gt;在新建的时候左下角加号点击后选择「从剪切板导入 Json」就可以直接导入你从 Windsurf 或者 MCP 网站复制来的 Json 了，省事很多朋友们。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/131da557cef1db758d46fd5baeb90842.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接下来就是使用了，ChatWise 可以在输入框点击锤子图标后开启来开启 MCP 服务的使用，需要注意的是，在开启开关后还需要单独点击需要启用的 MCP 服务，有了对号代表着启用了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9eebe82c9e4c77695068581be178748d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这个时候我们可以直接在聊天窗口用自然语言跟模型对话，需要的时候他自然就会启动对应的 MCP 获取信息。&lt;/p&gt;
+&lt;p&gt;比如我下面这个问题他先调用时间 MCP 获取到了当前时间，然后调用 Exa 的搜索 MCP 搜索到了 Open AI最近的新闻。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ba74c82e6a85aec3ae0f18a292620831.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当然你还是可以看下面正常的添加流程。&lt;/p&gt;
+&lt;p&gt;AI IDE 对于普通人来说还是有点复杂，我们更多了解的还是 Chatwise 这种跟 AI 对话的工具，ChatWise 的配置比 windsurf 好找，难的是命令行。&lt;/p&gt;
+&lt;p&gt;点击左下角头像，然后在设置里面找到工具，在点击左下角的加号就可以添加。&lt;/p&gt;
+&lt;p&gt;可以看到我们需要填写四个东西：类型、ID、命令、环境变量。&lt;/p&gt;
+&lt;p&gt;类型这里一般如果 MCP 网站给的是上面的 Json 格式而不是网址的话就选 Stdio 就行。&lt;/p&gt;
+&lt;p&gt;ID 这个你可以自己起名字，一般标识一下这个 MCP 的服务名字就行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3c905bbf3cf6e4a93193c04c76118425.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接下来的命令和环境变量，这里我之前也发愁怎么办，但后来我想了一个好办法，我们不是可以从 MCP 网站可以获取到 Json 代码吗。&lt;/p&gt;
+&lt;p&gt;只需要将 json 代码发给 AI 模型（Claude 或者 Deepseek）然后让他将这个 Json 转换为正常的命令，同时将环境变量单列出来
+就行，比如下面这个高德 MCP 的 Json 就成功的分离了，我们将命令和环境变量分别填写就行。&lt;/p&gt;
+&lt;p&gt;然后我们可以点击下面的查看工具按钮，如果调试没问题，就会列出具体的工具，如果调试有问题就会列出返回的报错，这时候我们就可以将报错发给 AI 看应该如何修复，一般是命令缺少参数或者环境变量的 API Key 填错了。&lt;/p&gt;
+&lt;p&gt;这个时候我们的 MCP 就配置好了，只需要点击右上角的开关就能启用，如果这个 MCP没有敏感风险的话，可以勾选自动执行工具，这样效率高点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4d3d11ef58e6943f1f83f8ef937cd6ba.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/89d4df601cdccb34ddab74c50a29ad9c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;&#34;&gt;
+&lt;/h2&gt;&lt;h2 id=&#34;案例和参数&#34;&gt;案例和参数
+&lt;/h2&gt;&lt;p&gt;接下来就是案例的部分我在这里会介绍和演示一些我用着还行的 MCP 服务用法，另外也会写上他们的来源和 Chatwise 中对应的参数，你可以直接添加，这些都是我试过能跑的。&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;从-figma-获取设计稿生成网页&#34;&gt;从 Figma 获取设计稿生成网页
+&lt;/h3&gt;&lt;p&gt;使用的 MCP 是 
+Framelink Figma MCP Server：
+&lt;a class=&#34;link&#34; href=&#34;https://mcp.so/server/Figma-Context-MCP/GLips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.so/server/Figma-Context-MCP/GLips&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ChatWise 参数
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;命令：npx -y figma-developer-mcp --stdio --figma-api-key=粘贴获取到的Figma API Key替换
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里我们需要去Figma 软件里获取一下我们的API Token，具体的步骤是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;1. 
+点击左上角的头像找到设置（Settings）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2. 
+然后找到安全（Seccurity）选项，找到创建新的 Token（Generat new Token）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;3. 
+之后File content选择只读，Dev resources也选择只读就行&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dd8bd7979befafb501caa2b36d64ac9d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/14b204937e4f46d32c4c3ce18bbfdc76.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后我们就可以在自己的 figma 设计稿里面找到一个画板然后在右键的复制里找到「复制到所选项的链接」。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4f4c78369b77ce86ca707400f5708792.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最后在下面输入框中启用 Figma MCP 后把你复制的链接扔给他让他生成网页就行，这里推荐用 Gemini 2.5 Pro 或者 V3 0324，都可以白嫖。&lt;/p&gt;
+&lt;p&gt;具体白嫖方法可以看我之前写的《
+&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU0MDk3NTUxMA==&amp;amp;mid=2247487434&amp;amp;idx=1&amp;amp;sn=32bea665b4877f21280b6a30a9dc6153&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;顶级白嫖指南，教你低成本用上最好的 AI 模型，再加加上 AI 搜索和推理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;》&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/391106bd05e5954004c2e600e46fd611.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;自己手搓-ai-搜索exatime&#34;&gt;自己手搓 AI 搜索（Exa&amp;amp;Time）
+&lt;/h3&gt;&lt;p&gt;接下来教大家自己手搓一个 AI 搜索，需要用到两个插件首先是 Claude 的官方 MCP 时间获取服务，因为在不联网的情况下模型是不知道现在的时间的，在搜索类似这几天的新闻这种问题的时候他就会瞎选时间。&lt;/p&gt;
+&lt;p&gt;下面就是 Time 这个服务的参数，很简单就是拉取服务，然后设置一下你的时区就行，我这里设置的上海。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ChatWise 参数
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;命令：uvx mcp-server-time --local-timezone Asia/Shanghai
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;再然后就是 Exa 的 MCP 了，这个也需要一个 API，但还好 Exa 的 API 是免费的，你可以直接去这里点创建复制就行：
+&lt;a class=&#34;link&#34; href=&#34;https://dashboard.exa.ai/api-keys&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://dashboard.exa.ai/api-keys&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ChatWise 参数
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;命令：npx -y exa-mcp-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;环境变量：EXA_API_KEY=用你申请到的 API 替换这段文案
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;都配置好之后我们就可以在输入框的位置启动这两个 MCP，进行 AI 搜索了，我这里会让他先获取时间再获取搜索内容，但 Cluade 这种模型应该不需要提醒他获取时间，其他模型他自己不获取的话可以通过提示提醒他一下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2086ea09470aa78a05e948f8d68bbc16.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;利用-mcp-搭建-obsidian-ai-知识库&#34;&gt;利用 MCP 搭建 Obsidian AI 知识库
+&lt;/h3&gt;&lt;p&gt;这里我使用的是Obsidian Model Context Protocol（
+&lt;a class=&#34;link&#34; href=&#34;https://mcp.so/zh/server/mcp-obsidian/smithery-ai&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.so/zh/server/mcp-obsidian/smithery-ai&lt;/a&gt;
+）这个服务，可以检索你的 Obsidian 知识库的笔记让 AI 分析。&lt;/p&gt;
+&lt;p&gt;比较坑的是他们这个文档写的真实坑啥也没写，我好不容易才找到怎么用。&lt;/p&gt;
+&lt;p&gt;这里我们需要做个准备工作，先去 Obsidian 的「第三方插件」-「社区插件市场」找到 Loccal Rest API 这个插件安装并且启用/&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/97f935f18059a034d73c0c18f59ec163.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后我们就可以在 Loccal Rest API 这个插件的设置里面看到我们的 API Key 了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ab7aa0595b040b4460766b338d808988.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后访问这个链接：
+&lt;a class=&#34;link&#34; href=&#34;https://coddingtonbear.github.io/obsidian-local-rest-api/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://coddingtonbear.github.io/obsidian-local-rest-api/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;点击右下角的「Authorize」输入刚才的 API Key 启用服务就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/de2a946debc3cb5e350dd1e4fd4da8d7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;还需要准备一个东西就是你的 Obsidian 仓库本地文件位置，我们需要点击 Obsidian 左下角你的仓库这里的管理仓库。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0bbd8e2311b90e281a9ffcb21916e9eb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后选择在「访达中显示仓库文件夹」，找到文件夹之后按住「Option」键右键选择复制这个文件夹的路径，记下来备用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/52a759b64986282495a24eacf0f6b897.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这时候我们终于可以回到 Chatwise 中了，&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## ChatWise 参数&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;命令：&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uv&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;tool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;obsidian&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vault&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;替换为你&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Obsidian仓库的文件路径&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;环境变量：&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;OBSIDIAN_API_KEY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;用你&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Loccal&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Rest&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;API插件中的Key替换这段文案&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最后在 Chatwise 输入框启用 MCP 服务后就可以让任何 AI 模型检索你的内容了，比如我这里让他在指定文件夹查找关于 MCP 的文章，然后可以基于这些文章做 AI 知识库。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b3674a3395f12aa14926fe1b571d126b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;利用高德-mcp-检索附近咖啡馆并创建网页&#34;&gt;利用高德 MCP 检索附近咖啡馆并创建网页
+&lt;/h3&gt;&lt;p&gt;接下来我们用高德的 MCP 搜索一下家附近的咖啡馆，而且用我之前的网页生成提示词给搜索结果做的展示的网页，点子主要来自
+ @AI产品黄叔 。&lt;/p&gt;
+&lt;p&gt;首先我们需要去高德（
+&lt;a class=&#34;link&#34; href=&#34;https://console.amap.com/dev/key/app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.amap.com/dev/key/app&lt;/a&gt;
+）申请一个个人的 API，需要按要求完成个人开发者的认证。&lt;/p&gt;
+&lt;p&gt;之后在控制台的「我的应用」这里创建应用就行，创建完成之后选择需要创建 Key 的应用，点击【
+添加 Key
+】，表单中的服务平台选择【
+Web 服务
+】，之后复制你的 Key 备用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/551ec3ae02b9a2124691639057ff1aec.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接下来就是在 ChatWIse 填写下面的命令和环境变量，注意在环境变量这里填写你申请的 Key。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c04fd0b2c5c523477925eb803e3cf793.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ChatWise 参数
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;命令：npx -y @amap/amap-maps-mcp-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;环境变量：AMAP_MAPS_API_KEY=&amp;#34;用你申请的高德API Key替换这段文字&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后在聊天窗口开启高德的 MCP，先让他获取你家附近的经纬度，然后让他获取附近的咖啡馆的详细信息。&lt;/p&gt;
+&lt;p&gt;之后我们就可以用我在《
+&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU0MDk3NTUxMA==&amp;amp;mid=2247487756&amp;amp;idx=1&amp;amp;sn=7855c80ee6e4dae521081745de90e95d&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为了让大家一键生成更漂亮的可视化网页，我写了个工具！&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;》写的提示词让他生成一个家附近的咖啡馆展示网页了。&lt;/p&gt;
+&lt;h3 id=&#34;从-arxiv-检索和下载论文&#34;&gt;从 arxiv 检索和下载论文
+&lt;/h3&gt;&lt;p&gt;AI 从业者应该都会经常看论文，那天发现arxiv都有 MCP 了，而且除了查询之外还可以自动下载论文的 PDF 版本。&lt;/p&gt;
+&lt;p&gt;这个直接使用命令就行，不需要环境变量，
+Windows 用户注意需要把 Path 的路径换成你想要保存论文的文件夹
+。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## ChatWise 参数&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;命令：&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uv&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;tool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;arxiv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;paper&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;storage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后我们就可以愉快的检索和下载论文了，比如这里我们就让 MCP 从 arxiv 获取最近的 10 篇 AI 相关论文和介绍。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7da0235eaa3eeefb519f9a20b612261b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;与-ai-对话快速创建-flomo-笔记&#34;&gt;与 AI 对话快速创建 Flomo 笔记
+&lt;/h3&gt;&lt;p&gt;虽然有很多笔记软件一些短的笔记还是用 Flomo 用的顺手，那天看到逗哥写了一个 Flomo 的 MCP 服务。&lt;/p&gt;
+&lt;p&gt;这样跟 AI 对胡生成的很多不错的结果都可以直接保存了，而且可以结合其他 MCP 使用，比如将上面 Exa 的搜索结果直接保存到我们的 Flomo 账号。&lt;/p&gt;
+&lt;p&gt;我们需要提前从你的 Flomo 设置里复制你的 API 链接，准备配置的时候放到环境变量里面，直接在这个页面复制就行：
+&lt;a class=&#34;link&#34; href=&#34;https://v.flomoapp.com/mine?source=incoming_webhook&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://v.flomoapp.com/mine?source=incoming_webhook&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6f6442c0e69ee5400eb98054c7339eb3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后就是在 Chatwise 填写对应的命令和环境变量。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## ChatWise 参数
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;命令：npx -y @chatmcp/mcp-server-flomo
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;环境变量：FLOMO_API_URL=更换为你从Flomo获取的API链接
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;你还可以要求 AI 在保存 Flomo 的时候带上你对应的标签方便管理，麻了我标签字打错了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8eb94eb46041091c69be58db22b74654.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;好了今天的教程就到这里了。&lt;/p&gt;
+&lt;p&gt;MCP协议的出现，标志着AI工具生态正从&amp;quot;封闭花园&amp;quot;走向&amp;quot;开放广场&amp;quot;。&lt;/p&gt;
+&lt;p&gt;如同互联网的HTTP协议统一了网页访问标准，MCP正在统一AI与工具的交互方式。这种统一不仅是技术层面的进步，更是AI使用范式的革命。&lt;/p&gt;
+&lt;p&gt;MCP的意义在于将AI从&amp;quot;被服务&amp;quot;的角色转变为&amp;quot;主动服务&amp;quot;的角色，让普通用户也能定制专属的AI工作流。&lt;/p&gt;
+&lt;p&gt;半年前，只有大公司才能打造的AI能力，现在正逐步开放给每一位有一点技术思维的普通人。&lt;/p&gt;
+&lt;p&gt;然而，MCP目前面临的困境也值得我们思考：技术的民主化与易用性之间总是存在矛盾。一方面我们希望技术足够开放和灵活，另一方面又希望它足够简单直观。&lt;/p&gt;
+&lt;p&gt;这种矛盾在每一项新兴技术发展初期都会出现，但随着生态的成熟，这种矛盾终将被解决。&lt;/p&gt;
+&lt;p&gt;希望今年能看到只需在AI助手中点击&amp;quot;安装工具&amp;quot;，能能使用的 MCP。&lt;/p&gt;
+&lt;p&gt;作为用户，不妨现在就开始尝试这些看似复杂的技术。即使过程有些曲折，这种尝试本身就是对未来的一种投资。&lt;/p&gt;
+&lt;p&gt;在AI时代，熟练使用工具将成为我们的核心竞争力，而了解底层原理将让你比他人更早一步掌握未来。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

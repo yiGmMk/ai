@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>EXPLAIN参数 on AI</title>
+        <link>https://ai.programnotes.cn/tags/explain%E5%8F%82%E6%95%B0/</link>
+        <description>Recent content in EXPLAIN参数 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sun, 15 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/explain%E5%8F%82%E6%95%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>如何优化mysql慢日志？介绍下mysql explain参数</title>
+        <link>https://ai.programnotes.cn/p/%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96mysql%E6%85%A2%E6%97%A5%E5%BF%97%E4%BB%8B%E7%BB%8D%E4%B8%8Bmysql-explain%E5%8F%82%E6%95%B0/</link>
+        <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96mysql%E6%85%A2%E6%97%A5%E5%BF%97%E4%BB%8B%E7%BB%8D%E4%B8%8Bmysql-explain%E5%8F%82%E6%95%B0/</guid>
+        <description>&lt;p&gt;核心内容:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开启并配置慢日志，使用&lt;code&gt;long_query_time&lt;/code&gt;和&lt;code&gt;log_queries_not_using_indexes&lt;/code&gt;参数定位低效查询&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;EXPLAIN&lt;/code&gt;分析查询执行计划，重点关注&lt;code&gt;type&lt;/code&gt;、&lt;code&gt;key&lt;/code&gt;、&lt;code&gt;rows&lt;/code&gt;和&lt;code&gt;Extra&lt;/code&gt;字段&lt;/li&gt;
+&lt;li&gt;合理添加索引、优化查询语句结构和表设计，避免全表扫描和临时表排序等性能问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;优化慢日志&#34;&gt;优化慢日志
+&lt;/h2&gt;&lt;p&gt;一些优化 MySQL 慢日志的步骤和策略：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 确认开启慢日志并配置：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;启用慢查询日志：&lt;/strong&gt; 确保 &lt;code&gt;slow_query_log&lt;/code&gt; 参数设置为 &lt;code&gt;ON&lt;/code&gt;。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;GLOBAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;slow_query_log&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ON&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;设置慢查询日志文件：&lt;/strong&gt; 建议指定一个专门的日志文件，方便管理。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;GLOBAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;slow_query_log_file&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/path/to/your/slow-query.log&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;调整 &lt;code&gt;long_query_time&lt;/code&gt;：&lt;/strong&gt; 根据实际需求，将 &lt;code&gt;long_query_time&lt;/code&gt; 设置为一个合理的值。 建议在生产环境中设置为 1-2 秒。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;GLOBAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;long_query_time&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;log_queries_not_using_indexes&lt;/code&gt;：&lt;/strong&gt; 开启这个参数，记录没有使用索引的查询。  这是一个非常有用的参数，可以帮助你发现潜在的索引缺失问题。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;GLOBAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;log_queries_not_using_indexes&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ON&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;min_examined_row_limit&lt;/code&gt;&lt;/strong&gt;:  设置最小扫描行数。 如果一个查询扫描的行数少于这个值，即使执行时间超过 &lt;code&gt;long_query_time&lt;/code&gt; 也不会被记录。  这可以减少日志的冗余，只关注那些扫描大量数据的慢查询。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SET&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;GLOBAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;min_examined_row_limit&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- 例如，设置为 100
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;刷新日志：&lt;/strong&gt;  修改完参数后，刷新日志，使配置生效。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FLUSH&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOGS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;持久化配置:&lt;/strong&gt;  上述 &lt;code&gt;SET GLOBAL&lt;/code&gt; 命令只是临时修改，服务器重启后会失效。 要永久修改，需要在 MySQL 的配置文件 (my.cnf 或 my.ini) 中进行设置：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[mysqld]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;slow_query_log&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;ON&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;slow_query_log_file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;/path/to/your/slow-query.log&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;long_query_time&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;log_queries_not_using_indexes&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;ON&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;min_examined_row_limit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;100&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;修改后，需要重启 MySQL 服务器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2. 分析慢日志：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;使用 &lt;code&gt;mysqldumpslow&lt;/code&gt; 工具：&lt;/strong&gt; MySQL 自带的 &lt;code&gt;mysqldumpslow&lt;/code&gt; 工具可以帮助你分析慢日志，它能按照查询时间、频率等进行排序，方便你找到最需要优化的 SQL 语句。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mysqldumpslow -s t -t &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; /path/to/your/slow-query.log  &lt;span class=&#34;c1&#34;&gt;# 按时间排序，显示前 10 条&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mysqldumpslow -s c -t &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; /path/to/your/slow-query.log  &lt;span class=&#34;c1&#34;&gt;# 按出现次数排序，显示前 10 条&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;使用第三方工具：&lt;/strong&gt;  有很多第三方工具可以更方便地分析慢日志，例如 pt-query-digest (Percona Toolkit)、MySQL Enterprise Monitor 等。 这些工具通常提供更友好的界面和更强大的分析功能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;人工分析：&lt;/strong&gt;  在慢日志文件中，仔细阅读每一条慢查询语句，理解其执行逻辑，找到潜在的性能瓶颈。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3. 优化慢 SQL 语句：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;使用 &lt;code&gt;EXPLAIN&lt;/code&gt; 分析查询：&lt;/strong&gt;  对于慢查询语句，首先使用 &lt;code&gt;EXPLAIN&lt;/code&gt; 命令分析其执行计划，了解 MySQL 如何执行这条语句。 重点关注 &lt;code&gt;type&lt;/code&gt;、&lt;code&gt;key&lt;/code&gt;、&lt;code&gt;rows&lt;/code&gt; 和 &lt;code&gt;Extra&lt;/code&gt; 列，找出性能瓶颈。
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;EXPLAIN&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;添加索引：&lt;/strong&gt;  如果 &lt;code&gt;EXPLAIN&lt;/code&gt; 显示没有使用索引或者使用了不合适的索引，考虑添加合适的索引。  索引应该建立在经常用于查询的列上，例如 &lt;code&gt;WHERE&lt;/code&gt; 子句、&lt;code&gt;JOIN&lt;/code&gt; 条件、&lt;code&gt;ORDER BY&lt;/code&gt; 子句等。  注意，不要过度索引，过多的索引会降低写入性能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化查询语句：&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;避免全表扫描：&lt;/strong&gt; 尽量使用索引来避免全表扫描。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化 &lt;code&gt;WHERE&lt;/code&gt; 子句：&lt;/strong&gt; 避免在 &lt;code&gt;WHERE&lt;/code&gt; 子句中使用函数或表达式，这会导致索引失效。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化 &lt;code&gt;JOIN&lt;/code&gt; 查询：&lt;/strong&gt; 确保 &lt;code&gt;JOIN&lt;/code&gt; 的列上有索引，避免使用笛卡尔积。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;避免使用 &lt;code&gt;SELECT *&lt;/code&gt;：&lt;/strong&gt;  只选择需要的列，减少数据传输量。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分页优化：&lt;/strong&gt;  使用合适的技巧进行分页优化，例如使用书签或延迟关联。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;使用 &lt;code&gt;LIMIT&lt;/code&gt; 限制结果集：&lt;/strong&gt; 如果只需要部分数据，使用 &lt;code&gt;LIMIT&lt;/code&gt; 限制结果集大小。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;批量操作：&lt;/strong&gt;  对于大量的插入、更新或删除操作，尽量使用批量操作，减少与数据库的交互次数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;重写 SQL 语句：&lt;/strong&gt;  有时，即使添加了索引，查询性能仍然不佳，这时可能需要重写 SQL 语句，改变查询的逻辑，以获得更好的性能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化表结构：&lt;/strong&gt;  如果表结构设计不合理，也会影响查询性能。  例如，可以考虑使用合适的数据类型、进行表分区、垂直或水平拆分等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;使用查询缓存：&lt;/strong&gt;  如果查询结果不经常变化，可以使用 MySQL 的查询缓存来缓存查询结果，提高查询速度。  但要注意，查询缓存只对完全相同的查询有效，并且在表数据发生变化时会失效。  MySQL 8.0 以后已经移除了查询缓存。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;考虑使用存储过程或视图：&lt;/strong&gt;  对于复杂的查询逻辑，可以考虑使用存储过程或视图来封装，简化 SQL 语句，提高可维护性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;4.  硬件和配置优化：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;增加服务器硬件资源：&lt;/strong&gt;  如果服务器的 CPU、内存或磁盘 I/O 成为瓶颈，可以考虑升级硬件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;调整 MySQL 配置参数：&lt;/strong&gt;  根据服务器的硬件资源和 workload 特点，调整 MySQL 的配置参数，例如 &lt;code&gt;innodb_buffer_pool_size&lt;/code&gt;、&lt;code&gt;innodb_log_file_size&lt;/code&gt;、&lt;code&gt;max_connections&lt;/code&gt; 等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;5. 定期维护：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;定期分析表：&lt;/strong&gt;  使用 &lt;code&gt;ANALYZE TABLE&lt;/code&gt; 语句更新表的统计信息，帮助 MySQL 优化器更好地选择执行计划。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;定期优化表：&lt;/strong&gt;  使用 &lt;code&gt;OPTIMIZE TABLE&lt;/code&gt; 语句整理表碎片，提高查询性能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;定期清理慢日志：&lt;/strong&gt;  定期清理过期的慢日志，释放磁盘空间。 可以使用 &lt;code&gt;mysql 命令的 &lt;/code&gt;FLUSH LOGS` 命令来轮转日志文件，然后再手动删除旧的日志文件，或者使用 logrotate 工具来自动管理日志。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意事项:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;在生产环境进行优化前，务必在测试环境进行充分的测试。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;备份数据后再进行任何可能导致数据丢失的操作。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;监控数据库的性能指标，例如 CPU 使用率、内存使用率、磁盘 I/O、查询响应时间等，以便及时发现和解决问题。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化是一个持续的过程，需要不断地分析、调整和测试。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;总结:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;优化 MySQL 慢日志是一个涉及多个方面的复杂任务。 通过认真分析慢日志，找出性能瓶颈，并采取相应的优化措施，可以显著提高数据库的查询效率。 记住，没有万能的解决方案，最佳的优化策略需要根据实际情况进行调整。&lt;/p&gt;
+&lt;h2 id=&#34;explain参数&#34;&gt;explain参数
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;EXPLAIN&lt;/code&gt; 语句是 MySQL 中一个非常有用的工具，用于分析查询语句的执行计划。它可以帮助你了解 MySQL 如何执行你的 SQL 查询，从而识别潜在的性能瓶颈并进行优化。下面详细介绍 &lt;code&gt;EXPLAIN&lt;/code&gt; 语句返回的各个参数：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;基本语法:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;EXPLAIN&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;...;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;输出结果列及其含义：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EXPLAIN&lt;/code&gt; 语句会返回一个表格，每行代表查询执行计划中的一个操作步骤。每个步骤都对应一个参数，下面按重要性排序逐一介绍：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;id&lt;/code&gt; (重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示查询中执行 &lt;code&gt;SELECT&lt;/code&gt; 语句或子查询的顺序。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id&lt;/code&gt; 值越大，执行优先级越高（先执行）。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;id&lt;/code&gt; 相同，则从上到下依次执行。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;id&lt;/code&gt; 为 &lt;code&gt;NULL&lt;/code&gt;，通常表示这是一个 union 操作的结果。&lt;/li&gt;
+&lt;li&gt;理解 &lt;code&gt;id&lt;/code&gt; 对于理解查询的执行顺序至关重要。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;select_type&lt;/code&gt; (重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示 &lt;code&gt;SELECT&lt;/code&gt; 语句的类型，也就是查询的复杂程度。 常见的类型包括：&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;SIMPLE&lt;/code&gt;&lt;/strong&gt;:  简单查询，不包含子查询或 UNION。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;PRIMARY&lt;/code&gt;&lt;/strong&gt;:  最外层的 &lt;code&gt;SELECT&lt;/code&gt; 查询。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;SUBQUERY&lt;/code&gt;&lt;/strong&gt;:  &lt;code&gt;SELECT&lt;/code&gt; 或 &lt;code&gt;WHERE&lt;/code&gt; 子句中的子查询。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;DERIVED&lt;/code&gt;&lt;/strong&gt;:  在 &lt;code&gt;FROM&lt;/code&gt; 子句中的子查询（派生表）。 MySQL需要创建一个临时表来保存子查询的结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;UNION&lt;/code&gt;&lt;/strong&gt;: &lt;code&gt;UNION&lt;/code&gt; 语句中的第二个或之后的 &lt;code&gt;SELECT&lt;/code&gt; 语句。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;UNION RESULT&lt;/code&gt;&lt;/strong&gt;: 从 UNION 的匿名临时表检索结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;DEPENDENT SUBQUERY&lt;/code&gt;&lt;/strong&gt;: 子查询依赖于外层查询的数据。 每次执行外层查询，都会重新执行子查询。 性能通常较差。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;DEPENDENT UNION&lt;/code&gt;&lt;/strong&gt;: UNION 中的第二个或后面的SELECT语句，取决于外层查询。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;MATERIALIZED&lt;/code&gt;&lt;/strong&gt;: 将子查询结果物化成临时表。&lt;/li&gt;
+&lt;li&gt;注意： &lt;code&gt;DEPENDENT SUBQUERY&lt;/code&gt; 通常是性能瓶颈的信号，应该尽量避免。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;table&lt;/code&gt; (重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示查询访问的表名。 如果查询是基于临时表或者派生表，这里显示的是临时表或派生表的名称，例如 &lt;code&gt;&amp;lt;derived2&amp;gt;&lt;/code&gt; 表示由 id 为 2 的查询派生出的表。&lt;/li&gt;
+&lt;li&gt;理解表名是理解查询如何访问数据的关键。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;partitions&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果表是分区表，则显示查询将访问的分区。 对于非分区表，该值为 &lt;code&gt;NULL&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;type&lt;/code&gt; (非常重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;表示 MySQL 如何查找表中的行。 这是一个衡量查询性能的重要指标，从最优到最差依次排列：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;system&lt;/code&gt;&lt;/strong&gt;: 表只有一行记录（理想情况），这是 &lt;code&gt;const&lt;/code&gt; 类型的一个特例。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;const&lt;/code&gt;&lt;/strong&gt;:  使用主键或唯一索引的等值查询。 MySQL 可以快速定位到唯一的一行记录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;eq_ref&lt;/code&gt;&lt;/strong&gt;:  在关联查询中，使用主键或唯一索引进行连接。 对于前表的每一行，后表都只有一行匹配。 效率很高。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ref&lt;/code&gt;&lt;/strong&gt;: 使用非唯一索引或唯一索引的非唯一前缀进行查找。 可能会找到多行记录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;fulltext&lt;/code&gt;&lt;/strong&gt;:  使用全文索引。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ref_or_null&lt;/code&gt;&lt;/strong&gt;:  类似 &lt;code&gt;ref&lt;/code&gt;，但 MySQL 需要额外搜索包含 &lt;code&gt;NULL&lt;/code&gt; 值的行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;index_merge&lt;/code&gt;&lt;/strong&gt;:  使用多个索引合并来查找行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;unique_subquery&lt;/code&gt;&lt;/strong&gt;:  在 &lt;code&gt;IN&lt;/code&gt; 子查询中使用唯一索引。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;index_subquery&lt;/code&gt;&lt;/strong&gt;:  在 &lt;code&gt;IN&lt;/code&gt; 子查询中使用非唯一索引。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;range&lt;/code&gt;&lt;/strong&gt;:  使用索引范围扫描，例如 &lt;code&gt;BETWEEN&lt;/code&gt;、&lt;code&gt;&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;&lt;/code&gt;、&lt;code&gt;IN&lt;/code&gt; 等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;index&lt;/code&gt;&lt;/strong&gt;:  扫描整个索引树。  这通常比 &lt;code&gt;ALL&lt;/code&gt; 好，因为索引通常比表小。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ALL&lt;/code&gt;&lt;/strong&gt;:  全表扫描，性能最差，应该尽量避免。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优化目标:&lt;/strong&gt; 尽量达到 &lt;code&gt;ref&lt;/code&gt; 或更好的类型。 避免 &lt;code&gt;ALL&lt;/code&gt; (全表扫描)。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;possible_keys&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MySQL 在查找数据时可能使用哪些索引。  注意，这里列出的索引并不意味着 MySQL 一定会使用它们。&lt;/li&gt;
+&lt;li&gt;如果该列为 &lt;code&gt;NULL&lt;/code&gt;，则表示没有可用的索引。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;key&lt;/code&gt; (重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MySQL 实际使用的索引。&lt;/li&gt;
+&lt;li&gt;如果 MySQL 没有选择任何索引，则该值为 &lt;code&gt;NULL&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;possible_keys&lt;/code&gt; 有值，但 &lt;code&gt;key&lt;/code&gt; 为 &lt;code&gt;NULL&lt;/code&gt;，表示 MySQL 认为使用全表扫描比使用索引更有效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;key_len&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示 MySQL 实际使用的索引的长度（字节）。  通过这个值可以计算出具体使用了索引中的哪些列。&lt;/li&gt;
+&lt;li&gt;计算方式：&lt;/li&gt;
+&lt;li&gt;字符串：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;char(n)&lt;/code&gt;： &lt;code&gt;n&lt;/code&gt; 字节&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;varchar(n)&lt;/code&gt;： 如果小于 255 字节， &lt;code&gt;n + 1&lt;/code&gt; 字节； 如果大于 255 字节，&lt;code&gt;n + 2&lt;/code&gt; 字节&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数值类型：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TINYINT&lt;/code&gt;: 1&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SMALLINT&lt;/code&gt;: 2&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MEDIUMINT&lt;/code&gt;: 3&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INT&lt;/code&gt;: 4&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BIGINT&lt;/code&gt;: 8&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;时间类型：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;DATE&lt;/code&gt;: 3&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DATETIME&lt;/code&gt;: 8&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TIMESTAMP&lt;/code&gt;: 4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如果索引字段可以为 &lt;code&gt;NULL&lt;/code&gt;，则 &lt;code&gt;key_len&lt;/code&gt; 需要加 1。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ref&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;显示哪些列或常量被用于查找索引列上的值。&lt;/li&gt;
+&lt;li&gt;例如，&lt;code&gt;const&lt;/code&gt; 表示使用了常量进行比较， &lt;code&gt;table.column&lt;/code&gt; 表示使用了其他表的列进行比较。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;rows&lt;/code&gt; (非常重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MySQL 估计需要扫描的行数才能找到所需的结果。 这不是最终返回的行数，而是 MySQL 估计的为了找到结果需要扫描的行数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rows&lt;/code&gt; 值越小，查询效率越高。  这是优化 SQL 的一个重要指标。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;filtered&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示经过条件过滤后，返回的结果集的百分比。&lt;/li&gt;
+&lt;li&gt;例如，如果 &lt;code&gt;rows&lt;/code&gt; 为 1000，&lt;code&gt;filtered&lt;/code&gt; 为 10%，则实际返回的行数为 1000 * 10% = 100 行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Extra&lt;/code&gt; (重要)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;包含一些额外的信息，这些信息可以帮助你更好地理解 MySQL 如何执行查询。 常见的取值包括：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Using index&lt;/code&gt;&lt;/strong&gt;:  查询使用了覆盖索引，即查询所需的数据可以直接从索引中获得，而不需要回表查询。 性能很好。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Using where&lt;/code&gt;&lt;/strong&gt;:  MySQL 需要在存储引擎返回行后再进行过滤。  这意味着即使使用了索引，也需要在存储引擎层面进行额外的过滤。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Using temporary&lt;/code&gt;&lt;/strong&gt;:  MySQL 需要创建一个临时表来保存中间结果。 这通常发生在 &lt;code&gt;GROUP BY&lt;/code&gt; 或 &lt;code&gt;ORDER BY&lt;/code&gt; 语句中，需要优化。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Using filesort&lt;/code&gt;&lt;/strong&gt;:  MySQL 需要对结果进行外部排序，而不是使用索引排序。 性能较差，应该尽量避免。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Using join buffer (Block Nested Loop)&lt;/code&gt;&lt;/strong&gt;:  使用了连接缓冲区，通常发生在连接查询中，表示 MySQL 无法使用索引进行连接，而是将其中一个表的数据加载到缓冲区中进行连接。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Impossible WHERE&lt;/code&gt;&lt;/strong&gt;:  &lt;code&gt;WHERE&lt;/code&gt; 子句中的条件永远为 &lt;code&gt;false&lt;/code&gt;，导致没有记录满足条件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Select tables optimized away&lt;/code&gt;&lt;/strong&gt;:  查询优化器已经将查询优化到不需要访问任何表的地步。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Distinct&lt;/code&gt;&lt;/strong&gt;:  MySQL 发现第一个匹配行后，停止搜索同样的行。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Not exists&lt;/code&gt;&lt;/strong&gt;:  MySQL 可以对 LEFT JOIN 查询进行优化，一旦找到了匹配 LEFT JOIN 标准的所有行，就不再为前面的行的组合搜索更多的行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;优化建议:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;避免 &lt;code&gt;ALL&lt;/code&gt; 类型:&lt;/strong&gt;  优化查询，使其能够利用索引，避免全表扫描。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;减少 &lt;code&gt;rows&lt;/code&gt; 值:&lt;/strong&gt;  通过添加合适的索引、优化查询条件等方式，减少 MySQL 需要扫描的行数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;注意 &lt;code&gt;Extra&lt;/code&gt; 列:&lt;/strong&gt;  关注 &lt;code&gt;Using temporary&lt;/code&gt;、&lt;code&gt;Using filesort&lt;/code&gt; 和 &lt;code&gt;Using join buffer&lt;/code&gt; 等提示，这些通常是性能瓶颈所在，需要重点优化。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;合理使用索引:&lt;/strong&gt;  添加索引可以加快查询速度，但过多的索引会降低写入性能，并占用额外的存储空间。 因此，需要根据实际情况，合理选择索引。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优化查询语句:&lt;/strong&gt;  避免使用复杂的查询语句，尽量将查询分解成多个简单的查询。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;定期分析表:&lt;/strong&gt;  使用 &lt;code&gt;ANALYZE TABLE&lt;/code&gt; 语句可以更新表的统计信息，帮助 MySQL 更好地选择执行计划。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;示例:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;EXPLAIN&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;orders&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;customer_id&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;123&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;AND&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;order_date&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;2023-01-01&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过分析 &lt;code&gt;EXPLAIN&lt;/code&gt; 的输出结果，可以了解 MySQL 如何执行这个查询，是否使用了索引，扫描了多少行，以及是否存在性能瓶颈。 然后，可以根据分析结果，对查询进行优化，例如添加索引，优化查询条件等。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

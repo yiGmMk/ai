@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Word on AI</title>
+        <link>https://ai.programnotes.cn/tags/word/</link>
+        <description>Recent content in Word on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Tue, 03 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/word/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>分享一个纯 Go 实现的 Word 文档操作库 - WordZero</title>
+        <link>https://ai.programnotes.cn/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA%E7%BA%AF-go-%E5%AE%9E%E7%8E%B0%E7%9A%84-word-%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C%E5%BA%93-wordzero/</link>
+        <pubDate>Tue, 03 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA%E7%BA%AF-go-%E5%AE%9E%E7%8E%B0%E7%9A%84-word-%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C%E5%BA%93-wordzero/</guid>
+        <description>&lt;p&gt;核心内容:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;纯 Go 实现的 Word 文档操作库 WordZero，无外部依赖。&lt;/li&gt;
+&lt;li&gt;支持复杂的表格操作、样式和格式处理，性能优秀。&lt;/li&gt;
+&lt;li&gt;提供基础功能、表格功能、模板功能和高级功能，API 设计直观。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最近在做一个项目需要生成 Word 报告，试了几个库都不太满意，要么功能太简单，要么需要付费不完全开源。索性自己撸了一个，现在分享给大家。&lt;/p&gt;
+&lt;h2 id=&#34;为什么又造轮子&#34;&gt;为什么又造轮子？
+&lt;/h2&gt;&lt;p&gt;市面上的 Go Word 库要么只能做简单的文本插入，要么需要安装 Office 或者 LibreOffice 。我需要的是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;纯 Go 实现，无外部依赖&lt;/li&gt;
+&lt;li&gt;支持复杂的表格操作&lt;/li&gt;
+&lt;li&gt;能处理样式和格式&lt;/li&gt;
+&lt;li&gt;性能要好，适合批量生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;主要特性&#34;&gt;主要特性
+&lt;/h2&gt;&lt;h3 id=&#34;基础功能&#34;&gt;基础功能
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;创建/读取/修改 .docx 文档&lt;/li&gt;
+&lt;li&gt;文本格式化（字体、颜色、粗体等）&lt;/li&gt;
+&lt;li&gt;18 种预定义样式，支持 Word 导航窗格&lt;/li&gt;
+&lt;li&gt;段落对齐、间距、缩进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;表格功能这个比较实用&#34;&gt;表格功能（这个比较实用）
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 创建表格很简单&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;doc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;AddTable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;document&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;TableConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Rows&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 设置内容和样式&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetCellText&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;姓名&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;MergeCells&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 合并单元格&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 还有迭代器，方便批量处理&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;ForEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;document&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CellInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Row&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Cell&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetBackgroundColor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;E6F3FF&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;模板功能&#34;&gt;模板功能
+&lt;/h3&gt;&lt;p&gt;支持模板继承，可以定义基础模板然后扩展：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;baseTemplate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;companyName&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; 报告
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;默认内容&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;salesTemplate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;extends&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;base&amp;#34;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;销售额：&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sales&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;新客户：&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;customers&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;高级功能&#34;&gt;高级功能
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;页眉页脚、目录生成&lt;/li&gt;
+&lt;li&gt;脚注尾注、列表编号&lt;/li&gt;
+&lt;li&gt;页面设置（ A4 、Letter 等）&lt;/li&gt;
+&lt;li&gt;图片插入&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;性能表现&#34;&gt;性能表现
+&lt;/h2&gt;&lt;p&gt;做了个简单的基准测试，生成同样的文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Go (WordZero)&lt;/strong&gt;: 2.62ms&lt;/li&gt;
+&lt;li&gt;JavaScript: 9.63ms&lt;/li&gt;
+&lt;li&gt;Python: 55.98ms&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Go 确实快不少。&lt;/p&gt;
+&lt;h2 id=&#34;使用体验&#34;&gt;使用体验
+&lt;/h2&gt;&lt;p&gt;API 设计比较直观，支持链式调用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;doc&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;document&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;doc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;AddParagraph&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;标题&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetStyle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;StyleHeading1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetAlignment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;document&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;AlignmentCenter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;doc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;AddParagraph&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;正文内容&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetFontFamily&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;微软雅黑&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetFontSize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;SetColor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;333333&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;doc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Save&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;report.docx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;项目地址&#34;&gt;项目地址
+&lt;/h2&gt;&lt;p&gt;GitHub: &lt;a class=&#34;link&#34; href=&#34;https://github.com/ZeroHawkeye/wordZero&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ZeroHawkeye/wordZero&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Gitee: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/Zmata_admin/WordZero&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://gitee.com/Zmata_admin/WordZero&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有详细的文档和示例，examples 目录下有各种使用场景的 demo 。&lt;/p&gt;
+&lt;h2 id=&#34;适用场景&#34;&gt;适用场景
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;报表生成系统&lt;/li&gt;
+&lt;li&gt;合同文档批量生成&lt;/li&gt;
+&lt;li&gt;数据导出为 Word 格式&lt;/li&gt;
+&lt;li&gt;文档模板填充&lt;/li&gt;
+&lt;li&gt;自动化办公&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前还在持续更新中，如果有需求或者 bug 欢迎提 issue 。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;纯 Go 实现，零依赖，开箱即用。如果对你有帮助记得给个 star ⭐&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/t/1135912&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;v2ex&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub: &lt;a class=&#34;link&#34; href=&#34;https://github.com/ZeroHawkeye/wordZero&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ZeroHawkeye/wordZero&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gitee: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/Zmata_admin/WordZero&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://gitee.com/Zmata_admin/WordZero&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;评论&#34;&gt;评论
+&lt;/h2&gt;&lt;p&gt;17 条回复 **•**2025-06-03 11:38:32 +08:00&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/acd6/85e6/497030_normal.png?m=1711472308&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 4: wangritian&#34;
+	
+	
+&gt;1&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/wangritian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;wangritian&lt;/a&gt;**2 小时 23 分钟前&lt;/p&gt;
+&lt;p&gt;go 确实没有好用的开源 word 操作库，之前是 kotlin 接 apache 那套然后用 cgo 调用 jar 曲线救国的，star 支持一下&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/e71d/b23f/168706_normal.png?m=1516760029&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 5: jazzychai&#34;
+	
+	
+&gt;2&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/jazzychai&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;jazzychai&lt;/a&gt;**2 小时 9 分钟前&lt;/p&gt;
+&lt;p&gt;star 了，刚好要做一个 word 相关的功能，本来想用 Python 曲线救国，试一下能不能满足业务需求&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/3257/7ef0/63808_normal.png?m=1495522856&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 6: sholmesian&#34;
+	
+	
+&gt;3&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/sholmesian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;sholmesian&lt;/a&gt;**2 小时 7 分钟前 via iPhone&lt;/p&gt;
+&lt;p&gt;这个正需要，已 start.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/67de0ce8245ba03fa958d259f4d641e5?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 7: icinessz&#34;
+	
+	
+&gt;4&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/icinessz&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;icinessz&lt;/a&gt;**1 小时 56 分钟前&lt;/p&gt;
+&lt;p&gt;太感谢了，一直在找类似的库&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/ee0f162bbf983f37ab6f3d6cb4a46f66?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 8: tuimaochang&#34;
+	
+	
+&gt;5&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/tuimaochang&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tuimaochang&lt;/a&gt;**1 小时 35 分钟前&lt;/p&gt;
+&lt;p&gt;大佬牛逼！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/3380/9f1c/616616_normal.png?m=1739862442&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 9: body007&#34;
+	
+	
+&gt;6&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/body007&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;body007&lt;/a&gt;**1 小时 28 分钟前&lt;/p&gt;
+&lt;p&gt;为大佬点赞。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/4bc4/38c9/676530_normal.png?m=1735389040&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 10: bronyakaka&#34;
+	
+	
+&gt;7&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/bronyakaka&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bronyakaka&lt;/a&gt;**1 小时 25 分钟前&lt;/p&gt;
+&lt;p&gt;很不错，很实用&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/1205/9742/192194_normal.png?m=1738904748&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 11: moell&#34;
+	
+	
+&gt;8&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/moell&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;moell&lt;/a&gt;**1 小时 24 分钟前&lt;/p&gt;
+&lt;p&gt;已 star&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/e129/50d6/352970_normal.png?m=1674873037&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 12: 676529483&#34;
+	
+	
+&gt;9&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/676529483&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;676529483&lt;/a&gt;**1 小时 18 分钟前&lt;img src=&#34;https://www.v2ex.com/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 13: ❤️&#34;
+	
+	
+&gt; 1&lt;/p&gt;
+&lt;p&gt;支持下，以前有个项目要用 xls ，go 只支持 xlsx ，最后只能 Python 曲线救国了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/3714e83484ebd70b56ed11d2df86323a?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 14: caotian&#34;
+	
+	
+&gt;10&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/caotian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;caotian&lt;/a&gt;**1 小时 17 分钟前&lt;/p&gt;
+&lt;p&gt;已 start, 有没有图表支持? 如果有的话, 就可以换掉 poi-tl 那套了, 那个库报了 Vulnerability 一直不更新修复, 快不敢用了.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/144c/f058/230943_normal.png?m=1659945817&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 15: dbskcnc&#34;
+	
+	
+&gt;11&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/dbskcnc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;dbskcnc&lt;/a&gt;**1 小时 10 分钟前&lt;/p&gt;
+&lt;p&gt;虽然基本不用 word,不过还是支持&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/3bf5/8d86/676336_normal.png?m=1734587217&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 16: shengxiadiaoling&#34;
+	
+	
+&gt;12&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/shengxiadiaoling&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;shengxiadiaoling&lt;/a&gt;**52 分钟前&lt;/p&gt;
+&lt;p&gt;牛&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/ec20/25a5/583944_normal.png?m=1728985857&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 17: vfs&#34;
+	
+	
+&gt;13&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/vfs&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;vfs&lt;/a&gt;**34 分钟前&lt;/p&gt;
+&lt;p&gt;目前还没有需求，但是很赞&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/avatar/8793/f1f9/65092_normal.png?m=1419262431&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 18: Reficul&#34;
+	
+	
+&gt;14&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/Reficul&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reficul&lt;/a&gt;**12 分钟前&lt;/p&gt;
+&lt;p&gt;@&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/wangritian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;wangritian&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;你这个转接的有点 6 啊。 kotlin -&amp;gt; jvm -&amp;gt; cgo -&amp;gt; go&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/d6e36067c8461c96e0ea78d9421ae78c?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 19: clow&#34;
+	
+	
+&gt;15&lt;/p&gt;
+&lt;p&gt;@&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/caotian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;caotian&lt;/a&gt; 多谢支持，图表还没实现，加到 todo 里了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/d6e36067c8461c96e0ea78d9421ae78c?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 20: clow&#34;
+	
+	
+&gt;16&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/clow&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;clow&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;@&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/dbskcnc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;dbskcnc&lt;/a&gt; 多谢支持~&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.v2ex.com/gravatar/7a4abac3f161e701fde7f416d420e6fd?s=48&amp;amp;d=retro&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 21: lexno&#34;
+	
+	
+&gt;17&lt;/p&gt;
+&lt;p&gt;**&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/member/lexno&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;lexno&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;支不支持已有的 word 模板，然后使用这个模板来生成数据，我看现有的示例好像都是用库本身产生一个 document ，然后再进行模板填充？&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

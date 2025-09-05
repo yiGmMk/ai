@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Remote Server on AI</title>
+        <link>https://ai.programnotes.cn/tags/remote-server/</link>
+        <description>Recent content in Remote Server on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 28 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/remote-server/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Jina AI Remote MCP Server</title>
+        <link>https://ai.programnotes.cn/p/jina-ai-remote-mcp-server/</link>
+        <pubDate>Thu, 28 Aug 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/jina-ai-remote-mcp-server/</guid>
+        <description>&lt;p&gt;一个远程模型上下文协议（MCP）服务器，提供对 Jina Reader、Embeddings 和 Reranker API 的访问，并附带一套 URL 到 Markdown、网络搜索、图像搜索以及嵌入/重排序工具：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;工具&lt;/th&gt;
+          &lt;th&gt;描述&lt;/th&gt;
+          &lt;th&gt;是否需要 Jina API 密钥？&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;primer&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;获取本地化的、时间感知的响应的当前上下文信息&lt;/td&gt;
+          &lt;td&gt;否&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;read_url&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 从网页中提取干净、结构化的内容作为 markdown&lt;/td&gt;
+          &lt;td&gt;可选*&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;capture_screenshot_url&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 捕获网页的高质量屏幕截图&lt;/td&gt;
+          &lt;td&gt;可选*&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;guess_datetime_url&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;分析网页以获取具有置信度分数的最后更新/发布日期时间&lt;/td&gt;
+          &lt;td&gt;否&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;search_web&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 搜索整个网络以获取当前信息和新闻&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;search_arxiv&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 在 arXiv 存储库上搜索学术论文和预印本&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;search_images&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 搜索整个网络中的图像（类似于 Google 图片）&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;expand_query&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 基于查询扩展模型扩展和重写搜索查询&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;parallel_read_url&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 并行读取多个网页以实现高效的内容提取&lt;/td&gt;
+          &lt;td&gt;可选*&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;parallel_search_web&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 并行运行多个网络搜索，以实现全面的主题覆盖和不同的视角&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;parallel_search_arxiv&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reader&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reader API&lt;/a&gt; 并行运行多个 arXiv 搜索，以实现全面的研究覆盖和不同的学术角度&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;sort_by_relevance&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/reranker&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reranker API&lt;/a&gt; 根据与查询的相关性对文档进行重新排序&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;deduplicate_strings&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/embeddings&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Embeddings API&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/news/submodular-optimization-for-diverse-query-generation-in-deepresearch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;submodular optimization&lt;/a&gt; 获取前 k 个语义上唯一的字符串&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;deduplicate_images&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;通过 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/embeddings&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Embeddings API&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai/news/submodular-optimization-for-diverse-query-generation-in-deepresearch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;submodular optimization&lt;/a&gt; 获取前 k 个语义上唯一的图像&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可选工具在没有 API 密钥的情况下也能工作，但有&lt;a class=&#34;link&#34; href=&#34;https://jina.ai/api-dashboard/rate-limit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;速率限制&lt;/a&gt;。为了获得更高的速率限制和更好的性能，请使用 Jina API 密钥。您可以从 &lt;a class=&#34;link&#34; href=&#34;https://jina.ai&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://jina.ai&lt;/a&gt; 获取免费的 Jina API 密钥。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;usage&#34;&gt;Usage
+&lt;/h2&gt;&lt;p&gt;对于支持远程 MCP 服务器的客户端：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;jina-mcp-server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mcp.jina.ai/sse&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;#34;Authorization&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Bearer ${JINA_API_KEY}&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 可选
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;对于尚不支持远程 MCP 服务器的客户端，你需要使用 &lt;a class=&#34;link&#34; href=&#34;https://www.npmjs.com/package/mcp-remote&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;code&gt;mcp-remote&lt;/code&gt;&lt;/a&gt; 本地代理来连接到远程 MCP 服务器。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;jina-mcp-server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;npx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;mcp-remote&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mcp.jina.ai/sse&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;// 可选的 bearer token
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;--header&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;Authorization: Bearer ${JINA_API_KEY}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;故障排除&#34;&gt;故障排除
+&lt;/h2&gt;&lt;h3 id=&#34;我陷入了工具调用循环发生了什么&#34;&gt;我陷入了工具调用循环——发生了什么？
+&lt;/h3&gt;&lt;p&gt;这是 LMStudio 中一个常见问题，当默认上下文窗口为 4096 且你正在使用像 &lt;code&gt;gpt-oss-120b&lt;/code&gt; 或 &lt;code&gt;qwen3-4b-thinking&lt;/code&gt; 这样的思考模型时，就会发生这种情况。随着思考和工具调用的持续进行，一旦你达到上下文窗口限制，AI 就会开始丢失任务开始时的信息。这就是它陷入这种滚动上下文窗口的原因。&lt;/p&gt;
+&lt;p&gt;解决方案是以足够的上下文长度加载模型，以包含完整的工具调用链和思考过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/jina/1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置足够长的上下文&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;我看不到所有工具&#34;&gt;我看不到所有工具。
+&lt;/h3&gt;&lt;p&gt;有些 MCP 客户端具有本地缓存，并且不会主动更新工具定义。如果你没有看到所有可用的工具，或者工具看起来已过时，你可能需要删除并重新添加 jina-mcp-server 到你的 MCP 客户端配置。这将强制客户端刷新其缓存的工具定义。在 LMStudio 中，你可以点击刷新按钮来加载新工具。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/jina/2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;更新本地 mcp 客户端&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;claude-desktop-在-windows-上显示服务器已断开&#34;&gt;Claude Desktop 在 Windows 上显示“服务器已断开”
+&lt;/h3&gt;&lt;p&gt;Cursor 和 Claude Desktop (Windows) &lt;a class=&#34;link&#34; href=&#34;https://www.npmjs.com/package/mcp-remote#:~:text=Note%3A%20Cursor,env%20vars%0A%20%20%7D%0A%7D%2C&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;存在一个 bug&lt;/a&gt;，当它调用 npx 时，参数内部的空格不会被转义，最终导致这些值被破坏。你可以使用以下方法解决这个问题：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;// 其他配置...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;mcp-remote&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mcp.jina.ai/sse&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;--header&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Authorization:${AUTH_HEADER}&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 注意 &amp;#39;:&amp;#39; 周围没有空格
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;AUTH_HEADER&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Bearer &amp;lt;JINA_API_KEY&amp;gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 环境变量中可以有空格
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;cursor-在此-mcp-状态上显示红点&#34;&gt;Cursor 在此 MCP 状态上显示红点
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://forum.cursor.com/t/why-is-my-mcp-red/100518&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;很可能是 Cursor 的一个 UI bug&lt;/a&gt;，但 MCP 工作正常，没有任何问题。如果红点让你感到烦恼，你可以关闭/打开来“重启”MCP（事实上，由于你将它用作远程MCP，这并不是真正的“服务器重启”，而主要是一个本地代理重启）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/jina/3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cursor shows red dot&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;If your Large Language Model (LLM) isn&amp;rsquo;t utilizing certain tools even when they&amp;rsquo;re enabled in your MCP client, it&amp;rsquo;s probably showing a preference for specific tools, a common behavior when an LLM is trained with a defined toolset. For instance, &lt;code&gt;parallel_*&lt;/code&gt; tools are rarely used organically unless directly instructed. In Cursor, you can modify your &lt;code&gt;.mdc&lt;/code&gt; file with the following rule:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;alwaysApply: true
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;When you are uncertain about knowledge, or the user doubts your answer, always use Jina MCP tools to search and read best practices and latest information. Use search_arxiv and read_url together when questions relate to theoretical deep learning or algorithm details. search_web and search_arxiv cannot be used alone - always combine with read_url or parallel_read_url to read from multiple sources. Remember: every search must be complemented with read_url to read the source URL content. For maximum efficiency, use parallel_* versions of search and read when necessary.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;开发者指南&#34;&gt;开发者指南
+&lt;/h2&gt;&lt;h3 id=&#34;本地开发&#34;&gt;本地开发
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 克隆仓库&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/jina-ai/MCP.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; MCP
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 安装依赖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启动开发服务器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm run start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;部署到-cloudflare-workers&#34;&gt;部署到 Cloudflare Workers
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://deploy.workers.cloudflare.com/?url=https://github.com/jina-ai/MCP&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;img src=&#34;https://deploy.workers.cloudflare.com/button&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;部署到 Workers&#34;
+	
+	
+&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这将会把你的 MCP 服务器部署到一个 URL，例如：&lt;code&gt;jina-mcp-server.&amp;lt;your-account&amp;gt;.workers.dev/sse&lt;/code&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

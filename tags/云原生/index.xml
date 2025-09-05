@@ -1,0 +1,1514 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>云原生 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/</link>
+        <description>Recent content in 云原生 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Mon, 07 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>告别镜像下载慢！一个简单又强大的 Docker 镜像加速方案</title>
+        <link>https://ai.programnotes.cn/p/%E5%91%8A%E5%88%AB%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E6%85%A2%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%8F%88%E5%BC%BA%E5%A4%A7%E7%9A%84-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/</link>
+        <pubDate>Mon, 07 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%91%8A%E5%88%AB%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E6%85%A2%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%8F%88%E5%BC%BA%E5%A4%A7%E7%9A%84-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  李小飞云原生构建 2025-07-07 17:32&lt;/p&gt;
+&lt;p&gt;众所周知，Docker 已成为现代开发者的“标配”工具。然而，由于 Docker 官方镜像仓库位于境外，国内开发者经常在拉取镜像时遇到 &lt;strong&gt;下载缓慢甚至失败&lt;/strong&gt; 的问题：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fdf5c45877bfedfb67f5a33629281dd6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;镜像下载失败示意图&lt;/p&gt;
+&lt;p&gt;面对这种情况，许多开发者第一时间想到的是配置镜像加速源，于是 daemon.json 文件就会变成这样👇：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7e670ae6d6d7a4c786d0d18d97f862fc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置多个镜像源示意图&lt;/p&gt;
+&lt;p&gt;虽然这种方式在一定程度上解决了镜像下载问题，但也带来了不少新的困扰：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;网络质量不一&lt;/strong&gt;
+：不同镜像源速度参差不齐，体验不稳定&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;可靠性差&lt;/strong&gt;
+：很多镜像源用着用着就没了&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;配置繁琐&lt;/strong&gt;
+：在 K8s 多节点集群中，每个节点都要单独配置镜像源，费时费力&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;有没有更优雅的解决方案&#34;&gt;有没有更优雅的解决方案？
+&lt;/h2&gt;&lt;p&gt;当然有！今天给大家推荐一个开源神器 —— 基于 CNB 云原生平台 的镜像同步工具：https://cnb.cool/xiaofei/docker-sync。&lt;/p&gt;
+&lt;h2 id=&#34;-什么是-cnb&#34;&gt;🧩 什么是 CNB？
+&lt;/h2&gt;&lt;p&gt;CNB 是由腾讯云原 Coding 团队打造的 &lt;strong&gt;云原生开发平台&lt;/strong&gt;
+，专为构建、发布和交付而设计，具有以下亮点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;🚀 &lt;strong&gt;内置镜像加速服务&lt;/strong&gt;
+：无需配置任何加速器，就能稳定访问国外镜像源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;🗃 &lt;strong&gt;免费 Docker 制品库&lt;/strong&gt;
+：每位用户享有 &lt;strong&gt;100G 免费存储空间&lt;/strong&gt;
+，可上传私有镜像&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;🔒 &lt;strong&gt;长期可用&lt;/strong&gt;
+：上传后的镜像地址长期有效，除非你主动删除&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-什么是-docker-sync&#34;&gt;🧰 什么是 docker-sync？
+&lt;/h2&gt;&lt;p&gt;docker-sync
+ 是一个专为 CNB 平台打造的镜像同步工具，它的作用非常简单粗暴：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;✅ 自动将 Docker Hub 等镜像仓库的镜像同步到 CNB 平台，&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;✅ 你再从 CNB 拉取镜像，速度稳定、配置简单！&lt;/p&gt;
+&lt;h2 id=&#34;-一键同步-docker-镜像到-cnb&#34;&gt;🛠️ 一键同步 Docker 镜像到 CNB
+&lt;/h2&gt;&lt;h3 id=&#34;第一步注册-cnb-账号并实名认证&#34;&gt;第一步：注册 CNB 账号并实名认证
+&lt;/h3&gt;&lt;p&gt;访问 CNB 官网，完成账号注册并通过实名认证，然后创建一个组织。&lt;/p&gt;
+&lt;h3 id=&#34;第二步fork-项目&#34;&gt;第二步：Fork 项目
+&lt;/h3&gt;&lt;p&gt;访问开源项目地址：https://cnb.cool/xiaofei/docker-sync，点击右上角 Fork
+ 按钮，将项目复制到你的名下。&lt;/p&gt;
+&lt;h3 id=&#34;第三步开始同步镜像&#34;&gt;第三步：开始同步镜像
+&lt;/h3&gt;&lt;p&gt;Fork 成功后，进入你名下的项目页面：&lt;/p&gt;
+&lt;p&gt;点击右上角的【构建】按钮，选择【同步 Docker 镜像到 CNB】&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a999ca6fa2035e31e0dcb02a2db52666.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;点击同步镜像按钮&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击同步镜像按钮&lt;/p&gt;
+&lt;p&gt;在弹出框中填写你想同步的镜像名称，并选择所需的架构（支持 amd64
+、arm64
+ 等），然后点击执行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f2a1a9c974ae76af4fb3e84c44694d67.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写镜像信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写镜像信息&lt;/p&gt;
+&lt;p&gt;执行后，会弹出一个流水线执行窗口，点击对应的流水线 ID 查看执行详情：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/430eddfcfca7c98d76cc962011f43b11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;查看执行详情&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看执行详情&lt;/p&gt;
+&lt;p&gt;等待几十秒到一分钟不等（取决于镜像体积），镜像就会成功同步到 CNB 的制品库。&lt;/p&gt;
+&lt;h3 id=&#34;第四步获取-cnb-镜像地址&#34;&gt;第四步：获取 CNB 镜像地址
+&lt;/h3&gt;&lt;p&gt;同步成功后，点击【查看镜像地址】，即可获得同步后的镜像地址。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;这个地址长期有效，只要你不手动删除，永久可用！&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5e2a35b701b903a398f35dcc42f68228.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取镜像地址&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取镜像地址&lt;/p&gt;
+&lt;h3 id=&#34;第五步本地使用&#34;&gt;第五步：本地使用
+&lt;/h3&gt;&lt;p&gt;接下来，只需像平常一样使用 docker pull
+ 拉取 CNB 镜像地址即可，速度飞快，稳定性极高！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/75cab8efd8aa797bddf9a0f9bef4032b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;本地使用镜像&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地使用镜像&lt;/p&gt;
+&lt;h2 id=&#34;-总结&#34;&gt;✅ 总结
+&lt;/h2&gt;&lt;p&gt;使用 docker-sync
+ 和 CNB 平台，不仅彻底告别镜像下载慢、镜像源配置乱的问题，还让镜像管理更稳定、更自动、更现代化。&lt;/p&gt;
+&lt;p&gt;现在就去试试吧，一次配置，终身省心！&lt;/p&gt;
+&lt;p&gt;👉 项目地址：https://cnb.cool/xiaofei/docker-sync&lt;/p&gt;
+&lt;p&gt;👉 喜欢作者欢迎关注他：
+&lt;a class=&#34;link&#34; href=&#34;https://cnb.cool/u/lixiaofei&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cnb.cool/u/lixiaofei&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你觉得这篇文章对你有帮助，欢迎点赞、收藏或分享给更多有需要的小伙伴 🚀&lt;/p&gt;&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>Nacos 3.0 正式发布：MCP Registry、安全零信任、链接更多生态</title>
+        <link>https://ai.programnotes.cn/p/nacos-3.0-%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83mcp-registry%E5%AE%89%E5%85%A8%E9%9B%B6%E4%BF%A1%E4%BB%BB%E9%93%BE%E6%8E%A5%E6%9B%B4%E5%A4%9A%E7%94%9F%E6%80%81/</link>
+        <pubDate>Wed, 30 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/nacos-3.0-%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83mcp-registry%E5%AE%89%E5%85%A8%E9%9B%B6%E4%BF%A1%E4%BB%BB%E9%93%BE%E6%8E%A5%E6%9B%B4%E5%A4%9A%E7%94%9F%E6%80%81/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png" alt="Featured image of post Nacos 3.0 正式发布：MCP Registry、安全零信任、链接更多生态" /&gt;&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 于怀阿里云开发者 2025-04-30 18:28&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 正式版本发布啦！升级 MCP Registry，围绕着 MCP 服务管理，MCP 多种类型注册，包含 MCP Server 注册、编排、动态调试和管理，并且提供 Nacos-MCP-Router 可以进行 MCP 动态发现，可以自动安装、代理 MCP Server，全生态面向 AI Registry 进行升级；升级安全架构，默认开启鉴权，基础架构一系列升级，作为云原生时代的基础设施级产品，Nacos 3.0 不仅是技术能力的跃升，更是以更高效、安全的方式帮助用户构建云原生 AI 应用架构！&lt;/p&gt;
+&lt;h2 id=&#34;一nacos-30-背景&#34;&gt;一、Nacos 3.0 背景
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Nacos&lt;/strong&gt; /nɑ:kəʊs/是 Dynamic &lt;strong&gt;Na&lt;/strong&gt;ming and &lt;strong&gt;Co&lt;/strong&gt;nfiguration &lt;strong&gt;S&lt;/strong&gt;ervice 的首字母简称，定位于一个更易于构建云原生 AI 应用的动态服务发现、配置管理和服务管理平台。从 2018 年 7 月开始宣布开源以来，已经走过了第六个年头，在这六年里，备受广大开源用户欢迎，收获许多社区大奖。Nacos 在社区共同的建设下不断成长，逐步的开始帮助用户解决实际问题，助力企业数字化转型，目前已经广泛的使用在国内的公司中，根据微服务领域调查问卷，Nacos 在注册配置中心领域已经成为&lt;strong&gt;国内首选&lt;/strong&gt;，占有&lt;strong&gt;50%+ 国内市场&lt;/strong&gt;份额，被&lt;strong&gt;各行各业的头部企业&lt;/strong&gt;广泛使用！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/757f3196199ae75dd1b90e6ac49b4f23.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 在 2.X 版本经过近三年的技术演进，已成功实现最初设计的高性能架构与灵活扩展能力，并持续优化产品易用性与安全防护体系。随着人工智能时代的全面到来，大语言模型（ LLM ）的成熟应用正推动行业进入AI原生化发展阶段。在此背景下，业界对AI原生应用开发标准的探索、AI Agent 框架的技术创新、动态 Prompt 的场景化需求，以及 MCP 协议、A2A 通信规范等技术生态的构建，均对服务治理体系提出了新的要求。Nacos 3.0 架构迭代的就是为了更好的这些技术趋势；Nacos 3.0 将重点构建面向AI原生架构的服务治理平台，为 模型 / MCP Server / Agent 等新型业务智能场景架构提供更高效的运行支撑；&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 提升安全性，整体架构安全拆分，默认开启鉴权，并且支持动态数据源密钥等零信任方案；多语言生态，覆盖主流开发语言，Python、GoLang、Rust 作为重要部分，发布多个核心组件，可以打通 K8S 生态的 Service / ConfigMap / Secret 数据，面向全场景可以作为统一管理平台；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/130f7e20500ab79fd1133ab1cb5aec80.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;&#34;&gt;
+&lt;/h1&gt;&lt;h2 id=&#34;二nacos-30-发布-mcp-registry&#34;&gt;二、Nacos 3.0 发布 MCP registry 
+&lt;/h2&gt;&lt;p&gt;Nacos 3.0 作为 MCP Registry ，主要定位在更易用的帮助管理 MCP 服务，动态管理 MCP 信息、Tools 描述和列表等，无需重启和运维，让 MCP 的调试更简单易用，并且支持将普通的 HTTP 或者 RPC 服务快速转化成一个 MCP 服务，Nacos 面相 MCP 可以汇总多种场景来源的 MCP 服务，包含 Local MCP Server、Remote MCP Server 以及 MCP 代理网关等场景，并且支持 Credentials 配置统一管理，Nacos 具备进行统一管理 MCP 上下游服务能力；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCP Registry 服务管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 的 MCP Registry 围绕着MCP服务注册、MCP 服务订阅，进行 MCP 服务整体的产品化管理能力；&lt;/p&gt;
+&lt;p&gt;MCP 多种类型注册，包含 MCP Server 注册、编排、动态调试和管理，并且提供 Nacos-MCP-Router 可以进行 MCP 动态发现，可以自动安装、代理 MCP Server ，Nacos 3.0 全生态面向 AI Registry 进行升级；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/208239c06ce869768a45629fb98181fa.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;1. MCP 服务注册，进行动态管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;注册到 Nacos 的 MCP Server，可以进行动态管理 MCP 服务， 包含 MCP 的描述信息以及 Tools 描述和动态关闭开启等；&lt;/p&gt;
+&lt;h4 id=&#34;三种场景的-mcp-都可以进行自动注册和管理&#34;&gt;三种场景的 MCP 都可以进行自动注册和管理
+&lt;/h4&gt;&lt;p&gt;1. &lt;strong&gt;【业务 API 接口注册】&lt;/strong&gt;
+存量 API 转化成 MCP Server ，“0 代码” 配置生成MCP 协议；&lt;/p&gt;
+&lt;p&gt;2. &lt;strong&gt;【新构建 MCP Server注册】&lt;/strong&gt;
+构建 MCP Server 自动注册服务，配置依赖自动注册管理，支持 Java（Spring AI）、Python、TypeScript（进行中）；&lt;/p&gt;
+&lt;p&gt;3. &lt;strong&gt;【存量 MCP Server注册】&lt;/strong&gt;
+存量已经构建 MCP Server 进行动态信息调整，通过Nacos-MCP-Router进行注册，也可以通过 Higress 网关代理进行注册；&lt;/p&gt;
+&lt;h3 id=&#34;11业务-api-接口注册0代码-转化成-mcp-协议&#34;&gt;1.1. 【业务 API 接口注册】“0代码” 转化成 MCP 协议
+&lt;/h3&gt;&lt;p&gt;Nacos 作为 MCP Registry，扮演控制面的角色，不仅管理 Tool 的元信息，还可以把存量 API 转化成 MCP 协议，为企业提供了从传统服务治理向AI应用架构无缝升级的全新路径。&lt;/p&gt;
+&lt;p&gt;Nacos 可以帮助应用快速把业务已有的 API 接口，转换成 MCP 协议接口，结合 Higress AI 网关，实现 MCP 协议和存量协议的转换。其中，Nacos 提供存量的服务管理和动态的服务信息定义，帮助业务在存量接口不改动的情况下，通过 Nacos 的服务管理动态生效 Higress 网关所生成的 MCP Server 协议；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/49bb38f9c42c53128accd7f158277205.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;12新构建-mcp-server注册自动注册服务动态管理&#34;&gt;1.2. 【新构建 MCP Server注册】自动注册服务动态管理
+&lt;/h3&gt;&lt;p&gt;如果你的场景需要新构建 MCP Server，那么你可以注册到 Nacos MCP Registry，不仅可以统一进行发现 MCP 服务，还可以帮助你构建的 MCP Server 具备动态调整治理的能力；&lt;/p&gt;
+&lt;p&gt;针对新建的 MCP 服务，Nacos 提供多语言支持与自动化注册能力，过程中无代码侵入，或者是更换注解，无需写代码集成 Nacos 就可以自动注册，并且还有主要的特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;跨语言生态适配：支持Java（Spring AI）、Python、TypeScript（进行中）等主流框架，通过标准SDK或配置声明快速接入。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;管理配置自动生效：服务注册后，可以通过 Nacos 产品化管理 MCP 元数据，如更新 MCP 描述、Tools 工具列表，更新信息后对应 MCP Server 会自动生效更改。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;统一管理MCP发现：可以通过放在 Nacos 统一管理，可以通过网关或者 Nacos-Mcp-Router 进行统一的配置发现；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;能动态管理 MCP 信息、工具描述和列表等，而无需进行繁琐的系统重启或运维。这样不仅降低了系统维护的复杂性，还大大提高了调试的效率和便捷性。****&lt;/p&gt;
+&lt;h3 id=&#34;13存量-mcp-server注册自动注册服务动态管理&#34;&gt;1.3. 【存量 MCP Server注册】自动注册服务动态管理
+&lt;/h3&gt;&lt;p&gt;如果你的场景需要从市场或者开源获取 MCP Server，那么 Nacos MCP Registry ，也可以帮你进行统一 MCP 服务管理；这部分需要配合 Nacos-Mcp-Router 或者 Higress 网关 来做，在前边代理 MCP Server 服务，帮你进行管理元数据和统一的发现；在文章 MCP 实践章节部分，我们会以高德官方 MCP Server 为例，做动手实践做个演示Demo；&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;2. MCP自动发现：Nacos-MCP-Router&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你可以直接将对应的接入点配置到 AI Agent 的 MCP Server 配置中，也可以选择结合 Nacos-MCP-Router 进行统一管理对接，这样你不需要每个 MCP Server 在 AI Agent 上单独配置，并且解决多个 MCP Server 在 AI Agent 上进行配置选择工具不准确和 Tokens 消耗黑洞的问题；&lt;/p&gt;
+&lt;h3 id=&#34;nacos-社区新成员-nacos-mcp-router&#34;&gt;Nacos 社区新成员 Nacos-MCP-Router 
+&lt;/h3&gt;&lt;p&gt;Nacos-MCP-Router 是 Nacos 3.0 开源的 具备 MCP 协议的 新组件，具备对 MCP Server 语义搜索能力、自动安装能力（如果需要）、自动注册（可动态修改），协议代理能力等一系列 MCP 高级能力，可以帮助业务快速发现并且使用 MCP 服务；&lt;/p&gt;
+&lt;p&gt;Nacos-MCP-Router Github 仓库地址：
+ 
+&lt;a class=&#34;link&#34; href=&#34;https://github.com/nacos-group/nacos-mcp-router&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/nacos-group/nacos-mcp-router&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Nacos-MCP-Router 是 MCP 官方 标准的 Python Server，TypeScript 等语言版本已经在进行中，后续会推出，以满足不通语言场景诉求；&lt;/p&gt;
+&lt;h3 id=&#34;21自动发现nacos-管理-mcp-server-进行搜索和代理&#34;&gt;2.1. 自动发现：Nacos 管理 MCP Server 进行搜索和代理
+&lt;/h3&gt;&lt;p&gt;AI Agent 不需要进行每个 MCP Server 配置，只需要配置 Nacos MCP Router （后文用 Router 代替）即可，Router 会和 AI Agent 自动交互搜索需要的 MCP Server 进行调用，对于 AI Agent 减少了大量 MCP Server 无关信息，减少 AI Agent 使用MCP 对底层大模型 Tokens 消耗；&lt;/p&gt;
+&lt;p&gt;Nacos MCP Router 的 MCP 信息搜索能力，是基于向量数据库进行语义匹配，在海量 MCP Server 配置以及搜索的实时性上取得平衡，并且过程中，还尽可能利用 AI Agent 智能性，帮助进行筛选确定 MCP Server 的选择，在确保减少 AI Agent 的总 Tokens 消耗的同时，又大大的扩展了 AI Agent 能使用 MCP Server 的上限；&lt;/p&gt;
+&lt;h3 id=&#34;22对-mcp-server-分发安装注册管理&#34;&gt;2.2. 对 MCP Server 分发、安装、注册、管理
+&lt;/h3&gt;&lt;p&gt;在使用 Nacos MCP Router 的场景中，如果 AI Agent 需要的 MCP Server 没有部署，当前 MCP 需要安装的话，Router 也会自动帮助安装，并且会向 Nacos 自动注册信息，Nacos MCP Registry 可以动态管理信息，管控调整动态可以生效；避免了使用官方 MCP Server 匹配不准，信息没有办法进行调整的问题，Tools 列表没办法动态关闭和开启的问题；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0c18d274f8c7f379a4b4949fcb59678f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;3. 使用 Nacos 管理 MCP 的优势&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;存量 API 可以快速构建 MCP Server：Nacos 配置存量 API 描述可以 0 代码的构建成 MCP Server，快速跟进 MCP 协议；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP Server 统一管理平台：存量API转化、私有构建 MCP Server、各种类型官方（local、remote） MCP Server 以及市场 MCP ，多种场景 MCP Server 统一进行管理，动态调整；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP Credentials 密钥管理：支持 MCP Server 相关密钥统一管理，基于 Credentials 模块可以统一管理和下发，配合 Router 无需配置到 AI Agent 上；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 信息动态下发实时生效：MCP 描述信息、Tools 以及 Prompts 都需要进行调试，才能达到更好效果，Nacos 可以帮助管理和下发信息，更高效的调试描述；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP信息历史版本管理：Nacos 会管理和存储 MCP 信息历史版本，方便进行 Diff 对比差异，方便进行快速回滚；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP信息灰度管理：Nacos 在 MCP 信息生效的时候，可以进行灰度分批生效，方便对比 MCP 信息效果；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;密钥配置加密管理：MCP 信息里以及调用 API 过程中，需要密码等敏感信息，Nacos 提供了敏感信息加密的能力，帮助更安全的使用 MCP；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 返回格式 JSON 转换 XML：和大模型交互都有体感，对模型来说，JSON 没有 XML 格式好用，所以在 MCP 返回信息格式上，Nacos 可以帮助 MCP 把返回格式从 JSON 变成 XML，方便大模型理解；&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 服务管理及健康检查：MCP 服务会越来越多，Nacos 有大规模服务管理能力，并且持续在迭代过程中，为 MCP 做健康检查、实时更新、负载均衡，起到 MCP 服务发现中心的托管作用。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三nacos-30-mcp-动手实践&#34;&gt;三、Nacos 3.0 MCP 动手实践
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;1. Nacos 3.0 部署和启动流程&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;11nacos-部署&#34;&gt;1.1. Nacos 部署
+&lt;/h3&gt;&lt;p&gt;Nacos 3.0 默认开启鉴权，启动前，需要配置一下密钥信息，启动后，登录 Nacos 控制台设置初始化管理员密码；&lt;/p&gt;
+&lt;p&gt;通过 Docker 部署 nacos ，可以根据以下命令，快速 Docker 部署：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NACOS_AUTH_TOKEN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;自定义的&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;token&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;，&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;token为用户名密码生成JWT&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Token的密钥&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（原串要&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;32&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;位以上，之后做&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;base64格式化&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NACOS_AUTH_IDENTITY_VALUE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;自定义的&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IDENTITY_VALUE&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;，任意英文和数字组合&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;docker&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;td&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PREFER_HOST_MODE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hostname&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MODE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;standalone&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NACOS_AUTH_IDENTITY_KEY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverIdentity&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NACOS_AUTH_IDENTITY_VALUE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NACOS_AUTH_IDENTITY_VALUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NACOS_AUTH_TOKEN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NACOS_AUTH_TOKEN&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8848&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8848&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9848&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;9848&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nacos&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nacos&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;密钥信息解释&lt;/p&gt;
+&lt;p&gt;NACOS_AUTH_TOKEN ：Nacos 用于生成JWT Token的密钥，使用长度大于32字符的字符串，再经过Base64编码。&lt;/p&gt;
+&lt;p&gt;NACOS_AUTH_IDENTITY_KEY：Nacos Server端之间 Inner API的身份标识的Key，必填。&lt;/p&gt;
+&lt;p&gt;NACOS_AUTH_IDENTITY_VALUE：Nacos Server端之间 Inner API的身份标识的Value，必填。&lt;/p&gt;
+&lt;p&gt;也可以通过 下载 Nacos 安装包进行部署 Nacos ，注意 JDK17+ 要求，除了密钥信息必填，Nacos 3.0 的部署流程和 Nacos2.X 基本保持一致。&lt;/p&gt;
+&lt;p&gt;关于下载、安装等详细信息，这里不进行详细展开，可以查看 Nacos 官网文档
+快速开始[1]。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;2. 注册 MCP Server ，变更 MCP 信息动态生效&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将 MCP Server 注册到 Nacos MCP Registry 中，可以帮助整体管理，动态调整 MCP 信息和变更 Tools 、Resources、Prompts 信息，并且可以进行对接 Nacos 进行统一管理和使用 MCP Server ；&lt;/p&gt;
+&lt;h3 id=&#34;21存量服务-0代码转换成-mcp-server&#34;&gt;2.1. 存量服务 “0代码”转换成 MCP Server 
+&lt;/h3&gt;&lt;p&gt;基于 Nacos 和 Higress 实现存量 Http 服务 0 代码转化为 MCP Server，首先在 Nacos 中配置 MCP 服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e3c5ab24c26839078db6bd10014e43bc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击创建 MCP 服务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2536d08f82e43158d5707d64161e8308.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;协议类型选择 Http，服务引用选择一个已有的服务，&lt;strong&gt;访问路径填写暴露在 higress 中的 mcp 服务的路径，填写完成之后点击发布。我们在点击编辑 进行 tools 的配置。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/aa27c2776049d5cca71807464fdbacad.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击添加tools。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/131c4b516ec65ef4ff90be848c415277.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置 tools 的相关信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/897971c4822b80d9b27ad9e93dc86f43.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这里需要根据方法的参数信息配置参数映射模版，如果使用 Higress 作为 MCP 协议暴露，则需要配置 Higress REST-to-MCP 模版数据，模版配置的具体参数参考文档[2]。&lt;/p&gt;
+&lt;p&gt;配置完成之后，根据文档[3]配置 Higress 连接到 Nacos 进行自动的 MCP 服务发现。&lt;/p&gt;
+&lt;h3 id=&#34;22自己构建的mcp-server自动注册到-nacos-进行动态管理&#34;&gt;2.2. 自己构建的MCP Server，自动注册到 Nacos 进行动态管理
+&lt;/h3&gt;&lt;p&gt;通过自己代码方式构建 MCP Server，可以通过下边方式自动的注册到 Nacos 中，帮你管理你的 MCP Server，目前支持 Java、Python 方式，无需代码改动或者轻改动自动注册到 Nacos 上，目前社区 TypeScript 的还在进行中，额外是借助 Nacos-MCP-Router 方式作为类似的 SideCar 形式，也可以自动注册到 Nacos 上进行管理；&lt;/p&gt;
+&lt;h4 id=&#34;221spring-ai-构建-mcp-server无需改代码自动注册到-nacos&#34;&gt;2.2.1. Spring AI 构建 MCP Server，无需改代码，自动注册到 Nacos
+&lt;/h4&gt;&lt;p&gt;如果你是基于 Spring AI 官方构建的 MCP Server，只需要引入对应的 Nacos MCP 的依赖，无需修改代码，就可以实现 MCP Server 自动注册到 Nacos 中进行管理：&lt;/p&gt;
+&lt;p&gt;引入依赖（注意 WebMvc SSE 或者 WebFlux SSE 需求二选一即可）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- Spring AI 官方 Mcp Server Starter
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;dependency&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;  &amp;lt;groupId&amp;gt;org.springframework.ai&amp;lt;/groupId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;  &amp;lt;artifactId&amp;gt;spring-ai-mcp-server-spring-boot-starter&amp;lt;/artifactId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;  &amp;lt;version&amp;gt;1.0.0-M6&amp;lt;/version&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;/dependency&amp;gt; --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- 将Spring AI 官方 Mcp Server Starter 替换成 Spring AI Alibaba Mcp Nacos --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.alibaba.cloud.ai&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-ai-alibaba-mcp-nacos&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;1.0.0-M6.2-mcp-SNAPSHOT&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!--WebMvc SSE，和WebFlux模式二选一--&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.ai&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-ai-mcp-server-webmvc-spring-boot-starter&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;1.0.0-M6&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!--WebFlux SSE，和WebMvc模式二选一--&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.ai&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-ai-mcp-server-webmvc-spring-boot-starter&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;1.0.0-M6&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;配置文件application.yml：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;spring&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ai&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;Demo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;version: 1.0.0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;SYNC&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;alibaba&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;nacos&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;server-addr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;&amp;lt;nacos-sever-addr&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;&amp;lt;username&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;&amp;lt;password&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;MCP Server 启动之后即可自动注册到 Nacos 上，可以通过 Nacos MCP 进行界面信息管理了，更改实时生效；&lt;/p&gt;
+&lt;h4 id=&#34;222python-构建-mcp-server更换注解自动注册到-nacos&#34;&gt;2.2.2. Python 构建 MCP Server，更换注解，自动注册到 Nacos
+&lt;/h4&gt;&lt;p&gt;基于 MCP 官方 Python SDK 构建 MCP Server 的流程，只需要在官方 Demo 的基础上稍作调整，引入以下依赖，您的 MCP Server 就可以注册到 Nacos 上，并实现 Description 以及 Tools 等信息的托管以及实时生效，&lt;/p&gt;
+&lt;p&gt;1.安装依赖&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install nacos-mcp-wrapper-python
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;2.代码实现&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# server.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;nacos_mcp_wrapper.server.nacos_mcp&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NacosMCP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;nacos_mcp_wrapper.server.nacos_settings&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NacosSettings&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 代码方式&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nacos_settings&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NacosSettings&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;nacos_settings&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SERVER_ADDR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;lt;nacos-server-addr&amp;gt; e.g. 127.0.0.1:8848&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NacosMCP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Demo&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nacos_settings&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nacos_settings&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 环境变量方式：配置环境变量 NACOS_MCP_SERVER_SERVER_ADDR=127.0.0.1:8848&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NacosMCP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Demo&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@mcp.tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_weather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;Get weather information by city name&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Sunny&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;3.启动Mcp Server&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python server.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Mcp Server 启动之后即可自动注册到 Nacos 上，就可以实现基于 Nacos MCP Registry 的信息管理。详细配置方式请参考
+&lt;a class=&#34;link&#34; href=&#34;https://github.com/nacos-group/nacos-mcp-wrapper-python&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/nacos-group/nacos-mcp-wrapper-python&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;TypeScript 语言构建 MCP Server 自动注册到 Nacos，目前还在进行中，后边陆续会开放出来；&lt;/p&gt;
+&lt;p&gt;并且通过借助 Nacos-MCP-Router 方式作为类似的 SideCar 形式，也可以自动注册到 Nacos 上进行管理；&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;3. MCP Server自动发现： Nacos-MCP-Router演示&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;31环境要求&#34;&gt;3.1. 环境要求
+&lt;/h3&gt;&lt;p&gt;Nacos-MCP-Router 是 MCP 官方 标准的 Python Server，所以需要 Python 基本环境准备：&lt;/p&gt;
+&lt;p&gt;部署环境 依赖 Python 运行环境和包管理工具 uv ；请确保 Python 版本在 3.12 及以上；&lt;/p&gt;
+&lt;p&gt;Python 安装方法参考：
+&lt;a class=&#34;link&#34; href=&#34;https://www.python.org/about/gettingstarted/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.python.org/about/gettingstarted/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;uv 安装方法参考：
+&lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/getting-started/installation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.astral.sh/uv/getting-started/installation/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;32nacos-mcp-router-安装与配置&#34;&gt;3.2. Nacos-MCP-Router 安装与配置
+&lt;/h3&gt;&lt;p&gt;Nacos MCP 配置文件，作为标准 MCP Sever 可以配置到 Cline 、Cursor 等 标准支持 MCP 的 AI Agent 中：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;nacos-mcp-router&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;uvx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;nacos-mcp-router@latest&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;#34;NACOS_ADDR&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;lt;Nacos服务端地址，格式为：IP:Port, 默认配置 8848端口&amp;gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;#34;NACOS_USERNAME&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;lt;对应Nacos中的用户名&amp;gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;#34;NACOS_PASSWORD&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;lt;用户名对应的密码&amp;gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;配置到 AI Agent 中 会进行自动安装部署，用 Cline 为例，可以看到安装成功，并且可以看到对应的 Tools 工具列表；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/86c205498267277c122ddc53e670ef19.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果安装不成功，或者起不来，可以检查一下环境，比如 uvx 命令是否安装过，安装过的话，有安装过但运行不起来，可以在&amp;quot;command&amp;quot;字段配置 uvx 安装的全路径，默认在 ~/.local/bin/uvx ，之后重试即可；&lt;/p&gt;
+&lt;h3 id=&#34;33nacos-mcp-router-搜索分发部署代理mcp-server&#34;&gt;3.3. Nacos-MCP-Router 搜索、分发、部署、代理MCP Server
+&lt;/h3&gt;&lt;p&gt;Nacos-MCP-Router 安装好后，可以路由匹配 Nacos MCP Registry 管理的 MCP Server（ Remote 、Local 、代理服务），上边章节介绍了，主要是 Remote MCP Server 以及 存量服务 转换成 MCP Server 的注册场景，下边介绍 Local MCP Server 场景，Nacos-MCP-Router 对 MCP Server 的搜索、分发、部署、使用的整体流程；&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在Nacos 控制台 &lt;strong&gt;MCP管理&lt;/strong&gt;Tab页，点击“&lt;strong&gt;创建MCP Server“&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/13fee37c1e47b90dc8a6af43927e257a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;服务名 填写 amap-mcp-server，选 stdio 协议，填写高德官方 MCP Server 配置，以及 MCP 描述，最后，点击“&lt;strong&gt;发布”。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e683d486f31950d3a7c133b54d4bee6d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;使用 Nacos-MCP-Router 发现和使用其他 MCP Server&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;根据任务描述搜索可用的 MCP Server，Nacos-MCP-Router 给出可用 MCP Server 列表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/409f5ad72431ce8c623d3446a5daf48e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM 选择使用高德地图 MCP Server，并调 add_mcp_server 工具初始化，如果需要安装，在这部 Nacos-MCP-Router 会自动安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/603a80dd51047e722d35bd38b58ea34d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM 通过 Nacos-MCP-Router 使用高德地图 MCP 工具得出最终结果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4c23f6978a85e6bd82f0bb87d7bcc4df.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fa7447c932851b1ac71da831f2fd9afe.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c4010e422ca93b5ece1ab479bd82acdd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;整体过程中，AI Agent 只配置 Nacos-MCP-Router ，就可以对 Nacos MCP Registry 所有 MCP 服务进行按需使用；&lt;/p&gt;
+&lt;h2 id=&#34;四30核心能力升级&#34;&gt;四、3.0核心能力升级
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;1. 安全部署架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在之前的Nacos版本中，为了方便用户的部署和使用，控制台与引擎程序一直合并部署，且共用同一个端口。这种方式虽然增强了使用的便利性，但也带来了一些安全风险。此外，由于控制台和引擎在使用场景上存在差异，它们对于开放网络访问范围及安全认证需求的预期也不尽相同。基于此，Nacos3.0中对控制台和引擎的部署架构进行较大调整。&lt;/p&gt;
+&lt;p&gt;在Nacos 3.0中，控制台将独立在一个Web容器中运行，允许用户设定独立的访问端口。这一改变使得Nacos集群的运维人员能够更灵活地配置网络访问控制列表（ACL），例如，仅将控制台端口开放给办公网络。同时，配合控制台默认启用的安全认证，这将显著提高Nacos的安全性。此外，独立的Web容器还将与全新的Admin API相结合，实现控制台和引擎节点的灵活拆分部署，使得它们能够在不同节点上运行，增强安全性。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0cc398352b5ccef73864d944bb341a80.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;2. K8S 生态同步&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 作为微服务领域的注册配置中心，被越来越多的开发者使用，也与多种开发框架集成，大大方便了开发者。但目前仍然有一些场景没有满足。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;有些用户可能同时使用了 Nacos 服务发现与 K8s 服务发现，使用 Nacos 服务发现的应用希望能够通过 Nacos 发现 K8s 集群的服务；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;应用目前使用 K8s 的 configmap 和 secret ，很方便的通过 Nacos 管理 configmap 和 secret，支持配置加解密能力提升配置管理的易用性和安全性；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;21nacos-服务与-k8s-服务互相发现&#34;&gt;2.1. Nacos 服务与 K8S 服务互相发现
+&lt;/h3&gt;&lt;p&gt;Nacos-Controller 就是为解决上述问题而诞生的。它可以帮助同步 K8s 的 Service 到 Nacos ，也可以支持 K8s的 configmap、secret 与 Nacos 配置的双向同步。&lt;/p&gt;
+&lt;p&gt;Nacos Controller 2.0 支持将 Kubernetes 集群特定命名空间下的 Service 同步到 Nacos 指定命名空间下。用户可以通过 Nacos 实现对 Kubernetes 服务的服务发现。以此实现跨 K8S 集群的服务发现和访问，或实现 K8S 集群与非 K8S 集群间的服务发现和访问，解决容灾备份，平滑迁移等一系列高可用，稳定性相关的高级服务发现场景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8311e281ef959bd776fb4e5224887ba4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3cefa7fe7043bcd825b1c19b34bcb9ba.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;22nacos-管理-k8s-configmap-和-secret&#34;&gt;2.2. Nacos 管理 K8S configmap 和 secret
+&lt;/h3&gt;&lt;p&gt;Nacos Controller 2.0 支持 Kubernetes 集群配置和 Nacos 配置的双向同步，将 Kubernetes 集群特定命名空间下的 ConfigMap 以及 Secret 同步到 Nacos 指定命名空间下中。用户可以通过 Nacos 实现对于 Kubernetes 集群配置的修改和管理，以达到 ConfigMap 和 Secret 的动态修改、版本管理、灰度发布等场景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/78dfc46b0965f2894b99a934b00ac69f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;关于 Nacos Controller 2.0 的更多细节，欢迎访问
+Nacos Controller文档[4]
+。同时关于 Nacos Controller 2.0 使用的具体技术细节和使用方式的相关技术文章也已经在准备中，相信很快就能和大家见面。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;3. 多语言能力&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 将多语言生态建设作为重要方向，在持续完善 Java 生态的同时，重点拓展 Go 语言与 Python 生态的深度整合。对于 Java 开发者，Nacos 将继续维护并优化 Client 组件及配套工具链的演进；针对 Go 语言生态，将强化与主流应用框架及服务网关的 SDK 适配，实现开箱即用的注册发现与配置管理能力。在 Python 领域，Nacos 将与 AI 开发框架建立紧密技术协同，通过提供原生集成方案，帮助机器学习工程师便捷接入动态 Prompt 管理、 MCP &amp;amp; A2A 服务自动注册&amp;amp;发现等。这些举措旨在为不同语言社区提供低门槛、高兼容性的服务发现与配置管理能力，让各类技术栈的开发者都能充分受益于 Nacos 的高性能服务治理体系。&lt;/p&gt;
+&lt;p&gt;其他多语言生态，Nacos3.0 会通过各类社区活动和社区任务， 邀请社区贡献者共同丰富多语言生态：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos Go SDK[5]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos Python SDK[6]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos Rust SDK[7]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos C# SDK[8]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos Node.js SDK [9]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos C++ SDK[10]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nacos PHP SDK[11]&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;4. Nacos MCP Server&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 除了作为 MCP Registry 外，也能够将自身的能力通过 MCP 暴露给 LLM，帮助Nacos的运维人员和使用者快速检索数据和分析问题。 因此我们推出 Nacos MCP Server ——作为Nacos的智能扩展组件，它通过大语言模型技术，可快速检索、解析 Nacos 集群中的服务信息、配置项及命名空间数据，实现服务管理与AI能力的深度联动，为开发者提供更智能的服务探索与配置洞察体验。&lt;/p&gt;
+&lt;p&gt;Nacos MCP Server 已发布0.1.1版本，欢迎参考文档[12]进行试用。&lt;/p&gt;
+&lt;p&gt;温馨提示：当前版本为MCP Server早期技术验证阶段，功能将持续迭代优化中。目前支持服务/配置的查询、检索与列表展示等基础操作，写入功能将在后续版本中逐步开放。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;5. 更多实验性功能&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;51分布式锁&#34;&gt;5.1. 分布式锁
+&lt;/h3&gt;&lt;p&gt;Nacos 社区向用户征集了他们对 Nacos 3.0 的期望功能，其中支持分布式锁的需求是呼声最高的功能之一。分布式锁是一项在分布式应用中常用的功能，目前大多数实现依赖于 Zookeeper 或 Redis 等产品。许多用户已经将Nacos 替换为 Zookeeper 来进行服务和配置管理，但由于 Nacos 尚未支持分布式锁，用户仍需额外运维 Zookeeper 集群，增加了系统的复杂性。&lt;/p&gt;
+&lt;p&gt;因此，Nacos 社区通过课题
+ISSUE#10378[13]
+实现分布式锁的功能，并在 3.0.0 中引入分布式锁的实验性功能，以满足部分用户对轻量级分布式锁的需求。这一功能的推出将帮助用户减少对额外系统的依赖，从而简化微服务应用架构，拓展 Nacos 的使用场景。欢迎大家试用并反馈使用中的问题。&lt;/p&gt;
+&lt;h3 id=&#34;52服务配置模糊订阅&#34;&gt;5.2. 服务&amp;amp;配置模糊订阅
+&lt;/h3&gt;&lt;p&gt;支持配置和服务的模糊订阅也是 Nacos 3.0 的期望功能中呼声最高之一，在 Nacos 3.0.0 中，模糊订阅的功能作为实验性功能加入。用户可以通过fuzzyWatch接口可以使用一定的表达式，对指定分组、服务和配置进行批量订阅；目前支持通过*进行前缀模糊，后缀模糊，双边模糊匹配。欢迎大家试用并反馈使用中的问题。&lt;/p&gt;
+&lt;p&gt;模糊订阅功能仅会推送服务、配置的新增以及删除事件，并不会直接推送服务下实例列表，可在服务模糊订阅的监听器中结合subscribe接口实现服务下实例列表的变更监听。&lt;/p&gt;
+&lt;p&gt;出于稳定性考虑，Nacos对模糊订阅的规则数量以及单个规则匹配的服务数量有上限保护。具体请参考
+使用手册[14]。&lt;/p&gt;
+&lt;h2 id=&#34;五nacos30持续迭代演进和活动计划&#34;&gt;五、Nacos3.0持续迭代演进和活动计划
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;1. AI相关能力演进&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Nacos 3.X 中，AI Agent 与大模型的应用场景也是 Nacos 3.X 的一个主要探索方向。Nacos 希望打造一个面向AI应用的动态配置与全场景管理能力，支持 AI Agent/MCP 的注册与发现、大模型推理配置的动态生效、多语言框架集成，驱动动态化、智能化与高效开发运维。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/316c8771b4e994f5bd5728d2a9937add.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;11动态ai配置与运行时调优的增强&#34;&gt;1.1. 动态AI配置与运行时调优的增强
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6e5cd11f596bea3ec03c1e799f898be3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 3.X 通过强化 Python-SDK 的迭代和功能演进，提供无状态、高可用的参数分发能力，适配 Python（Langchain、Llamaindex）、Java（Spring-AI-Alibaba）、Go/Node.js 等多语言AI框架，用以支持AI相关参数的动态管理，例如：支持LLM模型参数（如权重、学习率、批大小）、Prompt 模板、特征选择、推理策略等动态更新，实现模型推理的实时调优（如A/B测试、流控、负载均衡）。同时动态管理 AI Agent 的任务规划、调度策略、联网参数及动态数据源，支持 Agent 实例的弹性扩缩容和全局状态同步，实现 AI Agent 运行时的动态能力增强。&lt;/p&gt;
+&lt;h3 id=&#34;12mcpai-agent-registry&#34;&gt;1.2. MCP/AI Agent Registry
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4658aa23fffc6ebafdd7efc105f6913d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Nacos 3.X 计划为模型推理服务（如 MCP Servers 或 Agent to Agent）提供实时参数配置，服务注册与发现，版本控制，支持将存量 API 转化为 MCP 或 A2A API，降低AI应用的开发和管理成本。另外 Nacos 3.X 计划无缝对接 AI 应用平台（如终端应用运行时、算法优化工具链），提供 MCP 工具的路由、筛选等能力，降低AI应用依赖的成本和使用门槛。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;2. 架构能力提升&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Nacos 3.0 的发展路线图中，对于 Nacos 基础架构能力持续提升，我们将继续致力于提升易用性与普适性，以满足用户日益增长的需求。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eb9ea3216f4ecd55d50bde6b8263c95f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在引擎自身方面，新版本计划支持DNS协议
+，以进一步拓展 Nacos 在支持较弱编程语言场景中的适用性。另外对于服务健康检查体系
+，我们将优化相关机制，通过将健康检查与服务类型解耦，提供更多关于服务可用性的判断依据，这将使微服务之间的流量调用更加灵活，同时确保系统的稳定运行。最后对于社区中已经比较成熟的插件，我们会将其纳入 Nacos 的主干仓库中进行维护，诸如PostgreSQL插件
+、AES配置加密插件
+等，让这些插件在后续版本中随引擎一起发布、不需要再独立构建引入。&lt;/p&gt;
+&lt;p&gt;在生态建设方面，我们将通过 Nacos Controller 的快速迭代，实现Kubernetes服务与配置的同步管理
+，从而使云原生环境下的使用变得更加便捷。为用户提供更加丰富的功能选择与应用场景，努力构建一个高效、灵活的分布式协调平台。&lt;/p&gt;
+&lt;h2 id=&#34;六社区欢迎共建&#34;&gt;六、社区欢迎共建
+&lt;/h2&gt;&lt;p&gt;Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及AI管理。&lt;/p&gt;
+&lt;p&gt;Nacos 帮助用户更敏捷和容易地构建、交付和管理云原生AI应用的平台。 Nacos 是构建以“服务”为中心的现代应用架构 (例如微服务范式、云原生范式、AI原生范式) 的服务基础设施。&lt;/p&gt;
+&lt;p&gt;Nacos 3.0 还有很多待完成的功能及大量待探索和开发的领域，欢迎大家扫码加入 Nacos 社区群及 Nacos MCP社区讨论群，参与 Nacos 社区的贡献和讨论，在 Nacos 社区一起搭把手，让你的代码和能力有机会能在各行各业领域内进行释放能量，期待认识你和你一起共建 Nacos 社区；&lt;/p&gt;
+&lt;p&gt;“Nacos 相信一切都是服务，每个服务节点被构想为一个星球，每个服务都是一个星系；Nacos 致力于帮助这些服务建立连接赋予智能，助力每个有面向星辰的梦想能够透过云层，飞在云上，更好的链接整片星空。”&lt;/p&gt;
+&lt;p&gt;Nacos 官网：https://nacos.io/&lt;/p&gt;
+&lt;p&gt;Nacos 仓库地址：https://github.com/alibaba/nacos&lt;/p&gt;
+&lt;p&gt;“Nacos社区群5”群的钉钉群号： 120960003144&lt;/p&gt;
+&lt;p&gt;“Nacos MCP 社区讨论群”群的钉钉群号： 97760026913&lt;/p&gt;
+&lt;p&gt;参考链接：&lt;/p&gt;
+&lt;p&gt;[1]https://nacos.io/docs/v3.0/quickstart/quick-start/&lt;/p&gt;
+&lt;p&gt;[2]https://nacos.io/docs/v3.0/manual/user/mcp-template/&lt;/p&gt;
+&lt;p&gt;[3]https://higress.cn/ai/mcp-quick-start/?spm=36971b57.31888769.0.0.559550f86sCJw2#配置-nacos-mcp-registry&lt;/p&gt;
+&lt;p&gt;[4]https://github.com/nacos-group/nacos-controller/blob/main/README.md&lt;/p&gt;
+&lt;p&gt;[5]https://github.com/nacos-group/nacos-sdk-go&lt;/p&gt;
+&lt;p&gt;[6]https://github.com/nacos-group/nacos-sdk-python&lt;/p&gt;
+&lt;p&gt;[7]https://github.com/nacos-group/nacos-sdk-rust&lt;/p&gt;
+&lt;p&gt;[8]https://github.com/nacos-group/nacos-sdk-csharp&lt;/p&gt;
+&lt;p&gt;[9]https://github.com/nacos-group/nacos-sdk-nodejs&lt;/p&gt;
+&lt;p&gt;[10]https://github.com/nacos-group/nacos-sdk-cpp&lt;/p&gt;
+&lt;p&gt;[11]https://github.com/nacos-group/nacos-sdk-php&lt;/p&gt;
+&lt;p&gt;[12]https://github.com/nacos-group/nacos-mcp-server&lt;/p&gt;
+&lt;p&gt;[13]https://github.com/alibaba/nacos/issues/10378&lt;/p&gt;
+&lt;p&gt;[14]https://nacos.io/docs/v3.0/manual/user/java-sdk/usage/&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>FunctionAI MCP 开发平台：助力AI应用连接数字生态</title>
+        <link>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</link>
+        <pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 封崇  阿里云云原生   2025-04-14 18:02&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/087ee75c2a26ff67233996986126ecfa.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP：AI 时代的“操作系统接口”,Cloud Native:&lt;/p&gt;
+&lt;p&gt;2024 年 11 月，Anthropic 发布模型上下文协议（MCP），这一开放标准迅速引发开发者社区的&amp;quot;协议觉醒&amp;quot;。其本质是通过标准化接口实现 LLM 与外部世界的双向交互，正如 USB 协议统一外设接入，MCP 正成为 AI 应用连接数字生态的通用总线。随着 Cursor、Claude &lt;br&gt;
+Desktop &lt;br&gt;
+等开发工具相继集成，特别是 OpenAI 宣布全面兼容 MCP 协议，标志着 MCP 从技术实验迈入产业级标准，这一标准化接口正重塑 AI 与数字世界的交互范式。&lt;/p&gt;
+&lt;p&gt;截至 2025 年 4 月，MCP.so【1】上已经已有超过 8000 个注册的 MCP Server，涵盖数据处理、文件系统、API 网关、聊天机器人、数据库等服务类别，这一数量还在迅速增长。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;生态暴发期的痛点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;尽管 MCP 生态呈现指数级增长，GitHub 仓库星标数半年突破 3.5 万，但生产级落地仍面临三重挑战：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 本地化瓶颈&lt;/strong&gt;&lt;br&gt;
+：当前绝大多数 MCP server 都采用传统 STDIO 模式，该模式没有鉴权能力（缺乏 OAuth 2.1 标准的双向认证机制、无法实现基于角色的访问控制），在复杂业务场景下暴露出调试困难、网络隔离性差等缺陷，难以实现访问内网环境的数据安全管控，内网穿透导致攻击面扩大；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 弹性困境&lt;/strong&gt;&lt;br&gt;
+：MCP 工具调用流量呈现显著的非稳态特征以及&amp;quot;脉冲式&amp;quot;波动，比如智能客服系统的峰谷效应非常明显，传统虚拟机部署造成大量资源浪费；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 开发断层&lt;/strong&gt;&lt;br&gt;
+：从本地调试到云端部署需要重构鉴权、变量管理、日志、中间件等基础组件，改造成本高，开发者大量的精力消耗在非业务代码的开发上；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serverless 是 MCP 托管的最佳解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们观察到大部分的 MCP server 有以下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;稀疏调用，而且对算力的需求都比较小，0.5c/1G 的规格基本能够应对大部分场景；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;代码体积比较小（&amp;lt;100MB），Node.js、Python 解释型语言是 MCP 的一等公民，大部分 MCP server 直接通过 npx、uv 就能一键运行；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP server 的迭代非常快，新增、修改或弃用 MCP server 的场景会非常高频，对 MCP server 元数据管理的需求非常普遍；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;因此灵活部署、弹性扩展的运行时对于 MCP server 的托管非常契合，这恰恰是 Serverless 的最大优势。&lt;/strong&gt;&lt;br&gt;
+以阿里云函数计算为例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;天然的事件驱动模型，提供毫秒级弹性能力、按量付费、安全沙箱的运行时环境，完美解决了云上托管对于性能、成本、安全的需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;官方对于 Node.js、Python 运行时的支持完善，内置代码包加速能力以及层的扩展，大幅降低代码启动时间；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;控制台、SDK、ServerlessDevs 工具提供丰富的函数元数据的管理能力；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些能力让 Serverless 正成为托管 MCP 的最优解。作为 MCP &lt;br&gt;
+的最佳运行时，函数计算已经支持阿里云百炼 MCP 服务【2】。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzUzNzYxNjAzMg==&amp;amp;mid=2247573406&amp;amp;idx=1&amp;amp;sn=a9e215ecbf675b6058bf5f726063a316&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Function AI 是基于函数计算构建的 Serverless AI 应用开发平台，基于函数计算的运行时能力上线了完整的 MCP 开发能力，成为真正意义上的 MCP 开发平台。您可以进入FunctionAI 控制台【3】，快速体验 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式一：通过模板一键部署&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1选择-mcp-模板&#34;&gt;1. 选择 MCP 模板
+&lt;/h3&gt;&lt;p&gt;进入FunctionAI 控制台【4】，选择探索-&amp;gt;筛选应用模板（MCP Server），选择一个 MCP 模板进行部署&lt;br&gt;
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8eaac6393e6591a3066bc7b143fd0a95.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-填写模板配置部署项目&#34;&gt;2. 填写模板配置，部署项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a7fa62b44c44e08f70f71b3fc4504de4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3-查看部署进度&#34;&gt;3. 查看部署进度
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cc0d4f2dd8f2833d543882bc611b63de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式二：创建自定义 MCP 服务&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1创建空白项目&#34;&gt;1. 创建空白项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb40530090e7acd185b2eb51ae8639e9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2创建-mcp-服务&#34;&gt;2. 创建 MCP 服务
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/62ee312927e0fcb139bb81cf658c8270.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3编辑-mcp-服务配置完成后点击预览部署&#34;&gt;3. 编辑 MCP 服务配置，完成后点击预览&amp;amp;部署
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1cc1b3db23afe5b9bdf7e12e76a8528c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4查看部署进度等待部署完成&#34;&gt;4. 查看部署进度，等待部署完成
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0edb2bfd8a9cd1e90b3f95833401ee14.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式三：使用 ServerlessDevs 工具本地部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 正式发布了 ServerlessDevs【5】工具的 MCP 组件，实现本地部署 MCP 工程到 FunctionAI 的能力&lt;/p&gt;
+&lt;h3 id=&#34;1安装-serverlessdevs-工具&#34;&gt;1. 安装 ServerlessDevs 工具：
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install @serverless-devs/s -g
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2初始化-mcp-项目&#34;&gt;2. 初始化 MCP 项目
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s init start-fcai-mcp-nodejs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3查看-syaml&#34;&gt;3. 查看 s.yaml
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;edition&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;cn-hangzhou&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;world&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;component&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fcai&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;props&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;deployed&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;devs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;transport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# stidio | sse&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;cpu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;memorySize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;rootDir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;./&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;code&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;oss&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auto&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#默认构建器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 构建环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;languages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 执行步骤&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;startCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;node ./dist/index.js&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 启动命令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;instanceQuota&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 实例数配额&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;4执行部署&#34;&gt;4. 执行部署
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s deploy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/65cbedb605963231d21a24f01a6411a0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录到控制台，可以查看云端的部署详情&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9008afa9b766f18ec8870be548f7eca5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 支持托管 STDIO/SSE 协议的 MCP server。如果 MCP server 代码采用 STDIO，FunctionAI 会启动一个 SSE 服务来代理 STDIO 的请求，客户端访问需要使用 SSE 方式。&lt;/p&gt;
+&lt;p&gt;当 MCP 服务部署完成后，平台会生成一个 SSE 的连接地址，并且会生成 MCP server 的 schema 用于测试。&lt;/p&gt;
+&lt;p&gt;用户可以直接在控制台上测试连接、测试工具，也可以使用官方的 Inspector 在本地进行测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 1：FunctionAI 控制台测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1b500d2ecbe51c3bd818ab0a2d241d31.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看日志和监控&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/64428131f50c544e1eb810049aa74148.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/625f7be471aa00cb5795a70448e9bdb4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 2：Inspector 本地测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;复制 FunctionAI 生成的公网访问地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/827d8ce0c33c9ca0e0377d7e76adedd4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地启动 inspector，输入访问地址进行调试&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx @modelcontextprotocol/inspector
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2fb2f7c95d741f82ad78f0ce8c95fdf5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;高阶能力&lt;/p&gt;
+&lt;p&gt;Cloud Native&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;鉴权&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 的鉴权只适用于 SSE 的协议，而且必须遵循 OAuth2.1 协议标准，对于大量的 STDIO 的 MCP 服务托管的改造难度非常之高，企业落地 MCP 鉴权是一个非常痛点的问题。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了网关侧的 Bearer 鉴权能力，用户只需要开启鉴权功能，使用平台生成的 Bearer Token，就可以让 MCP 服务自带鉴权能力。&lt;/p&gt;
+&lt;h3 id=&#34;使用方式&#34;&gt;使用方式
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;编辑服务配置，点击开启鉴权，保存并且部署。开启后，平台会对服务生成一个只读的 Bearer Token。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/176da26d1e64590fb48d8e7e9324fcc8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9023eafd8409b7fe75ef35e317d59183.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;测试鉴权生效&#34;&gt;测试鉴权生效
+&lt;/h3&gt;&lt;p&gt;使用平台生成的 Bearer Token，可以正常访问 MCP 服务&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7d5c7f3aa4dc7d4fdeab04d14dbf5154.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用错误的 token 时，访问失败&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f7d5043ba19bec75038798cf94fc5e8a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用本地的 Inspector，输入服务的 token，访问正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6807b4d0e56bbfc668a8d870fba77f27.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;变量管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;很多的 MCP Server 代码都需要访问第三方服务，比如高德地图、Github 等，需要持有用户的访问秘钥，比如 API-Key、AccessToken，这些秘钥通常以环境变量加载或者启动命令参数注入。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了变量管理能力，并且支持敏感变量托管，可以实现 MCP 服务访问秘钥的安全可靠管理。&lt;/p&gt;
+&lt;h3 id=&#34;配置方式设置服务变量&#34;&gt;配置方式：设置服务变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;选择服务-&amp;gt;服务变量，添加服务变量的 Key 和 Value&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/15b09c554b6a7fbbc9bdd1ba2f2e310e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-1环境变量&#34;&gt;加载方式 1：环境变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 上配置的服务变量会默认注入到函数启动的环境变量中，MCP 服务代码可以直接通过系统环境变量读取&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/43ad2532377ad53c8c93e3cf34ccd342.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-2启动参数&#34;&gt;加载方式 2：启动参数
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 的服务变量支持通过 ${self.KEY_NAME} 的方式引用，可以在启动命令中修改命令行参数，使用变量的引用，在启动阶段注入变量的值。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/11f9f30a1e47a380071e5affa1db4312.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f074718d0e6abbc83b8cf03b356d8c67.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;绑定代码仓库进行持续部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 的 MCP 服务面向开发态能力，提供以代码仓库托管 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;使用方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编辑 MCP 服务配置，选择代码仓库，目前支持了 Github、Gitee、Codeup、GitLab、OSS 代码仓库。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择仓库分支、MCP 工程在代码仓库中的根目录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择构建环境：对于多语言的工程，可以选择多个构建环境&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编辑构建命令：例如 npm build、pip install -r requirements.txt&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可选：开启构建缓存，缓存目录根据不同语言可以设置~/.npm（Node.js）、&lt;del&gt;/.cache（Python）、&lt;/del&gt;/.m2、（Java）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e22ee2e9b7cbfb185a2ba94c6cd73174.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;绑定 Git 仓库后，如果指定的分支有 push 操作，会自动触发服务的持续部署&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a0391910a8ba2fd0f98201c8ea7c8de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;极速模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于延迟敏感性的业务，FunctionAI 提供了极速模式，可以提前预留指定数量的实例快照，降低频繁冷启动带来的开销，并且只有在有活跃请求时才会产生 vCPU 费用，可以实现性能和成本的平衡。&lt;/p&gt;
+&lt;p&gt;另外由于 MCP SSE 请求的 session 机制，同一个 session id 访问到不同实例会导致上下文丢失，因此建议开启预置快照为 1 并且实例限额为 1，这样可以让 SSE 请求打到不同弹性实例的概率更小。&lt;/p&gt;
+&lt;p&gt;FunctionAI 后面会上线会话亲和性能力，尽情期待。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66ea83970635dde4a3af53a4472379ab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;开启后，可以在函数监控页面看到预留实例的个数&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d5dacedc72983e325007e050a13c84c5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 现在已经支持了完整的 MCP 开发能力，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;部署形式上，支持模板直接部署、自定义 MCP 服务、ServerlessDevs 工具本地部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;托管能力上，支持 STDIO/SSE 的自动托管，无需业务改造既能生成可用于访问的 SSE 地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调试能力上，支持控制台直接调试以及 Inspector 本地调试&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;二次开发能力上，支持变量管理、鉴权、绑定代码仓库进行持续部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可观测能力上，支持函数监控、实例监控以及日志&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;弹性调度上，支持标准模式以及极速模式&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 的价值是统一了 Agent 和 LLM 之间的标准化接口，有了 MCP Server 的托管以及开发态能力只是第一步，接下来重要的是做好 MCP 和 Agent 的集成，FunctionAI 即将上线 Agent 开发能力，敬请期待。&lt;/p&gt;
+&lt;p&gt;【1】MCP.so &lt;a class=&#34;link&#34; href=&#34;https://mcp.so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.so/&lt;/a&gt;&lt;br&gt;
+【2】Serverless MCP 运行时业界首发，函数计算让 AI 应用最后一公里提速&lt;br&gt;
+【3】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【4】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【5】ServerlessDevs  &lt;a class=&#34;link&#34; href=&#34;https://www.serverless-devs.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.serverless-devs.com/&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>当 MCP 遇上 Serverless，AI 时代的最佳搭档</title>
+        <link>https://ai.programnotes.cn/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/</link>
+        <pubDate>Mon, 07 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BD%93-mcp-%E9%81%87%E4%B8%8A-serverlessai-%E6%97%B6%E4%BB%A3%E7%9A%84%E6%9C%80%E4%BD%B3%E6%90%AD%E6%A1%A3/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 墨飏 阿里云云原生&lt;/p&gt;
+&lt;p&gt;核心内容点：MCP, Serverless, 智能体, 弹性算力,  数据安全&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/087ee75c2a26ff67233996986126ecfa.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;随着 AI 技术的飞速发展，MCP（模型上下文协议） 逐渐崭露头角。这项由 Anthropic 公司（Claude 的创造者）于 2024 年 11 月推出的开放协议，正在重新定义 AI 与数字世界的交互方式。&lt;br&gt;
+这项开放协议不仅让 AI 突破传统对话边界，更赋予其执行现实任务的能力，堪称人工智能向&amp;quot;行动智能体&amp;quot;进化的里程碑。&lt;strong&gt;然而从火热概念到落地业务，MCP 还需要找到云端“好搭档”。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;****从 LLM 到 MCP 的进化之路Cloud Native&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;悬崖跳舞 or 火山口野餐？&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;从传统 LLM 到 MCP 的进化之路，本质上是一场关于数据交互安全的范式革命。&lt;/p&gt;
+&lt;p&gt;在传统的 AI 应用中，语言模型在处理用户数据时，开发者往往面临非此即彼的困境：要么像传统聊天场景那样将数据全量上传至云端（但面临隐私泄露风险和数据规模限制），要么赋予模型 Open Interpreter 式的本地管理员权限（可能因恶意代码执行导致系统沦陷）。&lt;strong&gt;这种&amp;quot;全有或全无&amp;quot;的安全策略，就像让用户选择在悬崖边跳舞还是在火山口野餐。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/224b666e58d883d8d495966f73b4b623.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然而 MCP 协议的出现从根本上解决了用户的两难困境：MCP 协议的突破性在于构建了智能交互的&lt;br&gt;
+标准范式&lt;br&gt;
+。通过标准化的通信协议，它在模型与数据源之间建立了安全隔离带。想象一下，当你用 LLM 分析财务数据时，&lt;strong&gt;MCP 允许模型像外科医生一样通过标准接口&amp;quot;零接触式&amp;quot;实施“远程手术”。这意味着既不需要将敏感报表上传至云端，也不必开放整个本地文件系统&lt;/strong&gt;&lt;br&gt;
+。这种设计类似操作系统的沙箱技术，不可信进程或不可信代码必须运行在虚拟环境，通过隔离的上下文环境访问受限数据，从而减少被攻击面。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是，过多的安全设计往往会带来开放性的损失，MCP 优化了安全的风险，也需考虑开发者的“开放性”诉求。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fb94c1b147e8c9cad0cc49e007bde238.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;从风格各异到风格统一&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;&#34;&gt;
+&lt;/h2&gt;&lt;p&gt;MCP 将不同工具开发者的“个人风格”抽象为统一接口，就像为 AI 世界制定了通用的 USB-C 规范。无论是本地 SQL 数据库还是云端 API，开发者只需实现标准协议即可对接，这&lt;strong&gt;显著降低了工具开发和智能体集成工具的边际成本&lt;/strong&gt;&lt;br&gt;
+。SaaS 厂商和独立开发者将最先从 MCP 的“开放性”受益，MCP 的火热也为这批成功的“尝鲜者”带来巨大的访问流量激增。根据统计，Github MCP Server 的 star 数 2 周内从 0 增长到 4.3k，Figma MCP Server 的 star 数 6 周内从 0 增长到 4.4k。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是，MCP 仍只是智能应用的过程工具，MCP 要走向智能体，协助智能体完成任务协作。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/69639d952948c5354876125f51ea0a43.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1cf31c3750c690c540757058b1440b5a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;爆火之后，算力成新问题&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 降低了智能体接入工具的门槛。以近期大火的 OpenManus（4周内 star 从 0 到 40k） 为例，不同于大模型“大而全”的响应模式，OpenManus 的特点是极简可插拔框架，通过模块化、可扩展的工具集，以 ReAct 模式，以工具为核心驱动 Agent 的行动，逐步解决复杂的真实世界问题。在 OpenManus 这套多模型、多工具的设计方案中，工具调用的频次由大模型结合提示词进行“&lt;br&gt;
+规划→分配→执行”，&lt;strong&gt;调用热点不可预测，一旦出现热点工具算力层面不足而产生报错/卡顿现象，将会极大降低 OpenManus 智能体的任务协作效率。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1829ce2e828a3acd20e84fe267480f0c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serverless 解决算力不足的「破窗效应」&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Serverless 提供的弹性算力重构智能体协作范式，突破资源静态分配桎梏，使得高频 MCP Server 具备毫秒级扩缩容能力实现流量自适应，低频 MCP Server 则自动休眠成本趋近于零。智能体的执行效率依赖子任务的执行成功率，子任务的执行成功率则受到工具调用失败/卡顿的影响，特别是热点工具的调用失败/卡顿极易引发“破窗效应”，导致错误无限扩展，无法达成规划目标。为 MCP 服务/工具提供 Serverless 弹性算力是最优解决方案。&lt;/p&gt;
+&lt;p&gt;Serverless：MCP 落地的“最佳搭档”Cloud Native&lt;/p&gt;
+&lt;p&gt;Serverless 与 MCP 珠联璧合，是云原生架构与 AI 协议标准的&amp;quot;化学反应&amp;quot;。当 MCP 试图构建 AI 世界的通用接口时，Serverless 提供了最佳运行环境 - 就像 USB-C 设备仍需要配备自适应功率的电源适配器才可适配不同的电压标准。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a5036959b7e1b46186555d235cdf359.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其技术协同性体现在三个维度：&lt;/p&gt;
+&lt;p&gt;弹性扩展与按需计费：&lt;br&gt;
+MCP 服务天然适配 Serverless 的事件驱动模型。例如当 LLM 发起数据库查询时，函数计算即时冷启动执行 SQL 解析，响应完成后立即释放资源。实测数据显示，这种模式相比常驻容器节省 83% 的计算成本。&lt;/p&gt;
+&lt;p&gt;安全沙箱与零信任架构&lt;br&gt;
+：&lt;br&gt;
+Serverless 的临时执行环境完美契合 MCP 服务的安全隔离需求。每个 MCP 请求都在独立的上下文中处理，执行完毕后自动销毁实例，消除传统常驻服务的上下文残留，降低数据泄露风险。&lt;/p&gt;
+&lt;p&gt;生态集成与敏捷交付：&lt;br&gt;
+阿里云 Serverless 平台已内置 MCP 运行时。开发者通过函数计算 FC 控制台可直接部署预置的 MCP 模版，如函数计算的 &amp;ldquo;amap-maps-mcp-server&amp;rdquo; 模版可在 30 秒内完成和高德地图的服务对接。&lt;/p&gt;
+&lt;p&gt;这种组合正在重塑 AI 应用架构。&lt;br&gt;
+某出行科技公司的实践显示，其基于 FC+ MCP 构建的智能体系统，在应对突发流量时展现出显著优势：当流量波动引发工具调用洪峰（QPS 从 50 激增至 2000），系统在 500 毫秒内自动扩展出 200 个可并行执行的 MCP 函数实例，全程未触发任何限流告警。这印证了 Serverless 作为 MCP &amp;ldquo;弹性算力&amp;quot;的核心价值 - 让 MCP 既具备协议标准的统一性，又拥有云原生的弹性基因。&lt;/p&gt;
+&lt;p&gt;立即体验：一键部署热门 MCP ServerCloud Native&lt;/p&gt;
+&lt;p&gt;接下来您可以跟着教程快速实现开源 MCP Server 一键托管，假如您搭建的 AI Agent 中需要加入导航服务，您可能会需要高德社区提供的 MCP Server ，接下来我们将以开源项目 amap-maps-mcp-server 为例演示如何一键部署 MCP Server 到函数计算 FC 上，后续您可以在不同工具（如 Cherry-Studio、Cline 和 Cursor）中继续配置云端 MCP 服务。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;第一步： 模版部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;点击【1】进入CAP控制台。填入从高德开发者申请的 Token（立刻申请完成），&lt;br&gt;
+可以在【2】&lt;br&gt;
+申请。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/73c100681b65b142d2d513add98aa00b.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;第二步： 测试 MCP Server 提供的工具能力&lt;/p&gt;
+&lt;p&gt;部署成功之后，通过触发器页面，拿到测试 URL 可对当前 MCP Server 进行测试。如果希望将部署的 MCP Server 用于生产，建议使用自定义域名代替测试 URL。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/83a13de547df1db2fde80f63157e45bb.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试步骤一：本地终端运行命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx @modelcontextprotocol/inspector  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7db5677320c2cc28a59479a40e4dc8ec.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试步骤二：浏览器中打开本地提供的测试地址“&lt;br&gt;
+http://localhost:5173/#tools&lt;br&gt;
+”进行测试，在 URL 表单中填入上面获取的 URL，添加 /sse 后缀填入 URL 表单中，点击 Connect 会看到开源 MCP Server 提供的 Tools 列表，可以点击置顶 Tool 进行交互验证。&lt;br&gt;
+  &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/108f8f05a2f8d71b9a09de744c05fb98.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果您对于产品有更多建议或者对 MCP server 云端托管有更多想法可以加入钉钉群（群号：64970014484）与我们取得联系。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;更多开源 MCP Server 一键部署&lt;/strong&gt;&lt;br&gt;
+  &lt;/p&gt;
+&lt;table&gt;&lt;tbody&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 28.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border: 1px solid rgb(221, 221, 221);max-width: 100%;box-sizing: border-box !important;height: 28.5pt;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;MCP 开源地址&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;编程语言&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;一键部署&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: 1px solid rgb(221, 221, 221);border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Server 类型&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/baidu-maps/mcp/tree/main/src/baidu-map/node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-nodejs-baidu-map&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/github&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-github&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/everart&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-ever-art&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/fetch&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;Python&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-fetch&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;visibility: visible;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;visibility: visible;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-brave-search&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/time&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Python&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-time&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/devsapp/amap-maps-mcp-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-amap-maps&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/everything&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-everything&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;sse&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/aws-kb-retrieval-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-aws-kb-retrieval-server&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 112.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 112.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-gitlab&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 140.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 140.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/template-detail?template=start-mcp-puppeteer&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;sse&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;height: 126.5pt;&#34;&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: 1px solid rgb(221, 221, 221);border-image: initial;max-width: 100%;box-sizing: border-box !important;height: 126.5pt;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;Node&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;https://cap.console.aliyun.com/create-project?template=start-mcp-sequentialthinking&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;td data-colwidth=&#34;69&#34; width=&#34;69&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 5px 10px;outline: 0px;overflow-wrap: break-word !important;word-break: break-all;hyphens: auto;border-top: none;border-right: 1px solid rgb(221, 221, 221);border-bottom: 1px solid rgb(221, 221, 221);border-left: none;border-image: initial;max-width: 100%;box-sizing: border-box !important;&#34;&gt;&lt;section style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;&lt;span leaf=&#34;&#34; style=&#34;-webkit-tap-highlight-color: transparent;margin: 0px;padding: 0px;outline: 0px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;&#34;&gt;mcp-proxy&lt;/span&gt;&lt;/section&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;  
+&lt;p&gt;【1】https://cap.console.aliyun.com/create-project?template=start-mcp-amap-maps&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://lbs.amap.com/api/webservice/create-project-and-key&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;点击,立即体验&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
