@@ -212,3 +212,8 @@ AI Agent 工作负载的兴起，标志着 Serverless 计算范式的一次重�
 **正是这三大支柱，共同铸就了函数计算这一 AI Sandbox 的“新基座”**。
 这个强大而优雅的架构，不仅代表了函数计算自身的**成功进化**，更标志着 Serverless 架构迈入了一个能够原生承载复杂、有状态 AI 应用的新纪元。它让开发者能够以最低的成本、最快的速度和最高的安全性，站在这块坚实的基座上，构建和部署下一代 AI Agent 应用。
 
+
+## 更多 
+
+- https://developer.aliyun.com/article/1680498
+- 基于函数计算FC构建 Browser Tool Sandbox 详解与实操,https://developer.aliyun.com/article/1680200
