@@ -180,3 +180,4 @@
 [√] activity/alipay.md
 [√] ai/ai-ppt.md
 [√] space/2025中国商业航天新势力——卫星应用和服务公司.md
+[√] ai/函数计算进化之路：AI Sandbox 新基座.md
