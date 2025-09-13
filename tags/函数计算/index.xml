@@ -1,0 +1,1416 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>函数计算 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97/</link>
+        <description>Recent content in 函数计算 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Fri, 12 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>函数计算进化之路：AI Sandbox 新基座</title>
+        <link>https://ai.programnotes.cn/p/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E8%BF%9B%E5%8C%96%E4%B9%8B%E8%B7%AFai-sandbox-%E6%96%B0%E5%9F%BA%E5%BA%A7/</link>
+        <pubDate>Fri, 12 Sep 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E8%BF%9B%E5%8C%96%E4%B9%8B%E8%B7%AFai-sandbox-%E6%96%B0%E5%9F%BA%E5%BA%A7/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/547d3cfea841fce261b5aa65998ddf7e.jpg" alt="Featured image of post 函数计算进化之路：AI Sandbox 新基座" /&gt;&lt;p&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: 函数计算通过神龙裸金属和MicroVM架构实现硬件与内核级安全隔离，为AI Sandbox提供坚实基础。&lt;br&gt;
+&lt;strong&gt;核心内容点2&lt;/strong&gt;: 引入会话亲和与会话隔离能力，支持有状态的AI Agent应用，解决状态管理和多租户隔离问题。&lt;br&gt;
+&lt;strong&gt;核心内容点3&lt;/strong&gt;: 创新使用快照技术和PolarFS实现本地临时存储与持久化共享存储的高效安全解决方案。
+千风Serverless 2025-09-12 18:00&lt;/p&gt;
+&lt;h2 id=&#34;引言定义问题与趋势&#34;&gt;&lt;strong&gt;引言：定义问题与趋势&lt;/strong&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;ai-sandbox-的崛起&#34;&gt;AI Sandbox 的崛起
+&lt;/h3&gt;&lt;p&gt;计算领域正在经历一场革命性的转变。我们正从简单的请求-响应模型，迈向一个由自主的、以目标为导向的 AI Agent 定义的新时代。这些 Agent 不再仅仅是被动地执行指令，而是能够进行推理、规划、并拥有记忆，以代表用户完成复杂的多步骤任务。&lt;/p&gt;
+&lt;p&gt;然而，这种强大的自主性也带来了前所未有的安全风险。如何在一个安全可控的环境中执行 AI 驱动生成的业务逻辑？答案就是 AI Sandbox。&lt;/p&gt;
+&lt;p&gt;AI Sandbox 是一个被严格控制的隔离环境，它允许 AI Agent 在其中安全地执行代码、与应用交互和访问资源，而不会危及主机系统或泄露敏感数据。其核心价值在于，它为创新提供了一个“安全环境”，在释放 AI 强大潜力的同时，有效规避了潜在的安全风险，是推动 Agent 技术走向成熟和商业化应用不可或缺的基础设施。&lt;/p&gt;
+&lt;h3 id=&#34;运行时面临的关键挑战&#34;&gt;运行时面临的关键挑战
+&lt;/h3&gt;&lt;p&gt;AI Agent 这一新兴工作负载范式，对底层的运行时环境提出了三个根本性的、前所未有的技术挑战：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;隔离与安全 (Isolation &amp;amp; Security)：这是首要且不容妥协的要求。执行由大语言模型（LLM）动态生成且不可信的代码，引入了巨大的安全漏洞，包括沙箱逃逸、代码注入、权限提升和未经授权的系统访问。传统的软件沙箱技术在应对这种动态、复杂且可能具有对抗性的 AI 工作负载时，正变得越来越力不从心，频繁出现的高危漏洞证明了这一点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;状态管理与成本 (State Management &amp;amp; Cost)：AI Agent 的工作模式是对话式、持续性的，这意味着每个 Agent 都需要一个持久的、有状态的会话来维持上下文、记忆和交互式环境。这与传统的基础设施模式产生了尖锐的冲突。为每一个潜在的用户会话（可能是数百万个）都预置一个长期运行的虚拟机（VM），将导致惊人的闲置资源成本和巨大的运维负担。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可扩展性与运维 (Scalability &amp;amp; Operations)：Agent 应用的流量往往是突发且不可预测的。基础设施必须能够瞬时、动态地扩展以应对峰值，并在空闲时迅速缩减以节约成本。然而，从零开始构建并维护一个既安全隔离又具备弹性伸缩能力的沙箱环境，需要极其专业的 DevOps 知识和大量的人力投入，这对大多数初创公司和开发团队而言都是一个难以逾越的障碍。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这三大挑战共同指向一个结论：AI Agent 的兴起催生了一种全新的、独特的云工作负载类型。它既不完全符合传统 IaaS（对于零散、突发的使用场景而言过于昂贵和笨重）的模式，也打破了第一代 FaaS（函数即服务，因其无状态和较弱的隔离保证而无法满足需求）的设计假想。市场迫切需要一种新型运行时——它必须兼具&lt;strong&gt;虚拟机的状态化和隔离性&lt;/strong&gt;与&lt;strong&gt;Serverless 的经济性和弹性&lt;/strong&gt;。这正是阿里云函数计算（Function Compute, FC）架构演进所要解决的核心问题。&lt;/p&gt;
+&lt;h2 id=&#34;为何函数计算是理想的起点&#34;&gt;&lt;strong&gt;为何函数计算是理想的起点&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;在深入探讨函数计算为 AI Sandbox 提供的原生解决方案之前，我们必须首先理解其底层架构所带来的独特基础优势。这些优势并非后期添加的功能，而是根植于平台设计的基因之中，使其成为构建安全、经济、高效沙箱的理想起点。&lt;/p&gt;
+&lt;h3 id=&#34;始于物理隔离的底层架构&#34;&gt;始于物理隔离的底层架构
+&lt;/h3&gt;&lt;p&gt;安全性是 AI Sandbox 的基石，而函数计算的安全性始于最底层——物理硬件。其独特的**“神龙裸金属 + MicroVM 安全容器”**架构，为用户提供了一个从硬件到应用运行时的端到端、纵深防御安全体系。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;神龙裸金属服务器：&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在神龙裸金属服务器上，来自多个不同租户的函数实例以安全隔离的方式，高效地共同运行在同一物理硬件之上。其卓越的安全性源于神龙架构在硬件层面对虚拟化技术的革命性重塑，从而在共享硬件上实现了租户间的“硬隔离”。
+其核心在于，神龙架构通过&lt;strong&gt;自研的 MOC 芯片&lt;/strong&gt;，将网络、存储、虚拟化等原本属于Hypervisor（虚拟机监视器）的复杂功能&lt;strong&gt;从主 CPU 卸载到了独立的专用硬件&lt;/strong&gt;上。
+这一设计带来了根本性的安全优势：运行在主 CPU 上的 Hypervisor 变得极其轻薄，其攻击面被大大缩减。不同租户的函数实例（Guest）与平台的管控逻辑（Host）之间形成了一道由&lt;strong&gt;硬件定义的、无法逾越的隔离边界&lt;/strong&gt;
+。这种架构从根本上消除了传统软件 Hypervisor 可能存在的逃逸漏洞风险，确保了在同一台物理服务器上的不同租户之间，享有业界顶级的硬件级安全保障。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MicroVM 安全容器：****在神龙架构提供的坚实租户间隔离基础上，函数计算采用 MicroVM 安全容器为每一个函数实例提供一个独立的、受保护的执行沙箱。这并非共享主机内核（Host Kernel）的普通 Docker 容器，而是基于轻量级虚拟化技术（MicroVM）的独立执行环境。其最核心的安全特性在于：每一个函数实例，都运行在一个拥有独立、精监客户机内核（Guest Kernel）的微型虚拟机中。这意味着，AI Agent 生成和执行的代码被完全封装在自己的内核空间里。任何代码层面的漏洞、恶意攻击或不稳定行为，其影响范围都被严格限制在该实例自身的、短暂的内核之内。它既无法访问或影响主机内核，也无法触及在同一台物理机上运行的其他租户实例的内核。这种内核级别的强隔离，为执行行为不可完全预测的 AI 代码提供了理想的“内隔离”沙箱环境，其冲击范围被牢牢锁定在即用即毁的单个实例内部。
+这种“物理隔离保障租户间安全，安全容器保障租户内隔离”的双重隔离模型，构建了一个远比单一依赖 Hypervisor 的传统虚拟化方案更为坚固的安全壁垒，为运行不可信的 AI 生成代码提供了前所未有的信心。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;serverless-时代的红利&#34;&gt;Serverless 时代的红利
+&lt;/h3&gt;&lt;p&gt;除了坚不可摧的安全基础，函数计算作为 Serverless 平台，为 AI Agent 场景带来了颠覆性的经济和运维优势。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;极致的成本效益：AI Agent 的用户活跃度通常是突发和间歇性的。如果采用传统的预置服务器模式，企业将为大量的闲置时间付费。研究表明，超过 70% 的服务器资源处于未被充分利用的状态。函数计算的按需付费模型（精确到毫秒）则彻底改变了这一局面。您只需为沙箱实际运行的计算时间付费，当没有请求时，不产生任何计算费用，资源利用率可达 100%。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;零运维负担：平台完全托管了底层基础设施的生命周期管理，包括资源调配、系统补丁、安全加固、容量规划和弹性伸缩。这意味着您的开发团队可以从繁琐复杂的 DevOps 工作中解放出来，将全部精力聚焦于构建 Agent 的核心能力和业务逻辑，从而极大地缩短产品上市时间。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;函数计算的这些基础优势，直接回应了引言中提出的核心挑战。它以一种“无妥协”的姿态，同时解决了安全和成本这两个构建 AI Sandbox 时最令人头疼的问题。&lt;/p&gt;
+&lt;h2 id=&#34;函数计算还缺什么&#34;&gt;&lt;strong&gt;函数计算还缺什么？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;尽管函数计算拥有强大的底层优势，但在其演进的早期阶段，和其他 FaaS 平台一样，也面临着一个核心的架构性矛盾：&lt;strong&gt;平台设计的“无状态”本质与 AI Sandbox 需求的“有状态”特性之间的冲突&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;短暂的执行-vs-持久的环境&#34;&gt;短暂的执行 vs. 持久的环境
+&lt;/h3&gt;&lt;p&gt;传统的 FaaS 平台被设计为处理&lt;strong&gt;无状态&lt;/strong&gt;的、短暂的事件。每一次函数调用都被视为一个独立的、全新的开始，执行环境在调用结束后随时可能被回收，不保留任何上下文信息。然而，一个 AI Sandbox 的工作流程恰恰相反，它本质上是&lt;strong&gt;有状态&lt;/strong&gt;的。Agent 需要在一个连续的会话中加载代码库、安装依赖、在内存中维护上下文、在文件系统中读写文件，并与用户进行多轮交互。这种根本性的不匹配，是第一代 Serverless 架构应用于此场景时最大的障碍。&lt;/p&gt;
+&lt;h3 id=&#34;e2b-项目的实践与启示&#34;&gt;E2B 项目的实践与启示
+&lt;/h3&gt;&lt;p&gt;开源项目 &lt;strong&gt;E2B&lt;/strong&gt; 是一个广受欢迎的 AI Sandbox 框架。我们将其应用层的 Jupyter 以及 Envd 移植到阿里云函数计算的早期尝试（https://github.com/aliyun-fc/e2b-on-aliyun-fc）中，探索出静态预留实例的模式，该模式将函数与 Sandbox 一一对应，将函数的“最小实例数”和“最大实例数”都设置为 1，可以强制平台为一个函数长期保留一个运行中的实例，这个实例不会因为空闲而被回收，从而实现了一种伪状态化的“会话粘性”。&lt;/p&gt;
+&lt;p&gt;这次实践将函数计算作为 E2B 的 Infra 层，成功验证了函数计算底层环境的可行性，但也清晰地暴露了上述所有局限。它让平台和社区都深刻地认识到：仅仅“让实例活得更久”是远远不够的。真正的挑战在于，如何在一个庞大的、动态的实例池中，智能地管理成千上万个有状态会话的生命周期，并将属于特定用户的请求精确地路由到其对应的实例上。&lt;/p&gt;
+&lt;p&gt;这种探索过程中的变通方案，其失败之处恰恰揭示了通往真正解决方案的道路。它证明了市场需要的不是一个配置技巧，而是一个平台级的、原生的&lt;strong&gt;会话管理和路由层&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;方案的局限性&#34;&gt;方案的局限性
+&lt;/h3&gt;&lt;p&gt;尽管这种方法在小规模验证中看似可行，但它很快就暴露出一系列致命的局限性，使其无法成为一个可持续、可扩展的解决方案：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;高昂的管理成本：开发者需要为每个用户或每个会话手动创建和管理一个独立的、配置了静态实例的函数。这违背了 Serverless 简化运维的初衷，带来了巨大的管理复杂性。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;可扩展性的噩梦：这种模式完全破坏了 Serverless 自动伸缩的核心价值。当用户规模从十增长到一万时，平台无法自动扩展。开发者需要手动或通过复杂的外部编排逻辑来管理这一万个“永久在线”的函数，这在操作上是极其脆弱和不可行的。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;经济效益的丧失：静态预留模式需要函数始终保持一个实例存活来模拟“会话粘性”，这种使用模式完全抵消了 Serverless 按需付费的最大成本优势。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;平台与用户的双重负担：这种反模式（Anti-pattern）不仅给用户的架构带来了技术债，也对云平台的调度系统造成了不必要的压力，是一种低效的资源利用方式。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;从变通到原生支持-ai-sandbox-配套能力&#34;&gt;&lt;strong&gt;从变通到原生支持 AI Sandbox 配套能力&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;AI Agent 工作负载的兴起，标志着 Serverless 计算范式的一次重要演进。需求已经从单纯的“执行一段代码”，转变为“管理一个有状态的、可交互的完整环境”。这要求平台本身必须从一个简单的事件触发器，进化为一个具备复杂会话生命周期管理能力的智能调度系统。&lt;/p&gt;
+&lt;p&gt;阿里云函数计算敏锐地捕捉到了这一趋势，并推出了业界领先的原生解决方案，彻底告别了过去的变通，为有状态 Serverless 应用提供了坚实的平台级支持。&lt;/p&gt;
+&lt;h3 id=&#34;核心能力安全会话亲和隔离与管理&#34;&gt;核心能力：安全、会话亲和、隔离与管理
+&lt;/h3&gt;&lt;p&gt;函数计算推出的这套原生解决方案，由三大核心能力构成，它们协同工作，为 AI Sandbox 提供了完美的运行环境。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;灵活的安全机制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;传统 Serverless 架构，基于函数执行角色，通常会由平台默认注入一个临时的 STS Token 实现运行时的无 AK 化，确保 AK 的安全；但考虑到 AI 执行环境的安全性和 STS Token 被 AI 滥用的潜在安全风险，平台提供了禁止注入 STS Token 的能力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 强会话亲和 (Session Affinity)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这是解决状态化问题的关键。会话亲和性是一个智能路由层，它确保在一次会话的整个生命周期中，所有来自同一客户端的请求，都会被精确且持续地路由到同一个函数实例上。函数计算提供了多种灵活的亲和方式，包括专为 Agent 场景设计的 &lt;strong&gt;MCP SSE 亲和&lt;/strong&gt;
+，以及适用于 Web 场景的 &lt;strong&gt;HeaderField 亲和&lt;/strong&gt;
+和 &lt;strong&gt;Cookie 亲和&lt;/strong&gt;
+。这就为每个用户会话分配了一个固定的函数实例，保证了交互的连续性和上下文的完整性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 会话物理隔离 (Session Isolation)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果说会话亲和解决了“连续性”的问题，那么会话隔离则解决了“安全性”的问题。在多租户 SaaS 平台中，确保不同租户的沙箱环境绝对隔离是最高安全准则。启用会话隔离后，函数计算会为每一个会话独占一个完整的函数实例（强制将单实例 Session 并发度设置为 1）。这意味着租户 A 的内存、临时文件、进程空间与租户 B 的环境是物理上分离的（基于神龙裸金属）和逻辑上独立的，从而提供了金融级别的多租户安全保障。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 会话管理接口 (Session Management Interface)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;函数计算将这些强大的底层能力，通过简洁的控制台配置选项和 API 接口开放给开发者。开发者无需编写复杂的外部编排和调度逻辑，只需通过简单的配置，就能创建、查询和销毁这些被隔离的、有状态的会话。平台在后台自动处理了会话生命周期与实例生命周期的精确映射和管理，极大地降低了开发门槛。&lt;/p&gt;
+&lt;h3 id=&#34;架构对比从混乱到优雅&#34;&gt;架构对比：从混乱到优雅
+&lt;/h3&gt;&lt;p&gt;通过下面的架构对比图，我们可以清晰地看到从“变通方案”到“原生支持”的巨大飞跃。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/547d3cfea841fce261b5aa65998ddf7e.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;会话亲和与会话隔离并非两个孤立的功能，而是一个统一概念的两个侧面，共同构建了一个全新的 Serverless 原语：
+“&lt;strong&gt;按需生成的、隔离的、有状态的运行时环境&lt;/strong&gt;
+”
+。亲和性定义了“得到什么”（一个连续的环境），隔离性定义了“如何得到”（一个安全独占的环境）。这种组合，让函数计算超越了传统 FaaS 的范畴，成为一个能够原生承载有状态应用的强大平台。&lt;/p&gt;
+&lt;h3 id=&#34;存储隔离解决状态持久化难题&#34;&gt;存储隔离：解决状态持久化难题
+&lt;/h3&gt;&lt;p&gt;一个完整的 AI Sandbox 解决方案，不仅需要解决计算层的状态管理，还必须应对存储层的持久化挑战。函数计算通过创新的技术和完善的最佳实践，为 Agent 的两类核心存储需求——&lt;strong&gt;本地临时存储&lt;/strong&gt;和&lt;strong&gt;持久化共享存储&lt;/strong&gt;——提供了端到端的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本地临时存储：快照技术带来的极速恢复&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;挑战：当一个用户会话进入空闲状态时，为了节约成本，平台可能会回收或“冻结”其占用的实例。那么，当用户再次发起请求时，如何快速恢复该实例本地磁盘上原有的环境状态（例如已安装的依赖包、生成的代码文件、会话日志等）？传统的冷启动方式需要重新初始化整个环境，耗时过长，严重影响用户体验。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;解决方案：函数计算为此引入了基于快照的会话运行时环境恢复机制。当一个启用了会话隔离且设置了最小实例数的函数实例进入空闲时，平台并不会简单地销毁它。相反，系统会自动为该实例的状态（包括其完整的本地磁盘）创建一个快照 (Snapshot)。当该会话的下一个请求到达时，平台会直接从这个快照“唤醒”一个全新的实例。这个过程是“热启动”，能够在短时间内恢复会话之前的所有本地环境。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种机制巧妙地平衡了成本与性能，为用户提供了持久化会话的体验，而其计费模式却依然遵循 Serverless 的按需使用原则，只在实例活跃时才收取全额费用。&lt;/p&gt;
+&lt;h3 id=&#34;持久化共享存储会话粒度存储隔离&#34;&gt;持久化共享存储：会话粒度存储隔离
+&lt;/h3&gt;&lt;h4 id=&#34;共享存储架构的多租隔离挑战&#34;&gt;共享存储架构的多租隔离挑战
+&lt;/h4&gt;&lt;p&gt;对于采用 SaaS（软件即服务）模式的 Agent 平台而言，其核心架构必须支持成千上万个租户（Tenant）在隔离环境中安全地运行。在数据持久化层面，这些租户的项目文件、数据集等核心资产，通常会统一存放在一个高可用、可扩展的共享后端存储系统上（例如，NFS 协议的阿里云文件存储 NAS）。&lt;/p&gt;
+&lt;p&gt;在此背景下，一个严峻的安全挑战应运而生：如何在物理共享的存储资源上，实现逻辑上租户之间数据的严格隔离，有效防止任何形式的数据越权访问。传统的做法，即将所有用户的会话相关实例挂载到同一个共享根目录，是一种完全不可接受的方案。这种设计存在重大安全隐患，无法满足企业级的安全与合规要求。&lt;/p&gt;
+&lt;h4 id=&#34;从计算隔离到存储隔离的延伸&#34;&gt;从计算隔离到存储隔离的延伸
+&lt;/h4&gt;&lt;p&gt;为应对这一挑战，Serverless 平台需要一套端到端的数据隔离与访问控制方案。该方案以前文所述的“会话（Session）”抽象为基础，将会话亲和（Session Affinity）与会话隔离（Session Isolation）能力从计算层延伸至存储层，构建起一道坚实的数据安全防线。&lt;/p&gt;
+&lt;p&gt;我们为此引入了“会话粒度存储粘性”（Session-level Storage Stickiness）的核心机制。其设计思想是：&lt;strong&gt;将会话与一个持久化的、归属于特定租户的存储子目录进行强绑定。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;具体而言，当平台为租户创建会话时，会执行以下关键操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;动态绑定：每个会话都将唯一关联到一个用户指定的挂载子目录（Sub-Path）。此目录成为该会话期间所有持久化数据的唯一、专属存储位置。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;按需创建：如果租户指定的子目录尚不存在，平台将自动、原子化地创建该目录，确保服务启动的无缝衔接。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过这种方式，我们巧妙地在共享的存储挂载点（Mount Point）之上，为每个会话构建了一个独立的、目录级别的逻辑“数据沙箱”，从基础文件系统层面杜绝会话间数据交叉的可能性。&lt;/p&gt;
+&lt;h3 id=&#34;基于posix标准的多租存储安全实践框架&#34;&gt;基于POSIX标准的多租存储安全实践框架
+&lt;/h3&gt;&lt;p&gt;在会话粒度存储粘性能力基础上，函数计算给用户提供了一套可落地的&lt;strong&gt;多租户存储安全最佳实践框架&lt;/strong&gt;
+。开发者可以利用平台能力，构建一个层次化的纵深防御体系：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;UID 隔离：这是 POSIX 文件系统权限控制的基石。用户需要为每个会话（可以映射为每个租户或会话）颁发一个唯一的 POSIX 用户 ID (UID) 。这样，每个会话在文件系统层面就有了自己独立的“身份”。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SecurityContext 继承：平台侧在自动创建不存在的挂载目录时，会自动将目录的 UID 和 GID 指定为用户配置的 UID 以及 GID，并将目录的访问 Mode 设置为 700 (rwx&amp;mdash;&amp;mdash;)，保证挂载目录的权限只为其所有者，在此基础上，用户的函数主进程在挂载目录下创建子目录或者文件时，需要主动继承挂载目录的 SecurityContext ，从源头上防止了权限混乱。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;主进程 UID 切换：这一步在进程层面加固了隔离。Agent 的代码本身就运行在受限的、非 root 的用户身份下，极大地缩小了潜在的攻击面。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;目录配额 (Directory Quotas)：这是防止“邻居噪音”问题的关键一环。需要借助存储平台侧的目录级配额能力，主动为不同会话（或不同租户）的目录精确设置配额，有效防止某个恶意或行为异常的租户耗尽整个共享文件系统的存储空间，从而保障了其他所有租户服务的可用性。&lt;/strong&gt;****&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;UID 复用：当一个UID被回收后，它在文件系统上的内容依然存在，在真正清理完文件系统上对应会话的内容后，该 UID 才能被再次复用，若依赖存储平台侧具备目录 TTL 能力，那么基于会话最大存活时间进行合理设置即可，否则需要用户主动启动异步垃圾回收进程来定期扫描文件系统，回收过期的会话文件内容。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这套闭环的安全体系，表明函数计算提供的不仅仅是孤立的存储功能，而是一套经过深思熟虑的、面向多租户 SaaS 场景的、企业级的安全架构。&lt;/p&gt;
+&lt;p&gt;尽管基于 NAS 的多租户安全框架已经足够强大和安全，但对于某些追求极致性能的场景，例如在 Sandbox 内进行大规模代码编译、高频读写海量小文件、或运行 I/O 密集型数据分析任务时，通用文件存储的毫秒级延迟可能成为瓶颈。&lt;/p&gt;
+&lt;p&gt;为了满足这些最严苛的性能需求，有必要引入更先进的存储技术。&lt;strong&gt;PolarFS&lt;/strong&gt; 是专为云原生数据库 PolarDB 设计的高性能分布式文件系统，其核心优势在于&lt;strong&gt;极致的低延迟&lt;/strong&gt;。
+通过利用 RDMA、NVMe 以及用户态 I/O 栈等前沿技术，PolarFS 绕过了传统的操作系统内核，实现了接近本地 NVMe SSD 的微秒级访问延迟，这比 NAS 的毫秒级延迟有数量级的提升 。&lt;/p&gt;
+&lt;p&gt;这种极致性能对于 AI Sandbox 意味着更快的环境初始化、更流畅的代码执行和数据处理体验。为了将这种能力赋予广大开发者，&lt;strong&gt;阿里云函数计算正与 PolarFS 团队紧密合作，即将推出 PolarFS 的原生挂载能力&lt;/strong&gt;
+。
+这项新功能将支持在&lt;strong&gt;会话粒度&lt;/strong&gt;上，为每一个独立的 Sandbox 动态挂载专属的 PolarFS 存储盘。这将为需要极致 I/O 性能的 AI Agent 应用提供一个无与伦比的运行时环境，进一步巩固函数计算在该领域的领导地位。&lt;/p&gt;
+&lt;h2 id=&#34;函数计算ai-sandbox-的首选运行时&#34;&gt;&lt;strong&gt;函数计算：AI Sandbox 的首选运行时&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;经过层层深入的剖析，阿里云函数计算所走的“&lt;strong&gt;进化之路&lt;/strong&gt;”也愈发清晰。它已不再是传统意义上处理瞬时、无状态任务的 Serverless 平台，而是通过一系列深刻的技术革新，&lt;strong&gt;真正进化为了支撑 AI Sandbox 这一新兴、严苛工作负载的“新基座”&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;端到端的原生解决方案&#34;&gt;端到端的原生解决方案
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;这一进化的核心&lt;/strong&gt;，在于其方案的完整性与原生性。它不是通过零散功能的拼凑或复杂的变通来实现对 AI Sandbox 的支持，而是从底层硬件到上层应用提供了一套无缝集成的、端到端的解决方案：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;计算隔离：&lt;strong&gt;以“神龙裸金属”的&lt;/strong&gt;硬件级隔离&lt;/strong&gt;为根基，结合“MicroVM 安全容器”的&lt;strong&gt;内核级隔离&lt;/strong&gt;，为这个&lt;strong&gt;基座&lt;/strong&gt;提供了业界最高标准的安全保障。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;会话管理：&lt;/strong&gt;
+通过打破 Serverless 无状态的传统束缚，以原生的“会话亲和”与“会话隔离”能力，完美解决了 Agent 所需的有状态、长连接和多租户隔离问题，&lt;strong&gt;这标志着其向有状态应用领域的一次关键进化&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;存储安全：&lt;/strong&gt;
+创新的“快照恢复”技术实现了本地临时存储的秒级恢复，而基于“UID/GID 隔离”和“目录配额”的完整安全隔离框架，则为持久化共享存储构建了坚不可摧的多租户安全堡垒。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;正是这三大支柱，共同铸就了函数计算这一 AI Sandbox 的“新基座”&lt;/strong&gt;。
+这个强大而优雅的架构，不仅代表了函数计算自身的&lt;strong&gt;成功进化&lt;/strong&gt;，更标志着 Serverless 架构迈入了一个能够原生承载复杂、有状态 AI 应用的新纪元。它让开发者能够以最低的成本、最快的速度和最高的安全性，站在这块坚实的基座上，构建和部署下一代 AI Agent 应用。&lt;/p&gt;
+&lt;h2 id=&#34;更多&#34;&gt;更多
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.aliyun.com/article/1680498&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://developer.aliyun.com/article/1680498&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;基于函数计算FC构建 Browser Tool Sandbox 详解与实操,https://developer.aliyun.com/article/1680200&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配</title>
+        <link>https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/</link>
+        <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp-server-%E5%AE%9E%E8%B7%B5%E4%B9%8B%E6%97%85%E7%AC%AC-1-%E7%AB%99mcp-%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90%E4%B8%8E%E4%BA%91%E4%B8%8A%E9%80%82%E9%85%8D/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png" alt="Featured image of post MCP Server 实践之旅第 1 站：MCP 协议解析与云上适配" /&gt;&lt;p&gt;核心内容点1: MCP协议解析，包括STDIO和SSE两种传输方式的比较。
+核心内容点2: 函数计算平台作为MCP Server的优势，解决分布式系统复杂性、资源限制和安全挑战。
+核心内容点3:  MCP技术演进方向预测，包括协议架构升级、通用性扩展、新交互模式和生态系统扩展。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 西流  Serverless   2025-04-27 18:02&lt;/p&gt;
+&lt;p&gt;在人工智能技术高速发展的今天，数据孤岛、工具碎片化、上下文割裂问题已成为制约大模型发挥潜力的关键瓶颈。Model Context Protocol（MCP）作为 Anthropic 于 2024 年推出的开源协议，正引领着 AI 与数据交互的标准化进程。MCP 通过构建 Client-Server 架构，将大型语言模型（LLM）与分散的垂类数据源无缝连接，不仅解决了传统开发中&amp;quot;一事一议&amp;quot;的高成本难题，更通过 JSON-RPC 通信机制实现了跨平台互操作。其创新性体现在工具（Tools）、资源（Resources）、提示（Prompts）等五大核心原语的设计，使得 AI 应用既能安全访问本地数据库，又可灵活调用云端 API。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;作为 AI 领域的&amp;quot;USB-C 接口&amp;quot;，MCP 正重构智能系统与数字世界的连接方式，为下一代自主智能体的发展奠定技术基石。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;然而 MCP Server 在真实部署中面临分布式系统复杂性、资源限制（如连接池/超时控制）及长连接身份验证等安全挑战。函数计算平台通过协议原生支持与架构级优化（如自动扩缩容、会话持久化机制），系统性化解技术痛点，成为承载 MCP Server 的理想计算底座。 &lt;br&gt;
+本系列将从技术原理到实战场景，深入解析函数计算如何攻克上述难题——本文作为开篇，将揭示 MCP 协议深度解析和云上最佳适配。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f106fa3b49058bdffcdf84db7dfc4af.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片,MCP Timeline&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是-mcp&#34;&gt;&lt;strong&gt;什么是 MCP?&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cea90706b53bfd8b2db5b7fb2c1c291f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP Clearly Explained [1]&lt;/p&gt;
+&lt;p&gt;MCP 引入堪称 AI 协作的 USB-C 接口，其建立了通用的数据交互标准，数据提供者可以通过 MCP 服务器向 AI 系统提供结构化信息，而 AI 系统则可通过 MCP 客户端高效访问这些信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Host（如 Claude Desktop、Cursor IDE、Cline）可视作一个 AI Agent，通过 LLM 实现意图解析与任务编排，协调 MCP Server 执行原子化子任务，同时维护全生命周期对话管理，是整个系统的启动入口。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Server 提供特定功能（工具、数据访问、领域提示）的外部程序，连接到 Google Drive、Github、数据库和 Web 浏览器等各种数据源），就像工具箱中的工具，每个服务器都专注于特定任务，这种设计使得在不破坏整个系统的情况下，可以轻松地替换或升级单个组件，能让大模型能很好地理解工具的功能范围及使用方法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 是 MCP Host 引用的中间件，负责与 MCP Server 建立连接，处理STDIO/SSE 等&lt;br&gt;
+通信协议、消息格式化和状态管理，确保人工智能模型与服务器之间进行可靠且安全的通信。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 协议已经成为大语言模型（LLM）生态系统中不可或缺的核心组件，其解决了流式响应、实时交互、工具调用等场景中的众多技术挑战：&lt;/p&gt;
+&lt;p&gt;a.流式传输优先：采用增量传输而非整体响应&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;b. 协议一致性&lt;/strong&gt; ：保证不同模型实现间的互操作性&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;c. 低延迟高效率&lt;/strong&gt;：最小化传输开销和响应时间&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;d. 可扩展性&lt;/strong&gt;：支持未来新功能的无缝集成&lt;/p&gt;
+&lt;h2 id=&#34;mcp-协议解析&#34;&gt;&lt;strong&gt;MCP 协议解析&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;01 生命周期&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66348da8788c0eeccccf977af0df6e06.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP LifyCycle [2]&lt;/p&gt;
+&lt;p&gt;02 传输方式&lt;/p&gt;
+&lt;p&gt;MCP 使用 JSON-RPC 来编码消息。JSON-RPC 消息必须使用 UTF-8 编码，协议目前定义了两种用于客户端-服务器通信的标准传输机制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;STDIO，通过标准输入和标准输出进行通信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;SSE,HTTP 与服务器发送事件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;STDIO&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[客户端] → stdin请求 → [MCP服务器] → stdout响应 → [客户端]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;STDIO（标准输入输出）是 MCP 协议在本地或容器化环境中的主要实现方式。在技术层面，其工作原理如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;- 进程间通信机制&lt;/strong&gt;  ：MCP 利用操作系统提供的标准 IO 流（文件描述符 0 [stdin]、1 [stdout]）在进程间传递数据&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JSON 序列化&lt;/strong&gt; ：消息以 JSON 格式序列化，每行一个完整的 JSON 对象&lt;/p&gt;
+&lt;p&gt;在本地计算环境或容器化部署场景中，基于 STDIO 的实现通常会被打包为独立的二进制可执行文件。不同技术栈的实现形态各具特色：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Node.js 生态通常通过 npx 提供，例如 &amp;ldquo;npx -y  @amap/amap-maps-mcp-server&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python 生态则以 uvx 提供,  例如 &amp;ldquo;uvx mcp-server-time &amp;ndash;local-timezone=Asia/Shanghai&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种交付方式不仅简化了部署流程，还显著降低了环境依赖和配置的复杂性，使得跨平台部署变得极其轻量和高效。STDIO 以 JSON 行（JSON Lines/JSONL）格式进行通信，一个典型的交互流程如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;initialize&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;protocolVersion&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2024-11-05&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;capabilities&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;sampling&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;roots&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;listChanged&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:true}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;clientInfo&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;mcp-inspector&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;0.7.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.505Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;npm run build-server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.530Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt; @modelcontextprotocol/server-filesystem@0.6.2 build-server&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;gt; webpack --config webpack.config.js --env target=server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:13.707Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;asset index.js 286 KiB [compared for emit] (name: main) 1 related asset&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;orphan modules 288 KiB [orphan] 48 modules&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;./server.ts + 47 modules 291 KiB [not cacheable] [built] [code generated]&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;webpack 5.98.0 compiled successfully in 618 ms&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.007Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;node dist/server/index.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.017Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;start server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.053Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;protocolVersion&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2024-11-05&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;capabilities&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;serverInfo&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;example-server&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;-0.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.056Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;notifications/initialized&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:15.064Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools/list&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:2-855Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;calc ohyee&amp;#39;s add a and b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;inputSchema&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;object&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;properties&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;required&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;additionalProperties&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:false,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;$schema&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;http://json-schema.org/draft-07/schema#&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}}]},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:2-858Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;tools/call&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;_meta&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;progressToken&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:0},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:1,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2}}}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.869Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;get 1 + 2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.873Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;stdout&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;}]},&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;jsonrpc&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&amp;#34;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:2}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:24.873Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;interrupt&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;content&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Process interrupted by user&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;2025-03-31T01:55:42.514Z&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;TIPS：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;开发 STDIO MCP Server 期间,  将调试日志打印到文件描述符 2 [stderr] 是一个不错的实践。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SSE&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                HTTP POST请求
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              ↗---------------→
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[客户端]                            [MCP服务器]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              ↖-----------------↙
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                 SSE事件流推送
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;SSE（Server-Sent Events）是 MCP 在网络环境中的主要实现技术，尤其适合云服务和远程 API 调用场景。其技术实现细节包括：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;- HTTP 长连接&lt;/strong&gt; ：SSE 建立在 HTTP/-1 或 HTTP/2 协议之上，使用 Content-Type: text/event-stream头&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 增量数据传输&lt;/strong&gt; ：服务器按照 SSE 格式推送事件数据，每个事件以 data: &lt;br&gt;
+前缀标识&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 事件解析&lt;/strong&gt;：客户端使用 EventSourceAPI 或兼容库自动解析事件流&lt;/p&gt;
+&lt;p&gt;一个最简单的典型 MCP SSE 请求时序图如下： &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/47a73e98fc5b44cd7e97dbf15aafc51d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP SSE 请求时序图&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Client 发起一个 GET 请求，建立了一个 SSE 长连接&lt;br&gt;
+ &lt;strong&gt;[Connection1]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Server 回复 path 以及 sessionId**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client 使用2 中 path 及 sessionId发起 initialize HTTP POST 请求 &lt;strong&gt;[Connection2]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client 发送包含协议版本和能力的 initialize请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无 body &lt;strong&gt;[Connection2]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 3 请求的响应真正的 message**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Server 以其协议版本和能力响应&lt;/strong&gt;&lt;/p&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;Client 使用2 中 path 及 sessionId  发起 initialized HTTP POST 请求作为确认 &lt;strong&gt;[Connection3]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection3]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Client使用2 中 path 及 sessionId 发起 list tools HTTP POST 请求 &lt;strong&gt;[Connection4]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection4]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 8 请求的响应真正的 message，即工具列表**[Connection1]**
+1- Client使用 2 中 path 及 sessionId 发起 call tool HTTP POST 请求 &lt;strong&gt;[Connection5]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 端快速响应 202，无body &lt;strong&gt;[Connection5]&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Server 返回 11 请求的响应真正的 message，即工具调用结果**[Connection1]**&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;接下来，我们可以通过一个 hello_world MCP Server + curl 工具来完整演示整个流程：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Terminal 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ curl -v http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/sse
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Terminal 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# initialize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{ &amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;id&amp;#34;: 0, &amp;#34;method&amp;#34;: &amp;#34;initialize&amp;#34;, &amp;#34;params&amp;#34;: { &amp;#34;protocolVersion&amp;#34;: &amp;#34;2024-11-05&amp;#34;, &amp;#34;capabilities&amp;#34;: { &amp;#34;roots&amp;#34;: { &amp;#34;listChanged&amp;#34;: true }, &amp;#34;sampling&amp;#34;: {} }, &amp;#34;clientInfo&amp;#34;: { &amp;#34;name&amp;#34;: &amp;#34;ExampleClient&amp;#34;, &amp;#34;version&amp;#34;: &amp;#34;-0.0&amp;#34; } } }&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# initialized&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{ &amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;method&amp;#34;: &amp;#34;notifications/initialized&amp;#34; }&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# list tools&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;jsonrpc&amp;#34;: &amp;#34;2.0&amp;#34;, &amp;#34;id&amp;#34;: 1, &amp;#34;method&amp;#34;: &amp;#34;tools/list&amp;#34;, &amp;#34;params&amp;#34;: {}}&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# call tool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;curl&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;X&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;header&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;jsonrpc&amp;#34;:&amp;#34;2.0&amp;#34;,&amp;#34;id&amp;#34;:2,&amp;#34;method&amp;#34;:&amp;#34;tools/call&amp;#34;,&amp;#34;params&amp;#34;:{&amp;#34;name&amp;#34;:&amp;#34;hello_world&amp;#34;,&amp;#34;arguments&amp;#34;:{}}}&amp;#39;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://start-mnodejs-g-qzhihvopgs.cn-hangzhou.fcapp.run/messages?sessionId=c828f039-260a-416c-92bf-c05ad9a40599&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/04873c393a48def35b1e5a1829ca57a0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;从上面的时序图以及一个具体实践的流程看过来，我们可以明显看到 SSE 的优势和不足：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;优势：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;协议轻量化, 基于 HTTP 协议实现，无需复杂握手，兼容现有基础设施，开发成本低&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实时流式推送 ，支持服务器主动推送文本数据（如日志、进度更新），适合长任务交互&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;资源效率高，单连接复用推送&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;不足：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;单向通信限制， 仅支持服务端→客户端推送，需配合 HTTP 请求实现双向交互，这个就要求 SSE 长连接和后续配合该会话的 HTTP 请求必须在同一个 MCP Server 服务实例， 对于 MCP Server 实例需要横向扩展的场景提出了 Session 会话亲和的技术要求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;协议演进趋势 ，  Streamable HTTP 提案 2025.3.17 通过，后者支持动态流式升级与无状态服务，更适应云原生架构&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;TIPS:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重要的事情说三遍，重要的事情说三遍， 重要的事情说三遍&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 端应该为所有请求实现适当的超时，以防止连接挂起和资源耗尽&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Client 端应该及时释放掉，应防止 MCP Client 端的泄露导致服务端 SSE 长连接数目一直增长消耗服务端资源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;服务端应该设计合理的 Server Timeout 自动清理连接时长明显有问题的 SSE 长连接&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;MCP Proxy&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;鉴于 SSE 协议的配套实现在 2025 年 4 月左右才正式推出， 结合 MCP 时间线，当前市场中存量 MCP Server 绝大部分采用 stdio 传输机制实现,  为了在不改动任何存量 MCP Server 代码的前提下，实现从 stdio 到 SSE 的无缝转换，我们需要提供一个 stdiotosse 的 proxy，通过这一代理层，为 MCP 生态描绘一条平滑、低成本的技术演进路径，确保了协议创新不会给开发者带来额外的迁移负担。&lt;/p&gt;
+&lt;p&gt;MCP Stdio 传输方式和上古 Web 开发 &lt;/p&gt;
+&lt;p&gt;CGI[3](Common Gateway Interface) 程序特别类似，如下图，http client 发送请求到 http server，http server 将 method，header 等信息，body 通过 stdin 传给 CGI 程序，CGI 程序执行动态页面渲染，最后把渲染后的 HTML 页面通过 stdout 返回给 http server,  最后再返回给 client 端&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c48a5d0fdbcad7201de0b50644390a00.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;借助这个思路， 很快就能推导出下面的 proxy 方案：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6c5b1561d502b55a82782885e23043f8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;社区里面也有了相关的轮子，比如热门的supergateway  ,  只要输入如下命令即可实现一个存量的 stdio server 即可转换成 SSE Server&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;supergateway \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --stdio &amp;#34;npx -y @modelcontextprotocol/server-filesystem ./my-folder&amp;#34; \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --port 8000 --baseUrl http://localhost:8000 \
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --ssePath /sse --messagePath /message
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Subscribe to events: GET http://localhost:8000/sse&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Send messages: POST http://localhost:8000/message&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;但是这会带来另外一个问题， 承载 SSE 协议的是一个 http server,  天然就需要去支撑一定的并发能力，单个 mcp server stdio process 没有并行处理能力，支持不了一定的并发处理。为此，我们借鉴 CGI 的思想继续推导：PHP 在 Web 领域的实践，使用的是 fastcgi 进程池，如下图中的 FastCGI 进程管理器：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d28a7d11ddc0aeadb8ffd32852fa6def.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;发送到服务器的 Web 请求将被分配给进程池中的 CGI 进程。该 CGI 进程将处理该单个请求。如果同时收到多个请求，则将启动多个 CGI 进程并行处理它们。然而，每个进程一次只能处理一个请求。服务器能够通过对 CGI 进程进行上下文切换来处理并发请求。操作系统调度程序将跟踪所有 CGI 进程，并在需要时切换正在 CPU 上运行的 CGI 进程，以使每个 CGI 进程在需要时都能获得属于自己的、公平的 CPU 时间份额。&lt;/p&gt;
+&lt;p&gt;因此， 将 stdiotosse 的 proxy 设计成如下方案是一个很不错的抉择，通过一个 MCP Server Stdio Process Pool 来提高并行处理能力，从而让前面支持 sse 协议的 http server 有更好的并行并发处理能力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d80d9a514ca1cb5b8aae26855c53a4e5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;目前我们在supergateway[4] 的基础上， 增加了动态 MCP Server Stdio 进程池的实现，这个进程池的默认初始化值为 1， 最大进程数目为 10，这个两个值可以通过两个环境变量 MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 来设置。MCP Server Stdio 进程池管理流程如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/423d627cc16ead159e96e316be7fd03e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;实现的 diff：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/aliyun-fc/supergateway/compare/04ff7d6fc12908a86efc60d0be59b42588b30018..d8bbf3b9e3677cd089f3118d7f34e7c50f4bcdec&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TIPS:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果 MCP Server Stdio Process 是 IO 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调大一些来支持更高的并发处理能力&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果 MCP Server Stdio Process 是 CPU 密集型， MCP_STDIO_PROCESS_PRE_FORK 和 MCP_STDIO_PROCESS_MAX 数目可以适当调小一些，同时实例 CPU 和内存规格也要按需调大一些&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;并发压测：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Stdio Server 逻辑如 index.ts 所示，latency 为 0.15s ~ 1s 随机， 实例规格为 1C2G&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1a2f53ee4c4a21143ad8a3a7a070ba0b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;压测客户端代码(100 个并发 client， 每次 client 串行执行 3 次, 执行正常  )：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;67
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;68
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;69
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;70
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;71
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;72
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;73
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;74
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;75
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;76
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;77
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;78
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;79
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;80
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;81
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;82
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;83
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;84
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;85
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;86
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sse&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sse_client&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ClientSession&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;basicConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;level&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;INFO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;LoadTestClient&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 控制最大并发数&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;CONCURRENCY_LIMIT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Semaphore&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 根据服务器能力调整&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;robust_client_instance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;ne&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CONCURRENCY_LIMIT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sse_client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mcp-server-gi-mmqoiftdwm.cn-hangzhou.fcapp.run/sse&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;headers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Authorization&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Bearer YOUR_API_KEY&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;X-Instance-ID&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ConnectionError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;SSE连接失败&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ClientSession&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;read_stream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;write_stream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;streams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;initialize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id}; initialize 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wait_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;list_tools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id};list_tools 工具数: {len(r.tools)}; 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;c1&#34;&gt;# 执行操作&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;c1&#34;&gt;# 设置call_tool超时&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;wait_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;call_tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;s2&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;b&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id}; 第 {i} 次迭代; call_tool 耗时: {time.time() - start}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用失败: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代, call_tool 调用成功: {result.content}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;nb&#34;&gt;assert&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                    &lt;span class=&#34;ne&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;n&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TimeoutError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 第 {i} 次迭代操作超时&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                            &lt;span class=&#34;k&#34;&gt;continue&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 跳过当前迭代继续执行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;实例{instance_id} 最终失败: {str(e)}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;tasks&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;robust_client_instance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gather&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tasks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;return_exceptions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;asyncio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;为什么选择函数计算&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;作为 MCP Server 托管运行时真实世界中部署 MCP Server 面临的技术挑战包括[5]：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;分布式系统复杂性&lt;/strong&gt;  ：需要在多节点环境中维护连接状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;2. 资源限制处理&lt;/strong&gt;  ：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;连接池管理：有效分配和复用连接资源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;超时控制：处理未响应或长时间计算情况&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;负载均衡：在多实例间均衡分配请求&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;3. 安全隐患&lt;/strong&gt;  ：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;针对长连接的 DDoS 攻击防护&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;身份验证与会话维护：在长时间连接中保持认证状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;4. 故障恢复机制&lt;/strong&gt;  ：服务中断时的会话恢复和状态保持&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;5. 高资源利用率与低成本  ：绝大多数 MCP Server 的业务流量呈现典型的稀疏性（Sparse Access）与突发性（Burstiness）特征——请求分布高度离散且流量峰谷波动显著。传统固定实例池（Instance Pool）的常驻模式导致资源闲置率过高。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;阿里云函数计算作为阿里云 Serverless 计算平台， 有极致的按需自动弹性扩缩容速度和能力、零服务器管理免运维、多 AZ 容灾的高可用以及毫秒级按需计费能力。 在此基础上， 我们针对 MCP Server 远程服务能力做了如下增强：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;推出支持 SSE 协议且具备并发能力的 MCP Runtime（内置我们上文阐述的 MCP Proxy），存量 STDIO 模式的 MCP Server 无需任何改动即可变为符合 SSE 协议的远端服务&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在满足 MCP 场景 SSE 协议亲和调度的基础上（见 SSE 协议不足 1），让业务在面对 burst 流量 ，依然有快速弹性扩容能力。后续我们会专门出一篇文章来介绍 &amp;ldquo;MCP Server SSE 请求亲和性的技术与实战&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP Server SSE 作为远程服务需要鉴权访问等安全能力：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数 HTTP 触发器及自定义域名提供多种鉴权方式，针对 AI 场景新提供了基于 Opaque Bearer Authorization 访问鉴权能力，与现有 AI 服务身份认证体系无缝对接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数计算支持针对具体函数设置执行角色，运行时提供动态获取临时 Token，实现完全的无 AK 方案，这对接入阿里云体系内产品的 MCP Server 是一个非常安全合规的企业级姿势。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每个函数运行环境都是一个安全容器， 平台侧负责函数实例沙箱容器的漏洞修复及安全升级， 某个实例的 OOM 等异常不会扩散。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数计算函数最大执行时长为 24 小时，基本可以满足绝大部分的长连接请求， 同时设置合理的 timeout，可以解决因为客户端 client 泄露导致的长连接一直消耗服务端资源的问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以上可以看出， 函数计算 Serverless 平台解决了绝大部分列出的真实世界中部署 MCP Server 面临的技术挑战；对于由于 SSE 协议本身带来的&lt;br&gt;
+不支持断线重连/恢复会话，我们也持续跟进社区 &lt;br&gt;
+Streamable HTTP**[6]**&lt;br&gt;
+ 协议进展，让 Streamable HTTP 更顺利在&lt;br&gt;
+函数计算 Serverless 平台落地。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;上手案例：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;直接登录 Function AI**[7]**  平台体验 Mcp Server 一键部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;参考 &lt;a class=&#34;link&#34; href=&#34;https://github.com/devsapp/mcp-servers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/devsapp/mcp-servers&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;查看各种 MCP Server on FC 的代码示例&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;合作方：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;阿里云百练 MCP 广场 https://bailian.console.aliyun.com/?tab=mcp#/mcp-market&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;魔搭社区 MCP 广场 https://www.modelscope.cn/mcp&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;宜搭: 钉钉客户端创建 ai 助理的技能正在灰度中&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCP 的演进本质是加速 AI 基础设施的普及：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;技术层&lt;/strong&gt;  ：通过协议标准化降低开发门槛，使中小开发者能快速构建复杂 AI 应用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;商业层&lt;/strong&gt;  ：催生“MCP 工具商店”等新商业模式，工具开发者可通过协议分成获利。 &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;社会层&lt;/strong&gt;  ：推动 AI 从“专家系统”转向“普惠技术”，例如农民通过自然语言指令操作智能农业设备。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;随着 Anthropic、OpenAI 等巨头加速协议迭代，MCP 或将成为 AI 时代的&amp;quot; USB-C接口&amp;quot;  ——&lt;strong&gt;既奠定技术底座，又重构产业规则&lt;/strong&gt;&lt;br&gt;
+。&lt;br&gt;
+开发者需密切关注协议演进，提前布局工具链生态，把握先机。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MCP 技术演进的核心方向预测：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;协议架构升级：从 SSE 到 Streamable HTTP 的跨越&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通用性扩展， 多模态统一接口， 扩展同一协议支持文本、图像、音频和视频&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新交互模式， 分布式协作， 多个模型协同工作的协议扩展&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;生态系统扩展与标准化博弈，会有一个类似 npm 这样的 MCP Server Registry 出现&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;函数计算 Serverless 平台致力解决生产环境部署 MCP Server 面临的技术挑战，革新 MCP Server 的部署范式，给 MCP 社区蓬勃发展和 MCP Server 大规模落地、行业加速创新提供坚实的技术基础,  &lt;br&gt;
+让全球开发者无障碍构建下一代 AI 服务,  重构行业创新速度，普惠 AI 黄金时代！&lt;/p&gt;
+&lt;h2 id=&#34;相关链接&#34;&gt;相关链接：
+&lt;/h2&gt;&lt;p&gt;[1] 图解「模型上下文协议（MCP）」：从与传统 API 的比较入手&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.51cto.com/article/81154-html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.51cto.com/article/81154-html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] MCP Specification&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://modelcontextprotocol.io/specification/2025-03-26/basic/lifecycle&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] CGI&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baike.baidu.com/item/CGI/607810&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://baike.baidu.com/item/CGI/607810&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[4] supergateway&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/supercorp-ai/supergateway&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/supercorp-ai/supergateway&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[5] AI 中的 MCP 技术解析：stdio 与 SSE 实现&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wicos.me/jishu/1160/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://wicos.me/jishu/1160/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[6] &lt;br&gt;
+Streamable HTTP&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[7] Function AI&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cap.console.aliyun.com/explore?lang=MCP&amp;#43;Server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cap.console.aliyun.com/explore?lang=MCP+Server&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>FunctionAI MCP 开发平台：助力AI应用连接数字生态</title>
+        <link>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</link>
+        <pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/functionai-mcp-%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E5%8A%A9%E5%8A%9Bai%E5%BA%94%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%AD%97%E7%94%9F%E6%80%81/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | 封崇  阿里云云原生   2025-04-14 18:02&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/087ee75c2a26ff67233996986126ecfa.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP：AI 时代的“操作系统接口”,Cloud Native:&lt;/p&gt;
+&lt;p&gt;2024 年 11 月，Anthropic 发布模型上下文协议（MCP），这一开放标准迅速引发开发者社区的&amp;quot;协议觉醒&amp;quot;。其本质是通过标准化接口实现 LLM 与外部世界的双向交互，正如 USB 协议统一外设接入，MCP 正成为 AI 应用连接数字生态的通用总线。随着 Cursor、Claude &lt;br&gt;
+Desktop &lt;br&gt;
+等开发工具相继集成，特别是 OpenAI 宣布全面兼容 MCP 协议，标志着 MCP 从技术实验迈入产业级标准，这一标准化接口正重塑 AI 与数字世界的交互范式。&lt;/p&gt;
+&lt;p&gt;截至 2025 年 4 月，MCP.so【1】上已经已有超过 8000 个注册的 MCP Server，涵盖数据处理、文件系统、API 网关、聊天机器人、数据库等服务类别，这一数量还在迅速增长。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;生态暴发期的痛点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;尽管 MCP 生态呈现指数级增长，GitHub 仓库星标数半年突破 3.5 万，但生产级落地仍面临三重挑战：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 本地化瓶颈&lt;/strong&gt;&lt;br&gt;
+：当前绝大多数 MCP server 都采用传统 STDIO 模式，该模式没有鉴权能力（缺乏 OAuth 2.1 标准的双向认证机制、无法实现基于角色的访问控制），在复杂业务场景下暴露出调试困难、网络隔离性差等缺陷，难以实现访问内网环境的数据安全管控，内网穿透导致攻击面扩大；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 弹性困境&lt;/strong&gt;&lt;br&gt;
+：MCP 工具调用流量呈现显著的非稳态特征以及&amp;quot;脉冲式&amp;quot;波动，比如智能客服系统的峰谷效应非常明显，传统虚拟机部署造成大量资源浪费；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 开发断层&lt;/strong&gt;&lt;br&gt;
+：从本地调试到云端部署需要重构鉴权、变量管理、日志、中间件等基础组件，改造成本高，开发者大量的精力消耗在非业务代码的开发上；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serverless 是 MCP 托管的最佳解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们观察到大部分的 MCP server 有以下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;稀疏调用，而且对算力的需求都比较小，0.5c/1G 的规格基本能够应对大部分场景；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;代码体积比较小（&amp;lt;100MB），Node.js、Python 解释型语言是 MCP 的一等公民，大部分 MCP server 直接通过 npx、uv 就能一键运行；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MCP server 的迭代非常快，新增、修改或弃用 MCP server 的场景会非常高频，对 MCP server 元数据管理的需求非常普遍；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;因此灵活部署、弹性扩展的运行时对于 MCP server 的托管非常契合，这恰恰是 Serverless 的最大优势。&lt;/strong&gt;&lt;br&gt;
+以阿里云函数计算为例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;天然的事件驱动模型，提供毫秒级弹性能力、按量付费、安全沙箱的运行时环境，完美解决了云上托管对于性能、成本、安全的需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;官方对于 Node.js、Python 运行时的支持完善，内置代码包加速能力以及层的扩展，大幅降低代码启动时间；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;控制台、SDK、ServerlessDevs 工具提供丰富的函数元数据的管理能力；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些能力让 Serverless 正成为托管 MCP 的最优解。作为 MCP &lt;br&gt;
+的最佳运行时，函数计算已经支持阿里云百炼 MCP 服务【2】。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzUzNzYxNjAzMg==&amp;amp;mid=2247573406&amp;amp;idx=1&amp;amp;sn=a9e215ecbf675b6058bf5f726063a316&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Function AI 是基于函数计算构建的 Serverless AI 应用开发平台，基于函数计算的运行时能力上线了完整的 MCP 开发能力，成为真正意义上的 MCP 开发平台。您可以进入FunctionAI 控制台【3】，快速体验 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式一：通过模板一键部署&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1选择-mcp-模板&#34;&gt;1. 选择 MCP 模板
+&lt;/h3&gt;&lt;p&gt;进入FunctionAI 控制台【4】，选择探索-&amp;gt;筛选应用模板（MCP Server），选择一个 MCP 模板进行部署&lt;br&gt;
+&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8eaac6393e6591a3066bc7b143fd0a95.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-填写模板配置部署项目&#34;&gt;2. 填写模板配置，部署项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a7fa62b44c44e08f70f71b3fc4504de4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3-查看部署进度&#34;&gt;3. 查看部署进度
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cc0d4f2dd8f2833d543882bc611b63de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式二：创建自定义 MCP 服务&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1创建空白项目&#34;&gt;1. 创建空白项目
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bb40530090e7acd185b2eb51ae8639e9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2创建-mcp-服务&#34;&gt;2. 创建 MCP 服务
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/62ee312927e0fcb139bb81cf658c8270.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3编辑-mcp-服务配置完成后点击预览部署&#34;&gt;3. 编辑 MCP 服务配置，完成后点击预览&amp;amp;部署
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1cc1b3db23afe5b9bdf7e12e76a8528c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4查看部署进度等待部署完成&#34;&gt;4. 查看部署进度，等待部署完成
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0edb2bfd8a9cd1e90b3f95833401ee14.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式三：使用 ServerlessDevs 工具本地部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 正式发布了 ServerlessDevs【5】工具的 MCP 组件，实现本地部署 MCP 工程到 FunctionAI 的能力&lt;/p&gt;
+&lt;h3 id=&#34;1安装-serverlessdevs-工具&#34;&gt;1. 安装 ServerlessDevs 工具：
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install @serverless-devs/s -g
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2初始化-mcp-项目&#34;&gt;2. 初始化 MCP 项目
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s init start-fcai-mcp-nodejs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3查看-syaml&#34;&gt;3. 查看 s.yaml
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;edition&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;cn-hangzhou&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;nodejs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;world&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;component&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fcai&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;props&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vars&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;region&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;deployed&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;devs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;transport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;stdio&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# stidio | sse&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;cpu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;memorySize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;rootDir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;./&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;code&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;oss&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auto&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#默认构建器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 构建环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;languages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nodejs20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;c1&#34;&gt;# 执行步骤&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;startCommand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;node ./dist/index.js&amp;#34;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 启动命令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;instanceQuota&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 实例数配额&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;4执行部署&#34;&gt;4. 执行部署
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;s deploy
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/65cbedb605963231d21a24f01a6411a0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录到控制台，可以查看云端的部署详情&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9008afa9b766f18ec8870be548f7eca5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 支持托管 STDIO/SSE 协议的 MCP server。如果 MCP server 代码采用 STDIO，FunctionAI 会启动一个 SSE 服务来代理 STDIO 的请求，客户端访问需要使用 SSE 方式。&lt;/p&gt;
+&lt;p&gt;当 MCP 服务部署完成后，平台会生成一个 SSE 的连接地址，并且会生成 MCP server 的 schema 用于测试。&lt;/p&gt;
+&lt;p&gt;用户可以直接在控制台上测试连接、测试工具，也可以使用官方的 Inspector 在本地进行测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 1：FunctionAI 控制台测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1b500d2ecbe51c3bd818ab0a2d241d31.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看日志和监控&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/64428131f50c544e1eb810049aa74148.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/625f7be471aa00cb5795a70448e9bdb4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方式 2：Inspector 本地测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;复制 FunctionAI 生成的公网访问地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/827d8ce0c33c9ca0e0377d7e76adedd4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地启动 inspector，输入访问地址进行调试&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx @modelcontextprotocol/inspector
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2fb2f7c95d741f82ad78f0ce8c95fdf5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;高阶能力&lt;/p&gt;
+&lt;p&gt;Cloud Native&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;鉴权&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 的鉴权只适用于 SSE 的协议，而且必须遵循 OAuth2.1 协议标准，对于大量的 STDIO 的 MCP 服务托管的改造难度非常之高，企业落地 MCP 鉴权是一个非常痛点的问题。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了网关侧的 Bearer 鉴权能力，用户只需要开启鉴权功能，使用平台生成的 Bearer Token，就可以让 MCP 服务自带鉴权能力。&lt;/p&gt;
+&lt;h3 id=&#34;使用方式&#34;&gt;使用方式
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;编辑服务配置，点击开启鉴权，保存并且部署。开启后，平台会对服务生成一个只读的 Bearer Token。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/176da26d1e64590fb48d8e7e9324fcc8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9023eafd8409b7fe75ef35e317d59183.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;测试鉴权生效&#34;&gt;测试鉴权生效
+&lt;/h3&gt;&lt;p&gt;使用平台生成的 Bearer Token，可以正常访问 MCP 服务&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7d5c7f3aa4dc7d4fdeab04d14dbf5154.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用错误的 token 时，访问失败&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f7d5043ba19bec75038798cf94fc5e8a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用本地的 Inspector，输入服务的 token，访问正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6807b4d0e56bbfc668a8d870fba77f27.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;变量管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;很多的 MCP Server 代码都需要访问第三方服务，比如高德地图、Github 等，需要持有用户的访问秘钥，比如 API-Key、AccessToken，这些秘钥通常以环境变量加载或者启动命令参数注入。&lt;/p&gt;
+&lt;p&gt;FunctionAI 提供了变量管理能力，并且支持敏感变量托管，可以实现 MCP 服务访问秘钥的安全可靠管理。&lt;/p&gt;
+&lt;h3 id=&#34;配置方式设置服务变量&#34;&gt;配置方式：设置服务变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;选择服务-&amp;gt;服务变量，添加服务变量的 Key 和 Value&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/15b09c554b6a7fbbc9bdd1ba2f2e310e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-1环境变量&#34;&gt;加载方式 1：环境变量
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 上配置的服务变量会默认注入到函数启动的环境变量中，MCP 服务代码可以直接通过系统环境变量读取&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/43ad2532377ad53c8c93e3cf34ccd342.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;h3 id=&#34;加载方式-2启动参数&#34;&gt;加载方式 2：启动参数
+&lt;/h3&gt;&lt;h3 id=&#34;&#34;&gt;
+&lt;/h3&gt;&lt;p&gt;FunctionAI 的服务变量支持通过 ${self.KEY_NAME} 的方式引用，可以在启动命令中修改命令行参数，使用变量的引用，在启动阶段注入变量的值。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/11f9f30a1e47a380071e5affa1db4312.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f074718d0e6abbc83b8cf03b356d8c67.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;绑定代码仓库进行持续部署&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 的 MCP 服务面向开发态能力，提供以代码仓库托管 MCP 服务的能力。&lt;/p&gt;
+&lt;p&gt;使用方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编辑 MCP 服务配置，选择代码仓库，目前支持了 Github、Gitee、Codeup、GitLab、OSS 代码仓库。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择仓库分支、MCP 工程在代码仓库中的根目录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择构建环境：对于多语言的工程，可以选择多个构建环境&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编辑构建命令：例如 npm build、pip install -r requirements.txt&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可选：开启构建缓存，缓存目录根据不同语言可以设置~/.npm（Node.js）、&lt;del&gt;/.cache（Python）、&lt;/del&gt;/.m2、（Java）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e22ee2e9b7cbfb185a2ba94c6cd73174.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;绑定 Git 仓库后，如果指定的分支有 push 操作，会自动触发服务的持续部署&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a0391910a8ba2fd0f98201c8ea7c8de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;极速模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于延迟敏感性的业务，FunctionAI 提供了极速模式，可以提前预留指定数量的实例快照，降低频繁冷启动带来的开销，并且只有在有活跃请求时才会产生 vCPU 费用，可以实现性能和成本的平衡。&lt;/p&gt;
+&lt;p&gt;另外由于 MCP SSE 请求的 session 机制，同一个 session id 访问到不同实例会导致上下文丢失，因此建议开启预置快照为 1 并且实例限额为 1，这样可以让 SSE 请求打到不同弹性实例的概率更小。&lt;/p&gt;
+&lt;p&gt;FunctionAI 后面会上线会话亲和性能力，尽情期待。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66ea83970635dde4a3af53a4472379ab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;开启后，可以在函数监控页面看到预留实例的个数&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d5dacedc72983e325007e050a13c84c5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FunctionAI 现在已经支持了完整的 MCP 开发能力，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;部署形式上，支持模板直接部署、自定义 MCP 服务、ServerlessDevs 工具本地部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;托管能力上，支持 STDIO/SSE 的自动托管，无需业务改造既能生成可用于访问的 SSE 地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调试能力上，支持控制台直接调试以及 Inspector 本地调试&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;二次开发能力上，支持变量管理、鉴权、绑定代码仓库进行持续部署&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可观测能力上，支持函数监控、实例监控以及日志&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;弹性调度上，支持标准模式以及极速模式&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 的价值是统一了 Agent 和 LLM 之间的标准化接口，有了 MCP Server 的托管以及开发态能力只是第一步，接下来重要的是做好 MCP 和 Agent 的集成，FunctionAI 即将上线 Agent 开发能力，敬请期待。&lt;/p&gt;
+&lt;p&gt;【1】MCP.so &lt;a class=&#34;link&#34; href=&#34;https://mcp.so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://mcp.so/&lt;/a&gt;&lt;br&gt;
+【2】Serverless MCP 运行时业界首发，函数计算让 AI 应用最后一公里提速&lt;br&gt;
+【3】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【4】FunctionAI 控制台 &lt;a class=&#34;link&#34; href=&#34;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;amp;clearRedirectCookie=1&amp;amp;lang=zh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fcap.console.aliyun.com%2Fexplore&amp;clearRedirectCookie=1&amp;lang=zh&lt;/a&gt;&lt;br&gt;
+【5】ServerlessDevs  &lt;a class=&#34;link&#34; href=&#34;https://www.serverless-devs.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.serverless-devs.com/&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

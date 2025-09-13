@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>技术协议 on AI</title>
+        <link>https://ai.programnotes.cn/categories/%E6%8A%80%E6%9C%AF%E5%8D%8F%E8%AE%AE/</link>
+        <description>Recent content in 技术协议 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 28 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/%E6%8A%80%E6%9C%AF%E5%8D%8F%E8%AE%AE/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>什么是 MCP？模型上下文协议详解</title>
+        <link>https://ai.programnotes.cn/p/%E4%BB%80%E4%B9%88%E6%98%AF-mcp%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/</link>
+        <pubDate>Thu, 28 Nov 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E4%BB%80%E4%B9%88%E6%98%AF-mcp%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点1&lt;/strong&gt;: MCP 是一种由 Anthropic 公司开源的通信协议，旨在解决大型语言模型与外部数据源及工具之间的无缝集成需求。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点2&lt;/strong&gt;: MCP 采用客户端-服务器架构，通过资源、提示、工具和采样四种核心原语规范客户端和服务器之间的交互。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心内容点3&lt;/strong&gt;: MCP 使 Claude 等 AI 模型能够访问最新的实时数据、执行计算或运行代码，并与外部系统和服务交互，从而突破模型限制。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Claude 终于能联网搜索、访问本地文件和数据库了！这项突破性的技术背后是什么？本文将详细解析 &lt;a class=&#34;link&#34; href=&#34;https://ai.programnotes.cn/&#34; &gt;MCP（Model Context Protocol，模型上下文协议）&lt;/a&gt; 的工作原理、核心功能与实际应用，帮助你全面了解这项被誉为&amp;quot;AI 领域 USB 接口&amp;quot;的革命性技术。&lt;/p&gt;
+&lt;h2 id=&#34;mcp-的基本概念与背景&#34;&gt;MCP 的基本概念与背景
+&lt;/h2&gt;&lt;h3 id=&#34;什么是-mcp&#34;&gt;什么是 MCP？
+&lt;/h3&gt;&lt;p&gt;MCP（Model Context Protocol，模型上下文协议）是由 Anthropic 公司于 2024 年 11 月开源的一种通信协议，旨在解决大型语言模型（LLM）与外部数据源及工具之间的无缝集成需求。通过标准化 AI 系统与数据源的交互方式，MCP 帮助模型获取更丰富的上下文信息，生成更准确、更相关的响应。&lt;/p&gt;
+&lt;p&gt;简单来说，MCP 就像给 AI 装上了一个&amp;quot;万能接口&amp;quot;，让 AI 能够与各种外部系统和数据源实现标准化的双向通信。正如 USB-C 提供了连接各种设备的标准化方式，MCP 也为连接 AI 模型和不同数据源提供了统一的方法。&lt;/p&gt;
+&lt;h3 id=&#34;mcp-的开发背景&#34;&gt;MCP 的开发背景
+&lt;/h3&gt;&lt;p&gt;在 MCP 出现之前，即使是最先进的 AI 模型也面临与数据隔离的限制。每一个新的数据来源都需要专属的定制实现，这不仅增加了开发成本，还造成了效率低下和系统难以扩展的问题。&lt;/p&gt;
+&lt;p&gt;Anthropic 认为，随着 AI 助理获得主要采用，业界在模型功能上投入了大量资金，但就算是最复杂的模型也会受到与数据隔离的限制。MCP 正是为了解决这一挑战而推出的，它允许开发人员在数据来源及 AI 工具之间建立安全的双向连接。&lt;/p&gt;
+&lt;h2 id=&#34;mcp-的核心架构与工作原理&#34;&gt;MCP 的核心架构与工作原理
+&lt;/h2&gt;&lt;h3 id=&#34;客户端-服务器架构&#34;&gt;客户端-服务器架构
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://mcp.programnotes.cn/images/blog/what-is-mcp.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;MCP 架构图&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP 采用经典的客户端-服务器架构：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 主机(Host)&lt;/strong&gt;：通常是发起连接的 LLM 应用程序，如 Claude Desktop 或其他 AI 工具。它负责管理 MCP Client 与 Server 的连线。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 客户端(Client)&lt;/strong&gt;：在主机应用程序内部与服务器保持 1:1 连接，负责协议通信。它负责 AI 和 MCP Server 之间的沟通。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;MCP 服务器(Server)&lt;/strong&gt;：轻量级程序，负责暴露特定的数据源或工具功能，并通过标准化协议与客户端交互。它管理本地数据库要输出的内容指令，让 Client 可以自选指令来运作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;通信流程&#34;&gt;通信流程
+&lt;/h3&gt;&lt;p&gt;MCP 的通信基于 JSON-RPC 2.0，支持请求、响应和通知三种消息类型，确保通信的标准化和一致性。&lt;/p&gt;
+&lt;p&gt;整个流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用户通过 AI 应用发送请求&lt;/li&gt;
+&lt;li&gt;AI 应用（主机）通过 MCP 客户端向 MCP 服务器发送请求&lt;/li&gt;
+&lt;li&gt;MCP 服务器处理请求，访问相应的数据源或执行工具功能&lt;/li&gt;
+&lt;li&gt;服务器将结果返回给客户端&lt;/li&gt;
+&lt;li&gt;客户端将信息传递给 AI 模型&lt;/li&gt;
+&lt;li&gt;AI 模型基于这些信息生成响应&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;mcp-的四大核心功能&#34;&gt;MCP 的四大核心功能
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://mcp.programnotes.cn/images/blog/mcp-core-components.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;MCP 四大核心功能&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;MCP 提供了四种核心原语（服务器端原语），用于规范客户端和服务器之间的交互：&lt;/p&gt;
+&lt;h3 id=&#34;1-资源resources&#34;&gt;1. 资源(Resources)
+&lt;/h3&gt;&lt;p&gt;资源表示 MCP 服务器想要向客户端提供的任何类型数据，可包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件内容&lt;/li&gt;
+&lt;li&gt;数据库记录&lt;/li&gt;
+&lt;li&gt;API 响应&lt;/li&gt;
+&lt;li&gt;实时系统数据&lt;/li&gt;
+&lt;li&gt;截图和图片&lt;/li&gt;
+&lt;li&gt;日志文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;每个资源由唯一的 URI 标识，并且可以包含文本或二进制数据。&lt;/p&gt;
+&lt;h3 id=&#34;2-提示prompts&#34;&gt;2. 提示(Prompts)
+&lt;/h3&gt;&lt;p&gt;MCP 中的提示是预定义的模板，可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;接受动态参数&lt;/li&gt;
+&lt;li&gt;上下文&lt;/li&gt;
+&lt;li&gt;链接多个交互&lt;/li&gt;
+&lt;li&gt;指导特定工作流程&lt;/li&gt;
+&lt;li&gt;表面作为 UI 元素（如斜线命令）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-工具tools&#34;&gt;3. 工具(Tools)
+&lt;/h3&gt;&lt;p&gt;MCP 中的工具允许服务器公开可由客户端调用的可执行函数。工具的关键方面包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;发现(tools/list)：客户端可以列出可用的工具&lt;/li&gt;
+&lt;li&gt;调用(tools/call)：服务器执行请求的操作并返回结果&lt;/li&gt;
+&lt;li&gt;灵活性：工具范围从简单的计算到复杂的 API 交互&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4-采样sampling&#34;&gt;4. 采样(Sampling)
+&lt;/h3&gt;&lt;p&gt;采样是 MCP 的一项强大功能，允许服务器通过客户端请求 LLM 完成，从而实现复杂的代理行为，同时保持安全性和隐私性。这种人机交互设计确保用户可以控制 LLM 所看到和生成的内容。&lt;/p&gt;
+&lt;h2 id=&#34;mcp-如何扩展-claude-ai-的能力&#34;&gt;MCP 如何扩展 Claude AI 的能力
+&lt;/h2&gt;&lt;h3 id=&#34;突破模型限制&#34;&gt;突破模型限制
+&lt;/h3&gt;&lt;p&gt;在 MCP 出现之前，Claude 等 AI 模型存在一些固有的限制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;无法访问最新的实时数据&lt;/li&gt;
+&lt;li&gt;无法直接执行计算或运行代码&lt;/li&gt;
+&lt;li&gt;无法与外部系统和服务交互&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 通过提供标准化的接口，打破了这些限制，使 Claude AI 等模型能够：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;访问最新的网络数据和信息&lt;/li&gt;
+&lt;li&gt;执行复杂的计算和数据分析&lt;/li&gt;
+&lt;li&gt;调用各种专业工具和服务&lt;/li&gt;
+&lt;li&gt;与企业内部系统无缝集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mcp-为-claude-带来的实际改变&#34;&gt;MCP 为 Claude 带来的实际改变
+&lt;/h3&gt;&lt;p&gt;MCP 使 Claude AI 能够动态连接外部工具和数据源，大大扩展了其应用场景和解决问题的能力。例如，通过 MCP，Claude AI 现在可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直接查询最新的网络信息，提供更及时的回答&lt;/li&gt;
+&lt;li&gt;分析用户上传的文档和数据&lt;/li&gt;
+&lt;li&gt;执行代码并返回结果&lt;/li&gt;
+&lt;li&gt;与企业内部系统集成，提供定制化的业务支持&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mcp-的实际应用场景&#34;&gt;MCP 的实际应用场景
+&lt;/h2&gt;&lt;h3 id=&#34;1-互联网搜索集成&#34;&gt;1. 互联网搜索集成
+&lt;/h3&gt;&lt;p&gt;通过 MCP，Claude 可以连接到搜索引擎 API，实现实时网络搜索功能。例如，使用 Brave Search 的 API，可以让 Claude 获取最新的网络信息。&lt;/p&gt;
+&lt;p&gt;配置示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;brave-search&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;npx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s2&#34;&gt;&amp;#34;-y&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s2&#34;&gt;&amp;#34;@modelcontextprotocol/server-brave-search&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;BRAVE_API_KEY&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;YOUR_API_KEY&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这使得 Claude 能够回答关于最新事件、实时数据或网络信息的查询。&lt;/p&gt;
+&lt;h3 id=&#34;2-数据库访问能力&#34;&gt;2. 数据库访问能力
+&lt;/h3&gt;&lt;p&gt;MCP 允许 Claude 连接到本地或远程数据库，如 SQLite、PostgreSQL 等。&lt;/p&gt;
+&lt;p&gt;配置示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;sqlite&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;uvx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;mcp-server-sqlite&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;--db-path&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/YOUR_USERNAME/test.db&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这使 Claude 能够执行数据查询、分析和管理任务，将自然语言转换为 SQL 查询。&lt;/p&gt;
+&lt;h3 id=&#34;3-文件系统集成&#34;&gt;3. 文件系统集成
+&lt;/h3&gt;&lt;p&gt;通过 MCP，Claude 可以访问用户本地文件系统中的指定文件夹。&lt;/p&gt;
+&lt;p&gt;配置示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;mcpServers&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;filesystem&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;command&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;npx&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s2&#34;&gt;&amp;#34;-y&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s2&#34;&gt;&amp;#34;@modelcontextprotocol/server-filesystem&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s2&#34;&gt;&amp;#34;/Users/YOUR_USERNAME/Desktop&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这让 Claude 能够读取、分析文件内容，甚至创建或修改文件。&lt;/p&gt;
+&lt;h3 id=&#34;4-网页抓取功能&#34;&gt;4. 网页抓取功能
+&lt;/h3&gt;&lt;p&gt;MCP 使 Claude 能够抓取和分析网页内容。只要给 Claude 提供网页 URL，它就能提取网页内容，并进行翻译、总结等操作。&lt;/p&gt;
+&lt;h3 id=&#34;5-创意应用开发&#34;&gt;5. 创意应用开发
+&lt;/h3&gt;&lt;p&gt;有开发者已经展示了利用 MCP 让 Claude 创建功能齐全的绘图应用程序。Pietro Schirano 展示的原型证明，利用 AI 制作视觉和交互工具变得非常简单，Claude+MCP 完全可以达到 Cursor 的功能效果。&lt;/p&gt;
+&lt;h2 id=&#34;如何开始使用-mcp&#34;&gt;如何开始使用 MCP
+&lt;/h2&gt;&lt;h3 id=&#34;claude-desktop-配置指南&#34;&gt;Claude Desktop 配置指南
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;安装必要软件&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 Claude 桌面应用&lt;/li&gt;
+&lt;li&gt;安装 Node.js（版本 20.16.0 或更高）&lt;/li&gt;
+&lt;li&gt;安装 Python（3.10 或更高版本）&lt;/li&gt;
+&lt;li&gt;安装 uv 和其他依赖项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置 Claude&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;找到或创建 Claude 的配置文件：&lt;code&gt;/Library/Application Support/Claude/claude_desktop_config.json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;添加需要的 MCP 服务器配置&lt;/li&gt;
+&lt;li&gt;重启 Claude 桌面应用使配置生效&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;开启开发者模式&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打开 Claude 桌面应用&lt;/li&gt;
+&lt;li&gt;点击菜单栏中的&amp;quot;Claude&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Settings&amp;quot;&lt;/li&gt;
+&lt;li&gt;在&amp;quot;Developer&amp;quot;选项卡中勾选&amp;quot;Enable Developer Mode&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;常见-mcp-服务器推荐&#34;&gt;常见 MCP 服务器推荐
+&lt;/h3&gt;&lt;p&gt;除了上述提到的服务器外，还有许多其他 MCP 服务器可以使用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/gdrive&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google Drive 服务器&lt;/a&gt;：搜索 Google Drive 云端数据&lt;/li&gt;
+&lt;li&gt;Slack 服务器：集成 Slack 的 Channel 管理和消息功能&lt;/li&gt;
+&lt;li&gt;Memory 服务器：知识图形的持久内存系统&lt;/li&gt;
+&lt;li&gt;Google Maps 服务器：位置服务、路线和地点细节&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://mcp.programnotes.cn/zh/servers/fetch&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Fetch 服务器&lt;/a&gt;：网页内容获取和处理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;开发自定义-mcp-服务器&#34;&gt;开发自定义 MCP 服务器
+&lt;/h3&gt;&lt;p&gt;开发者可以创建自定义的 MCP 服务器，以满足特定需求。官方提供了 Python 和 TypeScript 的 SDK 和示例，可以参考这些资源来开发自己的 MCP 服务器。&lt;/p&gt;
+&lt;h2 id=&#34;mcp-的优势与未来展望&#34;&gt;MCP 的优势与未来展望
+&lt;/h2&gt;&lt;h3 id=&#34;mcp-的核心优势&#34;&gt;MCP 的核心优势
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;标准化&lt;/strong&gt;：MCP 提供了一种统一的通信协议，减少为每个数据源单独开发连接器的需求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;灵活性&lt;/strong&gt;：MCP 使 AI 应用可连接到各种数据源和工具，增强功能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;安全性&lt;/strong&gt;：MCP 确保数据传输加密，实施严格的权限控制，用户可配置访问范围。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;开放性&lt;/strong&gt;：作为开放协议，MCP 允许任何开发者为其产品创建 MCP 服务器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;潜在影响与挑战&#34;&gt;潜在影响与挑战
+&lt;/h3&gt;&lt;p&gt;MCP 有望成为 AI 领域的&amp;quot;HTTP 协议&amp;quot;，推动 LLM 应用的标准化和去中心化。随着生态系统的成熟，AI 系统在不同工具及数据集之间移动时，都能维持上下文，以更永续的架构来取代当前零散的整合方式。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语
+&lt;/h2&gt;&lt;p&gt;MCP 代表了 AI 集成领域的重大突破，为 Claude 等大型语言模型赋予了与外部世界交互的能力。它不仅简化了开发过程，还提高了安全性和可扩展性，使 AI 能够更好地融入各种工作流程和应用场景。&lt;/p&gt;
+&lt;p&gt;随着更多开发者和企业采用 MCP，我们可以期待看到更多创新的 AI 应用和服务出现，进一步推动 AI 技术的发展和普及。MCP 不仅是一个技术协议，更是 AI 领域向更开放、更连接未来迈进的重要一步。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

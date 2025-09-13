@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>扫描器 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E6%89%AB%E6%8F%8F%E5%99%A8/</link>
+        <description>Recent content in 扫描器 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 08 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E6%89%AB%E6%8F%8F%E5%99%A8/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>MCP-Scan 介绍：使用不变量保护 MCP</title>
+        <link>https://ai.programnotes.cn/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/</link>
+        <pubDate>Thu, 08 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/</guid>
+        <description>&lt;p&gt;MCP-Scan 是一款安全扫描器，旨在保护您的代理系统免受基于 MCP 的安全漏洞的侵害，包括工具投毒攻击和 MCP Rug Pulls。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github,代码仓库&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://invariantlabs.ai/images/mcp-scan-launch.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片 4：MCP-Scan&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Invariant 很高兴地宣布 &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;MCP-Scan&lt;/strong&gt;&lt;/a&gt;，这是一款新颖的安全扫描工具，专门用于在使用模型上下文协议 (MCP) 时保护代理 AI 系统免受安全漏洞的侵害。&lt;/p&gt;
+&lt;h2 id=&#34;为什么选择-mcp-scan&#34;&gt;为什么选择 MCP-Scan？
+&lt;/h2&gt;&lt;p&gt;正如最近的研究发现的那样（&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;工具投毒攻击&lt;/a&gt;，&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/whatsapp-mcp-exploited&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WhatsApp MCP 漏洞利用&lt;/a&gt;），各种平台（如 Cursor、Claude Desktop、Zapier 等）上的 MCP 实现容易受到危险攻击。这些漏洞包括提示注入、隐藏的恶意工具指令（工具投毒攻击）以及通过工具阴影实现的跨域升级。&lt;/p&gt;
+&lt;p&gt;认识到这些严重的安全威胁，我们开发了 &lt;strong&gt;MCP-Scan&lt;/strong&gt;，以帮助用户快速识别其 MCP 安装中的漏洞，从而确保更安全、更可靠的代理交互。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;担心 MCP 和代理安全？&lt;/strong&gt;
+注册以提前访问 Invariant Guardrails，我们的安全平台不仅限于扫描，还涵盖许多攻击媒介和安全问题，包括 MCP 攻击。&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/guardrails&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;了解更多&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;mcp-scan-如何保护您的系统&#34;&gt;MCP-Scan 如何保护您的系统
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 主动扫描已安装的 MCP 服务器及其工具描述，以识别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;工具投毒攻击：&lt;/strong&gt; 嵌入在 MCP 工具描述中的隐藏恶意指令。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP Rug Pulls：&lt;/strong&gt; 初始用户批准后对 MCP 工具描述的未经授权的更改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;跨域升级：&lt;/strong&gt; 通过恶意描述损害受信任工具的阴影攻击。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提示注入攻击：&lt;/strong&gt; 工具描述中包含的可能由代理执行的恶意指令。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;快速简便的安全检查&#34;&gt;快速简便的安全检查
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 无缝集成到您的工作流程中，并且可以使用简单的命令运行。无需配置。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx mcp-scan@latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该工具会扫描您的 MCP 配置文件，连接到服务器并检索工具描述，在本地分析它们并使用 Invariant Guardrails API 来识别恶意指令。&lt;/p&gt;
+&lt;p&gt;要运行此命令，请确保您的系统上安装了 &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;code&gt;uv&lt;/code&gt;&lt;/a&gt; 包管理器。&lt;/p&gt;
+&lt;p&gt;这将从 PyPI 加载最新的源代码和依赖项，如果您更喜欢从源代码运行，请查看 &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;扫描结果示例&#34;&gt;扫描结果示例
+&lt;/h2&gt;&lt;p&gt;以下是 MCP-Scan 实际运行的示例，清楚地识别出易受攻击的 MCP 工具：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://invariantlabs.ai/images/mcp-scan-output.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片 5：MCP-Scan 示例&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在此示例中，MCP-Scan 检测到安全风险，包括工具描述中的提示注入。识别后，您可以使用 &lt;code&gt;uvx mcp-scan@latest inspect&lt;/code&gt; 查看相关的工具描述并采取措施。&lt;/p&gt;
+&lt;h2 id=&#34;通过工具固定增强安全性&#34;&gt;通过工具固定增强安全性
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 包括内置的 &lt;strong&gt;工具固定&lt;/strong&gt; 功能，可通过工具哈希跟踪更改来验证已安装工具的完整性，从而检测和防止 MCP Rug Pull 攻击。这允许用户检测对工具描述的更改。&lt;/p&gt;
+&lt;h2 id=&#34;跨域升级检测&#34;&gt;跨域升级检测
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 还可以识别跨域升级攻击或 &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;工具阴影&lt;/a&gt;，其中恶意工具描述可以阴影化受信任的工具。对于依赖多个 MCP 服务器的用户来说，这一点尤其重要。&lt;/p&gt;
+&lt;p&gt;为了缓解这些攻击，MCP-Scan 专门扫描不同 MCP 服务器之间的交叉引用，从而确保在指令级别上实现强化的隔离。&lt;/p&gt;
+&lt;h2 id=&#34;检查您已安装的工具&#34;&gt;检查您已安装的工具
+&lt;/h2&gt;&lt;p&gt;您可以随时使用以下命令检查详细的工具描述：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx mcp-scan@latestinspect
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;贡献和社区&#34;&gt;贡献和社区
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 是开源的，我们欢迎您的贡献、建议和功能请求。加入我们的 &lt;a class=&#34;link&#34; href=&#34;https://discord.gg/dZuZfhKnJ4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Discord&lt;/a&gt; 或 &lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt; 以参与保护代理系统的未来。&lt;/p&gt;
+&lt;h2 id=&#34;扫描期间的数据隐私&#34;&gt;扫描期间的数据隐私
+&lt;/h2&gt;&lt;p&gt;MCP-Scan 会搜索您的配置文件以查找 MCP 服务器配置。它连接到这些服务器并检索工具描述。只有在通过其命令显式调用时才会这样做。&lt;/p&gt;
+&lt;p&gt;然后，它会扫描工具描述，包括本地检查以及通过 API 调用 Invariant Guardrailing 模型。为此，工具名称和描述会与 Invariant 共享。通过使用 MCP-Scan，您同意 Invariant Labs 的 &lt;a class=&#34;link&#34; href=&#34;https://explorer.invariantlabs.ai/terms&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;使用条款&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/privacy-policy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;隐私政策&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;在扫描期间，Invariant 会出于安全研究目的收集数据（仅关于工具描述以及它们如何随时间变化，而不是您的用户数据）。如果您不想共享您的工具描述，请勿使用 MCP-scan。如果您对专用或私有部署感兴趣，请 &lt;a class=&#34;link&#34; href=&#34;mailto:mcpscan@invariantlabs.ai&#34; &gt;联系我们&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;MCP-scan 不会存储或记录任何 MCP 使用数据，即您的 MCP 工具调用的内容和结果。&lt;/p&gt;
+&lt;h2 id=&#34;入门&#34;&gt;入门
+&lt;/h2&gt;&lt;p&gt;立即使用 MCP-Scan 保护您的代理 AI 系统免受 MCP 安全漏洞的侵害。在 GitHub 上为该仓库加注星标或为该项目做出贡献，以帮助我们改进 MCP-Scan 并使其在保护代理系统方面更加有效。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/invariantlabs-ai/mcp-scan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;立即试用 MCP-Scan&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;关于-invariant&#34;&gt;关于 Invariant
+&lt;/h2&gt;&lt;p&gt;Invariant 致力于确保代理 AI 系统的安全性和稳健性。我们的研究和工具解决了关键漏洞，从而能够在实际场景中安全可靠地部署 AI。如果您有兴趣与我们合作以增强代理系统的安全性和完整性，请 &lt;a class=&#34;link&#34; href=&#34;mailto:hello@invariantlabs.ai&#34; &gt;联系我们&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://invariantlabs.ai/blog&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;invariantlabs,blog&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

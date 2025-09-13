@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>自动化攻防 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%94%BB%E9%98%B2/</link>
+        <description>Recent content in 自动化攻防 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Wed, 23 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%94%BB%E9%98%B2/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络安全场景中的 MCP 融合：技术架构与实施路线探讨</title>
+        <link>https://ai.programnotes.cn/p/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84-mcp-%E8%9E%8D%E5%90%88%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E6%96%BD%E8%B7%AF%E7%BA%BF%E6%8E%A2%E8%AE%A8/</link>
+        <pubDate>Wed, 23 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84-mcp-%E8%9E%8D%E5%90%88%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E6%96%BD%E8%B7%AF%E7%BA%BF%E6%8E%A2%E8%AE%A8/</guid>
+        <description>&lt;p&gt;核心内容点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP技术架构及工作原理&lt;/li&gt;
+&lt;li&gt;MCP在红蓝对抗中的应用（红队视角：攻击武器化；蓝队视角：防御体系协同中枢）&lt;/li&gt;
+&lt;li&gt;未来AI安全系统发展趋势（生态标准化、认知对抗深化）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  千里  东方隐侠安全团队   2025-04-23 00:13&lt;/p&gt;
+&lt;h2 id=&#34;引言&#34;&gt;引言
+&lt;/h2&gt;&lt;p&gt;在 AI 深度融入网络安全的当下，安全厂商与红蓝对抗参与者都在积极探索如何利用 AI 提升威胁情报分析与攻防策略生成能力。目前主流 AI 大模型虽能提供数据分析报告和攻击路径建议，但本质上仍属于辅助决策工具 —— 其输出需依赖人工转化为实际操作，如同缺乏执行模块的 &amp;ldquo;虚拟智库&amp;rdquo;，存在人机协同效率低、响应延迟等问题。隐侠团队通过这篇文章向大家介绍MCP（Machine Cybernetic Platform）在网络安全场景中的技术架构与实施路线，看MCP如何通过构建自动化执行框架，将 AI 分析结果直接转化为可执行的网络攻防指令，实现从情报分析到漏洞验证、防御策略部署的全链路闭环，有效弥补了传统 AI 安全方案的执行短板，为红蓝对抗实战注入智能化实战能力。&lt;/p&gt;
+&lt;h2 id=&#34;什么是mcp&#34;&gt;什么是MCP？
+&lt;/h2&gt;&lt;p&gt;MCP（Model Context Protocol）是由Anthropic（开发Claude大模型的公司）主导推出的一套开放、通用的协议标准，目的是让AI大模型能像人一样“调用工具”。打个比方，如果把AI比作一个“超级大脑”，MCP就像是给它配上了一双灵巧的手——让AI能直接连接文件、数据库、聊天软件等各种工具，真正实现自动化操作。为什么需要MCP？想象一下，你想让AI帮你写代码时顺便查文档、调用数据库数据、甚至自动发送代码审查请求到工作群，但现在的AI应用往往只能单独完成其中一项任务。这就好比你有一堆不同接口的充电器，却找不到适配所有设备的插头。MCP就像USB-C接口，统一了AI与外部工具的连接标准，让开发者不用为每个工具单独开发接口，大幅降低开发成本。MCP如何工作？&lt;/p&gt;
+&lt;p&gt;MCP采用客户端 - 服务器架构，包含5个核心角色：
+MCP主机：发起任务的AI应用，比如AI编程助手、智能聊天机器人；
+MCP客户端：藏在主机里的“翻译官”，负责与服务器通信；
+MCP服务器：对接各种工具和数据源的“中介”，提供上下文信息；
+本地资源：电脑上的文件、数据库等；
+远程资源：云端API、在线文档等。&lt;/p&gt;
+&lt;p&gt;举个例子，当你让AI编程助手查找函数用法时：编程助手（主机）通过客户端向服务器发送请求；服务器从代码库或文档（本地/远程资源）获取信息；服务器把结果传回客户端，再由客户端交给主机；主机根据结果生成代码或解释。MCP比传统方法强在哪？和OpenAI的Function Call这类功能相比，MCP有三大优势：生态开放：任何服务商都能按协议接入，形成庞大插件库，就像手机应用商店，应用越多AI越强大；兼容性高：不绑定特定模型，只要支持MCP，Claude、GPT或其他模型都能无缝切换；数据安全：数据可在本地处理，比如电脑里的成绩单，AI直接读取分析，不用担心泄露到云端。模型如何选择工具？当你提出问题时：客户端把问题传给AI模型；模型查看所有工具的“使用说明”（通过文本描述传入），判断该用哪些工具；模型输出JSON格式指令（类似“使用数据库查询工具，参数是XXX”）；客户端执行工具，并把结果再传给模型生成最终回答。这里的关键在于工具描述的准确性——开发者需要通过函数名、文档注释等方式清晰定义工具用途，模型才能“读懂”并正确调用。MCP服务器开发难吗？&lt;/p&gt;
+&lt;p&gt;对开发者来说，MCP服务器主要提供三类功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;工具：可被AI调用的函数或服务接口（如文件读取、API调用）；&lt;/li&gt;
+&lt;li&gt;资源：结构化数据（本地文件、数据库结果、远程API返回值）；&lt;/li&gt;
+&lt;li&gt;提示：预设的任务模板（比如“帮我写一封会议总结邮件”）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;虽然涉及代码开发，但MCP通过标准化协议简化了流程，只要遵循规则，即使是小型团队也能快速搭建自定义的AI工具连接服务。总的来说，MCP就像AI世界的“通用语言”，让不同工具和模型能高效协作，推动AI从“纸上谈兵”迈向“实际干活”的新阶段。&lt;/p&gt;
+&lt;p&gt;实践案例：这里我们使用扣子空间MCP，搜集所有Github上的网络安全相关的MCP项目。首先，添加扩展，可以理解为添加Github的MCP应用，这里给扣子空间接上了可以操作Github的手脚：输入提示词，等待结果：部分结果内容：
+● 项目名称：Ta0ing/MCP - SecurityTools
+● 项目地址：https://github.com/Ta0ing/MCP - SecurityTools
+● 项目描述：MCP - SecurityTools是一个专注于收录和更新网络安全领域MCP的开源项目，旨在汇总、整理和优化各类与MCP相关的安全工具、技术及实战经验。&lt;/p&gt;
+&lt;p&gt;● 项目名称：Antonsmil/MCP - SecurityTools
+● 项目地址：https://github.com/Antonsmil/MCP - SecurityTools
+● 项目描述：MCP - SecurityTools是一个专注于收录和更新网络安全领域MCP的开源项目，旨在汇总、整理和优化各类与MCP相关的安全工具、技术及实战经验。和传统AI思路不同的是，这里所查询的结果，是实时登录Github进行搜索，而不是基于历史训练数据，比如询问MCP当前时间，理论上它一定会返回当前时间：&lt;/p&gt;
+&lt;p&gt;更多请参考：https://modelcontextprotocol.io/introduction网络安全实战价值——红蓝队双重视角价值红队场景：攻击视角下的MCP武器化实践红队可以通过MCP协议实现攻击工具链的智能化调度，构建&amp;quot;AI黑客&amp;quot;操作体系：
+（1）资产测绘调用Shodan MCP Server进行互联网暴露面扫描，使用shodan_search指令批量获取目标C段存活主机及开放服务（如query=&amp;ldquo;port:22 country:CN&amp;rdquo;），集成Shodan API的MCP协议适配器，支持自动化资产测绘、CVE漏洞检索及暴露面分析，红队可快速定位目标脆弱资产。GitHub地址：https://github.com/BurtTheCoder/mcp-shodan
+（2）漏洞利用通过MCP Terminal Server执行自动化POC验证，如利用Log4j漏洞生成攻击载荷，并触发反向Shell。GitHub地址：https://github.com/wonderwhy-er/DesktopCommanderMCP再比如Azure社区维护的https://github.com/appcypher/awesome-mcp-servers，MCP协议工具库，覆盖Kubernetes、PostgreSQL、Elasticsearch等场景的攻防适配器，当MCP基于前面的资产发现动作，筛选出对应目标后，即可针对性对其进行漏洞测试与利用。
+（3）C2与横向移动可将Cobalt Strike操作指令转化为MCP协议，实现自动化横向移动、载荷下发与C2流量伪装，支持与EDR MCP Server联动绕过检测。
+（4）反溯源可联动数据库MCP Server窃取凭证，通过LDAP协议自动探测域内主机。伪造MySQL服务端实施反制，通过协议级流量劫持获取攻击者主机信息。支持捕获客户端文件、内存马注入等红队反溯源操作。GitHub地址：https://github.com/BeichenDream/MysqlT
+（5）社会工程增强可针对社会工程所需能力，集成现有用于钓鱼邮件、语音伪造、身份伪造等的项目，搭建MCP Server，提供MCP接口。钓鱼邮件生成：调用自然语言生成MCP Server，自动生成针对特定目标的鱼叉式钓鱼邮件内容语音伪造：集成TTS MCP Server模拟高管声纹进行电话诈骗身份伪装：通过Descope MCP Server伪造OAuth令牌绕过双因素认证由此，从而可通过MCP实现典型攻击链：Shodan扫描暴露面 → CVE漏洞利用 → 横向渗透 → 数据窃取 → 痕迹清除全流程通过MCP协议自动编排蓝队场景：&lt;/p&gt;
+&lt;p&gt;防御体系中的MCP协同中枢
+（1）智能威胁检测通过MCP协议，封装出设备调用的MCP Server，或直接封装出日志审计系统的MCP Server，实现采集内网各类设备日志（含NetFlow/Syslog/Kafka）。接着可尝试封装APT-Hunter的MCP分析模块，生成ATT&amp;amp;CK战术映射图，参考项目：https://github.com/ahmedkhlief/APT-Hunter动态风险评估，结合红队场景介绍的Shodan MCP，基于Shodan暴露面数据计算资产脆弱性评分，参考公式：Risk=0.4∗CVSS+0.3∗暴露时长+0.2∗关联漏洞数+0.1∗修复难度其中，CVSS(v3评分范围1-10)、暴露时长(天数)、修复难度(1-5级评分)
+（2）自动化响应编排通过调用不同安防设备的MCP API实现跨设备联动，如检测到勒索软件时自动触发MCP防御链：Firewall.block_ip(&amp;ldquo;x.x.x.x&amp;rdquo;) → EDR.isolate_host() → Backup.restore_data()也可快速根据防护情况开发虚拟补丁，实现快速止血，如通过WAF MCP Adapter动态下发正则规则（如${jndi:ldap://.*}）
+（3）安全运营增强如利用MCP协议模拟攻击流量测试防火墙规则有效性实现策略验证，也可调用Security Audit MCP Server自动生成等保2.0/ISO27001报告实现自主合规审计，还可部署Ehoney等蜜罐系统捕获攻击者JA3指纹与Webshell特征，从而增强安全运营团队的工作效能。&lt;/p&gt;
+&lt;p&gt;典型案例如下，针对勒索软件应急响应，传统模式为：SOC告警 → 人工分析1小时 → 邮件通知防火墙团队 → 手动阻断IP → 联系EDR团队处置&amp;hellip;&lt;/p&gt;
+&lt;p&gt;而在MCP模式下，则为：# AI自动执行的防御链&lt;/p&gt;
+&lt;p&gt;1. EDR上报异常文件加密行为（MCP事件代码：0x7B21）
+2. 大模型关联威胁情报判定为Conti变种（置信度92%）
+3. 触发MCP联动：   - 防火墙.block_ip(attacker_ip)   - 交换机.isolate_port(infected_host)   - 备份系统.restore(snapshot_id=&amp;ldquo;20230815_clean&amp;rdquo;)
+4. 生成处置报告并@安全负责人MCP加持下的红蓝对抗&lt;/p&gt;
+&lt;p&gt;总结&lt;/p&gt;
+&lt;p&gt;由此可见，MCP协议为红蓝对抗带来了范式级变革，其核心突破在于构建了攻防双方的&amp;quot;数字神经传导系统&amp;quot;。
+对红队而言，MCP将渗透测试从离散工具的手动拼装升级为智能编排的自动化武器库，攻击者只需定义战术目标，即可自主完成漏洞验证、载荷生成、横向移动等全链条操作。&lt;/p&gt;
+&lt;p&gt;对蓝队而言，MCP实现了防御动作的&amp;quot;条件反射式响应&amp;quot;，通过协议层原子化操作（如EDR进程阻断、WAF规则下发、防火墙策略同步）的高速联动，可预见的可以使威胁处置时效从小时级压缩至秒级。&lt;/p&gt;
+&lt;p&gt;MCP协议重构网络攻防规则的本质在于：攻击者通过将恶意指令嵌入标准协议（如HTTP/SSE）的合法字段（如请求头、事件流），伪装成“合法快递”，绕过传统安全设备的检测；而防御方必须升级为“协议安检员”，通过动态HMAC签名（每分钟刷新的防伪标签）和指令意图分析（AI识破指令的“潜台词”）实现毫秒级阻断。&lt;/p&gt;
+&lt;p&gt;这一变革将网络对抗推向协议层的“规则争夺战”——攻击方比拼伪造合规指令的速度（如每秒生成1万条伪装流量），防御方则需以更高效率验证协议合法性（如3ms内完成解析、验签、语义分析）。未来胜负关键取决于谁能在协议层掌握“规则定义权”，例如通过形式化验证确保协议设计无漏洞，或利用联邦学习跨组织共享攻击特征，最终实现从“堵漏洞”到“控协议”的范式升级。&lt;/p&gt;
+&lt;p&gt;更多红蓝对抗可用的MCP项目GitHub开源项目：&lt;/p&gt;
+&lt;p&gt;whit3rabbit0/project_astro平台：
+GitHub功能亮点：首创&amp;quot;MCP Server + Kali API Server&amp;quot;双引擎架构；无缝对接Claude AI桌面端与Kali Linux工具链（含nmap）；内建HackTheBox靶场智能提示系统，自动生成渗透测试策略。&lt;/p&gt;
+&lt;p&gt;PortSwigger/mcp-server（官方认证）平台：
+GitHub核心价值：打通Burp Suite企业级安全工具链（代理/扫描器/流量记录）；支持通过MCP协议批量操作Intruder模块攻击载荷。&lt;/p&gt;
+&lt;p&gt;X3r0K/BurpSuite-MCP-Server平台：
+GitHub技术特色：基于FastAPI构建轻量化Web服务接口；支持RESTful API调用Burp Suite核心功能模块。&lt;/p&gt;
+&lt;p&gt;Glama.ai生态项目：9olidity/MCP-Server-Pentest
+创新点：
+▪️ 基于Playwright的智能浏览器沙箱
+▪️ 自动化检测XSS/SQL注入漏洞，支持动态网页交互日志记录foolsec/Vibehacker-Metasploit-MCP专业领域：
+▪️ 首个Metasploit框架的AI操作接口
+▪️ 支持漏洞利用模块智能编排、Payload动态混淆生成Cyreslab-AI/Shodan-MCP-Server数据能力：
+▪️ 实时接入Shodan全球设备探测数据库
+▪️ 支持自然语言查询IoT设备指纹信息企业级解决方案：IntegrationAppMCPServer商业化平台：Integration.app核心优势：
+▪️ 支持连接5万+工具与300+企业级应用
+▪️ 提供可视化流程编排与AI模型联邦学习框架&lt;/p&gt;
+&lt;p&gt;垂直领域工具链：项目名称技术突破典型应用场景twolven/Puppeteer-MCP浏览器DOM操作日志回放系统动态网页爬取与JS漏洞复现newbeb/Stealth-Browser基于Chromium的反检测渲染引擎隐蔽式渗透测试侦察shaike1/MCP-SSH-Server基于SSH隧道加密的指令审计系统合规化远程主机管控nicholmikey/Chrome-Tools多标签页并行控制技术Web应用自动化安全评估圈内高价值实践分享：小惜渗透《红队视角下AI大模型MCP技术的实现和应用》https://forum.butian.net/share/4244我们也会沉下心好好钻研技术，分别实现红队和蓝队的MCP工作站后，为大家进行打包分享！敬请期待！&lt;/p&gt;
+&lt;p&gt;结语&lt;/p&gt;
+&lt;p&gt;随着ATT&amp;amp;CK技战术库与MCP协议的深度融合，可预见的，未来的AI安全系统将呈现两大趋势：
+（1）生态标准化演进：MCP协议插件市场将形成类似Docker Hub的生态体系，安全厂商需建立工具描述语言的统一标准以确保模型间的互操作性。&lt;/p&gt;
+&lt;p&gt;（2）认知对抗深化：攻击方需构建能bypass防御方各类通用设备的MCP，在流量加密、设备规则绕过等构建灵活调整的攻击AI；防御方则是深入安全运营、主动防御等工作里面的MCP化工作，如构建协议级的蜜罐诱捕系统，通过强化学习训练具备反溯源能力的&amp;quot;协议陷阱&amp;quot;，在MCP指令层实施主动防御，等等成果打磨。&lt;/p&gt;
+&lt;p&gt;另外，也需要关注MCP设施本身的安全性，需要深入研究如何让MCP协议更安全可靠，特别是在两个关键方向：&lt;/p&gt;
+&lt;p&gt;（1）双重身份确认机制。就像进出军事基地需要双方互相检查证件，在&amp;quot;零信任&amp;quot;安全体系下，不仅要验证使用MCP协议的用户身份，还要严格验证接入设备的合法性。例如：当AI系统通过MCP协议操控防火墙时，防火墙需要反向确认这条指令确实来自可信的AI系统，防止黑客伪造指令关闭防护。&lt;/p&gt;
+&lt;p&gt;（2）数学化安全验证技术。用数学方法严格证明MCP协议的设计没有漏洞。就像建筑师用计算机模拟大楼所有可能的受力情况，研究人员需要通过数学建模测试MCP协议在各种极端攻击场景下的表现，确保协议本身不会被利用来发动攻击。&lt;/p&gt;
+&lt;p&gt;有必要一提，MCP 本质是将面向人类的 API 体系重构为适配 AI 的版本。如果代码质量高、架构精巧，用现有代码结合主流 AI 大模型也能实现功能，但在自动化和协同效率上，不如 MCP，达成我们理想的AI助手，更是不如MCP。最后，我们可以展望，在红蓝对抗引入MCP重视相关生态的建设，通过这种&amp;quot;双重检查+数学化验证&amp;quot;的组合拳让MCP协议既灵活智能又坚如磐石。未来的网络空间对抗技术一定会日新月异，每天都是成长和收获快乐的一天！实在是太爱网络安全啦！关注东方隐侠安全团队 一起打造网安江湖       &lt;/p&gt;
+&lt;p&gt;东方隐侠安全团队，一支专业的网络安全团队，将持续为您分享红蓝对抗、病毒研究、安全运营、应急响应等网络安全知识，提供一流网络安全服务，敬请关注！公众号｜东方隐侠安全团队请添加团队微信号｜东方隐侠安全团队用于拉少侠们进团队交流群&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

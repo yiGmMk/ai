@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>编程 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E7%BC%96%E7%A8%8B/</link>
+        <description>Recent content in 编程 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 21 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Claude Code 最佳实践</title>
+        <link>https://ai.programnotes.cn/p/claude-code-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+        <pubDate>Thu, 21 Aug 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/claude-code-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+        <description>&lt;h2 id=&#34;claude-code代理式编码的最佳实践&#34;&gt;Claude Code：代理式编码的最佳实践
+&lt;/h2&gt;&lt;p&gt;Claude Code 是一款用于代理式编码（agentic coding）的命令行工具。本文将介绍一些在使用 Claude Code 过程中，跨越不同代码库、语言和环境时被证明行之有效的技巧和窍门。&lt;/p&gt;
+&lt;p&gt;我们最近发布了 Claude Code，这是一款用于代理式编码的命令行工具。作为一项研究项目，Claude Code 为 Anthropic 的工程师和研究人员提供了一种更原生的方式，将 Claude 集成到他们的编码工作流中。&lt;/p&gt;
+&lt;p&gt;Claude Code 故意设计得底层且不固执己见，提供近乎原始的模型访问权限，而不强加特定的工作流。这种设计理念创造了一个灵活、可定制、可编写脚本且功能强大的安全工具。虽然功能强大，但这种灵活性也给刚接触代理式编码工具的工程师带来了一定的学习曲线——至少在他们形成自己的最佳实践之前是这样。&lt;/p&gt;
+&lt;p&gt;本文概述了一些通用的模式，这些模式在 Anthropic 的内部团队和外部工程师在各种代码库、语言和环境中使用 Claude Code 时都被证明是有效的。此列表中的任何内容都不是一成不变的，也不是普遍适用的；请将这些建议视为起点。我们鼓励您进行实验，找到最适合您的方法！&lt;/p&gt;
+&lt;p&gt;想了解更详细的信息吗？我们在 claude.ai/code 上的综合文档涵盖了本文提到的所有功能，并提供了额外的示例、实现细节和高级技术。&lt;/p&gt;
+&lt;h3 id=&#34;1-自定义您的设置&#34;&gt;1. 自定义您的设置
+&lt;/h3&gt;&lt;p&gt;Claude Code 是一个代理式编码助手，它会自动将上下文提取到提示中。这种上下文收集会消耗时间和 token，但您可以通过环境调整来优化它。&lt;/p&gt;
+&lt;h4 id=&#34;a-创建-claudemd-文件&#34;&gt;a. 创建 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;CLAUDE.md&lt;/code&gt; 是一个特殊文件，Claude 在开始对话时会自动将其提取到上下文中。这使其成为记录以下内容的理想场所：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;常用的 bash 命令&lt;/li&gt;
+&lt;li&gt;核心文件和实用函数&lt;/li&gt;
+&lt;li&gt;代码风格指南&lt;/li&gt;
+&lt;li&gt;测试说明&lt;/li&gt;
+&lt;li&gt;代码仓库礼仪（例如，分支命名、merge vs. rebase 等）&lt;/li&gt;
+&lt;li&gt;开发环境设置（例如，pyenv 的使用、哪些编译器可用）&lt;/li&gt;
+&lt;li&gt;项目特有的任何意外行为或警告&lt;/li&gt;
+&lt;li&gt;您希望 Claude 记住的其他信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;CLAUDE.md&lt;/code&gt; 文件没有固定的格式。我们建议保持其简洁易读。例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;# Bash 命令
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; npm run build: 构建项目
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; npm run typecheck: 运行类型检查器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;# 代码风格
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; 使用 ES 模块 (import/export) 语法，而不是 CommonJS (require)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; 尽可能解构导入 (例如 import { foo } from &amp;#39;bar&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;# 工作流
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; 在完成一系列代码更改后，请务必进行类型检查
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;-&lt;/span&gt; 为提高性能，优先运行单个测试，而不是整个测试套件
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;您可以将 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件放置在多个位置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;仓库的根目录&lt;/strong&gt;，或您运行 &lt;code&gt;claude&lt;/code&gt; 的任何位置（最常见的用法）。将其命名为 &lt;code&gt;CLAUDE.md&lt;/code&gt; 并检入 git，以便您可以在不同会话和团队之间共享（推荐），或者将其命名为 &lt;code&gt;CLAUDE.local.md&lt;/code&gt; 并将其添加到 &lt;code&gt;.gitignore&lt;/code&gt; 中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运行 &lt;code&gt;claude&lt;/code&gt; 的目录的任何父目录&lt;/strong&gt;。这在 monorepo 中最有用，您可能从 &lt;code&gt;root/foo&lt;/code&gt; 运行 &lt;code&gt;claude&lt;/code&gt;，并在 &lt;code&gt;root/CLAUDE.md&lt;/code&gt; 和 &lt;code&gt;root/foo/CLAUDE.md&lt;/code&gt; 中都有 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件。这两个文件都会被自动提取到上下文中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运行 &lt;code&gt;claude&lt;/code&gt; 的目录的任何子目录&lt;/strong&gt;。这与上述情况相反，在这种情况下，当您处理子目录中的文件时，Claude 会按需提取 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;您的主文件夹&lt;/strong&gt; (&lt;code&gt;~/.claude/CLAUDE.md&lt;/code&gt;)，它会应用于您所有的 &lt;code&gt;claude&lt;/code&gt; 会话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当您运行 &lt;code&gt;/init&lt;/code&gt; 命令时，Claude 会自动为您生成一个 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;h4 id=&#34;b-调整您的-claudemd-文件&#34;&gt;b. 调整您的 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件
+&lt;/h4&gt;&lt;p&gt;您的 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件会成为 Claude 提示的一部分，因此应像任何常用提示一样对其进行优化。一个常见的错误是添加大量内容而没有迭代其有效性。花时间进行实验，确定什么能从模型中产生最佳的指令遵循效果。&lt;/p&gt;
+&lt;p&gt;您可以手动向 &lt;code&gt;CLAUDE.md&lt;/code&gt; 添加内容，或按 &lt;code&gt;#&lt;/code&gt; 键向 Claude 发出指令，它会自动将其合并到相关的 &lt;code&gt;CLAUDE.md&lt;/code&gt; 中。许多工程师在编码时经常使用 &lt;code&gt;#&lt;/code&gt; 来记录命令、文件和风格指南，然后将 &lt;code&gt;CLAUDE.md&lt;/code&gt; 的更改包含在提交中，以便团队成员也能受益。&lt;/p&gt;
+&lt;p&gt;在 Anthropic，我们偶尔会通过提示改进器来运行 &lt;code&gt;CLAUDE.md&lt;/code&gt; 文件，并经常调整指令（例如，用 &amp;ldquo;IMPORTANT&amp;rdquo; 或 &amp;ldquo;YOU MUST&amp;rdquo; 来强调）以提高遵循度。&lt;/p&gt;
+&lt;h4 id=&#34;c-管理-claude-允许的工具列表&#34;&gt;c. 管理 Claude 允许的工具列表
+&lt;/h4&gt;&lt;p&gt;默认情况下，Claude Code 对任何可能修改您系统的操作都会请求权限：文件写入、许多 bash 命令、MCP 工具等。我们采用这种刻意保守的方法设计 Claude Code，以优先考虑安全性。您可以自定义允许列表，以允许您知道是安全的其他工具，或者允许易于撤销的潜在不安全工具（例如，文件编辑、&lt;code&gt;git commit&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;有四种方法可以管理允许的工具：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在会话期间出现提示时选择“始终允许”。&lt;/li&gt;
+&lt;li&gt;启动 Claude Code 后使用 &lt;code&gt;/permissions&lt;/code&gt; 命令添加或删除工具。例如，您可以添加 &lt;code&gt;Edit&lt;/code&gt; 以始终允许文件编辑，&lt;code&gt;Bash(git commit:*)&lt;/code&gt; 以允许 git 提交，或 &lt;code&gt;mcp__puppeteer__puppeteer_navigate&lt;/code&gt; 以允许使用 Puppeteer MCP 服务器进行导航。&lt;/li&gt;
+&lt;li&gt;手动编辑您的 &lt;code&gt;.claude/settings.json&lt;/code&gt; 或 &lt;code&gt;~/.claude.json&lt;/code&gt;（我们建议将前者检入源代码控制以与您的团队共享）。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;--allowedTools&lt;/code&gt; CLI 标志进行会话特定的权限设置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;d-如果使用-github请安装-gh-cli&#34;&gt;d. 如果使用 GitHub，请安装 &lt;code&gt;gh&lt;/code&gt; CLI
+&lt;/h4&gt;&lt;p&gt;Claude 知道如何使用 &lt;code&gt;gh&lt;/code&gt; CLI 与 GitHub 交互，以创建 issue、打开 pull request、阅读评论等。如果没有安装 &lt;code&gt;gh&lt;/code&gt;，Claude 仍然可以使用 GitHub API 或 MCP 服务器（如果您已安装）。&lt;/p&gt;
+&lt;h3 id=&#34;2-为-claude-提供更多工具&#34;&gt;2. 为 Claude 提供更多工具
+&lt;/h3&gt;&lt;p&gt;Claude 可以访问您的 shell 环境，您可以在其中为它构建便利的脚本和函数集，就像为自己构建一样。它还可以通过 MCP 和 REST API 利用更复杂的工具。&lt;/p&gt;
+&lt;h4 id=&#34;a-将-claude-与-bash-工具结合使用&#34;&gt;a. 将 Claude 与 bash 工具结合使用
+&lt;/h4&gt;&lt;p&gt;Claude Code 继承了您的 bash 环境，使其可以访问您的所有工具。虽然 Claude 了解像 unix 工具和 &lt;code&gt;gh&lt;/code&gt; 这样的常用实用程序，但如果没有说明，它不会知道您的自定义 bash 工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;告诉 Claude 工具名称和使用示例。&lt;/li&gt;
+&lt;li&gt;告诉 Claude 运行 &lt;code&gt;--help&lt;/code&gt; 查看工具文档。&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;CLAUDE.md&lt;/code&gt; 中记录常用工具。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;b-将-claude-与-mcp-结合使用&#34;&gt;b. 将 Claude 与 MCP 结合使用
+&lt;/h4&gt;&lt;p&gt;Claude Code 同时充当 MCP 服务器和客户端。作为客户端，它可以通过三种方式连接到任意数量的 MCP 服务器以访问其工具：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在项目配置中（在项目目录中运行 Claude Code 时可用）。&lt;/li&gt;
+&lt;li&gt;在全局配置中（在所有项目中可用）。&lt;/li&gt;
+&lt;li&gt;在检入的 &lt;code&gt;.mcp.json&lt;/code&gt; 文件中（对在您的代码库中工作的任何人可用）。例如，您可以将 Puppeteer 和 Sentry 服务器添加到您的 &lt;code&gt;.mcp.json&lt;/code&gt; 中，这样在您的仓库中工作的每位工程师都可以开箱即用地使用这些工具。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在使用 MCP 时，使用 &lt;code&gt;--mcp-debug&lt;/code&gt; 标志启动 Claude 也有助于识别配置问题。&lt;/p&gt;
+&lt;h4 id=&#34;c-使用自定义斜杠命令&#34;&gt;c. 使用自定义斜杠命令
+&lt;/h4&gt;&lt;p&gt;对于重复的工作流——调试循环、日志分析等——将提示模板存储在 &lt;code&gt;.claude/commands&lt;/code&gt; 文件夹中的 Markdown 文件中。当您键入 &lt;code&gt;/&lt;/code&gt; 时，这些模板将通过斜杠命令菜单可用。您可以将这些命令检入 git，使其对团队其他成员可用。&lt;/p&gt;
+&lt;p&gt;自定义斜杠命令可以包含特殊关键字 &lt;code&gt;$ARGUMENTS&lt;/code&gt; 以从命令调用中传递参数。&lt;/p&gt;
+&lt;p&gt;例如，这是一个可用于自动拉取和修复 Github issue 的斜杠命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;请分析并修复 GitHub issue：$ARGUMENTS。请遵循以下步骤：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;1.&lt;/span&gt; 使用 &lt;span class=&#34;sb&#34;&gt;`gh issue view`&lt;/span&gt; 获取 issue 详细信息。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;2.&lt;/span&gt; 理解 issue 中描述的问题。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;3.&lt;/span&gt; 在代码库中搜索相关文件。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;4.&lt;/span&gt; 实施必要的更改以修复问题。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;5.&lt;/span&gt; 编写并运行测试以验证修复。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;6.&lt;/span&gt; 确保代码通过 linting 和类型检查。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;7.&lt;/span&gt; 创建一个描述性的提交消息。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;8.&lt;/span&gt; 推送并创建一个 PR。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;请记住使用 GitHub CLI (&lt;span class=&#34;sb&#34;&gt;`gh`&lt;/span&gt;) 来完成所有与 GitHub 相关的任务。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将上述内容放入 &lt;code&gt;.claude/commands/fix-github-issue.md&lt;/code&gt; 中，使其在 Claude Code 中作为 &lt;code&gt;/project:fix-github-issue&lt;/code&gt; 命令可用。然后，您可以使用例如 &lt;code&gt;/project:fix-github-issue 1234&lt;/code&gt; 来让 Claude 修复 issue #1234。同样，您可以将自己的个人命令添加到 &lt;code&gt;~/.claude/commands&lt;/code&gt; 文件夹中，以便在所有会话中使用。&lt;/p&gt;
+&lt;h3 id=&#34;3-尝试常见的工作流&#34;&gt;3. 尝试常见的工作流
+&lt;/h3&gt;&lt;p&gt;Claude Code 不会强加特定的工作流，让您可以灵活地按自己的方式使用它。在这种灵活性提供的空间内，我们的用户社区中出现了几种有效使用 Claude Code 的成功模式：&lt;/p&gt;
+&lt;h4 id=&#34;a-探索计划编码提交&#34;&gt;a. 探索、计划、编码、提交
+&lt;/h4&gt;&lt;p&gt;这个通用的工作流适用于许多问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 阅读相关文件、图像或 URL&lt;/strong&gt;，可以提供一般性指引（“阅读处理日志记录的文件”）或特定文件名（“阅读 logging.py”），但要明确告诉它暂时不要编写任何代码。
+&lt;ul&gt;
+&lt;li&gt;在这个工作流的这个部分，您应该考虑强力使用子代理，特别是对于复杂问题。告诉 Claude 使用子代理来验证细节或调查它可能有的特定问题，尤其是在对话或任务的早期，往往可以在不损失太多效率的情况下保留上下文的可用性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 制定解决特定问题的方法计划&lt;/strong&gt;。我们建议使用“思考（think）”这个词来触发扩展思考模式，这会给 Claude 额外的计算时间来更彻底地评估替代方案。这些特定的短语直接映射到系统中不断增加的思考预算级别：“think” &amp;lt; “think hard” &amp;lt; “think harder” &amp;lt; “ultrathink”。每个级别都会分配逐渐增多的思考预算供 Claude 使用。
+&lt;ul&gt;
+&lt;li&gt;如果此步骤的结果看起来合理，您可以让 Claude 创建一个文档或一个 GitHub issue，其中包含其计划，这样如果实现（步骤3）不符合您的要求，您可以重置到这个位置。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 用代码实现其解决方案&lt;/strong&gt;。这也是一个好时机，要求它在实现解决方案的各个部分时明确验证其解决方案的合理性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 提交结果并创建一个 pull request&lt;/strong&gt;。如果相关，这也是让 Claude 更新任何 README 或 changelog，并解释它刚刚做了什么的好时机。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;步骤 #1-#2至关重要——没有它们，Claude 往往会直接跳到编码解决方案。虽然有时这正是您想要的，但要求 Claude 先进行研究和规划，可以显著提高解决需要预先深入思考的问题的性能。&lt;/p&gt;
+&lt;h4 id=&#34;b-编写测试提交编码迭代提交&#34;&gt;b. 编写测试，提交；编码，迭代，提交
+&lt;/h4&gt;&lt;p&gt;这是一个在 Anthropic 内部备受青睐的工作流，适用于可以通过单元、集成或端到端测试轻松验证的更改。测试驱动开发（TDD）在代理式编码中变得更加强大：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 根据预期的输入/输出对编写测试&lt;/strong&gt;。明确说明您正在进行测试驱动开发，这样它就会避免创建模拟实现，即使对于代码库中尚不存在的功能也是如此。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;告诉 Claude 运行测试并确认它们失败&lt;/strong&gt;。明确告诉它在此阶段不要编写任何实现代码通常很有帮助。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;当您对测试满意时，要求 Claude 提交测试&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 编写通过测试的代码&lt;/strong&gt;，并指示它不要修改测试。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;告诉 Claude 继续，直到所有测试都通过&lt;/strong&gt;。Claude 通常需要几次迭代才能编写代码、运行测试、调整代码并再次运行测试。
+&lt;ul&gt;
+&lt;li&gt;在此阶段，要求它使用独立的子代理来验证实现没有过度拟合测试可能会有所帮助。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;一旦您对更改感到满意，就要求 Claude 提交代码&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当 Claude 有一个明确的目标可以迭代时，它的表现最好——无论是视觉模型、测试用例还是其他类型的输出。通过提供像测试这样的预期输出，Claude 可以进行更改、评估结果并逐步改进，直到成功。&lt;/p&gt;
+&lt;h4 id=&#34;c-编写代码截图结果迭代&#34;&gt;c. 编写代码，截图结果，迭代
+&lt;/h4&gt;&lt;p&gt;与测试工作流类似，您可以为 Claude 提供视觉目标：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;为 Claude 提供一种截取浏览器屏幕截图的方法&lt;/strong&gt;（例如，使用 Puppeteer MCP 服务器、iOS 模拟器 MCP 服务器，或手动将屏幕截图复制/粘贴到 Claude 中）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通过复制/粘贴或拖放图像，或提供图像文件路径，为 Claude 提供一个视觉模型&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 用代码实现设计，截取结果的屏幕截图，并进行迭代，直到其结果与模型匹配&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;当您满意时，要求 Claude 提交&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;像人类一样，Claude 的输出通常会随着迭代而显著改善。虽然第一个版本可能不错，但经过2-3次迭代后，它通常会看起来好得多。为 Claude 提供查看其输出的工具以获得最佳结果。&lt;/p&gt;
+&lt;h4 id=&#34;d-安全的yolo模式&#34;&gt;d. 安全的“YOLO”模式
+&lt;/h4&gt;&lt;p&gt;您可以不监督 Claude，而是使用 &lt;code&gt;claude --dangerously-skip-permissions&lt;/code&gt; 来绕过所有权限检查，让 Claude 不间断地工作直到完成。这对于修复 lint 错误或生成样板代码等工作流非常有效。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;警告&lt;/strong&gt;：让 Claude 运行任意命令是有风险的，可能导致数据丢失、系统损坏甚至数据泄露（例如，通过提示注入攻击）。为了将这些风险降到最低，请在没有互联网访问的容器中使用 &lt;code&gt;--dangerously-skip-permissions&lt;/code&gt;。您可以参考这个使用 Docker 开发容器的实现。&lt;/p&gt;
+&lt;h4 id=&#34;e-代码库问答&#34;&gt;e. 代码库问答
+&lt;/h4&gt;&lt;p&gt;在熟悉新的代码库时，使用 Claude Code 进行学习和探索。您可以向 Claude 提出与结对编程时向项目中的其他工程师提出的同类问题。Claude 可以代理式地搜索代码库以回答一般性问题，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;日志记录是如何工作的？&lt;/li&gt;
+&lt;li&gt;我如何创建一个新的 API 端点？&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;foo.rs&lt;/code&gt; 第134行的 &lt;code&gt;async move { ... }&lt;/code&gt; 是做什么的？&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CustomerOnboardingFlowImpl&lt;/code&gt; 处理了哪些边缘情况？&lt;/li&gt;
+&lt;li&gt;为什么我们在第333行调用 &lt;code&gt;foo()&lt;/code&gt; 而不是 &lt;code&gt;bar()&lt;/code&gt;？&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;baz.py&lt;/code&gt; 第334行在 Java 中的等价物是什么？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 Anthropic，以这种方式使用 Claude Code 已成为我们的核心入职工作流，显著缩短了上手时间并减轻了其他工程师的负担。无需特殊提示！只需提问，Claude 就会探索代码以找到答案。&lt;/p&gt;
+&lt;h4 id=&#34;f-使用-claude-与-git-交互&#34;&gt;f. 使用 Claude 与 git 交互
+&lt;/h4&gt;&lt;p&gt;Claude 可以有效地处理许多 git 操作。许多 Anthropic 工程师使用 Claude 进行 90% 以上的 git 交互：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;搜索 git 历史记录&lt;/strong&gt;以回答诸如“v1.2.3 版本中包含了哪些更改？”、“谁拥有这个特定功能？”或“为什么这个 API 是这样设计的？”之类的问题。明确提示 Claude 查看 git 历史记录以回答此类查询很有帮助。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;编写提交消息&lt;/strong&gt;。Claude 会自动查看您的更改和最近的历史记录，以撰写包含所有相关上下文的消息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;处理复杂的 git 操作&lt;/strong&gt;，如还原文件、解决 rebase 冲突以及比较和嫁接补丁。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;g-使用-claude-与-github-交互&#34;&gt;g. 使用 Claude 与 GitHub 交互
+&lt;/h4&gt;&lt;p&gt;Claude Code 可以管理许多 GitHub 交互：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;创建 pull request&lt;/strong&gt;：Claude 理解速记“pr”，并将根据差异和周围的上下文生成适当的提交消息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对简单的代码审查评论实施一次性解决方案&lt;/strong&gt;：只需告诉它修复您 PR 上的评论（可选地，给它更具体的说明），并在完成后推送回 PR 分支。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;修复失败的构建或 linter 警告&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通过要求 Claude 遍历开放的 GitHub issue 来分类和分流&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这消除了记住 &lt;code&gt;gh&lt;/code&gt; 命令行语法的需要，同时自动化了常规任务。&lt;/p&gt;
+&lt;h4 id=&#34;h-使用-claude-处理-jupyter-notebook&#34;&gt;h. 使用 Claude 处理 Jupyter notebook
+&lt;/h4&gt;&lt;p&gt;Anthropic 的研究人员和数据科学家使用 Claude Code 来读写 Jupyter notebook。Claude 可以解释包括图像在内的输出，为探索和与数据交互提供了一种快速的方法。没有必需的提示或工作流，但我们推荐的一个工作流是在 VS Code 中并排打开 Claude Code 和一个 &lt;code&gt;.ipynb&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;p&gt;您还可以要求 Claude 在向同事展示之前清理或美化您的 Jupyter notebook。明确告诉它使 notebook 或其数据可视化“美观”往往有助于提醒它正在为人类的观看体验进行优化。&lt;/p&gt;
+&lt;h3 id=&#34;4-优化您的工作流&#34;&gt;4. 优化您的工作流
+&lt;/h3&gt;&lt;p&gt;以下建议适用于所有工作流：&lt;/p&gt;
+&lt;h4 id=&#34;a-在您的指令中要具体&#34;&gt;a. 在您的指令中要具体
+&lt;/h4&gt;&lt;p&gt;Claude Code 的成功率随着更具体的指令而显著提高，尤其是在初次尝试时。预先给出明确的指示可以减少以后进行路线修正的需要。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;差的指令&lt;/th&gt;
+          &lt;th&gt;好的指令&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;为 foo.py 添加测试&lt;/td&gt;
+          &lt;td&gt;为 foo.py 编写一个新的测试用例，涵盖用户未登录的边缘情况。避免使用 mock。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;为什么 ExecutionFactory 的 api 这么奇怪？&lt;/td&gt;
+          &lt;td&gt;查看 ExecutionFactory 的 git 历史记录，并总结其 api 是如何形成的。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;添加一个日历小部件&lt;/td&gt;
+          &lt;td&gt;查看主页上现有小部件的实现方式，以了解模式，特别是代码和接口是如何分离的。HotDogWidget.php 是一个很好的起点。然后，遵循该模式实现一个新的日历小部件，让用户可以选择月份并向前/向后翻页以选择年份。除了代码库中已使用的库之外，不要使用其他库从头构建。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Claude 可以推断意图，但它无法读懂您的心思。具体性可以更好地与期望保持一致。&lt;/p&gt;
+&lt;h4 id=&#34;b-给-claude-图像&#34;&gt;b. 给 Claude 图像
+&lt;/h4&gt;&lt;p&gt;Claude 通过多种方法在处理图像和图表方面表现出色：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;粘贴屏幕截图（专业提示：在 macOS 中按 &lt;code&gt;cmd+ctrl+shift+4&lt;/code&gt; 将屏幕截图到剪贴板，然后按 &lt;code&gt;ctrl+v&lt;/code&gt; 粘贴。请注意，这与您通常在 Mac 上用于粘贴的 &lt;code&gt;cmd+v&lt;/code&gt; 不同，并且在远程操作时无效。）&lt;/li&gt;
+&lt;li&gt;将图像直接拖放到提示输入中。&lt;/li&gt;
+&lt;li&gt;提供图像的文件路径。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这在处理用于 UI 开发的设计模型以及用于分析和调试的可视化图表时特别有用。如果您没有向上下文中添加视觉效果，向 Claude 明确说明结果在视觉上具有吸引力的重要性仍然很有帮助。&lt;/p&gt;
+&lt;h4 id=&#34;c-提及您希望-claude-查看或处理的文件&#34;&gt;c. 提及您希望 Claude 查看或处理的文件
+&lt;/h4&gt;&lt;p&gt;使用 Tab 键补全可以快速引用仓库中任何位置的文件或文件夹，帮助 Claude 找到或更新正确的资源。&lt;/p&gt;
+&lt;h4 id=&#34;d-给-claude-url&#34;&gt;d. 给 Claude URL
+&lt;/h4&gt;&lt;p&gt;将特定的 URL 与您的提示一起粘贴，供 Claude 获取和阅读。为避免对相同域（例如，docs.foo.com）的权限提示，请使用 &lt;code&gt;/permissions&lt;/code&gt; 将域添加到您的允许列表中。&lt;/p&gt;
+&lt;h4 id=&#34;e-及早并经常纠正路线&#34;&gt;e. 及早并经常纠正路线
+&lt;/h4&gt;&lt;p&gt;虽然自动接受模式（按 &lt;code&gt;shift+tab&lt;/code&gt; 切换）让 Claude 可以自主工作，但通过作为积极的协作者并指导 Claude 的方法，您通常会获得更好的结果。您可以在开始时向 Claude 彻底解释任务以获得最佳结果，但您也可以随时纠正 Claude 的路线。&lt;/p&gt;
+&lt;p&gt;这四个工具有助于路线修正：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;在编码前要求 Claude 制定计划&lt;/strong&gt;。明确告诉它在您确认其计划看起来不错之前不要编码。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;在任何阶段（思考、工具调用、文件编辑）按 Escape 键中断 Claude&lt;/strong&gt;，保留上下文，以便您可以重定向或扩展指令。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;双击 Escape 键跳回历史记录&lt;/strong&gt;，编辑先前的提示，并探索不同的方向。您可以编辑提示并重复，直到获得所需的结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要求 Claude 撤销更改&lt;/strong&gt;，通常与选项 #2 结合使用以采取不同的方法。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;尽管 Claude Code 偶尔会在第一次尝试时完美解决问题，但使用这些修正工具通常可以更快地产生更好的解决方案。&lt;/p&gt;
+&lt;h4 id=&#34;f-使用-clear-保持上下文专注&#34;&gt;f. 使用 &lt;code&gt;/clear&lt;/code&gt; 保持上下文专注
+&lt;/h4&gt;&lt;p&gt;在长时间的会话中，Claude 的上下文窗口可能会充满不相关的对话、文件内容和命令。这会降低性能，有时还会分散 Claude 的注意力。在任务之间频繁使用 &lt;code&gt;/clear&lt;/code&gt; 命令来重置上下文窗口。&lt;/p&gt;
+&lt;h4 id=&#34;g-对复杂工作流使用清单和草稿板&#34;&gt;g. 对复杂工作流使用清单和草稿板
+&lt;/h4&gt;&lt;p&gt;对于具有多个步骤或需要详尽解决方案的大型任务——如代码迁移、修复大量 lint 错误或运行复杂的构建脚本——通过让 Claude 使用 Markdown 文件（甚至 GitHub issue！）作为清单和工作草稿板来提高性能：&lt;/p&gt;
+&lt;p&gt;例如，要修复大量的 lint 问题，您可以执行以下操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;告诉 Claude 运行 lint 命令，并将所有结果错误（包括文件名和行号）写入 Markdown 清单。&lt;/li&gt;
+&lt;li&gt;指示 Claude 逐个解决每个问题，在勾选并移至下一个问题之前进行修复和验证。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;h-将数据传递给-claude&#34;&gt;h. 将数据传递给 Claude
+&lt;/h4&gt;&lt;p&gt;有几种方法可以向 Claude 提供数据：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直接复制并粘贴到您的提示中（最常见的方法）。&lt;/li&gt;
+&lt;li&gt;通过管道传递给 Claude Code（例如，&lt;code&gt;cat foo.txt | claude&lt;/code&gt;），对于日志、CSV 和大数据特别有用。&lt;/li&gt;
+&lt;li&gt;告诉 Claude 通过 bash 命令、MCP 工具或自定义斜杠命令拉取数据。&lt;/li&gt;
+&lt;li&gt;要求 Claude 读取文件或获取 URL（也适用于图像）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;大多数会话都涉及这些方法的组合。例如，您可以传入一个日志文件，然后告诉 Claude 使用一个工具来引入额外的上下文来调试日志。&lt;/p&gt;
+&lt;h3 id=&#34;5-使用无头模式自动化您的基础架构&#34;&gt;5. 使用无头模式自动化您的基础架构
+&lt;/h3&gt;&lt;p&gt;Claude Code 包含无头模式，适用于非交互式环境，如 CI、预提交钩子、构建脚本和自动化。使用 &lt;code&gt;-p&lt;/code&gt; 标志和提示来启用无头模式，并使用 &lt;code&gt;--output-format stream-json&lt;/code&gt; 进行流式 JSON 输出。&lt;/p&gt;
+&lt;p&gt;请注意，无头模式在会话之间不持久。您必须在每个会话中触发它。&lt;/p&gt;
+&lt;h4 id=&#34;a-使用-claude-进行-issue-分流&#34;&gt;a. 使用 Claude 进行 issue 分流
+&lt;/h4&gt;&lt;p&gt;无头模式可以为由 GitHub 事件触发的自动化提供支持，例如当您的仓库中创建新 issue 时。例如，公共的 Claude Code 仓库使用 Claude 来检查新进的 issue 并分配适当的标签。&lt;/p&gt;
+&lt;h4 id=&#34;b-使用-claude-作为-linter&#34;&gt;b. 使用 Claude 作为 linter
+&lt;/h4&gt;&lt;p&gt;Claude Code 可以提供传统 linting 工具无法检测到的主观代码审查，识别诸如拼写错误、过时的注释、误导性的函数或变量名等问题。&lt;/p&gt;
+&lt;h3 id=&#34;6-通过多-claude-工作流提升水平&#34;&gt;6. 通过多 Claude 工作流提升水平
+&lt;/h3&gt;&lt;p&gt;除了独立使用之外，一些最强大的应用涉及并行运行多个 Claude 实例：&lt;/p&gt;
+&lt;h4 id=&#34;a-让一个-claude-编写代码使用另一个-claude-进行验证&#34;&gt;a. 让一个 Claude 编写代码；使用另一个 Claude 进行验证
+&lt;/h4&gt;&lt;p&gt;一个简单但有效的方法是让一个 Claude 编写代码，而另一个则进行审查或测试。与多位工程师合作类似，有时拥有独立的上下文是有益的：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用 Claude 编写代码。&lt;/li&gt;
+&lt;li&gt;运行 &lt;code&gt;/clear&lt;/code&gt; 或在另一个终端中启动第二个 Claude。&lt;/li&gt;
+&lt;li&gt;让第二个 Claude 审查第一个 Claude 的工作。&lt;/li&gt;
+&lt;li&gt;启动另一个 Claude（或再次 &lt;code&gt;/clear&lt;/code&gt;）来阅读代码和审查反馈。&lt;/li&gt;
+&lt;li&gt;让这个 Claude 根据反馈编辑代码。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;您可以用测试做类似的事情：让一个 Claude 编写测试，然后让另一个 Claude 编写代码以使测试通过。您甚至可以让您的 Claude 实例通过给它们独立的草稿板并告诉它们哪个写入哪个读取来相互通信。&lt;/p&gt;
+&lt;p&gt;这种分离通常比让单个 Claude 处理所有事情产生更好的结果。&lt;/p&gt;
+&lt;h4 id=&#34;b-拥有多个代码库的检出副本&#34;&gt;b. 拥有多个代码库的检出副本
+&lt;/h4&gt;&lt;p&gt;许多 Anthropic 的工程师不是等待 Claude 完成每一步，而是这样做：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在不同的文件夹中创建 3-4 个 git 检出副本。&lt;/li&gt;
+&lt;li&gt;在不同的终端选项卡中打开每个文件夹。&lt;/li&gt;
+&lt;li&gt;在每个文件夹中以不同的任务启动 Claude。&lt;/li&gt;
+&lt;li&gt;循环检查进度并批准/拒绝权限请求。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;c-使用-git-worktrees&#34;&gt;c. 使用 git worktrees
+&lt;/h4&gt;&lt;p&gt;这种方法在处理多个独立任务时表现出色，为多个检出副本提供了一种更轻量级的替代方案。Git worktrees 允许您将同一仓库的多个分支检出到不同的目录中。每个 worktree 都有自己的工作目录和隔离的文件，同时共享相同的 Git 历史和 reflog。&lt;/p&gt;
+&lt;p&gt;使用 git worktrees 使您能够同时在项目的不同部分运行多个 Claude 会话，每个会话都专注于其独立的任务。例如，您可能让一个 Claude 重构您的身份验证系统，而另一个则构建一个完全不相关的数据可视化组件。由于任务不重叠，每个 Claude 都可以全速工作，而无需等待对方的更改或处理合并冲突：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建 worktrees: &lt;code&gt;git worktree add ../project-feature-a feature-a&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在每个 worktree 中启动 Claude: &lt;code&gt;cd ../project-feature-a &amp;amp;&amp;amp; claude&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;根据需要创建额外的 worktrees（在新的终端选项卡中重复步骤1-2）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一些提示：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用一致的命名约定。&lt;/li&gt;
+&lt;li&gt;每个 worktree 维护一个终端选项卡。&lt;/li&gt;
+&lt;li&gt;如果您在 Mac 上使用 iTerm2，请设置当 Claude 需要注意时的通知。&lt;/li&gt;
+&lt;li&gt;为不同的 worktrees 使用不同的 IDE 窗口。&lt;/li&gt;
+&lt;li&gt;完成后清理：&lt;code&gt;git worktree remove ../project-feature-a&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;d-使用无头模式和自定义工具链&#34;&gt;d. 使用无头模式和自定义工具链
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;claude -p&lt;/code&gt;（无头模式）以编程方式将 Claude Code 集成到更大的工作流中，同时利用其内置工具和系统提示。使用无头模式主要有两种模式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;扇出（Fanning out）&lt;/strong&gt; 处理大规模迁移或分析（例如，分析数百个日志中的情绪或分析数千个 CSV）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;让 Claude 编写一个脚本来生成任务列表。例如，生成一个需要从框架 A 迁移到框架 B 的 2000 个文件的列表。&lt;/li&gt;
+&lt;li&gt;循环遍历任务，为每个任务以编程方式调用 Claude，并给它一个任务和一组它可以使用的工具。例如：&lt;code&gt;claude -p “将 foo.py 从 React 迁移到 Vue。完成后，如果成功，您必须返回字符串 OK，如果任务失败，则返回 FAIL。” --allowedTools Edit Bash(git commit:*)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;多次运行脚本并优化您的提示以获得期望的结果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;管道化（Pipelining）&lt;/strong&gt; 将 Claude 集成到现有的数据/处理管道中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;调用 &lt;code&gt;claude -p “&amp;lt;您的提示&amp;gt;” --json | your_command&lt;/code&gt;，其中 &lt;code&gt;your_command&lt;/code&gt; 是您处理管道的下一步。&lt;/li&gt;
+&lt;li&gt;就是这样！JSON 输出（可选）可以帮助提供结构，以便于自动化处理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于这两种用例，使用 &lt;code&gt;--verbose&lt;/code&gt; 标志进行调试 Claude 调用可能会有所帮助。我们通常建议在生产中关闭详细模式以获得更清晰的输出。&lt;/p&gt;
+&lt;p&gt;您在使用 Claude Code 方面有什么技巧和最佳实践？请标记 @AnthropicAI，让我们看看您正在构建什么！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;致谢&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;由 Boris Cherny 撰写。这项工作借鉴了更广泛的 Claude Code 用户社区的最佳实践，他们富有创意的方法和工作流继续激励着我们。特别感谢 Daisy Hollman、Ashwin Bhat、Cat Wu、Sid Bidasaria、Cal Rueb、Nodir Turakulov、Barry Zhang、Drew Hodun 以及许多其他 Anthropic 工程师，他们对 Claude Code 的宝贵见解和实践经验帮助塑造了这些建议。&lt;/p&gt;
+&lt;h2 id=&#34;原文&#34;&gt;原文
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/engineering/claude-code-best-practices&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anthropic.com/engineering/claude-code-best-practices&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>读懂字节开源AI框架Eino实现逻辑（第1期）</title>
+        <link>https://ai.programnotes.cn/p/%E8%AF%BB%E6%87%82%E5%AD%97%E8%8A%82%E5%BC%80%E6%BA%90ai%E6%A1%86%E6%9E%B6eino%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91%E7%AC%AC1%E6%9C%9F/</link>
+        <pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E8%AF%BB%E6%87%82%E5%AD%97%E8%8A%82%E5%BC%80%E6%BA%90ai%E6%A1%86%E6%9E%B6eino%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91%E7%AC%AC1%E6%9C%9F/</guid>
+        <description>
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1PB7nzfEbq&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;视频信息&#34;&gt;视频信息
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;描述:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;置顶评论:&lt;/strong&gt;
+感觉实际开发中基本不用这类框架 很难满足需求 不如自己按需手搓&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;热门评论:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;VAN:你知道的我不做eino[doge]&lt;/li&gt;
+&lt;li&gt;能别配bgm吗&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）</title>
+        <link>https://ai.programnotes.cn/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Tue, 22 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other" alt="Featured image of post 巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）" /&gt;&lt;p&gt;核心内容点1:  AI编程IDE成为巨头竞争的新战场。
+核心内容点2: 字节跳动Trae IDE通过MCP调用扩展AI功能。
+核心内容点3: MCP协议简化了AI与外部应用的连接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  阮一峰  阮一峰的网络日志   2025-04-22 15:11&lt;/p&gt;
+&lt;h2 id=&#34;一引言&#34;&gt;一、引言
+&lt;/h2&gt;&lt;p&gt;本周，我要加写一篇文章。&lt;/p&gt;
+&lt;p&gt;因为 AI 编程 IDE 突然成了热门，国内外都有大事发生。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;先说国外，OpenAI 要用30亿美元收购 Windsurf[1]。&lt;/p&gt;
+&lt;p&gt;这个消息太惊人。Windsurf（前身叫做 Codeium）的历史很短，发布至今两年多，市场份额也不高，居然值这么多钱！&lt;/p&gt;
+&lt;p&gt;OpenAI 最新一轮融资（今年3月）不过400亿美元[2]，现在一下子要拿出30亿去收购，看中 Windsurf 哪一点呀！&lt;/p&gt;
+&lt;p&gt;OpenAI 自己没有编程助手，所以唯一的解释是，它要收购 IDE 打入 AI 编程市场，这个市场对它很重要。&lt;/p&gt;
+&lt;h2 id=&#34;二marscode-更名-trae&#34;&gt;二、MarsCode 更名 Trae
+&lt;/h2&gt;&lt;p&gt;再看国内，字节也有大动作。&lt;/p&gt;
+&lt;p&gt;它旗下的编程助手，最早是 MarsCode 插件，后来又多了一个独立的 AI IDE 产品Trae[3]。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/817a9bdeff2ea52ea60b4c0a3fc8de37.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本周，MarsCode 宣布改名为 Trae 插件[4]，不再作为独立品牌发展了。&lt;/p&gt;
+&lt;p&gt;以后，&lt;strong&gt;字节的 AI 编程助手，将只有 Trae 这一个品牌&lt;/strong&gt;，分成两种产品形态。&lt;/p&gt;
+&lt;p&gt;习惯传统 IDE 的用户，可以加装 Trae 插件；想要更好 AI 体验的用户，可以安装独立的 Trae IDE。&lt;/p&gt;
+&lt;p&gt;这个消息公布的同时，Trae 新版本也一起发布，加入了重磅的新功能（后面会详谈）。&lt;/p&gt;
+&lt;p&gt;可以看出，字节是下了决心，整合了产品，准备在 AI 编程工具上发力了。&lt;/p&gt;
+&lt;h2 id=&#34;三ai-ide--mcp&#34;&gt;三、AI IDE + MCP
+&lt;/h2&gt;&lt;p&gt;为什么国内外的巨头，在同一个时间，不约而同都看上了 AI IDE？&lt;/p&gt;
+&lt;p&gt;我猜想，答案是 MCP 的出现。&lt;/p&gt;
+&lt;p&gt;有了 MCP 以后，AI IDE 可以扩展外部能力，从而无所不能，这让它成为巨头的必争之地。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a90755c6b441ea16d6786f1201813415.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下面，我来解释 MCP 是什么，怎么在 Trae 里面调用。大家看了，就会理解为什么 MCP 这么重要。&lt;/p&gt;
+&lt;h2 id=&#34;四trae-的简介&#34;&gt;四、Trae 的简介
+&lt;/h2&gt;&lt;p&gt;我选择 Trae 来演示，主要因为它是国产软件，有中文界面和文档，并且完全免费（国外产品都需要付费）。&lt;/p&gt;
+&lt;p&gt;前面说过，Trae 分成插件和 IDE 两种形态，它的 IDE 又分成国内版和海外版。这些产品的功能基本一致，就是内置的 AI 模型不一样。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;国内版：内置 deepseek R1、V3、v3-0324 和 doubao 1.5 pro 模型&lt;br&gt;
+海外版：内置 Claude 3.5、3.7，Gemini 2.5 pro，GPT-4o、GPT-4.1 模型&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;我建议使用国内版，因为海外版的内置模型经常需要排队，很浪费时间，而且可能还会通信不畅。&lt;/p&gt;
+&lt;p&gt;不过，&lt;strong&gt;这两个版本都支持自定义模型&lt;/strong&gt;&lt;br&gt;
+，你可以提供密钥，接入你指定的模型。所以，版本的差别也不算很重要。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1e8f395052f6d381a63769f44935955c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;顺便提一下，Trae 这个词的意思是“&lt;strong&gt;T&lt;/strong&gt;he&lt;strong&gt;R&lt;/strong&gt;eal&lt;strong&gt;A&lt;/strong&gt;I&lt;strong&gt;E&lt;/strong&gt;ngineer”（真正的 AI 工程师）。我以前总是以为 Trae 的意思是 True Ai。&lt;/p&gt;
+&lt;h2 id=&#34;五trae-的新版本&#34;&gt;五、Trae 的新版本
+&lt;/h2&gt;&lt;p&gt;Trae 的 MCP 调用功能，是从新版本 v0.5.0 开始加入的。&lt;/p&gt;
+&lt;p&gt;没安装的朋友，可以去官网[5]下载新版。已经安装的朋友，请检查一下版本。&lt;/p&gt;
+&lt;p&gt;它的界面这一次简化了，聊天框和 Builder（项目生成）合并成一个对话框（下图）。所有跟 AI 的对话，都在这里输入。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/39d4b2baa387a0a6b6f98762acbe0b0a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图中，左下角多了两个按钮：“@智能体”和“#上下文”。这就是本次新增的核心功能。&lt;/p&gt;
+&lt;p&gt;至于 Trae 的基本用法，这里就不提了，可以看&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzI4NjAxNjY4Nw==&amp;amp;mid=2650240097&amp;amp;idx=1&amp;amp;sn=52d38ba994d9f2a53f3c3c3a37b7632e&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;以前的文章&lt;/a&gt;&lt;br&gt;
+[6]&lt;br&gt;
+。&lt;/p&gt;
+&lt;h2 id=&#34;六调用智能体&#34;&gt;六、调用智能体
+&lt;/h2&gt;&lt;p&gt;MCP 调用的入口，就是上图左下角的“@智能体”按钮。&lt;/p&gt;
+&lt;p&gt;如果想要扩展 AI 的功能，就要使用这个按钮。因为 AI 模型的本质只是语言模型，自身的功能是有限的，必须通过外部应用（智能体）来扩展功能。&lt;/p&gt;
+&lt;p&gt;点击“@智能体”（或者输入@），就会弹出一个对话框，显示目前可用的智能体（下图）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8433f0ebbc47c849b64075fea49b5ca1.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到，Trae 内置了两个智能体:“@Build” 和 “@Builder with MCP”。&lt;/p&gt;
+&lt;p&gt;其中，“@Build”用来让 AI 生成一个可运行的新项目。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;@Build 俄罗斯方块网页小游戏&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;输入上面的命令，就会生成一个 HTML 文件，打开就是俄罗斯方块小游戏。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c566082f23c911a966b10dae9ce4b93c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;另一个内置的智能体“@Build with MCP”，就是用来连接 MCP 服务器。&lt;/p&gt;
+&lt;h2 id=&#34;七mcp-是什么&#34;&gt;七、MCP 是什么
+&lt;/h2&gt;&lt;p&gt;我先解释一下，MCP 是什么，很容易理解。&lt;/p&gt;
+&lt;p&gt;我们知道，AI 模型通过连接外部应用，来扩展功能。每个外部应用的接口，都不一样，如果要接入10个应用，就要写10种接入代码，非常麻烦。而且，要是换一个模型，可能所有接入代码都要重写。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8ebb4a7c1bf369a9f8951723e9ac6a1a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;有鉴于此，Anthropic 公司在2024年11月提出了 MCP 协议。外部应用只需要支持这个协议，提供一个 MCP 接口（又称 MCP 服务器），那么 AI 模型就可以用统一的格式接入，不需要了解外部应用的接入细节。&lt;/p&gt;
+&lt;p&gt;所以，&lt;strong&gt;MCP 可以理解成一个 AI 与外部应用之间的适配层&lt;/strong&gt;&lt;br&gt;
+。对于 AI 来说，只要安装某个应用的 MCP 服务器，就能接入该应用，不用写任何代码（除了少数的配置项）。&lt;/p&gt;
+&lt;p&gt;由于 MCP 解决了 AI 应用的接入痛点，诞生至今仅半年，已经变得极其流行，就连 Anthropic 的竞争对手 OpenAI 公司都公开支持，网上开源的 MCP 服务器项目已经有上万个。&lt;/p&gt;
+&lt;h2 id=&#34;八调用-mcp&#34;&gt;八、调用 MCP
+&lt;/h2&gt;&lt;p&gt;现在就来看 Trae 怎么调用 MCP。&lt;/p&gt;
+&lt;p&gt;点击 AI 标签栏右上角的齿轮图标，弹出一个菜单，选择菜单项 MCP。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/95d790b14f49dd853e2f0274e2a50f95.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;它会跳出一个 MCP 的标签页（下图），点击底部的“+ 添加 MCP Servers”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/80c615c2c464fb950ed11a36b52dea32.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Trae 内置了 MCP 市场，提供一些常用的 MCP 服务器。如果里面没有你需要的，可以点击“手动配置”，添加你自己的 MCP。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66a90b1d282cf6f0ccac3a4624fd97db.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;为了便于演示，我选择第一个服务器 Puppeteer，让 AI 可以调用无头浏览器。&lt;/p&gt;
+&lt;p&gt;鼠标点击 Puppeteer 的名字，会进入该开源项目的主页，可以查看一下它提供的内部命令（即能力）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/43b6887c7626ebd40187072f791be58e.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图中可以看到，这个 MCP 服务器提供 puppeteer_navigator（打开指定网址）、puppeteer_screenshot（截图）、puppeteer_select（选中页面元素）等内部命令，供 AI 模型调用。&lt;/p&gt;
+&lt;p&gt;用户不需要记住这些命令，只需了解它有哪些能力就可以了。&lt;/p&gt;
+&lt;p&gt;接着，点击它后面的加号，添加该 MCP 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/673d55b11f39472c853aa7a0dd114c95.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这个 MCP 带有“轻松配置”标签，表示不需要任何设置，可以直接运行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f73910dabb2bceb86c0e21b6032b08a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所有自己添加的 MCP，默认都放在内置的智能体“@Build with MCP”，所以可以通过这个智能体来使用。&lt;/p&gt;
+&lt;p&gt;在 AI 对话框里面，选中智能体“@Build with MCP”，然后输入下面的命令“打开 &lt;a class=&#34;link&#34; href=&#34;https://www.baidu.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.baidu.com&lt;/a&gt;”，试试看新安装的 Puppeteer 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b72e0a122699ca9a4be359dc21952d39.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;正常情况下，Trae 会让你选择一个项目文件夹，然后就会打开一个浏览器窗口，显示百度的首页。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6c0b16eb30d28f673d1f58dd057c59bd.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这就是 MCP 的作用。AI 本来没有能力控制浏览器，但是现在就可以通过 MCP 来控制。&lt;/p&gt;
+&lt;p&gt;接着，可以给出一些更复杂的命令，比如生成截图，也能顺利完成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/51b1fd49d521b796e1b26ad0107e1f24.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这就是调用 MCP 的基本流程。你还可以把添加的 MCP 服务器保存成智能体（下图）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/010226efcb2481a5074dd5ba4082d5a7.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后，通过你起的名字，调用该智能体（下图），从而连接指定的 MCP 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f3b76874b4cfcad32e6c2c0ec0e99507.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;九上下文功能&#34;&gt;九、上下文功能
+&lt;/h2&gt;&lt;p&gt;除了 MCP 调用，Trae 的本次更新，还加强了上下文功能，这里也简单提一下。&lt;/p&gt;
+&lt;p&gt;所谓上下文，就是额外提供的信息，帮助 AI 模型思考，来完成任务。&lt;/p&gt;
+&lt;p&gt;通过#&lt;br&gt;
+号，可以调出上下文菜单。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/133a2029fccbd09a280d2be3fb3849a7.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;从上图可以看到，可以提供的上下文，包括额外的代码（code）、文件（file）、目录（folder）、工作区（workspace）。&lt;/p&gt;
+&lt;p&gt;本次更新多了两个选项，“Doc”表示额外的文档。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/39c9a33ecf31a6962252f2c03b0d4e6e.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击“添加文档集”，就可以添加文档目录，作为 AI 模型的上下文。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a93287d06e89ae97e9b45b1601064996.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;另一个选项“Web”，表示用网上信息作为上下文。这为 AI 提供了实时联网能力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/317a2550c56cec9fa8274fe183e96317.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a96b866ae4bb321153f42a2fe0b0ece.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图的实时天气问题，AI 只有具有联网能力，才能回答。&lt;/p&gt;
+&lt;h2 id=&#34;十总结&#34;&gt;十、总结
+&lt;/h2&gt;&lt;p&gt;有了 MCP 调用和联网能力，AI IDE 就具备了巨大的想象空间，不仅仅是编程工具，而成了一个无所不能的 AI 控制台。&lt;/p&gt;
+&lt;p&gt;那些大公司一定是看到了这一点，所以才愿意投入大量资源，去做这个产品。&lt;/p&gt;
+&lt;p&gt;我认为，在 AI IDE 里面调用 MCP 服务器，将成为近期软件业的热点，值得大家重点关注。&lt;/p&gt;
+&lt;p&gt;（完）&lt;/p&gt;
+&lt;h3 id=&#34;references&#34;&gt;References
+&lt;/h3&gt;&lt;p&gt;[1]收购 Windsurf:https://www.jiemian.com/article/12627036.html&lt;br&gt;
+[2]400亿美元:https://www.cnbc.com/2025/03/31/openai-closes-40-billion-in-funding-the-largest-private-fundraise-in-history-softbank-chatgpt.html&lt;br&gt;
+[3]Trae:https://sourl.cn/dLaMpy&lt;br&gt;
+[4]改名为 Trae 插件:https://docs.trae.com.cn/plugin/faq&lt;br&gt;
+[5]官网:https://sourl.cn/dLaMpy&lt;br&gt;
+[6]以前的文章: http://www.ruanyifeng.com/blog/2025/03/trae.html&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

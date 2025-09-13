@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="MCP-Scan is a security scanner designed to protect agentic systems from MCP-based security vulnerabilities.">
+<title>Introducing MCP-Scan: Protecting MCP with Invariant</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Introducing MCP-Scan: Protecting MCP with Invariant">
+<meta property='og:description' content="MCP-Scan is a security scanner designed to protect agentic systems from MCP-based security vulnerabilities.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='security' /><meta property='article:tag' content='scanner' /><meta property='article:tag' content='vulnerabilities' /><meta property='article:tag' content='tool poisoning' /><meta property='article:published_time' content='2025-05-08T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-08T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Introducing MCP-Scan: Protecting MCP with Invariant">
+<meta name="twitter:description" content="MCP-Scan is a security scanner designed to protect agentic systems from MCP-based security vulnerabilities.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#why-mcp-scan">Why MCP-Scan?</a></li>
+    <li><a href="#how-mcp-scan-protects-your-systems">How MCP-Scan Protects Your Systems</a></li>
+    <li><a href="#quick-and-easy-security-checks">Quick and Easy Security Checks</a></li>
+    <li><a href="#example-scan-result">Example Scan Result</a></li>
+    <li><a href="#enhanced-security-through-tool-pinning">Enhanced Security through Tool Pinning</a></li>
+    <li><a href="#cross-origin-escalation-detection">Cross-Origin Escalation Detection</a></li>
+    <li><a href="#inspect-your-installed-tools">Inspect Your Installed Tools</a></li>
+    <li><a href="#contributing-and-community">Contributing and Community</a></li>
+    <li><a href="#data-privacy-during-scanning">Data Privacy during Scanning</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#about-invariant">About Invariant</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/security/" >
+                Security
+            </a>
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/">Introducing MCP-Scan: Protecting MCP with Invariant</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            MCP-Scan is a security scanner designed to protect agentic systems from MCP-based security vulnerabilities.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 08, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/mcp-scan-%E4%BB%8B%E7%BB%8D%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%98%E9%87%8F%E4%BF%9D%E6%8A%A4-mcp/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>MCP-Scan, a security scanner designed to protect your agentic systems from MCP-based security vulnerabilities, including Tool Poisoning Attacks and MCP Rug Pulls.</p>
+<p><a class="link" href="https://github.com/invariantlabs-ai/mcp-scan"  target="_blank" rel="noopener"
+    >Repository</a></p>
+<p><img src="https://invariantlabs.ai/images/mcp-scan-launch.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image 4: MCP-Scan"
+	
+	
+></p>
+<p>Invariant is excited to announce <a class="link" href="https://github.com/invariantlabs-ai/mcp-scan"  target="_blank" rel="noopener"
+    ><strong>MCP-Scan</strong></a>, a novel security scanning tool designed specifically to protect agentic AI systems from security vulnerabilities when using the Model Context Protocol (MCP).</p>
+<h2 id="why-mcp-scan">Why MCP-Scan?
+</h2><p>As recent research uncovered (<a class="link" href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks"  target="_blank" rel="noopener"
+    >Tool Poisoning Attacks</a>, <a class="link" href="https://invariantlabs.ai/blog/whatsapp-mcp-exploited"  target="_blank" rel="noopener"
+    >WhatsApp MCP Exploits</a>), MCP implementations across various platforms—such as Cursor, Claude Desktop, Zapier, and others—are susceptible to dangerous attacks. These vulnerabilities include prompt injections, hidden malicious tool instructions (Tool Poisoning Attacks), and cross-origin escalations through tool shadowing.</p>
+<p>Recognizing these serious security threats, we developed <strong>MCP-Scan</strong> to help users quickly identify vulnerabilities within their MCP installations, ensuring safer and more secure agent interactions.</p>
+<p><strong>Concerned about MCP and agent security?</strong><br>
+Sign up for early access to Invariant Guardrails, our security platform that goes beyond just scanning, covering many attack vectors and security issues, including MCP attacks. <a class="link" href="https://invariantlabs.ai/guardrails"  target="_blank" rel="noopener"
+    >Learn More</a></p>
+<h2 id="how-mcp-scan-protects-your-systems">How MCP-Scan Protects Your Systems
+</h2><p>MCP-Scan proactively scans installed MCP servers and their tool descriptions to identify:</p>
+<ul>
+<li><strong>Tool Poisoning Attacks:</strong> Hidden malicious instructions embedded in MCP tool descriptions.</li>
+<li><strong>MCP Rug Pulls:</strong> Unauthorized changes to MCP tool descriptions after initial user approval.</li>
+<li><strong>Cross-Origin Escalations:</strong> Shadowing attacks that compromise trusted tools through malicious descriptions.</li>
+<li><strong>Prompt Injection Attacks:</strong> Malicious instructions contained within tool descriptions that could be executed by the agent.</li>
+</ul>
+<h2 id="quick-and-easy-security-checks">Quick and Easy Security Checks
+</h2><p>MCP-Scan seamlessly integrates into your workflow and can be run with a simple command. No configuration is required.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uvx mcp-scan@latest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The tool scans through your MCP configuration files, connecting to servers and retrieving tool descriptions, analyzing them locally and using the Invariant Guardrails API to identify malicious instructions.</p>
+<p>To run this command, make sure you have the <a class="link" href="https://docs.astral.sh/uv/"  target="_blank" rel="noopener"
+    ><code>uv</code></a> package manager installed on your system.</p>
+<p>This will load the latest source and dependencies from PyPI, if you would rather run from source, check out the <a class="link" href="https://github.com/invariantlabs-ai/mcp-scan"  target="_blank" rel="noopener"
+    >GitHub repository</a>.</p>
+<h2 id="example-scan-result">Example Scan Result
+</h2><p>Here&rsquo;s an example of MCP-Scan in action, clearly identifying a vulnerable MCP tool:</p>
+<p><img src="https://invariantlabs.ai/images/mcp-scan-output.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image 5: MCP-Scan Example"
+	
+	
+></p>
+<p>In this example, MCP-Scan detects security risks, including prompt injections in the tool descriptions. Once identified, you can use <code>uvx mcp-scan@latest inspect</code> to view the relevant tool descriptions and take action.</p>
+<h2 id="enhanced-security-through-tool-pinning">Enhanced Security through Tool Pinning
+</h2><p>MCP-Scan includes built-in <strong>Tool Pinning</strong> to detect and prevent MCP Rug Pull attacks, verifying the integrity of installed tools by tracking changes via tool hashing. This allows users to detect changes to tool descriptions.</p>
+<h2 id="cross-origin-escalation-detection">Cross-Origin Escalation Detection
+</h2><p>MCP-Scan also identifies cross-origin escalation attacks or <a class="link" href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks"  target="_blank" rel="noopener"
+    >tool shadowing</a>, where a malicious tool description can shadow a trusted tool. This is particularly important for users who rely on multiple MCP servers.</p>
+<p>To mitigate these attacks, MCP-Scan scans specifically for cross-references among different MCP servers, ensuring hardened isolation on an instruction level.</p>
+<h2 id="inspect-your-installed-tools">Inspect Your Installed Tools
+</h2><p>You can inspect detailed tool descriptions at any time using:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uvx mcp-scan@latestinspect
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="contributing-and-community">Contributing and Community
+</h2><p>MCP-Scan is open source, and we welcome your contributions, suggestions, and feature requests. Join our <a class="link" href="https://discord.gg/dZuZfhKnJ4"  target="_blank" rel="noopener"
+    >Discord</a> or <a class="link" href="https://github.com/invariantlabs-ai/mcp-scan"  target="_blank" rel="noopener"
+    >GitHub</a> to participate in securing the future of agentic systems.</p>
+<h2 id="data-privacy-during-scanning">Data Privacy during Scanning
+</h2><p>MCP-Scan searches through your configuration files to find MCP server configurations. It connects to these servers and retrieves tool descriptions. It does so only when explicitly called via its command.</p>
+<p>It then scans tool descriptions, both with local checks and by invoking Invariant Guardrailing models via an API. For this, tool names and descriptions are shared with Invariant. By using MCP-Scan, you agree to the Invariant Labs <a class="link" href="https://explorer.invariantlabs.ai/terms"  target="_blank" rel="noopener"
+    >terms of use</a> and <a class="link" href="https://invariantlabs.ai/privacy-policy"  target="_blank" rel="noopener"
+    >privacy policy</a>.</p>
+<p>During scans, Invariant is collecting data for security research purposes (only about tool descriptions and how they change over time, not your user data). Do not use MCP-scan if you don&rsquo;t want to share your tool descriptions. If you are interested in dedicated or private deployments, please <a class="link" href="mailto:mcpscan@invariantlabs.ai" >reach out to us</a>.</p>
+<p>MCP-scan does not store or log any MCP usage data, i.e. the contents and results of your MCP tool calls.</p>
+<h2 id="getting-started">Getting Started
+</h2><p>Protect your agentic AI systems from MCP security vulnerabilities today with MCP-Scan. Star the repository or contribute to the project on GitHub to help us improve MCP-Scan and make it even more effective in securing agentic systems.</p>
+<p><a class="link" href="https://github.com/invariantlabs-ai/mcp-scan"  target="_blank" rel="noopener"
+    >Try MCP-Scan Now</a></p>
+<h2 id="about-invariant">About Invariant
+</h2><p>Invariant is dedicated to ensuring the safety and robustness of agentic AI systems. Our research and tools address critical vulnerabilities, enabling the safe and secure deployment of AI in real-world scenarios. <a class="link" href="mailto:hello@invariantlabs.ai" >Reach out</a> if you are interested in collaborating with us to enhance the security and integrity of your agentic systems.</p>
+<p><a class="link" href="https://invariantlabs.ai/blog"  target="_blank" rel="noopener"
+    >invariantlabs,blog</a></p>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/mcp/">MCP</a>
+        
+            <a href="/en/tags/security/">Security</a>
+        
+            <a href="/en/tags/scanner/">Scanner</a>
+        
+            <a href="/en/tags/vulnerabilities/">Vulnerabilities</a>
+        
+            <a href="/en/tags/tool-poisoning/">Tool Poisoning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/jina-ai-remote-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jina AI Remote MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-tool-poisoning-experiments/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Tool Poisoning Experiments</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-claude-desktop-application/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Claude Desktop Application</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-clientapify-beta/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client|Apify Beta</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

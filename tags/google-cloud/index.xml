@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Google Cloud on AI</title>
+        <link>https://ai.programnotes.cn/tags/google-cloud/</link>
+        <description>Recent content in Google Cloud on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sat, 28 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/google-cloud/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>2天37K Star的Gemini CLI怎么登录使用？详细指南来了，只需4步</title>
+        <link>https://ai.programnotes.cn/p/2%E5%A4%A937k-star%E7%9A%84gemini-cli%E6%80%8E%E4%B9%88%E7%99%BB%E5%BD%95%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97%E6%9D%A5%E4%BA%86%E5%8F%AA%E9%9C%804%E6%AD%A5/</link>
+        <pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/2%E5%A4%A937k-star%E7%9A%84gemini-cli%E6%80%8E%E4%B9%88%E7%99%BB%E5%BD%95%E4%BD%BF%E7%94%A8%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97%E6%9D%A5%E4%BA%86%E5%8F%AA%E9%9C%804%E6%AD%A5/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/614a18297fe90edfdfe7761281d2e997.png" alt="Featured image of post 2天37K Star的Gemini CLI怎么登录使用？详细指南来了，只需4步" /&gt;&lt;p&gt;&lt;strong&gt;核心内容&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gemini CLI登录问题解决方案&lt;/li&gt;
+&lt;li&gt;安装Node.js和Gemini CLI的步骤&lt;/li&gt;
+&lt;li&gt;配置Google Cloud权限和网络设置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  袋鼠帝袋鼠帝AI客栈 2025-06-28 14:08&lt;/p&gt;
+&lt;p&gt;大家好，前天分享了一篇介绍Gemini CLI的文章,但看评论区好些朋友说登录不上，授权那里会一直卡住&lt;/p&gt;
+&lt;p&gt;be like：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45ac9364660cbfbd7ed98f682ad0a14f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以，这篇文章，我带大家来解决一下这个登录不上的问题&lt;/p&gt;
+&lt;p&gt;另外，Gemini CLI的Github上提的问题太多了。。。目前已经有516个Issues&lt;/p&gt;
+&lt;p&gt;但是Star也涨的忒快，早上爬起来看还是35K，现在（中午）就37.1K了？？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da54596a7f302d5ae3c4f44d730dc1e1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;鉴于目前问题较多，大家可以再等等，毕竟开源的力量非常大（而且这个项目太火了）&lt;/p&gt;
+&lt;p&gt;我相信随着时间的推移（大家共建），Gemini CLI会越来越好用。&lt;/p&gt;
+&lt;p&gt;它的更新频率还不错，目前最新版v0.1.7&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6fb20306cbec692b0f1965677b67f869.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我们本次通过，下面的指令来安装Gemini CLI&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;1. 安装Node Js&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;前提是需要先安装Node.js，并且版本号要大于等于18&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://nodejs.org/zh-cn/download&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://nodejs.org/zh-cn/download&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;nodejs安装成功后，可以通过 node -v 查看版本号（注意-v前面有个空格）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1c765b22ae11129c115bdbf69789e5eb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 安装Gemini CLI&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;nodejs安装成功后,执行下面的命令安装Gemini CLI&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果Gemini CLI有版本更新可以重复执行上面这条指令，每次执行会拉取最新版本
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果是Mac或者Linux用户，建议在前面加上sudo（给系统权限），否则可能会执行失败
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装成功之后，通过 gemini &amp;ndash;version 来查看Gemini CLI的版本&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/da4a56c56ce46936c08c5a80ea82aa32.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;3. 开通Google Code Assist权限&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;然后我们要在Google Cloud检查一下Google Code Assist权限是否开通&lt;/p&gt;
+&lt;p&gt;如果没有开通，需要启用（Enable）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fe7ae725ab8421defcb765c1a5149efd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Google Code Assist地址：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://console.cloud.google.com/marketplace/product/google/geminicloudassist.googleapis.com?q=search&amp;amp;referrer=search&amp;amp;inv=1&amp;amp;invt=Ab1S8w&amp;amp;project=poetic-park-411205&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.cloud.google.com/marketplace/product/google/geminicloudassist.googleapis.com?q=search&amp;referrer=search&amp;inv=1&amp;invt=Ab1S8w&amp;project=poetic-park-411205&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;4. 获取Google Cloud的项目ID&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;获取Google Cloud的一个项目ID&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b799293236152650dea3b1eb890fad0d.&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取Google Cloud项目地址：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://console.cloud.google.com/welcome?inv=1&amp;amp;invt=Ab1S-A&amp;amp;project=fast-gecko-411205&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://console.cloud.google.com/welcome?inv=1&amp;invt=Ab1S-A&amp;project=fast-gecko-411205&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;把整个项目ID复制备用（如果没有项目需要新建一下）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/472aa8a501b11cc9d811268ef465da4d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在控制台或者终端执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOOGLE_CLOUD_PROJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;项目ID
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;4. 配置网络&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;注意：需要魔法上网哦，登录的时候最好开启魔法的
+全局tun模式或者增强模式。&lt;/p&gt;
+&lt;p&gt;最好用美国节点&lt;/p&gt;
+&lt;p&gt;如果是Windows可以在控制台执行一下下面这条指令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;https_proxy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://127.0.0.1:7890
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果是Mac或Linux可以在终端执行下面这条&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;https_proxy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://127.0.0.1:7890
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以上操作最好都是新开一个控制台或者终端进行&lt;/p&gt;
+&lt;p&gt;看各自的代理端口是多少，大多数默认是7890&lt;/p&gt;
+&lt;p&gt;到这里，准备工作都做完了&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 登录Gemini CLI&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最后执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gemini
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;就开始自动登录了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/614a18297fe90edfdfe7761281d2e997.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;会拉起浏览器跳转到Google登录页，注意用刚刚在Google Cloud做了配置的那个Google邮箱登录&lt;/p&gt;
+&lt;p&gt;登录后你会跳转下面这个页面，就代表登录成功了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/186860e98241d9b1d4059fdd2e53997f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;切换到Gemini CLI，如下。可以在对话框里面对话了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c0cb8eabc3ad8f5375b5cef1826cae8a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;登录一次之后，下次再执行gemini，就会自动登录，不用重复跳转网页登录。&lt;/p&gt;
+&lt;p&gt;如果觉得有用，希望给个免费的三连支持一下，感恩～&lt;/p&gt;
+&lt;p&gt;如果操作完还是有问题，欢迎评论区沟通，大家一起想想办法。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

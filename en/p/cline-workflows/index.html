@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Learn how to create and use workflows in Cline to automate repetitive tasks.">
+<title>Cline Workflows</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/cline-workflows/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Cline Workflows">
+<meta property='og:description' content="Learn how to create and use workflows in Cline to automate repetitive tasks.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/cline-workflows/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='workflows' /><meta property='article:tag' content='Cline' /><meta property='article:tag' content='automation' /><meta property='article:published_time' content='2025-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-06-03T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Cline Workflows">
+<meta name="twitter:description" content="Learn how to create and use workflows in Cline to automate repetitive tasks.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#how-to-create-and-use-workflows">How to Create and Use Workflows</a></li>
+    <li><a href="#real-world-example">Real-world Example</a></li>
+    <li><a href="#building-your-own-workflows">Building Your Own Workflows</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/development/" >
+                Development
+            </a>
+        
+            <a href="/en/categories/automation/" >
+                Automation
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/cline-workflows/">Cline Workflows</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Learn how to create and use workflows in Cline to automate repetitive tasks.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 03, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    6 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/%E8%AF%91cline-workflows/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li>Workflows allow you to define a series of steps to guide Cline through a repetitive set of tasks.</li>
+<li>Workflows live alongside Cline Rules.</li>
+<li>The beauty of workflows is they&rsquo;re completely customizable to your needs.</li>
+</ul>
+<p>Workflows allow you to define a series of steps to guide Cline through a repetitive set of tasks, such as deploying a service or submitting a PR.</p>
+<p>To invoke a workflow, type <code>/[workflow-name.md]</code> in the chat.</p>
+<h2 id="how-to-create-and-use-workflows">How to Create and Use Workflows
+</h2><p>Workflows live alongside <a class="link" href="https://docs.cline.bot/features/cline-rules"  target="_blank" rel="noopener"
+    >Cline Rules</a>. Creating one is straightforward:</p>
+<p><img src="/img/ai/mcp/workflow.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Cline 中的工作流标签页"
+	
+	
+></p>
+<ol>
+<li>Create a markdown file with clear instructions for the steps Cline should take</li>
+<li>Save it with a <code>.md</code> extension in your workflows directory</li>
+<li>To trigger a workflow, just type <code>/</code> followed by the workflow filename</li>
+<li>Provide any required parameters when prompted</li>
+</ol>
+<p>The real power comes from how you structure your workflow files. You can:</p>
+<ul>
+<li>Leverage Cline&rsquo;s <a class="link" href="https://docs.cline.bot/exploring-clines-tools/cline-tools-guide"  target="_blank" rel="noopener"
+    >built-in tools</a> like <code>ask_followup_question</code>, <code>read_file</code>, <code>search_files</code>, and <code>new_task</code></li>
+<li>Use command-line tools you already have installed like <code>gh</code> or <code>docker</code></li>
+<li>Reference external <a class="link" href="https://docs.cline.bot/mcp/mcp-overview"  target="_blank" rel="noopener"
+    >MCP tool calls</a> like Slack or Whatsapp</li>
+<li>Chain multiple actions together in a specific sequence</li>
+</ul>
+<h2 id="real-world-example">Real-world Example
+</h2><p>I created a PR Review workflow that&rsquo;s already saving me tons of time.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span><span class="lnt">302
+</span><span class="lnt">303
+</span><span class="lnt">304
+</span><span class="lnt">305
+</span><span class="lnt">306
+</span><span class="lnt">307
+</span><span class="lnt">308
+</span><span class="lnt">309
+</span><span class="lnt">310
+</span><span class="lnt">311
+</span><span class="lnt">312
+</span><span class="lnt">313
+</span><span class="lnt">314
+</span><span class="lnt">315
+</span><span class="lnt">316
+</span><span class="lnt">317
+</span><span class="lnt">318
+</span><span class="lnt">319
+</span><span class="lnt">320
+</span><span class="lnt">321
+</span><span class="lnt">322
+</span><span class="lnt">323
+</span><span class="lnt">324
+</span><span class="lnt">325
+</span><span class="lnt">326
+</span><span class="lnt">327
+</span><span class="lnt">328
+</span><span class="lnt">329
+</span><span class="lnt">330
+</span><span class="lnt">331
+</span><span class="lnt">332
+</span><span class="lnt">333
+</span><span class="lnt">334
+</span><span class="lnt">335
+</span><span class="lnt">336
+</span><span class="lnt">337
+</span><span class="lnt">338
+</span><span class="lnt">339
+</span><span class="lnt">340
+</span><span class="lnt">341
+</span><span class="lnt">342
+</span><span class="lnt">343
+</span><span class="lnt">344
+</span><span class="lnt">345
+</span><span class="lnt">346
+</span><span class="lnt">347
+</span><span class="lnt">348
+</span><span class="lnt">349
+</span><span class="lnt">350
+</span><span class="lnt">351
+</span><span class="lnt">352
+</span><span class="lnt">353
+</span><span class="lnt">354
+</span><span class="lnt">355
+</span><span class="lnt">356
+</span><span class="lnt">357
+</span><span class="lnt">358
+</span><span class="lnt">359
+</span><span class="lnt">360
+</span><span class="lnt">361
+</span><span class="lnt">362
+</span><span class="lnt">363
+</span><span class="lnt">364
+</span><span class="lnt">365
+</span><span class="lnt">366
+</span><span class="lnt">367
+</span><span class="lnt">368
+</span><span class="lnt">369
+</span><span class="lnt">370
+</span><span class="lnt">371
+</span><span class="lnt">372
+</span><span class="lnt">373
+</span><span class="lnt">374
+</span><span class="lnt">375
+</span><span class="lnt">376
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl">You have access to the <span class="sb">`gh`</span> terminal command. I already authenticated it for you. Please review it to use the PR that I asked you to review. You&#39;re already in the <span class="sb">`cline`</span> repo.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;detailed_sequence_of_steps&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># GitHub PR Review Process - Detailed Sequence of Steps
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl"><span class="gu">## 1. Gather PR Information
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>
+</span></span><span class="line"><span class="cl"><span class="k">1.</span> Get the PR title, description, and comments:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ``<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb">    gh pr view &lt;PR-number&gt; --json title,body,comments
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. Get the full diff of the PR:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb">    gh pr diff &lt;PR-number&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## 2. Understand the Context
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. Identify which files were modified in the PR:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb">    gh pr view &lt;PR-number&gt; --json files
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. Examine the original files in the main branch to understand the context:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;path&gt;path/to/file&lt;/path&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">3. For specific sections of a file, you can use search_files:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;search_files&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;path&gt;path/to/directory&lt;/path&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;regex&gt;search term&lt;/regex&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;file_pattern&gt;*.ts&lt;/file_pattern&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/search_files&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## 3. Analyze the Changes
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. For each modified file, understand:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - What was changed
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Why it was changed (based on PR description)
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - How it affects the codebase
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Potential side effects
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. Look for:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Code quality issues
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Potential bugs
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Performance implications
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Security concerns
+</span></span></span><span class="line"><span class="cl"><span class="sb">    - Test coverage
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## 4. Ask for User Confirmation
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. Before making a decision, ask the user if you should approve the PR, providing your assessment and justification:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;question&gt;Based on my review of PR #&lt;PR-number&gt;, I recommend [approving/requesting changes]. Here&#39;s my justification:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    [Detailed justification with key points about the PR quality, implementation, and any concerns]
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Would you like me to proceed with this recommendation?&lt;/question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;options&gt;[&#34;Yes, approve the PR&#34;, &#34;Yes, request changes&#34;, &#34;No, I&#39;d like to discuss further&#34;]&lt;/options&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## 5. Ask if User Wants a Comment Drafted
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. After the user decides on approval/rejection, ask if they would like a comment drafted:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;question&gt;Would you like me to draft a comment for this PR that you can copy and paste?&lt;/question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;options&gt;[&#34;Yes, please draft a comment&#34;, &#34;No, I&#39;ll handle the comment myself&#34;]&lt;/options&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. If the user wants a comment drafted, provide a well-structured comment they can copy:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Thank you for this PR! Here&#39;s my assessment:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    [Detailed assessment with key points about the PR quality, implementation, and any suggestions]
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    [Include specific feedback on code quality, functionality, and testing]
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## 6. Make a Decision
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. Approve the PR if it meets quality standards:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb">    # For single-line comments:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    gh pr review &lt;PR-number&gt; --approve --body &#34;Your approval message&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    # For multi-line comments with proper whitespace formatting:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    cat &lt;&lt; EOF | gh pr review &lt;PR-number&gt; --approve --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Thanks @username for this PR! The implementation looks good.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    I particularly like how you&#39;ve handled X and Y.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Great work!
+</span></span></span><span class="line"><span class="cl"><span class="sb">    EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. Request changes if improvements are needed:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb">    # For single-line comments:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    gh pr review &lt;PR-number&gt; --request-changes --body &#34;Your feedback message&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    # For multi-line comments with proper whitespace formatting:
+</span></span></span><span class="line"><span class="cl"><span class="sb">    cat &lt;&lt; EOF | gh pr review &lt;PR-number&gt; --request-changes --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Thanks @username for this PR!
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    The implementation looks promising, but there are a few things to address:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    1. Issue one
+</span></span></span><span class="line"><span class="cl"><span class="sb">    2. Issue two
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Please make these changes and we can merge this.
+</span></span></span><span class="line"><span class="cl"><span class="sb">    EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">    `</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">    Note: The `</span>cat &lt;&lt; EOF | ... --body-file -<span class="sb">` approach preserves all whitespace and formatting without requiring temporary files. The `</span>-<span class="sb">` parameter tells the command to read from standard input.
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/detailed_sequence_of_steps&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;example_review_process&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Example PR Review Process
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Let&#39;s walk through a real example of reviewing PR #3627 which fixes the thinking mode calculation for Claude 3.7 models.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 1: Gather PR Information
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Get PR details
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr view 3627 --json title,body,comments
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Get the full diff
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr diff 3627
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 2: Understand the Context
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Examine the original files to understand what&#39;s being changed
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;path&gt;src/shared/api.ts&lt;/path&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Look at the ThinkingBudgetSlider component implementation
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;path&gt;webview-ui/src/components/settings/ThinkingBudgetSlider.tsx&lt;/path&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/read_file&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Check how thinking mode is currently handled in API providers
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;search_files&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;path&gt;src/api/providers&lt;/path&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;regex&gt;reasoningOn&lt;/regex&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;file_pattern&gt;*.ts&lt;/file_pattern&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/search_files&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 3: Analyze the Changes
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">From the PR information and code examination, we can see that:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. The PR fixes an issue with the thinking mode budget calculation for Claude 3.7 models
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. Currently, the thinking budget is incorrectly calculated as 80% of maxTokens (8192), resulting in 6553 tokens
+</span></span></span><span class="line"><span class="cl"><span class="sb">3. Claude 3.7 actually supports a much larger thinking budget (up to 64000 tokens)
+</span></span></span><span class="line"><span class="cl"><span class="sb">4. The PR adds a `</span>thinkingConfig<span class="sb">` property with `</span>maxBudget: 64000<span class="sb">` to model definitions
+</span></span></span><span class="line"><span class="cl"><span class="sb">5. It updates API handlers to use this value when reasoning mode is enabled
+</span></span></span><span class="line"><span class="cl"><span class="sb">6. It enhances the slider component to calculate max values based on model-specific percentages
+</span></span></span><span class="line"><span class="cl"><span class="sb">7. Comprehensive tests were added to verify the calculations
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 4: Ask for User Confirmation
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;question&gt;Based on my review of PR #3627, I recommend approving this PR. Here&#39;s my justification:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. The PR correctly fixes the thinking mode budget calculation for Claude 3.7 models
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. It properly implements the thinkingConfig.maxBudget property (64000) for Claude 3.7 models
+</span></span></span><span class="line"><span class="cl"><span class="sb">3. It applies the appropriate percentage (50%) for the slider calculation
+</span></span></span><span class="line"><span class="cl"><span class="sb">4. The changes are well-tested with comprehensive unit tests
+</span></span></span><span class="line"><span class="cl"><span class="sb">5. The implementation is clean and follows the project&#39;s coding standards
+</span></span></span><span class="line"><span class="cl"><span class="sb">6. The PR includes helpful screenshots demonstrating the fix
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Would you like me to proceed with approving this PR?&lt;/question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;options&gt;[&#34;Yes, approve the PR&#34;, &#34;No, I&#39;d like to discuss further&#34;, &#34;Let me review it myself first&#34;]&lt;/options&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 5: Ask if User Wants a Comment Drafted
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`xml
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;question&gt;Would you like me to draft a comment for this PR that you can copy and paste?&lt;/question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;options&gt;[&#34;Yes, please draft a comment&#34;, &#34;No, I&#39;ll handle the comment myself&#34;]&lt;/options&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/ask_followup_question&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Step 6: Make a Decision
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Option 1: Simple one-line comment
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr review 3627 --approve --body &#34;This PR looks good! It correctly fixes the thinking mode budget calculation for Claude 3.7 models.&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Option 2: Multi-line comment with proper whitespace formatting
+</span></span></span><span class="line"><span class="cl"><span class="sb">cat &lt;&lt; EOF | gh pr review 3627 --approve --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">This PR looks good! It correctly fixes the thinking mode budget calculation for Claude 3.7 models.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">I particularly like:
+</span></span></span><span class="line"><span class="cl"><span class="sb">1. The proper implementation of thinkingConfig.maxBudget property (64000)
+</span></span></span><span class="line"><span class="cl"><span class="sb">2. The appropriate percentage (50%) for the slider calculation
+</span></span></span><span class="line"><span class="cl"><span class="sb">3. The comprehensive unit tests
+</span></span></span><span class="line"><span class="cl"><span class="sb">4. The clean implementation that follows project coding standards
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Great work!
+</span></span></span><span class="line"><span class="cl"><span class="sb">EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/example_review_process&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;common_gh_commands&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Common GitHub CLI Commands for PR Review
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Basic PR Commands
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># List open PRs
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr list
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># View a specific PR
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr view &lt;PR-number&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># View PR with specific fields
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr view &lt;PR-number&gt; --json title,body,comments,files,commits
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Check PR status
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr status
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Diff and File Commands
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Get the full diff of a PR
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr diff &lt;PR-number&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># List files changed in a PR
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr view &lt;PR-number&gt; --json files
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Check out a PR locally
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr checkout &lt;PR-number&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Review Commands
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Approve a PR (single-line comment)
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr review &lt;PR-number&gt; --approve --body &#34;Your approval message&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Approve a PR (multi-line comment with proper whitespace)
+</span></span></span><span class="line"><span class="cl"><span class="sb">cat &lt;&lt; EOF | gh pr review &lt;PR-number&gt; --approve --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">Your multi-line
+</span></span></span><span class="line"><span class="cl"><span class="sb">approval message with
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">proper whitespace formatting
+</span></span></span><span class="line"><span class="cl"><span class="sb">EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Request changes on a PR (single-line comment)
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr review &lt;PR-number&gt; --request-changes --body &#34;Your feedback message&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Request changes on a PR (multi-line comment with proper whitespace)
+</span></span></span><span class="line"><span class="cl"><span class="sb">cat &lt;&lt; EOF | gh pr review &lt;PR-number&gt; --request-changes --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">Your multi-line
+</span></span></span><span class="line"><span class="cl"><span class="sb">change request with
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">proper whitespace formatting
+</span></span></span><span class="line"><span class="cl"><span class="sb">EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Add a comment review (without approval/rejection)
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr review &lt;PR-number&gt; --comment --body &#34;Your comment message&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Add a comment review with proper whitespace
+</span></span></span><span class="line"><span class="cl"><span class="sb">cat &lt;&lt; EOF | gh pr review &lt;PR-number&gt; --comment --body-file -
+</span></span></span><span class="line"><span class="cl"><span class="sb">Your multi-line
+</span></span></span><span class="line"><span class="cl"><span class="sb">comment with
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">proper whitespace formatting
+</span></span></span><span class="line"><span class="cl"><span class="sb">EOF
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">## Additional Commands
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`bash
+</span></span></span><span class="line"><span class="cl"><span class="sb"># View PR checks status
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr checks &lt;PR-number&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># View PR commits
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr view &lt;PR-number&gt; --json commits
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb"># Merge a PR (if you have permission)
+</span></span></span><span class="line"><span class="cl"><span class="sb">gh pr merge &lt;PR-number&gt; --merge
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/common_gh_commands&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;general_guidelines_for_commenting&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">When reviewing a PR, please talk normally and like a friendly reviwer. You should keep it short, and start out by thanking the author of the pr and @ mentioning them.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Whether or not you approve the PR, you should then give a quick summary of the changes without being too verbose or definitive, staying humble like that this is your understanding of the changes. Kind of how I&#39;m talking to you right now.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">If you have any suggestions, or things that need to be changed, request changes instead of approving the PR.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Leaving inline comments in code is good, but only do so if you have something specific to say about the code. And make sure you leave those comments first, and then request changes in the PR with a short comment explaining the overall theme of what you&#39;re asking them to change.
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/general_guidelines_for_commenting&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;example_comments_that_i_have_written_before&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;brief_approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">Looks good, though we should make this generic for all providers &amp; models at some point
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/brief_approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;brief_approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">Will this work for models that may not match across OR/Gemini? Like the thinking models?
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/brief_approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">This looks great! I like how you&#39;ve handled the global endpoint support - adding it to the ModelInfo interface makes total sense since it&#39;s just another capability flag, similar to how we handle other model features.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">The filtered model list approach is clean and will be easier to maintain than hardcoding which models work with global endpoints. And bumping the genai library was obviously needed for this to work.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Thanks for adding the docs about the limitations too - good for users to know they can&#39;t use context caches with global endpoints but might get fewer 429 errors.
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/approve_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;requesst_changes_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">This is awesome. Thanks @scottsus.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">My main concern though - does this work for all the possible VS Code themes? We struggled with this initially which is why it&#39;s not super styled currently. Please test and share screenshots with the different themes to make sure before we can merge
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;/request_changes_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">&lt;request_changes_comment&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">Hey, the PR looks good overall but I&#39;m concerned about removing those timeouts. Those were probably there for a reason - VSCode&#39;s UI can be finicky with timing.
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">Could you add back the timeouts after focusing the sidebar? Something like:
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>`<span class="sb">`typescript
+</span></span></span><span class="line"><span class="cl"><span class="sb">await vscode.commands.executeCommand(&#34;claude-dev.SidebarProvider.focus&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="sb">await setTimeoutPromise(100) // Give UI time to update
+</span></span></span><span class="line"><span class="cl"><span class="sb">visibleWebview = WebviewProvider.getSidebarInstance()
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>``
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/request_changes_comment&gt;
+</span></span><span class="line"><span class="cl">&lt;request_changes_comment&gt;
+</span></span><span class="line"><span class="cl">Heya <span class="ni">@alejandropta</span> thanks for working on this!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">A few notes:
+</span></span><span class="line"><span class="cl">1 - Adding additional info to the environment variables is fairly problematic because env variables get appended to <span class="gs">**every single message**</span>. I don&#39;t think this is justifiable for a somewhat niche use case.
+</span></span><span class="line"><span class="cl">2 - Adding this option to settings to include that could be an option, but we want our options to be simple and straightforward for new users
+</span></span><span class="line"><span class="cl">3 - We&#39;re working on revisualizing the way our settings page is displayed/organized, and this could potentially be reconciled once that is in and our settings page is more clearly delineated.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">So until the settings page is update, and this is added to settings in a way that&#39;s clean and doesn&#39;t confuse new users, I don&#39;t think we can merge this. Please bear with us.
+</span></span><span class="line"><span class="cl">&lt;/request_changes_comment&gt;
+</span></span><span class="line"><span class="cl">&lt;request_changes_comment&gt;
+</span></span><span class="line"><span class="cl">Also, don&#39;t forget to add a changeset since this fixes a user-facing bug.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">The architectural change is solid - moving the focus logic to the command handlers makes sense. Just don&#39;t want to introduce subtle timing issues by removing those timeouts.
+</span></span><span class="line"><span class="cl">&lt;/request_changes_comment&gt;
+</span></span><span class="line"><span class="cl">&lt;/example_comments_that_i_have_written_before&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When I get a new PR to review, I used to manually gather context: checking the PR description, examining the diff, looking at surrounding files, and finally forming an opinion. Now I just:</p>
+<ol>
+<li>Type <code>/pr-review.md</code> in chat</li>
+<li>Paste in the PR number</li>
+<li>Let Cline handle everything else</li>
+</ol>
+<p>My workflow uses the <code>gh</code> command-line tool and Cline&rsquo;s built in <code>ask_followup_question</code> to:</p>
+<ul>
+<li>Pull the PR description and comments</li>
+<li>Examine the diff</li>
+<li>Check surrounding files for context</li>
+<li>Analyze potential issues</li>
+<li>Asks me if it&rsquo;s cool approve it if everything looks good, with justification for why it should be approved</li>
+<li>If I say &ldquo;yes,&rdquo; Cline automatically approves the PR with the <code>gh</code> command</li>
+</ul>
+<p>This has taken my PR review process from a manual, multi-step operation to a single command that gives me everything I need to make an informed decision.</p>
+<blockquote>
+<p>This is just one example of a workflow file. You can find more in our <a class="link" href="https://github.com/cline/prompts"  target="_blank" rel="noopener"
+    >prompts repository</a> for inspiration.</p></blockquote>
+<h2 id="building-your-own-workflows">Building Your Own Workflows
+</h2><p>The beauty of workflows is they&rsquo;re completely customizable to your needs. You might create workflows for all kinds of repetitive tasks:</p>
+<ul>
+<li>For releases, you could have a workflow that grabs all merged PRs, builds a changelog, and handles version bumps.</li>
+<li>Setting up new projects is perfect for workflows. Just run one command to create your folder structure, install dependencies, and set up configs.</li>
+<li>Need to create a report? Create a workflow that grabs stats from different sources and formats them exactly how you like. You can even visualize them with a charting library and then make a presentation out of it with a library like <a class="link" href="https://sli.dev/"  target="_blank" rel="noopener"
+    >slidev</a>.</li>
+<li>You can even use workflows to draft messages to your team using an MCP server like Slack or Whatsapp after you submit a PR.</li>
+</ul>
+<p>With Workflows, your imagination is the limit. The true potential comes from spotting those annoying repetitive tasks you do all the time.</p>
+<p>If you can describe something as &ldquo;first I do X, then Y, then Z&rdquo; - that&rsquo;s a perfect workflow candidate.</p>
+<p>Start with something small that bugs you, turn it into a workflow, and keep refining it. You&rsquo;ll be shocked how much of your day can be automated this way.</p>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/workflows/">Workflows</a>
+        
+            <a href="/en/tags/cline/">Cline</a>
+        
+            <a href="/en/tags/automation/">Automation</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

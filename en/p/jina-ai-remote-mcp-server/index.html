@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="A remote MCP server providing access to Jina APIs and tools.">
+<title>Jina AI Remote MCP Server</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/jina-ai-remote-mcp-server/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Jina AI Remote MCP Server">
+<meta property='og:description' content="A remote MCP server providing access to Jina APIs and tools.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/jina-ai-remote-mcp-server/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='Jina AI' /><meta property='article:tag' content='remote server' /><meta property='article:tag' content='API' /><meta property='article:tag' content='tools' /><meta property='article:published_time' content='2025-08-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-08-28T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Jina AI Remote MCP Server">
+<meta name="twitter:description" content="A remote MCP server providing access to Jina APIs and tools.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
+      <ol>
+        <li><a href="#i-got-stuck-in-a-tool-calling-loop---what-happened">I got stuck in a tool calling loop - what happened?</a></li>
+        <li><a href="#i-cant-see-all-tools">I can&rsquo;t see all tools.</a></li>
+        <li><a href="#claude-desktop-says-server-disconnected-on-windows">Claude Desktop says &ldquo;Server disconnected&rdquo; on Windows</a></li>
+        <li><a href="#cursor-shows-a-red-dot-on-this-mcp-status">Cursor shows a red dot on this MCP status</a></li>
+        <li><a href="#my-llm-never-uses-some-tools">My LLM never uses some tools</a></li>
+      </ol>
+    </li>
+    <li><a href="#developer-guide">Developer Guide</a>
+      <ol>
+        <li><a href="#local-development">Local Development</a></li>
+        <li><a href="#deploy-to-cloudflare-workers">Deploy to Cloudflare Workers</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/jina-ai-remote-mcp-server/">Jina AI Remote MCP Server</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            A remote MCP server providing access to Jina APIs and tools.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 28, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/jina-ai-remote-mcp-server/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><a class="link" href="https://cursor.com/en/install-mcp?name=jina-mcp-server&amp;config=eyJ1cmwiOiJodHRwczovL21jcC5qaW5hLmFpL3NzZSIsImhlYWRlcnMiOnsiQXV0aG9yaXphdGlvbiI6IkJlYXJlciBqaW5hXzg3ZGEyOTM2NDI2NDQzNDliNmE0MGM4Mzc4NDViNGYzR0hpZ3FXay1yNmtIY0ZPSm1jY29rb1RiaWpZYiJ9fQ%3D%3D"  target="_blank" rel="noopener"
+    ><img src="https://cursor.com/deeplink/mcp-install-dark.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Install MCP Server"
+	
+	
+></a>
+<a class="link" href="https://lmstudio.ai/install-mcp?name=jina-mcp-server&amp;config=eyJ1cmwiOiJodHRwczovL21jcC5qaW5hLmFpL3NzZSIsImhlYWRlcnMiOnsiQXV0aG9yaXphdGlvbiI6IkJlYXJlciBqaW5hXzI5NGQ5NmRiODFiYTQ1ZjY5MDFiOGM2OTRmM2I3NDU4ZVJMaV9MRS1xOGNqejRCeUE3REJ2cGZPUm5fdSJ9fQ%3D%3D"  target="_blank" rel="noopener"
+    ><img src="https://files.lmstudio.ai/deeplink/mcp-install-light.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Add MCP Server jina-mcp-server to LM Studio"
+	
+	
+></a></p>
+<p>A remote Model Context Protocol (MCP) server that provides access to Jina Reader, Embeddings and Reranker APIs with a suite of URL-to-markdown, web search, image search, and embeddings/reranker tools:</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>Tool</th>
+          <th>Description</th>
+          <th>Is Jina API Key Required?</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>primer</code></td>
+          <td>Get current contextual information for localized, time-aware responses</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td><code>read_url</code></td>
+          <td>Extract clean, structured content from web pages as markdown via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Optional*</td>
+      </tr>
+      <tr>
+          <td><code>capture_screenshot_url</code></td>
+          <td>Capture high-quality screenshots of web pages via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Optional*</td>
+      </tr>
+      <tr>
+          <td><code>guess_datetime_url</code></td>
+          <td>Analyze web pages for last update/publish datetime with confidence scores</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td><code>search_web</code></td>
+          <td>Search the entire web for current information and news via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>search_arxiv</code></td>
+          <td>Search academic papers and preprints on arXiv repository via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>search_images</code></td>
+          <td>Search for images across the web (similar to Google Images) via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>expand_query</code></td>
+          <td>Expand and rewrite search queries based on the query expansion model via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>parallel_read_url</code></td>
+          <td>Read multiple web pages in parallel for efficient content extraction via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Optional*</td>
+      </tr>
+      <tr>
+          <td><code>parallel_search_web</code></td>
+          <td>Run multiple web searches in parallel for comprehensive topic coverage and diverse perspectives via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>parallel_search_arxiv</code></td>
+          <td>Run multiple arXiv searches in parallel for comprehensive research coverage and diverse academic angles via <a class="link" href="https://jina.ai/reader"  target="_blank" rel="noopener"
+    >Reader API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>sort_by_relevance</code></td>
+          <td>Rerank documents by relevance to a query via <a class="link" href="https://jina.ai/reranker"  target="_blank" rel="noopener"
+    >Reranker API</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>deduplicate_strings</code></td>
+          <td>Get top-k semantically unique strings via <a class="link" href="https://jina.ai/embeddings"  target="_blank" rel="noopener"
+    >Embeddings API</a> and <a class="link" href="https://jina.ai/news/submodular-optimization-for-diverse-query-generation-in-deepresearch"  target="_blank" rel="noopener"
+    >submodular optimization</a></td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td><code>deduplicate_images</code></td>
+          <td>Get top-k semantically unique images via <a class="link" href="https://jina.ai/embeddings"  target="_blank" rel="noopener"
+    >Embeddings API</a> and <a class="link" href="https://jina.ai/news/submodular-optimization-for-diverse-query-generation-in-deepresearch"  target="_blank" rel="noopener"
+    >submodular optimization</a></td>
+          <td>Yes</td>
+      </tr>
+  </tbody>
+</table></div>
+<blockquote>
+<p>Optional tools work without an API key but have <a class="link" href="https://jina.ai/api-dashboard/rate-limit"  target="_blank" rel="noopener"
+    >rate limits</a>. For higher rate limits and better performance, use a Jina API key. You can get a free Jina API key from <a class="link" href="https://jina.ai"  target="_blank" rel="noopener"
+    >https://jina.ai</a></p></blockquote>
+<h2 id="usage">Usage
+</h2><p>For client that supports remote MCP server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;jina-mcp-server&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://mcp.jina.ai/sse&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer ${JINA_API_KEY}&#34;</span> <span class="c1">// optional
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>For client that does not support remote MCP server yet, you need <a class="link" href="https://www.npmjs.com/package/mcp-remote"  target="_blank" rel="noopener"
+    ><code>mcp-remote</code></a> a local proxy to connect to the remote MCP server.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;jina-mcp-server&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;mcp-remote&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;https://mcp.jina.ai/sse&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// optional bearer token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="s2">&#34;--header&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Authorization: Bearer ${JINA_API_KEY}&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="troubleshooting">Troubleshooting
+</h2><h3 id="i-got-stuck-in-a-tool-calling-loop---what-happened">I got stuck in a tool calling loop - what happened?
+</h3><p>This is a common issue with LMStudio when the default context window is 4096 and you&rsquo;re using a thinking model like <code>gpt-oss-120b</code> or <code>qwen3-4b-thinking</code>. As the thinking and tool calling continue, once you hit the context window limit, the AI starts losing track of the beginning of the task. That&rsquo;s how it gets trapped in this rolling context window.</p>
+<p>The solution is to load the model with enough context length to contain the full tool calling chain and thought process.</p>
+<p><img src="/img/ai/jina/1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="set long enough context"
+	
+	
+></p>
+<h3 id="i-cant-see-all-tools">I can&rsquo;t see all tools.
+</h3><p>Some MCP clients have local caching and do not actively update tool definitions. If you&rsquo;re not seeing all the available tools or if tools seem outdated, you may need to remove and re-add the jina-mcp-server to your MCP client configuration. This will force the client to refresh its cached tool definitions. In LMStudio, you can click the refresh button to load new tools.</p>
+<p><img src="/img/ai/jina/2.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="update local mcp clients"
+	
+	
+></p>
+<h3 id="claude-desktop-says-server-disconnected-on-windows">Claude Desktop says &ldquo;Server disconnected&rdquo; on Windows
+</h3><p>Cursor and Claude Desktop (Windows) <a class="link" href="https://www.npmjs.com/package/mcp-remote#:~:text=Note%3A%20Cursor,env%20vars%0A%20%20%7D%0A%7D%2C"  target="_blank" rel="noopener"
+    >have a bug</a> where spaces inside args aren&rsquo;t escaped when it invokes npx, which ends up mangling these values. You can work around it using:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// rest of config...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;mcp-remote&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;https://mcp.jina.ai/sse&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;--header&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Authorization:${AUTH_HEADER}&#34;</span> <span class="c1">// note no spaces around &#39;:&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;AUTH_HEADER&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer &lt;JINA_API_KEY&gt;&#34;</span> <span class="c1">// spaces OK in env vars
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="cursor-shows-a-red-dot-on-this-mcp-status">Cursor shows a red dot on this MCP status
+</h3><p><a class="link" href="https://forum.cursor.com/t/why-is-my-mcp-red/100518"  target="_blank" rel="noopener"
+    >Likely a UI bug from Cursor</a>, but the MCP works correctly without any problem. You can toggle off/on to &ldquo;restart&rdquo; the MCP if you find the red dot annoying (fact is, since you are using this as a remote MCP, it&rsquo;s not a real &ldquo;server restart&rdquo; but mostly a local proxy restart).</p>
+<p><img src="/img/ai/jina/3.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cursor shows red dot"
+	
+	
+></p>
+<h3 id="my-llm-never-uses-some-tools">My LLM never uses some tools
+</h3><p>Assuming all tools are enabled in your MCP client but your LLM still never uses some tools, it&rsquo;s likely your LLM favors some tools over others, which is pretty common when an LLM is trained with a specific set of tools. For example, we rarely see <code>parallel_*</code> tools being used organically by LLMs unless they are explicitly instructed to do so. In Cursor, you can add the following rule to your <code>.mdc</code> file:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">alwaysApply: true
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">When you are uncertain about knowledge, or the user doubts your answer, always use Jina MCP tools to search and read best practices and latest information. Use search_arxiv and read_url together when questions relate to theoretical deep learning or algorithm details. search_web and search_arxiv cannot be used alone - always combine with read_url or parallel_read_url to read from multiple sources. Remember: every search must be complemented with read_url to read the source URL content. For maximum efficiency, use parallel_* versions of search and read when necessary.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="developer-guide">Developer Guide
+</h2><h3 id="local-development">Local Development
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Clone the repository</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/jina-ai/MCP.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> MCP
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Install dependencies</span>
+</span></span><span class="line"><span class="cl">npm install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Start development server</span>
+</span></span><span class="line"><span class="cl">npm run start
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="deploy-to-cloudflare-workers">Deploy to Cloudflare Workers
+</h3><p><a class="link" href="https://deploy.workers.cloudflare.com/?url=https://github.com/jina-ai/MCP"  target="_blank" rel="noopener"
+    ><img src="https://deploy.workers.cloudflare.com/button"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Deploy to Workers"
+	
+	
+></a></p>
+<p>This will deploy your MCP server to a URL like: <code>jina-mcp-server.&lt;your-account&gt;.workers.dev/sse</code></p>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/mcp/">MCP</a>
+        
+            <a href="/en/tags/jina-ai/">Jina AI</a>
+        
+            <a href="/en/tags/remote-server/">Remote Server</a>
+        
+            <a href="/en/tags/api/">API</a>
+        
+            <a href="/en/tags/tools/">Tools</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Introducing MCP-Scan: Protecting MCP with Invariant</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-claude-desktop-application/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Claude Desktop Application</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-clientapify-beta/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client|Apify Beta</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-cursor-ai-ide-a-revolutionary-intelligent-programming-tool/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Workflow on AI</title>
+        <link>https://ai.programnotes.cn/tags/workflow/</link>
+        <description>Recent content in Workflow on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 26 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/workflow/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Google开源的强大LLM工具：Gemini CLI</title>
+        <link>https://ai.programnotes.cn/p/google%E5%BC%80%E6%BA%90%E7%9A%84%E5%BC%BA%E5%A4%A7llm%E5%B7%A5%E5%85%B7gemini-cli/</link>
+        <pubDate>Thu, 26 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/google%E5%BC%80%E6%BA%90%E7%9A%84%E5%BC%BA%E5%A4%A7llm%E5%B7%A5%E5%85%B7gemini-cli/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/cli/gemini-cli-1.png" alt="Featured image of post Google开源的强大LLM工具：Gemini CLI" /&gt;&lt;p&gt;核心内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;命令行AI工作流量工具，该工具连接到工具并了解代码&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;支持查询/编辑大型代码库并从PDFS/Sketch生成应用程序&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;包括增强功能的自动化功能和MCP服务器集成&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;img src=&#34;https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml/badge.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Gemini CLI CI&#34;
+	
+	
+&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cli/gemini-cli-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Gemini CLI Screenshot&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;该存储库包含Gemini CLI，这是一个连接到您的命令行AI工作流程工具
+工具，了解您的代码并加速您的工作流程。&lt;/p&gt;
+&lt;p&gt;使用Gemini CLI，您可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询和编辑Gemini 1M令牌上下文窗口中的大型代码库。&lt;/li&gt;
+&lt;li&gt;使用Gemini的多模式功能从PDF或草图生成新应用。&lt;/li&gt;
+&lt;li&gt;自动化操作任务，例如查询拉力请求或处理复杂的篮板。&lt;/li&gt;
+&lt;li&gt;使用工具和MCP服务器连接新功能，包括&lt;a class=&#34;link&#34; href=&#34;https://github.com/googleclecloudplatform/vertex-ai-creative-studio/tree/main/main/main/experiments/mcp-genmedia&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Imagen的媒体生成，
+veo或lyria&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;通过&lt;a class=&#34;link&#34; href=&#34;https://ai.google.dev/gemini-api/docs/grounding&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google Search&lt;/a&gt;进行查询
+工具，内置于双子座。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;开始&#34;&gt;开始
+&lt;/h2&gt;&lt;p&gt;1.**先决条件：**确保您有&lt;a class=&#34;link&#34; href=&#34;https://nodejs.org/en/download&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Node.js版本18&lt;/a&gt;或更高的安装。
+2.**运行CLI：**在您的终端中执行以下命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npx https://github.com/google-gemini/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;或以：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @google/gemini -cli
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gemini
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;3.&lt;strong&gt;选择颜色主题&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;4.**身份验证：**提示时，请使用您的个人Google帐户登录。这将使您每分钟最多可提供60个模型请求，每天使用Gemini提出1,000个模型请求。&lt;/p&gt;
+&lt;p&gt;您现在准备使用Gemini CLI！&lt;/p&gt;
+&lt;h3 id=&#34;用于高级使用或增加限制&#34;&gt;用于高级使用或增加限制：
+&lt;/h3&gt;&lt;p&gt;如果您需要使用特定模型或需要更高的请求容量，则可以使用API​​密钥：&lt;/p&gt;
+&lt;p&gt;1.从&lt;a class=&#34;link&#34; href=&#34;https://aistudio.google.com/apikey&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google AI Studio&lt;/a&gt;生成密钥。
+2.将其设置为终端中的环境变量。用生成的密钥替换&lt;code&gt;your_api_key&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;gemini_api_key&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;“ your_api_key”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;有关其他身份验证方法，包括Google Workspace帐户，请参见&lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini/gemini-cli/blob/main/main/main/docs/cli/authication.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;authentication&lt;/a&gt;指南。&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例
+&lt;/h2&gt;&lt;p&gt;CLI运行后，您可以开始与外壳的双子座进行交互。&lt;/p&gt;
+&lt;p&gt;您可以从新目录启动项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gemini
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;给我写一个Gemini Discord Bot，该机器人使用常见问题解答文件回答问题
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;或与现有项目合作：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/google-gemini/gemini-cli
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; gemini-Cli
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gemini
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;给我摘要昨天进行的所有更改
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;下一步&#34;&gt;下一步
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;了解如何&lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini/gemini-cli/blob/main/main/contributing.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为源头做出贡献或构建&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;探索可用的** &lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini-cli/blob/blob/main/main/docs/cli/commands.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;cli命令&lt;/a&gt;**。&lt;/li&gt;
+&lt;li&gt;如果遇到任何问题，请查看** &lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini/gemini-cli/blob/main/main/docs/troubleshooting.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;故障排除指南&lt;/a&gt;**。&lt;/li&gt;
+&lt;li&gt;有关更全面的文档，请参见&lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini/gemini-cli/blob/main/main/docs/index.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;完整文档&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;看看一些&lt;a class=&#34;link&#34; href=&#34;%ef%bc%83%e6%b5%81%e8%a1%8c%e4%bb%bb%e5%8a%a1&#34; &gt;流行任务&lt;/a&gt;，以获取更多灵感。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;故障排除&#34;&gt;故障排除
+&lt;/h3&gt;&lt;p&gt;前往&lt;a class=&#34;link&#34; href=&#34;https://github.com/google-gemini/gemini-cli/blob/blob/main/docs/troubleshoot.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;故障排除&lt;/a&gt;查看。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

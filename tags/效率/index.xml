@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>效率 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E6%95%88%E7%8E%87/</link>
+        <description>Recent content in 效率 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sun, 29 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E6%95%88%E7%8E%87/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Alfred(Mac上的效率神器)与大模型LLM的结合</title>
+        <link>https://ai.programnotes.cn/p/alfredmac%E4%B8%8A%E7%9A%84%E6%95%88%E7%8E%87%E7%A5%9E%E5%99%A8%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%BB%93%E5%90%88/</link>
+        <pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/alfredmac%E4%B8%8A%E7%9A%84%E6%95%88%E7%8E%87%E7%A5%9E%E5%99%A8%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%BB%93%E5%90%88/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/mcp/alfred.png" alt="Featured image of post Alfred(Mac上的效率神器)与大模型LLM的结合" /&gt;&lt;h2 id=&#34;什么是-alfred&#34;&gt;什么是 Alfred？
+&lt;/h2&gt;&lt;p&gt;如果你是 Mac 用户，并且一直在寻找提升工作效率的终极武器，那么你一定不能错过 Alfred。Alfred 是一款功能强大的生产力工具，它远不止一个简单的应用启动器。你可以把它看作是 Spotlight 的超级增强版，一个能够通过键盘快捷键、关键词和自定义工作流来帮你完成几乎任何任务的私人助理。&lt;/p&gt;
+&lt;p&gt;Alfred的功能很强大,与AI的结合使其如虎添翼,下面看效果,使用&lt;strong&gt;sunzsh&lt;/strong&gt;大佬制作的插件实现:&lt;/p&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1Z7KazQEQp&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;实现&#34;&gt;实现
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源仓库, sunzsh大佬制作的插件&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sunzsh/favoritesWorkflow4Alfred/blob/main/AI%E5%B0%8F%E5%8A%A9%E6%89%8B.alfredworkflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;AI小助手.alfredworkflow 仍处于测试阶段
+因为该插件可以&lt;strong&gt;直接运行AI写的脚本&lt;/strong&gt;，&lt;strong&gt;使用过程可能存在数据、文件误删等风险&lt;/strong&gt;，使用了此插件即代表您愿意承担风险，&lt;strong&gt;插件作者及本站不承担任何责任&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;最新版：v0.0.5
+利用大模型的Funciton Call，让大模型可以简单操作我们的电脑实现一些功能
+理论上支持所有OpenAI规范的大模型接口。以下厂商均经过测试：火山引擎、阿里云百炼、智谱AI、DeepSeek官方（其他未测试不代表不能使用）&lt;/p&gt;
+&lt;h2 id=&#34;核心功能&#34;&gt;核心功能
+&lt;/h2&gt;&lt;p&gt;Alfred 的强大之处在于其丰富且高度可定制的功能。&lt;/p&gt;
+&lt;h3 id=&#34;1-智能搜索&#34;&gt;1. 智能搜索
+&lt;/h3&gt;&lt;p&gt;Alfred 的基础功能是快速启动应用和查找文件，但它做得更出色。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;应用启动&lt;/strong&gt;：按下 &lt;code&gt;⌥ + Space&lt;/code&gt; (默认快捷键)，输入应用名称的几个字母，回车即可启动。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件搜索&lt;/strong&gt;：输入 &lt;code&gt;find&lt;/code&gt; 或 &lt;code&gt;open&lt;/code&gt; 加上文件名，可以快速定位到电脑深处的任何文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网页搜索&lt;/strong&gt;：输入 &lt;code&gt;google&lt;/code&gt;、&lt;code&gt;wiki&lt;/code&gt;、&lt;code&gt;youtube&lt;/code&gt; 等关键词，加上你的搜索内容，可以直接在浏览器中打开搜索结果，无需先打开浏览器。你还可以自定义任何网站的搜索。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-workflows-工作流&#34;&gt;2. Workflows (工作流)
+&lt;/h3&gt;&lt;p&gt;这是 Alfred 最强大的功能，也是它封神的原因（需要购买 Powerpack）。Workflow 允许你将一系列动作连接起来，创建一个自动化的任务流。网上有成千上万个由社区创建的现成工作流，你也可以自己创建。&lt;/p&gt;
+&lt;p&gt;一些热门的 Workflow 示例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dash 集成&lt;/strong&gt;：在 Alfred 中直接搜索 Dash 文档。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;有道翻译&lt;/strong&gt;：输入 &lt;code&gt;yd&lt;/code&gt; 加上要翻译的单词或句子，立刻看到翻译结果。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IP 地址查询&lt;/strong&gt;：输入 &lt;code&gt;ip&lt;/code&gt; 即可看到当前的公网和内网 IP。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;控制音乐&lt;/strong&gt;：无需切换到 Spotify 或 Apple Music，直接用关键词控制播放、暂停、下一首。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-clipboard-history-剪贴板历史&#34;&gt;3. Clipboard History (剪贴板历史)
+&lt;/h3&gt;&lt;p&gt;你是否曾因为复制了新内容而丢失了之前复制的重要信息？Alfred 的剪贴板历史功能可以帮你记住复制过的所有文本、图片和文件链接。你可以随时搜索和粘贴历史记录。&lt;/p&gt;
+&lt;h3 id=&#34;4-snippets-代码片段文本片段&#34;&gt;4. Snippets (代码片段/文本片段)
+&lt;/h3&gt;&lt;p&gt;对于经常需要输入的重复性文本，如邮箱地址、代码块、常用回复等，你可以创建 Snippets。只需输入一个简短的关键词，Alfred 就会自动将其扩展为完整的文本内容，极大节省打字时间。&lt;/p&gt;
+&lt;h3 id=&#34;5-系统命令&#34;&gt;5. 系统命令
+&lt;/h3&gt;&lt;p&gt;无需离开键盘，就可以执行各种系统命令：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;emptytrash&lt;/code&gt;：清空废纸篓&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sleep&lt;/code&gt;：让 Mac 睡眠&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;restart&lt;/code&gt; / &lt;code&gt;shutdown&lt;/code&gt;：重启或关机&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;eject&lt;/code&gt;：推出所有挂载的磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;为什么选择-alfred&#34;&gt;为什么选择 Alfred？
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;极致的速度&lt;/strong&gt;：习惯之后，你的双手几乎可以不离开键盘，操作行云流水。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高度可定制&lt;/strong&gt;：从外观主题到功能，几乎所有东西都可以根据你的喜好进行定制。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;强大的社区&lt;/strong&gt;：有无数现成的 Workflow 可供下载，你总能找到满足需求的工具。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;节省时间&lt;/strong&gt;：通过自动化和快捷操作，日积月累可以为你节省大量宝贵的时间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;Alfred 是一款值得每一位 Mac 用户投资的工具。它不仅仅是一个启动器，更是一个能融入你工作流、提升生产力的强大平台。一旦你开始使用并配置好适合自己的 Workflow，你就会发现再也离不开它了。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="This article explores the Model Context Protocol (MCP), explains its breakthrough significance, how it works, and how it is used, and compares the differences between MCP and Function Calling and AI Agent.">
+<title>MCP Ultimate Guide</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/mcp-ultimate-guide/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="MCP Ultimate Guide">
+<meta property='og:description' content="This article explores the Model Context Protocol (MCP), explains its breakthrough significance, how it works, and how it is used, and compares the differences between MCP and Function Calling and AI Agent.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/mcp-ultimate-guide/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='AI Agent' /><meta property='article:tag' content='Function Calling' /><meta property='article:tag' content='Claude' /><meta property='article:tag' content='AI Application' /><meta property='article:published_time' content='2025-05-16T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-16T00:00:00&#43;00:00'/><meta property='og:image' content='https://ai.programnotes.cn/img/ai/MCP.png' />
+<meta name="twitter:title" content="MCP Ultimate Guide">
+<meta name="twitter:description" content="This article explores the Model Context Protocol (MCP), explains its breakthrough significance, how it works, and how it is used, and compares the differences between MCP and Function Calling and AI Agent."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ai.programnotes.cn/img/ai/MCP.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#why-is-mcp-a-breakthrough">Why is MCP a breakthrough</a>
+      <ol>
+        <li><a href="#mcp-official-integrated-teaching">MCP official integrated teaching:</a></li>
+        <li><a href="#-examples-of-mcp-official-support-by-third-party-platforms">🎖️ Examples of MCP official support by third-party platforms</a></li>
+        <li><a href="#-community-mcp-server">🌎 Community MCP Server</a></li>
+      </ol>
+    </li>
+    <li><a href="#why-mcp">Why MCP?</a>
+      <ol>
+        <li><a href="#function-calling">Function Calling</a></li>
+        <li><a href="#model-context-protocol-mcp">Model Context Protocol (MCP)</a></li>
+        <li><a href="#ai-agent">AI Agent</a></li>
+        <li><a href="#think">think</a></li>
+      </ol>
+    </li>
+    <li><a href="#how-mcp-works">How MCP works</a>
+      <ol>
+        <li><a href="#how-mcp-server-works">How MCP Server Works</a></li>
+      </ol>
+    </li>
+    <li><a href="#how-to-use-mcp">How to use MCP</a></li>
+    <li><a href="#some-resources-of-mcp">Some resources of MCP</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/en/p/mcp-ultimate-guide/">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/MCP.png" loading="lazy" alt="Featured image of post MCP Ultimate Guide" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/artificial-intelligence/" >
+                Artificial Intelligence
+            </a>
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/ai-agent/" >
+                AI Agent
+            </a>
+        
+            <a href="/en/categories/technology/" >
+                Technology
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/mcp-ultimate-guide/">MCP Ultimate Guide</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            This article explores the Model Context Protocol (MCP), explains its breakthrough significance, how it works, and how it is used, and compares the differences between MCP and Function Calling and AI Agent.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 16, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    7 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/mcp-%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Core content:</p>
+<ul>
+<li>MCP is an open, universal, consensus protocol standard led by Claude to address the problem of slow integration of AI models with existing systems.</li>
+<li>MCP defines standardized protocols to enable AI models to interact seamlessly with different APIs and data sources, replacing fragmented Agent code integration, thus making AI systems more reliable and efficient.</li>
+<li>MCP Server is the key to implementing AI Agent automation. It acts as an intermediate layer to inform the AI ​​Agent which services, APIs and data sources exist, so that the AI ​​Agent can decide independently whether to call a service to complete the task.</li>
+</ul>
+<p><strong>From</strong> | guangzhengli AI independent development</p>
+<p>I haven&rsquo;t updated AI-related blogs in almost a year. On the one hand, I&rsquo;m busy with side projects. On the other hand, although AI technology is changing with each passing day, there is not much new development of the AI ​​application layer. It&rsquo;s basically the three things that [2023 blog] (<a class="link" href="https://guangzhengli.com/blog/zh/gpt-embeddings/"  target="_blank" rel="noopener"
+    >https://guangzhengli.com/blog/zh/gpt-embeddings/</a>) are mentioned, Prompt, RAG, and Agent.</p>
+<p>However, since Claude (Anthropic) led the release of MCP (Model Context Protocol Model Context Protocol) at the end of November last year, the development of the AI ​​application layer has entered a new era.</p>
+<p>However, there seems to be no information on the explanation and development of MCP, so the author decided to organize some of his experiences and thoughts into an article, hoping to help everyone.</p>
+<h2 id="why-is-mcp-a-breakthrough">Why is MCP a breakthrough
+</h2><p>We know that AI models have developed very rapidly over the past year, and from GPT 4 to Claude Sonnet 3.5 to Deepseek R1, both reasoning and hallucination have improved very significantly.</p>
+<p>There are many new AI applications, but one thing we can all feel is that the AI ​​applications on the market are basically brand new services and do not integrate with our usual services and systems. In other words, the integration of AI models and our existing systems is developing very slowly.</p>
+<p>For example, we cannot currently use an AI application to search online, send emails, publish your own blog, etc. It is not difficult to implement these functions individually, but if you want to integrate them all into one system, it will become out of reach.</p>
+<p>If you don’t have a specific feeling yet, we can think about daily development and imagine that in IDE, we can do the following tasks through IDE’s AI.</p>
+<ul>
+<li>Ask AI to query the existing data from the local database to assist in development</li>
+<li>Ask AI to search Github Issue to determine if a problem is a known bug</li>
+<li>Code Review via AI to send comments from a PR to colleagues&rsquo; instant messaging software (such as Slack)</li>
+<li>Complete deployment through AI query or even modify the current AWS and Azure configuration</li>
+</ul>
+<p>The functions mentioned above are now becoming a reality through MCP. You can follow <a class="link" href="https://docs.cursor.com/context/model-context-protocol"  target="_blank" rel="noopener"
+    >Cursor MCP</a> and <a class="link" href="https://www.youtube.com/watch?v=Y_kaQmhGmZk"  target="_blank" rel="noopener"
+    >Windsurf MCP</a> for more information. You can try the Cursor MCP + <a class="link" href="https://browsertools.agentdesk.ai/installation"  target="_blank" rel="noopener"
+    >browsertools</a> plug-in to experience the ability to automatically obtain Chrome dev tools console log in Cursor.</p>
+<p>Why is AI integration of existing services so slow? There are many reasons for this. On the one hand, enterprise-level data is very sensitive, and most companies take a long time and process to move. Another aspect is the technology aspect, we lack an open, general, and consensus protocol standard.</p>
+<p>MCP is an open, general and consensus protocol standard led by Claude (Anthropic). If you are a developer who is familiar with AI models, you must be familiar with Anthropic. They released the Claude 3.5 Sonnet model, which should be the strongest programming AI model so far (3.7😅 was released as soon as it was written).</p>
+<blockquote>
+<p>I would like to mention here that the best opportunity for release of this protocol should belong to OpenAI. If OpenAI promoted the protocol when it first released GPT, I believe no one would refuse it. However, OpenAI has become CloseAI and has only released one closed GPTs. This standard protocol that requires dominance and consensus is generally difficult to form spontaneously in the community and is generally dominated by industry giants.</p></blockquote>
+<p>After Claude released MCP, the official Claude Desktop opened up MCP functionality and promoted the open source organization <a class="link" href="https://github.com/modelcontextprotocol"  target="_blank" rel="noopener"
+    >Model Context Protocol</a>, which is participated by different companies and communities. For example, the following lists some examples of MCP servers being released by different organizations.</p>
+<h3 id="mcp-official-integrated-teaching">MCP official integrated teaching:
+</h3><ul>
+<li><strong><a class="link" href="https://github.com/modelcontextprotocol/servers/blob/main/src/git"  target="_blank" rel="noopener"
+    >Git</a></strong> - Git Read, operate, search.</li>
+<li><strong><a class="link" href="https://github.com/modelcontextprotocol/servers/blob/main/src/github"  target="_blank" rel="noopener"
+    >GitHub</a></strong> - Repo management, file manipulation, and GitHub API integration.</li>
+<li><strong><a class="link" href="https://github.com/modelcontextprotocol/servers/blob/main/src/google-maps"  target="_blank" rel="noopener"
+    >Google Maps</a></strong> - Integrate Google Map to get location information.</li>
+<li><strong><a class="link" href="https://github.com/modelcontextprotocol/servers/blob/main/src/postgres"  target="_blank" rel="noopener"
+    >PostgreSQL</a></strong> - Read-only database query.</li>
+<li><strong><a class="link" href="https://github.com/modelcontextprotocol/servers/blob/main/src/slack"  target="_blank" rel="noopener"
+    >Slack</a></strong> - Slack message sending and querying.</li>
+</ul>
+<h3 id="-examples-of-mcp-official-support-by-third-party-platforms">🎖️ Examples of MCP official support by third-party platforms
+</h3><p>MCP server built by third-party platforms.</p>
+<ul>
+<li><strong><a class="link" href="https://github.com/grafana/mcp-grafana"  target="_blank" rel="noopener"
+    >Grafana</a></strong> - Search for query data in Grafana.</li>
+<li><strong><a class="link" href="https://github.com/JetBrains/mcp-jetbrains"  target="_blank" rel="noopener"
+    >JetBrains</a></strong> – JetBrains IDEs.</li>
+<li><strong><a class="link" href="https://github.com/stripe/agent-toolkit"  target="_blank" rel="noopener"
+    >Stripe</a></strong> - Interact with the Stripe API.</li>
+</ul>
+<h3 id="-community-mcp-server">🌎 Community MCP Server
+</h3><p>Here are some MCP servers developed and maintained by the open source community.</p>
+<ul>
+<li><strong><a class="link" href="https://github.com/rishikavikondala/mcp-server-aws"  target="_blank" rel="noopener"
+    >AWS</a></strong> - Use LLM to operate AWS resources.</li>
+<li><strong><a class="link" href="https://github.com/sooperset/mcp-atlassian"  target="_blank" rel="noopener"
+    >Atlassian</a></strong> - Interact with Confluence and Jira, including searching/querying Confluence space/pages, accessing Jira Issue and projects.</li>
+<li><strong><a class="link" href="https://github.com/v-3/google-calendar"  target="_blank" rel="noopener"
+    >Google Calendar</a></strong> - Integrate with Google Calendar, schedule, find time, and add/remove events.</li>
+<li><strong><a class="link" href="https://github.com/Flux159/mcp-server-kubernetes"  target="_blank" rel="noopener"
+    >Kubernetes</a></strong> - Connect to a Kubernetes cluster and manage pods, deployments, and services.</li>
+<li><strong><a class="link" href="https://github.com/EnesCinr/twitter-mcp"  target="_blank" rel="noopener"
+    >X (Twitter)</a></strong> - Interact with the Twitter API. Post a tweet and search for tweets by query.</li>
+<li><strong><a class="link" href="https://github.com/ZubeidHendricks/youtube-mcp-server"  target="_blank" rel="noopener"
+    >YouTube</a></strong> - Integrate with YouTube API, video management, short video creation, etc.</li>
+</ul>
+<h2 id="why-mcp">Why MCP?
+</h2><p>After seeing this, you may have a question. When OpenAI released GPT function calling in 2023, wasn’t it possible to implement similar functions? Isn’t the AI ​​Agent introduced in our previous blog just used to integrate different services? Why is MCP again?</p>
+<p>What is the difference between function calling, AI Agent, and MCP?</p>
+<h3 id="function-calling">Function Calling
+</h3><ul>
+<li>Function Calling refers to the mechanism by which the AI ​​model automatically executes functions based on the context.</li>
+<li>Function Calling acts as a bridge between AI models and external systems. Different models have different implementations of Function Calling, and the methods of code integration are also different. Defined and implemented by different AI model platforms.</li>
+</ul>
+<p>If we use Function Calling, we need to provide a set of functions to the LLM through code and provide clear function description, function input and output, then the LLM can reason and execute functions based on clear structured data.</p>
+<p>The disadvantage of Function Calling is that it cannot handle many rounds of dialogue and complex needs, and is suitable for tasks with clear boundaries and clear descriptions. If you need to deal with a lot of tasks, then the code of Function Calling is difficult to maintain.</p>
+<h3 id="model-context-protocol-mcp">Model Context Protocol (MCP)
+</h3><ul>
+<li>MCP is a standard protocol, like the Type C protocol of electronic devices (can be charged or transmitted data), allowing AI models to interact seamlessly with different APIs and data sources.</li>
+<li>MCP is designed to replace fragmented Agent code integration, making AI systems more reliable and efficient. By establishing common standards, service providers can launch the AI ​​capabilities they serve based on protocols, thus enabling developers to build more powerful AI applications faster. Developers do not need to re-create the wheel. Open source projects can build a strong AI Agent ecosystem.</li>
+<li>MCP can maintain context between different applications/services, thereby enhancing the overall ability to perform tasks autonomously.</li>
+</ul>
+<p>It can be understood that MCP is to layer different tasks, each layer provides specific capabilities, descriptions, and limitations. The MCP Client judges based on different tasks, selects whether a certain capability needs to be called, and then builds an Agent that can handle complex, multi-step dialogue and unified context through the input and output of each layer.</p>
+<h3 id="ai-agent">AI Agent
+</h3><ul>
+<li>AI Agent is an intelligent system that can run autonomously to achieve specific goals. Traditional AI chat only provides advice or requires manual tasks, and AI Agent can analyze specific situations, make decisions, and take action on its own.</li>
+<li>AI Agent can leverage the functional description provided by MCP to understand more context and automate tasks across various platforms/services.</li>
+</ul>
+<h3 id="think">think
+</h3><p>Why is Claude widely accepted after launching MCP? In fact, I have personally participated in the development of several small AI projects in the past year. During the development process, it is really troublesome to integrate AI models into existing systems or third-party systems.</p>
+<p>Although there are some frameworks on the market that support Agent development, such as <a class="link" href="https://www.langchain.com/"  target="_blank" rel="noopener"
+    >LangChain Tools</a>, <a class="link" href="https://docs.llamaindex.ai/en/stable/"  target="_blank" rel="noopener"
+    >LlamaIndex</a> or <a class="link" href="https://sdk.vercel.ai/docs/introduction"  target="_blank" rel="noopener"
+    >Vercel AI SDK</a>.</p>
+<p>Although LangChain and LlamaIndex are both open source projects, the overall development is still quite chaotic. First of all, the abstraction level of the code is too high. What you want to promote is to let developers complete certain AI functions in just a few lines of code. This is very useful in the demo stage. However, in actual development, as long as the business starts to be complex, poor code design brings a very bad programming experience. Also, these projects are too commercialized and ignore the construction of the overall ecology.</p>
+<p>Another one is the Vercel AI SDK. Although I personally think that the Vercel AI SDK code is better abstract, it is just that the front-end UI combination and some AI functions are packaged well. The biggest problem is that it is too deeply bound to Nextjs and does not support other frameworks and languages.</p>
+<p>Therefore, Claude promotes MCP as a good time. First of all, Claude Sonnet 3.5 has a high status in the minds of developers, and MCP is an open standard, so many companies and communities are willing to participate, hoping that Claude can always maintain a good open ecosystem.</p>
+<p>The benefits of MCP for community ecology are mainly the following two points:</p>
+<ul>
+<li>Open standards to service providers, which can open their APIs and some capabilities to MCPs.</li>
+<li>No need to remake the wheel, developers can use existing open source MCP services to enhance their agents.</li>
+</ul>
+<h2 id="how-mcp-works">How MCP works
+</h2><p>Then let’s introduce how MCP works. First, let’s take a look at the [official MCP architecture diagram] (<a class="link" href="https://modelcontextprotocol.io/introduction%29"  target="_blank" rel="noopener"
+    >https://modelcontextprotocol.io/introduction)</a>.</p>
+<p><img src="/img/ai/MCP.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Image 2: MCP architecture diagram"
+	
+	
+></p>
+<p>It is divided into the following five parts:</p>
+<ul>
+<li>MCP Hosts: Hosts refers to applications where LLM starts connections, such as Cursor, Claude Desktop, <a class="link" href="https://github.com/cline/cline"  target="_blank" rel="noopener"
+    >Cline</a>.</li>
+<li>MCP Clients: The client is used to maintain a 1:1 connection to the Server within the Hosts application.</li>
+<li>MCP Servers: Provides context, tools and tips for the Client through standardized protocols.</li>
+<li>Local Data Sources: Local files, databases, and APIs.</li>
+<li>Remote Services: External files, databases, and APIs.</li>
+</ul>
+<p>The core of the entire MCP protocol lies in Server, because Host and Client are familiar with computer networks, which are very easy to understand, but how does Server understand it?</p>
+<p>Looking at Cursor&rsquo;s AI Agent development process, we will find that the entire process of AI automation will evolve from Chat to Composer to a complete AI Agent.</p>
+<p>AI Chat just provides suggestions on how to convert AI responses into behavior and the end result, all relying on humans, such as manual copy-paste, or making some modifications.</p>
+<p>AI Composer can automatically modify code, but requires human participation and confirmation, and cannot do other operations other than modifying code.</p>
+<p>AI Agent is a completely automated program. In the future, it can automatically read Figma pictures, automatically produce code, automatically read logs, automatically debug code, and automatically push code to GitHub.</p>
+<p>MCP Server exists to realize the automation of AI Agent. It is an intermediate layer that tells the AI ​​Agent which services, APIs, and data sources currently exist. The AI ​​Agent can decide whether to call a certain service based on the information provided by the server, and then execute the functions through Function Calling.</p>
+<h3 id="how-mcp-server-works">How MCP Server Works
+</h3><p>Let&rsquo;s first look at a simple example. Suppose we want the AI ​​Agent to automatically search for GitHub Repository, then search for Issue, then determine whether it is a known bug, and finally decide whether we need to submit a new Issue function.</p>
+<p>Then we need to create a Github MCP Server, which needs to provide three capabilities: finding Repository, searching Issues and creating Issue.</p>
+<p>Let&rsquo;s take a look at the code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Server</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;github-mcp-server&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">version</span>: <span class="kt">VERSION</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">capabilities</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">tools</span><span class="o">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">server</span><span class="p">.</span><span class="nx">setRequestHandler</span><span class="p">(</span><span class="nx">ListToolsRequestSchema</span><span class="p">,</span> <span class="kr">async</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;search_repositories&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Description</span><span class="o">:</span> <span class="s2">&#34;Search for GitHub repositories&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">inputSchema</span>: <span class="kt">zodToJsonSchema</span><span class="p">(</span><span class="nx">repository</span><span class="p">.</span><span class="nx">SearchRepositoriesSchema</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;create_issue&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Description</span><span class="o">:</span> <span class="s2">&#34;Create a new issue in a GitHub repository&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">inputSchema</span>: <span class="kt">zodToJsonSchema</span><span class="p">(</span><span class="nx">issues</span><span class="p">.</span><span class="nx">CreateIssueSchema</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;search_issues&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Description</span><span class="o">:</span> <span class="s2">&#34;Search for issues and pull requests across GitHub repositories&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">inputSchema</span>: <span class="kt">zodToJsonSchema</span><span class="p">(</span><span class="nx">search</span><span class="p">.</span><span class="nx">SearchIssuesSchema</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">server</span><span class="p">.</span><span class="nx">setRequestHandler</span><span class="p">(</span><span class="nx">CallToolRequestSchema</span><span class="p">,</span> <span class="kr">async</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">arguments</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&#34;Arguments are required&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="s2">&#34;search_repositories&#34;</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">repository</span><span class="p">.</span><span class="nx">SearchRepositoriesSchema</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">arguments</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">repository</span><span class="p">.</span><span class="nx">searchRepositories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">args</span><span class="p">.</span><span class="nx">query</span><span class="p">,</span>          <span class="nx">args</span><span class="p">.</span><span class="nx">page</span><span class="p">,</span>          <span class="nx">args</span><span class="p">.</span><span class="nx">perPage</span>        <span class="p">);</span>       
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">{</span>          
+</span></span><span class="line"><span class="cl">                <span class="nx">content</span><span class="o">:</span> <span class="p">[{</span> 
+</span></span><span class="line"><span class="cl">                    <span class="kr">type</span><span class="o">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                    <span class="nx">text</span>: <span class="kt">JSON.stringify</span><span class="p">(</span><span class="nx">results</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">}],</span>        <span class="p">};</span>   
+</span></span><span class="line"><span class="cl">                       <span class="p">}</span>      
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="s2">&#34;create_issue&#34;</span><span class="o">:</span> <span class="p">{</span>        
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">issues</span><span class="p">.</span><span class="nx">CreateIssueSchema</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">arguments</span><span class="p">);</span>        
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="p">{</span> <span class="nx">owner</span><span class="p">,</span> <span class="nx">repo</span><span class="p">,</span> <span class="p">...</span><span class="nx">options</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">args</span><span class="p">;</span>        
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">issue</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">issues</span><span class="p">.</span><span class="nx">createIssue</span><span class="p">(</span><span class="nx">owner</span><span class="p">,</span> <span class="nx">repo</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>       
+</span></span><span class="line"><span class="cl">                        <span class="k">return</span> <span class="p">{</span>          <span class="nx">content</span><span class="o">:</span> <span class="p">[{</span> <span class="kr">type</span><span class="o">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> <span class="nx">text</span>: <span class="kt">JSON.stringify</span><span class="p">(</span><span class="nx">issue</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">}],</span>        <span class="p">};</span>      <span class="p">}</span>     
+</span></span><span class="line"><span class="cl">       <span class="k">case</span> <span class="s2">&#34;search_issues&#34;</span><span class="o">:</span> <span class="p">{</span>       
+</span></span><span class="line"><span class="cl">         <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">search</span><span class="p">.</span><span class="nx">SearchIssuesSchema</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">arguments</span><span class="p">);</span>        
+</span></span><span class="line"><span class="cl">         <span class="kr">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">search</span><span class="p">.</span><span class="nx">searchIssues</span><span class="p">(</span><span class="nx">args</span><span class="p">);</span>        
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="p">{</span>          <span class="nx">content</span><span class="o">:</span> <span class="p">[{</span> <span class="kr">type</span><span class="o">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> <span class="nx">text</span>: <span class="kt">JSON.stringify</span><span class="p">(</span><span class="nx">results</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">}],</span>        <span class="p">};</span>      <span class="p">}</span>      
+</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span>        
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`Unknown tool: </span><span class="si">${</span><span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>    <span class="p">}</span>  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{}});</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">async</span> <span class="kd">function</span> <span class="nx">runServer() {</span>  <span class="kr">const</span> <span class="nx">transport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StdioServerTransport</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="nx">server</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">transport</span><span class="p">);</span>  
+</span></span><span class="line"><span class="cl">                       <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;GitHub MCP Server running on stdio&#34;</span><span class="p">);}</span><span class="nx">runServer</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">                         <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;Fatal error in main():&#34;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the above code, we use <code>server.setRequestHandler</code> to tell the Client what capabilities we provide, describe the role of this capability through the <code>description</code> field, and describe the input parameters required to complete this capability through the <code>inputSchema</code>.</p>
+<p>Let&rsquo;s take a look at the specific implementation code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">SearchOptions</span> <span class="o">=</span> <span class="nx">z</span><span class="p">.</span><span class="kt">object</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">q</span>: <span class="kt">z.string</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">order</span>: <span class="kt">z.enum</span><span class="p">([</span><span class="s2">&#34;asc&#34;</span><span class="p">,</span> <span class="s2">&#34;desc&#34;</span><span class="p">]).</span><span class="nx">optional</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">page</span>: <span class="kt">z.number</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">optional</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">per_page</span>: <span class="kt">z.number</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">max</span><span class="p">(</span><span class="mi">100</span><span class="p">).</span><span class="nx">optional</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">SearchIssuesOptions</span> <span class="o">=</span> <span class="nx">SearchOptions</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sort</span>: <span class="kt">z.enum</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;comments&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>  <span class="p">]).</span><span class="nx">optional</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">async</span> <span class="kd">function</span> <span class="nx">searchUsers</span><span class="p">(</span><span class="nx">params</span>: <span class="kt">z.infer</span><span class="p">&lt;</span><span class="nt">typeof</span> <span class="na">SearchUsersSchema</span><span class="p">&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">githubRequest</span><span class="p">(</span><span class="nx">buildUrl</span><span class="p">(</span><span class="s2">&#34;https://api.github.com/search/users&#34;</span><span class="p">,</span> <span class="nx">params</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">SearchRepositoriesSchema</span> <span class="o">=</span> <span class="nx">z</span><span class="p">.</span><span class="kt">object</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">query</span>: <span class="kt">z.string</span><span class="p">().</span><span class="nx">describe</span><span class="p">(</span><span class="s2">&#34;Search query (see GitHub search syntax)&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">page</span>: <span class="kt">z.number</span><span class="p">().</span><span class="nx">optional</span><span class="p">().</span><span class="nx">describe</span><span class="p">(</span><span class="s2">&#34;Page number for pagination (default: 1)&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">perPage</span>: <span class="kt">z.number</span><span class="p">().</span><span class="nx">optional</span><span class="p">().</span><span class="nx">describe</span><span class="p">(</span><span class="s2">&#34;Number of results per page (default: 30, max: 100)&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">async</span> <span class="kd">function</span> <span class="nx">searchRepositories</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">page</span>: <span class="kt">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">perPage</span>: <span class="kt">number</span> <span class="o">=</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URL</span><span class="p">(</span><span class="s2">&#34;https://api.github.com/search/repositories&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;q&#34;</span><span class="p">,</span> <span class="nx">query</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;page&#34;</span><span class="p">,</span> <span class="nx">page</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;per_page&#34;</span><span class="p">,</span> <span class="nx">perPage</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">githubRequest</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">GitHubSearchResponseSchema</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It can be clearly seen that our final implementation uses the <code>https://api.github.com</code> API to interact with Github. We use the <code>githubRequest</code> function to call the GitHub API and finally return the result.</p>
+<p>Before calling the official Github API, MCP&rsquo;s main job is to describe what capabilities the Server provides (provided to LLM), which parameters are needed (what the specific functions of the parameters are), and what the final result is returned.</p>
+<p>So MCP Server is not a novel and advanced thing, it is just a consensus protocol.</p>
+<p>If we want to implement a more powerful AI Agent, for example, we want the AI ​​Agent to automatically search for the relevant GitHub Repository based on the local error log, then search for Issue, and finally send the result to Slack.</p>
+<p>Then we may need to create three different MCP Servers, one is Local Log Server, used to query local logs; one is GitHub Server, used to search for Issue; and the other is Slack Server, used to send messages.</p>
+<p>After the user enters the ``I need to query the local error log and send the relevant Issue to the Slack` instruction, I will judge which MCP Servers to call by myself and decide the order of call. Finally, based on the results returned by different MCP Servers, I will decide whether the next server needs to be called to complete the entire task.</p>
+<h2 id="how-to-use-mcp">How to use MCP
+</h2><p>If you haven&rsquo;t tried how to use MCP, we can consider using Cursor (I have only tried Cursor), Claude Desktop or Cline to experience it.</p>
+<p>Of course, we do not need to develop MCP Servers ourselves. The benefits of MCP are universal and standard, so developers do not need to re-create wheels (but learning can re-create wheels).</p>
+<p>The first thing I recommend is some servers from the official organization: [official MCP Server List] (<a class="link" href="https://github.com/modelcontextprotocol/servers%29"  target="_blank" rel="noopener"
+    >https://github.com/modelcontextprotocol/servers)</a>.</p>
+<p>At present, the MCP Server in the community is still quite chaotic, with many lacking tutorials and documents, and many code functions are also problematic. We can try some examples of <a class="link" href="https://cursor.directory/"  target="_blank" rel="noopener"
+    >Cursor Directory</a> on our own. The author will not go into details about the specific configuration and actual combat. You can refer to the official documentation.</p>
+<h2 id="some-resources-of-mcp">Some resources of MCP
+</h2><p>Below are some MCP resources that I personally recommend, you can refer to.</p>
+<ul>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/gpt-embeddings/"  target="_blank" rel="noopener"
+    >https://guangzhengli.com/blog/zh/gpt-embeddings/</a></p>
+</li>
+<li>
+<p><a class="link" href="https://docs.cursor.com/context/model-context-protocol"  target="_blank" rel="noopener"
+    >https://docs.cursor.com/context/model-context-protocol</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.youtube.com/watch?v=Y_kaQmhGmZk"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=Y_kaQmhGmZk</a></p>
+</li>
+<li>
+<p><a class="link" href="https://browsertools.agentdesk.ai/installation"  target="_blank" rel="noopener"
+    >https://browsertools.agentdesk.ai/installation</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/modelcontextprotocol"  target="_blank" rel="noopener"
+    >https://github.com/modelcontextprotocol</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/grafana/mcp-grafana"  target="_blank" rel="noopener"
+    >https://github.com/grafana/mcp-grafana</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/JetBrains/mcp-jetbrains"  target="_blank" rel="noopener"
+    >https://github.com/JetBrains/mcp-jetbrains</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/stripe/agent-toolkit"  target="_blank" rel="noopener"
+    >https://github.com/stripe/agent-toolkit</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/rishikavikondala/mcp-server-aws"  target="_blank" rel="noopener"
+    >https://github.com/rishikavikondala/mcp-server-aws</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/sooperset/mcp-atlassian"  target="_blank" rel="noopener"
+    >https://github.com/sooperset/mcp-atlassian</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/v-3/google-calendar"  target="_blank" rel="noopener"
+    >https://github.com/v-3/google-calendar</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/Flux159/mcp-server-kubernetes"  target="_blank" rel="noopener"
+    >https://github.com/Flux159/mcp-server-kubernetes</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/EnesCinr/twitter-mcp"  target="_blank" rel="noopener"
+    >https://github.com/EnesCinr/twitter-mcp</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/ZubeidHendricks/youtube-mcp-server"  target="_blank" rel="noopener"
+    >https://github.com/ZubeidHendricks/youtube-mcp-server</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.langchain.com/"  target="_blank" rel="noopener"
+    >https://www.langchain.com/</a></p>
+</li>
+<li>
+<p><a class="link" href="https://docs.llamaindex.ai/en/stable/"  target="_blank" rel="noopener"
+    >https://docs.llamaindex.ai/en/stable/</a></p>
+</li>
+<li>
+<p><a class="link" href="https://sdk.vercel.ai/docs/introduction"  target="_blank" rel="noopener"
+    >https://sdk.vercel.ai/docs/introduction</a></p>
+</li>
+<li>
+<p><a class="link" href="https://modelcontextprotocol.io/introduction"  target="_blank" rel="noopener"
+    >https://modelcontextprotocol.io/introduction</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/cline/cline"  target="_blank" rel="noopener"
+    >https://github.com/cline/cline</a></p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/modelcontextprotocol/servers"  target="_blank" rel="noopener"
+    >https://github.com/modelcontextprotocol/servers</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.anthropic.com/news/model-context-protocol"  target="_blank" rel="noopener"
+    >https://www.anthropic.com/news/model-context-protocol</a></p>
+</li>
+<li>
+<p><a class="link" href="https://cursor.directory/"  target="_blank" rel="noopener"
+    >https://cursor.directory</a></p>
+</li>
+<li>
+<p><a class="link" href="https://www.pulsemcp.com/"  target="_blank" rel="noopener"
+    >https://www.pulsemcp.com/</a></p>
+</li>
+<li>
+<p><a class="link" href="https://glama.ai/mcp/servers"  target="_blank" rel="noopener"
+    >https://glama.ai/mcp/servers</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E4%B8%BA%E4%BB%80%E4%B9%88-mcp-%E6%98%AF%E4%B8%80%E4%B8%AA%E7%AA%81%E7%A0%B4"  target="_blank" rel="noopener"
+    >为什么 MCP 是一个突破</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%AE%98%E6%96%B9%E9%9B%86%E6%88%90%E6%95%99%E5%AD%A6"  target="_blank" rel="noopener"
+    >MCP 官方集成教学：</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%EF%B8%8F-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B9%B3%E5%8F%B0%E5%AE%98%E6%96%B9%E6%94%AF%E6%8C%81-mcp-%E7%9A%84%E4%BE%8B%E5%AD%90"  target="_blank" rel="noopener"
+    >🎖️ 第三方平台官方支持 MCP 的例子</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#-%E7%A4%BE%E5%8C%BA-mcp-%E6%9C%8D%E5%8A%A1%E5%99%A8"  target="_blank" rel="noopener"
+    >🌎 社区 MCP 服务器</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-mcp"  target="_blank" rel="noopener"
+    >为什么是 MCP？</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#function-calling"  target="_blank" rel="noopener"
+    >Function Calling</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#model-context-protocol-mcp"  target="_blank" rel="noopener"
+    >Model Context Protocol (MCP)</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#ai-agent"  target="_blank" rel="noopener"
+    >AI Agent</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E6%80%9D%E8%80%83"  target="_blank" rel="noopener"
+    >思考</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"  target="_blank" rel="noopener"
+    >MCP 如何工作</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#mcp-server-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"  target="_blank" rel="noopener"
+    >MCP Server 的工作原理</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-mcp"  target="_blank" rel="noopener"
+    >如何使用 MCP</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%B5%84%E6%BA%90"  target="_blank" rel="noopener"
+    >MCP 的一些资源</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%AE%98%E6%96%B9%E8%B5%84%E6%BA%90"  target="_blank" rel="noopener"
+    >MCP 官方资源</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E7%A4%BE%E5%8C%BA%E7%9A%84-mcp-server-%E7%9A%84%E5%88%97%E8%A1%A8"  target="_blank" rel="noopener"
+    >社区的 MCP Server 的列表</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"  target="_blank" rel="noopener"
+    >写在最后</a></p>
+</li>
+<li>
+<p><a class="link" href="https://guangzhengli.com/blog/zh/model-context-protocol#references"  target="_blank" rel="noopener"
+    >References</a></p>
+</li>
+</ul>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/mcp/">MCP</a>
+        
+            <a href="/en/tags/ai-agent/">AI Agent</a>
+        
+            <a href="/en/tags/function-calling/">Function Calling</a>
+        
+            <a href="/en/tags/claude/">Claude</a>
+        
+            <a href="/en/tags/ai-application/">AI Application</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/en/p/the-model-context-protocol-mcp-a-comprehensive-analysis/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">The Model Context Protocol (MCP): A Comprehensive Analysis</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/weekly-tech-ai-news-update-2025-09-08/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Weekly Tech &amp; AI News Update (2025-09-08)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-practice-building-a-knowledge-base-question-answering-system-based-on-mcp-architecture/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/f638b06be79e867e0b58aea871dbe210.other"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Practice: Building a Knowledge Base Question Answering System Based on MCP Architecture</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-claude-desktop-application/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Claude Desktop Application</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

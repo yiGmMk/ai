@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="The Apify beta MCP client connects the AI \u200b\u200bagent to the Apify ecosystem, and supports connecting to the MCP server through SSE to achieve interaction with the Apify executor.">
+<title>MCP Client|Apify Beta</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/mcp-clientapify-beta/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="MCP Client|Apify Beta">
+<meta property='og:description' content="The Apify beta MCP client connects the AI \u200b\u200bagent to the Apify ecosystem, and supports connecting to the MCP server through SSE to achieve interaction with the Apify executor.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/mcp-clientapify-beta/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Apify' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='SSE' /><meta property='article:tag' content='AI agent' /><meta property='article:tag' content='actuator' /><meta property='article:published_time' content='2024-05-16T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-05-16T00:00:00&#43;00:00'/><meta property='og:image' content='https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png' />
+<meta name="twitter:title" content="MCP Client|Apify Beta">
+<meta name="twitter:description" content="The Apify beta MCP client connects the AI \u200b\u200bagent to the Apify ecosystem, and supports connecting to the MCP server through SSE to achieve interaction with the Apify executor."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#-core-functions">🚀 Core functions</a></li>
+    <li><a href="#-functional-scene">🎯 Functional Scene</a></li>
+    <li><a href="#-how-it-works">📖 How it works</a></li>
+    <li><a href="#how-to-use">⚙️How to use</a>
+      <ol>
+        <li><a href="#standard-mode-apify-platform">Standard Mode (Apify Platform)</a></li>
+        <li><a href="#standby-mode-apify-platform">Standby mode (Apify platform)</a></li>
+      </ol>
+    </li>
+    <li><a href="#-billing-plan">💰 Billing Plan</a></li>
+    <li><a href="#-technical-architecture">📖 Technical Architecture</a>
+      <ol>
+        <li><a href="#local-development">Local Development</a></li>
+      </ol>
+    </li>
+    <li><a href="#-notes">ⓘ Notes</a></li>
+    <li><a href="#reference-resources">Reference Resources</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/en/p/mcp-clientapify-beta/">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" alt="Featured image of post MCP Client|Apify Beta" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/tools/" >
+                Tools
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/mcp-clientapify-beta/">MCP Client|Apify Beta</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            The Apify beta MCP client connects the AI ​​agent to the Apify ecosystem, and supports connecting to the MCP server through SSE to achieve interaction with the Apify executor.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 16, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>Core content:</strong></p>
+<ul>
+<li>Connect to the MCP server through the SSE protocol to achieve interaction with the Apify executor.</li>
+<li>Provide a class chat interface to display tool calls and results.</li>
+<li>The client is completely free, and only needs to pay for the LLM service provider usage fee and the Apify platform resource consumption.</li>
+</ul>
+<p>This client connects AI agents to 5,000+ web crawlers and automated actuators (Actors) in the Apify ecosystem, supporting data extraction from websites, social media, search engines and maps.</p>
+<h2 id="-core-functions">🚀 Core functions
+</h2><ul>
+<li>🔌 Connect to the MCP server via Server Push Event (SSE)</li>
+<li>💬 Provides class chat interface display tool calls and results</li>
+<li>🇦 Connect <a class="link" href="https://apify.com/apify/actors-mcp-server"  target="_blank" rel="noopener"
+    >Apify MCP Server</a> to call multiple Apify executors</li>
+<li>💥 Dynamically select tools based on context (server support is required)</li>
+<li>🔓 Use authorization headers to ensure secure connections with API keys</li>
+<li>🪟 Open source project, can review code or submit improvements</li>
+</ul>
+<h2 id="-functional-scene">🎯 Functional Scene
+</h2><p>After connecting to [Executor-MCP-Server] (<a class="link" href="https://apify.com/apify/actors-mcp-server%29"  target="_blank" rel="noopener"
+    >https://apify.com/apify/actors-mcp-server)</a>, you can use the interactive chat interface:</p>
+<ul>
+<li>Query &ldquo;The Most Popular Social Media Crawler Actuator&rdquo;</li>
+<li>Get &ldquo;The Best Instagram Crawlers&rdquo;</li>
+<li>Consult &ldquo;Which executor should be used to extract LinkedIn data&rdquo;</li>
+<li>Learn about &ldquo;How to Crawl Google Search Results&rdquo;</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Client interface screenshot"
+	
+	
+></p>
+<h2 id="-how-it-works">📖 How it works
+</h2><p>The client connects to the MCP server through the SSE protocol and implements the following functions:</p>
+<ul>
+<li>Establish an SSE connection through the <code>/sse</code> endpoint</li>
+<li>Send user query via <code>POST /message</code></li>
+<li>Receive streaming responses in real time (via <code>GET /sse</code>), which may contain:
+<ul>
+<li>Large language model output</li>
+<li>**Tool calls **Module</li>
+</ul>
+</li>
+<li>Call and display the dialogue flow according to the response coordination tool</li>
+</ul>
+<h2 id="how-to-use">⚙️How to use
+</h2><h3 id="standard-mode-apify-platform">Standard Mode (Apify Platform)
+</h3><p>Run the client on the Apify platform and connect to any SSE-enabled MCP server. Configure the following parameters via the UI or API:</p>
+<ul>
+<li>MCP Server URL</li>
+<li>System prompt words</li>
+<li>API Key</li>
+</ul>
+<p>After running, the log will generate a dynamic access link (different for each run):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">INFO Please visit https://.........runs.apify.net to interact with the MCP server
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="standby-mode-apify-platform">Standby mode (Apify platform)
+</h3><p>In development 🚧</p>
+<h2 id="-billing-plan">💰 Billing Plan
+</h2><p>The client is completely free, only pay:</p>
+<ul>
+<li>LLM service provider usage fee</li>
+<li>Apify platform resource consumption</li>
+</ul>
+<p>Adopt the [Bill by Event] (<a class="link" href="https://docs.apify.com/sdk/js/docs/guides/pay-per-event"  target="_blank" rel="noopener"
+    >https://docs.apify.com/sdk/js/docs/guides/pay-per-event</a>) mode:</p>
+<ul>
+<li>Actuator startup fee (billed at 128MB memory unit)</li>
+<li>Runtime fee (billed per 5 minutes/128MB unit)</li>
+<li>Query response fee (billed according to the model, and the built-in API key can be exempted)</li>
+</ul>
+<p>When using your own LLM key, 128MB of memory runs for about $0.06 for 1 hour.
+Apify free version (no credit card required) can run for 80 hours per month - fully meet testing needs!</p>
+<h2 id="-technical-architecture">📖 Technical Architecture
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Browser ← (SSE) → Test Client ← (SSE) → MCP Server
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This link encapsulates customized bridge logic within the client, keeping the MCP server pure.</p>
+<ol>
+<li>Visit <code>https://tester-mcp-client.apify.actor?token=API key</code> (using http://localhost:3000 for local development)</li>
+<li>Load <code>index.html</code> and <code>client.js</code> from the <code>public/</code> directory</li>
+<li>The browser creates SSE stream through <code>GET /sse</code></li>
+<li>User query is submitted through <code>POST /message</code></li>
+<li>Query processing flow:
+<ul>
+<li>Calling large language model</li>
+<li>Call the tool on demand</li>
+</ul>
+</li>
+<li>Return chunking results through <code>sseEmit(role, content)</code></li>
+</ol>
+<h3 id="local-development">Local Development
+</h3><p>The client has been open sourced to <a class="link" href="https://github.com/apify/rag-web-browser"  target="_blank" rel="noopener"
+    >GitHub</a>, and can be modified as needed:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/apify/tester-mcp-client.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> tester-mcp-client
+</span></span><span class="line"><span class="cl">npm install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Create a configuration file with reference to <code>.env.example</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">APIFY_TOKEN=Your token
+</span></span><span class="line"><span class="cl">LLM_PROVIDER_API_KEY=Your key
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Run the development server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm start
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Visit <a class="link" href="http://localhost:3000"  target="_blank" rel="noopener"
+    >http://localhost:3000</a> to start the test.</p>
+<p>**I wish you a happy conversation with the Apify actuator! **</p>
+<h2 id="-notes">ⓘ Notes
+</h2><p>The current version does not support:</p>
+<ul>
+<li>Advanced MCP features such as Prompts and Resource</li>
+<li>Dialogue History Storage (refreshing the page will clear the record)</li>
+</ul>
+<h2 id="reference-resources">Reference Resources
+</h2><ul>
+<li><a class="link" href="https://modelcontextprotocol.org/"  target="_blank" rel="noopener"
+    >ModelContextProtocol</a></li>
+<li><a class="link" href="https://apify.com/apify/actors-mcp-server"  target="_blank" rel="noopener"
+    >Apify Executor MCP Server</a></li>
+<li><a class="link" href="https://docs.apify.com/sdk/js/docs/guides/pay-per-event"  target="_blank" rel="noopener"
+    >Billing instructions by event</a></li>
+<li><a class="link" href="https://blog.apify.com/what-are-ai-agents/"  target="_blank" rel="noopener"
+    >Detailed explanation of AI agent</a>\n- <a class="link" href="https://blog.apify.com/what-is-model-context-protocol/"  target="_blank" rel="noopener"
+    >MCP protocol core value</a></li>
+</ul>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/apify/">Apify</a>
+        
+            <a href="/en/tags/mcp/">MCP</a>
+        
+            <a href="/en/tags/sse/">SSE</a>
+        
+            <a href="/en/tags/ai-agent/">AI Agent</a>
+        
+            <a href="/en/tags/actuator/">Actuator</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/en/p/jina-ai-remote-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jina AI Remote MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Introducing MCP-Scan: Protecting MCP with Invariant</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-claude-desktop-application/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Claude Desktop Application</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-cursor-ai-ide-a-revolutionary-intelligent-programming-tool/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

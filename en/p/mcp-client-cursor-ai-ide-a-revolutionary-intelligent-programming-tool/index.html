@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Cursor is an intelligent programming tool integrated with advanced models like Claude AI, providing an unprecedented coding experience through the Model Context Protocol.">
+<title>MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/mcp-client-cursor-ai-ide-a-revolutionary-intelligent-programming-tool/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool">
+<meta property='og:description' content="Cursor is an intelligent programming tool integrated with advanced models like Claude AI, providing an unprecedented coding experience through the Model Context Protocol.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/mcp-client-cursor-ai-ide-a-revolutionary-intelligent-programming-tool/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='AI IDE' /><meta property='article:tag' content='Intelligent Programming' /><meta property='article:tag' content='Code Completion' /><meta property='article:tag' content='Cursor' /><meta property='article:tag' content='Claude AI' /><meta property='article:published_time' content='2024-10-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-10-27T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool">
+<meta name="twitter:description" content="Cursor is an intelligent programming tool integrated with advanced models like Claude AI, providing an unprecedented coding experience through the Model Context Protocol.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#core-technologies-and-architecture">Core Technologies and Architecture</a>
+      <ol>
+        <li><a href="#basic-architecture">Basic Architecture</a></li>
+        <li><a href="#ai-model-integration">AI Model Integration</a></li>
+        <li><a href="#model-context-protocol-mcp">Model Context Protocol (MCP)</a></li>
+      </ol>
+    </li>
+    <li><a href="#detailed-explanation-of-core-functions">Detailed Explanation of Core Functions</a>
+      <ol>
+        <li><a href="#intelligent-code-completion-tab">Intelligent Code Completion (Tab)</a></li>
+        <li><a href="#unified-ai-interface">Unified AI Interface</a>
+          <ol>
+            <li><a href="#ask-mode">Ask Mode</a></li>
+            <li><a href="#edit-mode">Edit Mode</a></li>
+            <li><a href="#agent-mode">Agent Mode</a></li>
+          </ol>
+        </li>
+        <li><a href="#context-management">Context Management</a></li>
+        <li><a href="#intelligent-debugging-and-error-fixing">Intelligent Debugging and Error Fixing</a></li>
+        <li><a href="#multi-language-support">Multi-Language Support</a></li>
+      </ol>
+    </li>
+    <li><a href="#advanced-usage-tips">Advanced Usage Tips</a>
+      <ol>
+        <li><a href="#code-refactoring">Code Refactoring</a></li>
+        <li><a href="#comment-generation-and-explanation">Comment Generation and Explanation</a></li>
+        <li><a href="#test-generation">Test Generation</a></li>
+        <li><a href="#custom-ai-rules">Custom AI Rules</a></li>
+      </ol>
+    </li>
+    <li><a href="#integration-and-workflow">Integration and Workflow</a>
+      <ol>
+        <li><a href="#integration-with-version-control-systems">Integration with Version Control Systems</a></li>
+        <li><a href="#team-collaboration-features">Team Collaboration Features</a></li>
+      </ol>
+    </li>
+    <li><a href="#environment-requirements-and-installation-guide">Environment Requirements and Installation Guide</a>
+      <ol>
+        <li><a href="#system-requirements">System Requirements</a></li>
+        <li><a href="#installation-steps">Installation Steps</a></li>
+        <li><a href="#configuration-options">Configuration Options</a>
+          <ol>
+            <li><a href="#cursor-specific-settings">Cursor Specific Settings</a></li>
+            <li><a href="#editor-settings">Editor Settings</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#comparison-of-cursor-with-other-editors">Comparison of Cursor with Other Editors</a>
+      <ol>
+        <li><a href="#vs-github-copilot">vs. GitHub Copilot</a></li>
+        <li><a href="#vs-traditional-ides-eg-vs-code-intellij">vs. Traditional IDEs (e.g., VS Code, IntelliJ)</a></li>
+      </ol>
+    </li>
+    <li><a href="#practical-application-scenarios">Practical Application Scenarios</a>
+      <ol>
+        <li><a href="#new-project-development">New Project Development</a></li>
+        <li><a href="#code-maintenance-and-refactoring">Code Maintenance and Refactoring</a></li>
+        <li><a href="#learning-new-technologies-or-frameworks">Learning New Technologies or Frameworks</a></li>
+        <li><a href="#debugging-complex-issues">Debugging Complex Issues</a></li>
+      </ol>
+    </li>
+    <li><a href="#advantages-and-limitations">Advantages and Limitations</a>
+      <ol>
+        <li><a href="#advantages">Advantages</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+      </ol>
+    </li>
+    <li><a href="#future-development-trends">Future Development Trends</a></li>
+    <li><a href="#summary-of-practical-tips">Summary of Practical Tips</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/ide/" >
+                IDE
+            </a>
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/mcp-client-cursor-ai-ide-a-revolutionary-intelligent-programming-tool/">MCP Client | Cursor AI IDE: A Revolutionary Intelligent Programming Tool</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Cursor is an intelligent programming tool integrated with advanced models like Claude AI, providing an unprecedented coding experience through the Model Context Protocol.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 27, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    9 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFcursor-ai-ide%E9%9D%A9%E5%91%BD%E6%80%A7%E7%9A%84%E6%99%BA%E8%83%BD%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <ul>
+<li>Cursor is a revolutionary intelligent programming tool that deeply integrates with advanced LLM models like Claude AI through Claude MCP, providing developers with an unprecedented coding experience.</li>
+<li>Cursor&rsquo;s core architecture is built on Visual Studio Code, retaining VS Code&rsquo;s familiar interface and operation logic while undergoing deep customization and enhancement.</li>
+<li>Cursor provides a unified AI interaction interface, integrating three working modes: Ask Mode, Edit Mode, and Agent Mode.</li>
+</ul>
+<p>Cursor is a revolutionary intelligent programming tool that deeply integrates with advanced LLM models like Claude AI through Claude MCP, providing developers with an unprecedented coding experience.
+homepage: <a class="link" href="https://www.cursor.com"  target="_blank" rel="noopener"
+    >https://www.cursor.com</a></p>
+<p><img src="https://mcp.programnotes.cn/images/cursor-ui.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Cursor AI IDE"
+	
+	
+></p>
+<h2 id="overview">Overview
+</h2><p>Cursor AI IDE is a revolutionary programming tool developed by Anysphere Inc. that deeply integrates with advanced artificial intelligence models like Claude AI through the Model Context Protocol (MCP), providing developers with an unprecedented coding experience. As an &ldquo;AI-first&rdquo; code editor, Cursor not only inherits all the advantages of traditional IDEs but also introduces powerful artificial intelligence capabilities to help developers significantly improve coding efficiency and quality.</p>
+<h2 id="core-technologies-and-architecture">Core Technologies and Architecture
+</h2><h3 id="basic-architecture">Basic Architecture
+</h3><p>Cursor&rsquo;s core architecture is built on Visual Studio Code, retaining VS Code&rsquo;s familiar interface and operation logic while undergoing deep customization and enhancement. This design enables VS Code users to seamlessly transition to Cursor while enjoying enhanced AI functionality.</p>
+<h3 id="ai-model-integration">AI Model Integration
+</h3><p>Cursor integrates multiple advanced AI models, including:</p>
+<ul>
+<li><strong>GPT-4</strong>: Provides powerful code generation and understanding capabilities</li>
+<li><strong>Anthropic Claude</strong>: Provides high-quality code suggestions and explanations through deep integration with the Model Context Protocol (MCP)</li>
+</ul>
+<h3 id="model-context-protocol-mcp">Model Context Protocol (MCP)
+</h3><p>The Model Context Protocol is a core technology component of Cursor that allows Cursor to efficiently exchange contextual information with AI models (such as Claude). MCP enables AI to:</p>
+<ul>
+<li>Understand the developer&rsquo;s entire code base structure</li>
+<li>Obtain file system information</li>
+<li>Analyze code dependencies</li>
+<li>Accurately grasp the code context</li>
+<li>Provide more precise suggestions and modifications</li>
+</ul>
+<p>This deep contextual awareness makes Cursor&rsquo;s AI suggestions far beyond traditional code completion functions, capable of understanding the overall structure and development intentions of the project.</p>
+<h2 id="detailed-explanation-of-core-functions">Detailed Explanation of Core Functions
+</h2><h3 id="intelligent-code-completion-tab">Intelligent Code Completion (Tab)
+</h3><p>Cursor&rsquo;s code completion function transcends traditional syntax-based completion and provides true intelligent completion:</p>
+<ul>
+<li><strong>Context-Aware Completion</strong>: Intelligent completion based on the current file, project structure, and coding history</li>
+<li><strong>Whole Block Code Generation</strong>: Able to generate complete functions, classes, and modules, not limited to single lines of code</li>
+<li><strong>Multi-Line Completion</strong>: Predicts and generates possible next lines of code, or even entire code blocks</li>
+<li><strong>Style Adaptation</strong>: Learns and adapts to the developer&rsquo;s coding style and preferences</li>
+<li><strong>Real-Time Suggestions</strong>: Provides intelligent suggestions in real-time during input</li>
+</ul>
+<p>Usage: By default, press the <code>Tab</code> key to accept the suggestion, and press the <code>Esc</code> key to reject it.</p>
+<h3 id="unified-ai-interface">Unified AI Interface
+</h3><p>Cursor provides a unified AI interaction interface, integrating three working modes:</p>
+<h4 id="ask-mode">Ask Mode
+</h4><ul>
+<li>Ask questions about specific code segments and get explanations</li>
+<li>Understand how complex functions work</li>
+<li>Find code patterns and examples</li>
+<li>Explore and understand the code base structure</li>
+</ul>
+<p>Usage: Use the shortcut <code>⌘I</code> (Mac) or <code>Ctrl+I</code> (Windows/Linux) to open the Composer, which defaults to Ask Mode.</p>
+<h4 id="edit-mode">Edit Mode
+</h4><ul>
+<li>Use natural language descriptions to make precise modifications to the code</li>
+<li>Implement single-turn code editing and optimization</li>
+<li>View and apply AI-suggested modifications</li>
+<li>Handle code changes within a single file</li>
+</ul>
+<p>Usage: Switch to Edit Mode in the Composer, or use the shortcut <code>⌘K</code> (Mac) or <code>Ctrl+K</code> (Windows/Linux).</p>
+<h4 id="agent-mode">Agent Mode
+</h4><p>As the default mode, Agent Mode provides the most powerful functionality:</p>
+<ul>
+<li>Implement code base-wide modifications and refactoring across files</li>
+<li>Implement new features from requirement descriptions</li>
+<li>Debug complex issues across multiple files</li>
+<li>Generate tests and documentation</li>
+<li>Maintain consistency throughout the project</li>
+</ul>
+<p>Usage: Default to Agent Mode, or switch manually in the Composer.</p>
+<h3 id="context-management">Context Management
+</h3><p>Cursor provides tools to precisely control the context accessible to AI:</p>
+<ul>
+<li><strong>Automatic Indexing</strong>: Automatically indexes code when opening the code base, making it available as context for AI</li>
+<li><strong>@ Symbol Control</strong>: Use special syntax to precisely control the context provided to AI
+<ul>
+<li><code>@files</code> and <code>@folders</code>: Specify specific paths</li>
+<li><code>@web</code>: Use external documents as context</li>
+<li><code>@git</code>: Provide version control context</li>
+</ul>
+</li>
+</ul>
+<h3 id="intelligent-debugging-and-error-fixing">Intelligent Debugging and Error Fixing
+</h3><ul>
+<li><strong>Error Prediction</strong>: Predict possible errors during coding and provide repair suggestions</li>
+<li><strong>Code Analysis</strong>: Deeply analyze code logic to discover potential issues</li>
+<li><strong>Real-Time Repair Suggestions</strong>: Provide intelligent repair options for detected errors</li>
+<li><strong>Exception Handling Suggestions</strong>: Recommend appropriate exception handling methods</li>
+</ul>
+<h3 id="multi-language-support">Multi-Language Support
+</h3><p>Cursor supports almost all mainstream programming languages, including but not limited to:</p>
+<ul>
+<li>JavaScript/TypeScript</li>
+<li>Python</li>
+<li>Java</li>
+<li>C/C++</li>
+<li>Go</li>
+<li>Rust</li>
+<li>PHP</li>
+<li>Ruby</li>
+<li>Swift</li>
+<li>Kotlin</li>
+</ul>
+<p>For each language, Cursor will provide language-specific intelligent suggestions and best practices.</p>
+<h2 id="advanced-usage-tips">Advanced Usage Tips
+</h2><h3 id="code-refactoring">Code Refactoring
+</h3><p>Use Agent Mode for complex code refactoring:</p>
+<ol>
+<li>Open the Composer (<code>⌘I</code>/<code>Ctrl+I</code>)</li>
+<li>Describe the refactoring you want to perform (e.g., &ldquo;decompose this single class into multiple classes that conform to the single responsibility principle&rdquo;)</li>
+<li>The Agent will analyze the code, suggest refactoring strategies, and execute the refactoring after confirmation</li>
+</ol>
+<h3 id="comment-generation-and-explanation">Comment Generation and Explanation
+</h3><p>Cursor can generate high-quality code comments:</p>
+<ol>
+<li>Select the code that needs to be commented</li>
+<li>Use <code>⌘K</code> (Mac) or <code>Ctrl+K</code> (Windows/Linux)</li>
+<li>Enter &ldquo;add detailed comments to this code&rdquo;</li>
+<li>Cursor will generate professional comments that conform to the project style</li>
+</ol>
+<h3 id="test-generation">Test Generation
+</h3><p>Automatically generate test code:</p>
+<ol>
+<li>Select the function or class to be tested</li>
+<li>In the Composer, request &ldquo;generate unit tests for this function&rdquo;</li>
+<li>Cursor will analyze the function behavior and generate appropriate test cases</li>
+</ol>
+<h3 id="custom-ai-rules">Custom AI Rules
+</h3><p>You can customize the behavior of AI by defining rules:</p>
+<ol>
+<li>Create a <code>.cursorignore</code> file in the project root directory to define files to be ignored</li>
+<li>Use &ldquo;Rules for AI&rdquo; in Cursor settings to customize the behavior of the AI assistant (e.g., coding style, comment format, etc.)</li>
+</ol>
+<h2 id="integration-and-workflow">Integration and Workflow
+</h2><h3 id="integration-with-version-control-systems">Integration with Version Control Systems
+</h3><p>Cursor seamlessly integrates with version control systems such as Git:</p>
+<ul>
+<li><strong>Intelligent Commit Messages</strong>: Automatically generate descriptive commit messages</li>
+<li><strong>Change Analysis</strong>: Analyze code changes before committing</li>
+<li><strong>Conflict Resolution</strong>: Assist in resolving merge conflicts</li>
+</ul>
+<h3 id="team-collaboration-features">Team Collaboration Features
+</h3><p>Cursor provides features to enhance team collaboration:</p>
+<ul>
+<li><strong>Code Review Assistance</strong>: Analyze code changes and provide review suggestions</li>
+<li><strong>Consistency Checks</strong>: Ensure consistent code style within the team</li>
+<li><strong>Knowledge Sharing</strong>: Help new team members understand the code base through AI assistance</li>
+</ul>
+<h2 id="environment-requirements-and-installation-guide">Environment Requirements and Installation Guide
+</h2><h3 id="system-requirements">System Requirements
+</h3><ul>
+<li><strong>Windows</strong>: Windows 10 or higher (64-bit)</li>
+<li><strong>macOS</strong>: macOS 10.15 Catalina or higher</li>
+<li><strong>Linux</strong>: Various mainstream distributions, requiring glibc 2.28 or higher</li>
+<li><strong>Recommended Configuration</strong>:
+<ul>
+<li>8GB+ RAM</li>
+<li>Multi-core processor</li>
+<li>SSD storage</li>
+<li>Stable internet connection</li>
+</ul>
+</li>
+</ul>
+<h3 id="installation-steps">Installation Steps
+</h3><ol>
+<li>Visit the <a class="link" href="https://www.cursor.com"  target="_blank" rel="noopener"
+    >Cursor Official Website</a> to download the installation package suitable for your system</li>
+<li>Run the installer and follow the wizard to complete the installation</li>
+<li>Log in or create an account when launching for the first time</li>
+<li>Configure preferences and AI model settings</li>
+</ol>
+<h3 id="configuration-options">Configuration Options
+</h3><p>Cursor provides two configuration methods:</p>
+<h4 id="cursor-specific-settings">Cursor Specific Settings
+</h4><p>Access through the following methods:</p>
+<ul>
+<li>Click the gear icon</li>
+<li>Use the shortcut <code>Cmd/Ctrl + Shift + J</code></li>
+<li>Search for &ldquo;Cursor Settings&rdquo; in the command palette</li>
+</ul>
+<p>Here you can configure AI functions and Cursor-specific preferences.</p>
+<h4 id="editor-settings">Editor Settings
+</h4><p>Access via the command palette (<code>Cmd/Ctrl + Shift + P</code>) &gt; &ldquo;Preferences: Open Settings (UI)&rdquo;.
+Here you can adjust editor behavior and appearance, similar to VS Code settings.</p>
+<h2 id="comparison-of-cursor-with-other-editors">Comparison of Cursor with Other Editors
+</h2><h3 id="vs-github-copilot">vs. GitHub Copilot
+</h3><ul>
+<li><strong>Context Understanding</strong>: Cursor has stronger context understanding capabilities, not limited to the current file</li>
+<li><strong>Interaction Mode</strong>: Cursor provides richer interaction modes (Ask, Edit, Agent)</li>
+<li><strong>AI Model</strong>: Cursor supports multiple AI models, including GPT-4 and Claude</li>
+<li><strong>Customization Ability</strong>: Cursor provides more AI behavior customization options</li>
+</ul>
+<h3 id="vs-traditional-ides-eg-vs-code-intellij">vs. Traditional IDEs (e.g., VS Code, IntelliJ)
+</h3><ul>
+<li><strong>AI Integration Degree</strong>: Cursor treats AI as a core function, not an additional plugin</li>
+<li><strong>Code Generation</strong>: Cursor provides more comprehensive code generation capabilities</li>
+<li><strong>Natural Language Interaction</strong>: Supports using natural language for code modification and querying</li>
+<li><strong>Basic Functions</strong>: Retains all the core functions of traditional IDEs</li>
+</ul>
+<h2 id="practical-application-scenarios">Practical Application Scenarios
+</h2><h3 id="new-project-development">New Project Development
+</h3><ol>
+<li>Use Cursor to quickly build the project skeleton</li>
+<li>Generate basic code structure from natural language descriptions</li>
+<li>Use AI-provided suggestions to optimize code design</li>
+</ol>
+<h3 id="code-maintenance-and-refactoring">Code Maintenance and Refactoring
+</h3><ol>
+<li>Use Agent Mode to analyze legacy code</li>
+<li>Obtain explanations of code structure and functions</li>
+<li>Guide AI to perform modern refactoring</li>
+</ol>
+<h3 id="learning-new-technologies-or-frameworks">Learning New Technologies or Frameworks
+</h3><ol>
+<li>Ask about how to use a specific technology or framework</li>
+<li>Obtain sample code and implementation suggestions</li>
+<li>Deeply understand technical details through interaction with AI</li>
+</ol>
+<h3 id="debugging-complex-issues">Debugging Complex Issues
+</h3><ol>
+<li>Describe the encountered problem and phenomena</li>
+<li>Let Cursor analyze possible causes</li>
+<li>Get debugging suggestions and solutions</li>
+</ol>
+<h2 id="advantages-and-limitations">Advantages and Limitations
+</h2><h3 id="advantages">Advantages
+</h3><ul>
+<li><strong>Significantly Improved Productivity</strong>: Developers report a more than 2x increase in productivity after using Cursor</li>
+<li><strong>Improved Code Quality</strong>: AI suggestions usually follow best practices, reducing common errors</li>
+<li><strong>Reduced Learning Curve</strong>: Learning new technologies and complex code bases becomes easier</li>
+<li><strong>Reduced Repetitive Work</strong>: Automate the processing of boilerplate code and repetitive tasks</li>
+</ul>
+<h3 id="limitations">Limitations
+</h3><ul>
+<li><strong>Reliance on Internet Connection</strong>: Many AI features require a network connection to work</li>
+<li><strong>Resource Consumption</strong>: Consumes more system resources than ordinary editors</li>
+<li><strong>Accuracy of AI Suggestions</strong>: Although very powerful, AI suggestions are not always 100% accurate</li>
+<li><strong>Learning Cost of Advanced Functions</strong>: Mastering all advanced functions requires a certain learning investment</li>
+</ul>
+<h2 id="future-development-trends">Future Development Trends
+</h2><p>The Cursor team continues to improve and expand product functionality, with future development directions including:</p>
+<ul>
+<li><strong>Enhanced Offline Functionality</strong>: Reduce dependence on cloud AI</li>
+<li><strong>Deeper Project Understanding</strong>: Improve understanding of large code bases</li>
+<li><strong>More Professional Support for Languages and Frameworks</strong>: Optimization for specific technology stacks</li>
+<li><strong>Advanced Team Collaboration Features</strong>: Enhance the team development experience</li>
+<li><strong>Integration with More Development Tools</strong>: Expand the ecosystem</li>
+</ul>
+<h2 id="summary-of-practical-tips">Summary of Practical Tips
+</h2><ol>
+<li><strong>Use @ Tags to Precisely Control Context</strong>: For example, <code>@files=src/main.js</code> limits specific files as context</li>
+<li><strong>Utilize Shortcuts</strong>: Master key shortcuts such as <code>⌘I</code>/<code>Ctrl+I</code> (Composer) and <code>⌘K</code>/<code>Ctrl+K</code> (Edit Mode)</li>
+<li><strong>Combine Different Modes</strong>: Flexibly switch between Ask, Edit, and Agent modes, selecting the appropriate interaction method based on task complexity</li>
+<li><strong>Customize AI Rules</strong>: Set specific AI behavior rules based on project requirements</li>
+<li><strong>Use the Notepad Function</strong>: Utilize the built-in Notepad (Beta) for temporary storage of ideas and code snippets</li>
+<li><strong>Optimize Prompts</strong>: Learn how to write effective prompts to obtain more accurate AI responses</li>
+</ol>
+<h2 id="conclusion">Conclusion
+</h2><p>Cursor AI IDE represents the future development direction of code editors. It is not just an editor with AI functions, but a revolutionary tool that deeply integrates artificial intelligence into the development process. By combining the Model Context Protocol with advanced AI models, Cursor provides an unprecedented coding experience, allowing developers to focus on creative work and leave tedious tasks to the AI assistant.</p>
+<p>Whether you are an experienced developer or a programming novice, Cursor can provide significant productivity improvements and learning assistance, representing a new era in software development tools. As AI technology continues to advance, we can expect Cursor to bring more innovative features in the future, further changing the way we code.</p>
+<p><a class="link" href="https://docs.cursor.com/get-started/introduction"  target="_blank" rel="noopener"
+    >Learn more about Cursor</a></p>
+<p><a class="link" href="https://www.cursor.com"  target="_blank" rel="noopener"
+    >Visit the Cursor Official Website</a></p>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/ai-ide/">AI IDE</a>
+        
+            <a href="/en/tags/intelligent-programming/">Intelligent Programming</a>
+        
+            <a href="/en/tags/code-completion/">Code Completion</a>
+        
+            <a href="/en/tags/cursor/">Cursor</a>
+        
+            <a href="/en/tags/claude-ai/">Claude AI</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/en/p/jina-ai-remote-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jina AI Remote MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Introducing MCP-Scan: Protecting MCP with Invariant</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/mcp-client-claude-desktop-application/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client | Claude Desktop Application</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-clientapify-beta/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client|Apify Beta</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

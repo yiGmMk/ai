@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>AI 智能体 on AI</title>
+        <link>https://ai.programnotes.cn/tags/ai-%E6%99%BA%E8%83%BD%E4%BD%93/</link>
+        <description>Recent content in AI 智能体 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Tue, 20 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/ai-%E6%99%BA%E8%83%BD%E4%BD%93/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>A2A 协议与 MCP 协议：智能代理生态系统的双轮驱动</title>
+        <link>https://ai.programnotes.cn/p/a2a-%E5%8D%8F%E8%AE%AE%E4%B8%8E-mcp-%E5%8D%8F%E8%AE%AE%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8C%E8%BD%AE%E9%A9%B1%E5%8A%A8/</link>
+        <pubDate>Tue, 20 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/a2a-%E5%8D%8F%E8%AE%AE%E4%B8%8E-mcp-%E5%8D%8F%E8%AE%AE%E6%99%BA%E8%83%BD%E4%BB%A3%E7%90%86%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%8C%E8%BD%AE%E9%A9%B1%E5%8A%A8/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;：实现不同供应商的 AI 智能体之间的互操作性，打造代理间的沟通桥梁。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;：标准化 AI 应用与外部工具、数据源和服务的交互方式，减少 AI 开发中的碎片化问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;协同作用&lt;/strong&gt;：A2A 协议解决代理之间的交互，MCP 协议解决代理与外部工具的交互，共同构建智能代理生态系统。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A2A 和 MCP 两种协议正在塑造智能体系统的未来。本文将探讨 A2A 协议与 MCP 协议的特点、区别及协同作用，帮助开发者和产品设计师更好地理解这一新兴技术领域。&lt;/p&gt;
+&lt;p&gt;在 AI 快速发展的今天，代理技术（Agent）正在成为下一个重要的技术浪潮。为了解决 AI 之间的交流与协作问题，两个重要的协议标准应运而生：Google 的 &lt;a class=&#34;link&#34; href=&#34;https://www.a2aprotocol.net&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;A2A（Agent-to-Agent）协议&lt;/a&gt; 和 Anthropic 的 &lt;a class=&#34;link&#34; href=&#34;https://ai.programnotes.cn/&#34; &gt;MCP（Model Context Protocol）协议&lt;/a&gt;。这两个协议从不同角度解决了 AI 智能体系统中的关键挑战，共同构建起未来 AI 智能体生态系统的基础架构。&lt;/p&gt;
+&lt;p&gt;本文将探讨&lt;strong&gt;A2A 协议&lt;/strong&gt;与&lt;strong&gt;MCP 协议&lt;/strong&gt;的特点、区别及协同作用，帮助开发者和产品设计师更好地理解这一新兴技术领域。&lt;/p&gt;
+&lt;h2 id=&#34;a2a-协议打造代理间的沟通桥梁&#34;&gt;A2A 协议：打造代理间的沟通桥梁
+&lt;/h2&gt;&lt;h3 id=&#34;a2a-协议的核心概念&#34;&gt;A2A 协议的核心概念
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;是由 Google 与 50 多家行业合作伙伴共同开发的开放协议，旨在实现不同供应商的 AI 智能体之间的互操作性。无论这些代理是谁构建的、在哪里托管或使用什么框架，&lt;strong&gt;A2A 协议&lt;/strong&gt;都能使它们无缝协作。&lt;/p&gt;
+&lt;h3 id=&#34;a2a-协议的技术实现&#34;&gt;A2A 协议的技术实现
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;采用**JSON-RPC 2.0 over HTTP(S)&lt;strong&gt;作为通信机制，并支持&lt;/strong&gt;Server-Sent Events (SSE)**进行实时更新流。这种设计使得不同平台上的代理能够高效地交换信息。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;flowchart LR
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A[Client Agent] --&amp;gt;|发送任务请求| B[Remote Agent]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    B --&amp;gt;|返回任务结果| A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    A --&amp;gt;|能力发现| C[Agent Card]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    C --&amp;gt;|能力匹配| A
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;a2a-协议的通信模型&#34;&gt;A2A 协议的通信模型
+&lt;/h3&gt;&lt;p&gt;在&lt;strong&gt;A2A 协议&lt;/strong&gt;中，定义了两种代理角色：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Client Agent&lt;/strong&gt;：发起请求或任务&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Remote Agent&lt;/strong&gt;：接收请求并尝试完成任务&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;通信过程首先可能涉及&lt;strong&gt;能力发现（Capability Discovery）&lt;/strong&gt;，以确定哪个代理最适合执行特定任务。&lt;/p&gt;
+&lt;h3 id=&#34;智能体卡片与能力发现&#34;&gt;智能体卡片与能力发现
+&lt;/h3&gt;&lt;p&gt;每个智能体可以发布&lt;strong&gt;智能体卡片（Agent Card）&lt;/strong&gt; — 一个 JSON 元数据文档，通常托管在标准 URL（如&lt;code&gt;/.well-known/agent.json&lt;/code&gt;）。智能体卡片描述了该智能体的功能、技能、API 端点和身份验证要求。&lt;/p&gt;
+&lt;p&gt;客户端智能体通过阅读智能体卡片，可以识别出最适合当前任务的合作伙伴智能体。&lt;/p&gt;
+&lt;h3 id=&#34;任务管理机制&#34;&gt;任务管理机制
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;中的所有交互都围绕执行任务展开。任务是由协议定义的结构化对象，包含请求详情并跟踪其状态。结果以 &lt;strong&gt;Artifacts&lt;/strong&gt; 的形式返回，智能体可以在执行过程中发送结构化**消息（Messages）**进行协调或澄清。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sequenceDiagram
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant 用户
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant Client Agent
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant Remote Agent
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    用户-&amp;gt;&amp;gt;Client Agent: 提出需求
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Client Agent-&amp;gt;&amp;gt;Remote Agent: 发送任务请求
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Remote Agent-&amp;gt;&amp;gt;Remote Agent: 处理任务
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Remote Agent--&amp;gt;&amp;gt;Client Agent: 实时状态更新(SSE)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Remote Agent-&amp;gt;&amp;gt;Client Agent: 返回任务 Artifacts
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Client Agent-&amp;gt;&amp;gt;用户: 呈现结果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;mcp-协议模型与外部世界的连接器&#34;&gt;MCP 协议：模型与外部世界的连接器
+&lt;/h2&gt;&lt;h3 id=&#34;mcp-协议的基本框架&#34;&gt;MCP 协议的基本框架
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;（Model Context Protocol）是 Anthropic 开发的开放协议，旨在标准化 AI 应用（如聊天机器人、代理和 IDE）与外部工具、数据源和服务的交互方式。它通过提供统一的接口来整合上下文信息，从而减少 AI 开发中的碎片化问题。&lt;/p&gt;
+&lt;h3 id=&#34;mcp-协议的核心组件&#34;&gt;MCP 协议的核心组件
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;包含三个关键组件：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;工具（Tools）&lt;/strong&gt;：模型控制的动作（如获取数据、写入数据库）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;资源（Resources）&lt;/strong&gt;：应用控制的数据（如文件、JSON、附件）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提示（Prompts）&lt;/strong&gt;：用户控制的预定义模板（如 IDE 中的斜杠命令）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;mcp-协议的价值与意义&#34;&gt;MCP 协议的价值与意义
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;带来的主要价值包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;减少碎片化&lt;/strong&gt;：提供标准方式连接 AI 应用与工具和数据，避免团队构建自定义集成&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实现组合性&lt;/strong&gt;：代理和应用可以动态发现和使用新工具，无需预编程&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;支持企业工作流&lt;/strong&gt;：团队可以拥有特定服务并通过&lt;strong&gt;MCP 协议&lt;/strong&gt;暴露给其他团队使用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;mcp-协议的应用场景&#34;&gt;MCP 协议的应用场景
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;已在多个领域得到应用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IDE（如 Cursor、Zed）&lt;/strong&gt;：使用&lt;strong&gt;MCP 协议&lt;/strong&gt;引入代码上下文、GitHub 问题和文档&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代理&lt;/strong&gt;：自主调用工具（如搜索网络、查询数据库）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;远程服务器与 OAuth&lt;/strong&gt;：支持远程&lt;strong&gt;MCP 协议&lt;/strong&gt;服务器和安全认证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;a2a-协议与-mcp-协议的协同与区别&#34;&gt;A2A 协议与 MCP 协议的协同与区别
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://uploads.strapi.logto.io/a2a_mcp_4155b038ac.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片来源：https://google.github.io/A2A/#/topics/a2a_and_mcp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;两种协议的功能定位&#34;&gt;两种协议的功能定位
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;与&lt;strong&gt;MCP 协议&lt;/strong&gt;解决了 AI 智能体生态系统中不同层面的挑战：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;：解决代理之间如何互相交互（水平集成）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;：解决代理如何与工具或外部上下文交互（垂直集成）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;功能互补性分析&#34;&gt;功能互补性分析
+&lt;/h3&gt;&lt;p&gt;这两种协议相互补充，共同解决构建多代理、多 LLM 和多源上下文系统的核心挑战：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;专注于代理之间的标准化通信（代理到代理）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP 协议&lt;/strong&gt;专注于代理与外部工具和系统的交互（代理到工具）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;协议生态系统的未来展望&#34;&gt;协议生态系统的未来展望
+&lt;/h3&gt;&lt;p&gt;随着&lt;strong&gt;A2A 协议&lt;/strong&gt;和&lt;strong&gt;MCP 协议&lt;/strong&gt;的普及，我们可以预见：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;MCP 服务器&lt;/strong&gt;的增长：各种服务提供商可能会提供特定功能的&lt;strong&gt;MCP 服务器&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;智能体网络&lt;/strong&gt;的形成：智能体可以通过&lt;strong&gt;A2A 协议&lt;/strong&gt;组成协作网络，分工合作&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工作流自动化&lt;/strong&gt;的进化：复杂任务可以被分解并由多个专业智能体协作完成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;实际应用a2a-协议与-mcp-协议的协同使用场景&#34;&gt;实际应用：A2A 协议与 MCP 协议的协同使用场景
+&lt;/h2&gt;&lt;h3 id=&#34;企业应用场景&#34;&gt;企业应用场景
+&lt;/h3&gt;&lt;p&gt;在企业环境中，&lt;strong&gt;A2A 协议&lt;/strong&gt;和&lt;strong&gt;MCP 协议&lt;/strong&gt;可以协同工作，实现复杂的自动化场景：&lt;/p&gt;
+&lt;h4 id=&#34;招聘流程自动化&#34;&gt;招聘流程自动化
+&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;招聘经理的智能体（使用&lt;strong&gt;MCP 协议&lt;/strong&gt;访问公司数据库）确定招聘需求&lt;/li&gt;
+&lt;li&gt;通过&lt;strong&gt;A2A 协议&lt;/strong&gt;，该智能体与专业的人才搜索智能体协作&lt;/li&gt;
+&lt;li&gt;人才搜索智能体（通过&lt;strong&gt;MCP 协议&lt;/strong&gt;）访问 LinkedIn 等平台获取人才信息&lt;/li&gt;
+&lt;li&gt;面试安排智能体通过&lt;strong&gt;A2A 协议&lt;/strong&gt;接收任务，并使用&lt;strong&gt;MCP 协议&lt;/strong&gt;与日历系统交互&lt;/li&gt;
+&lt;li&gt;背景调查智能体通过类似方式完成其任务&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sequenceDiagram
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant 经理智能体
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant 搜索智能体
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant 安排智能体
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    participant 调查智能体
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    经理智能体-&amp;gt;&amp;gt;经理智能体: 使用MCP访问需求数据
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    经理智能体-&amp;gt;&amp;gt;搜索智能体: A2A请求搜索候选人
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    搜索智能体-&amp;gt;&amp;gt;搜索智能体: 使用MCP访问招聘平台
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    搜索智能体-&amp;gt;&amp;gt;经理智能体: 返回候选人名单
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    经理智能体-&amp;gt;&amp;gt;安排智能体: A2A请求安排面试
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    安排智能体-&amp;gt;&amp;gt;安排智能体: 使用MCP访问日历系统
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    安排智能体-&amp;gt;&amp;gt;经理智能体: 返回面试安排
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    经理智能体-&amp;gt;&amp;gt;调查智能体: A2A请求背景调查
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    调查智能体-&amp;gt;&amp;gt;调查智能体: 使用MCP访问验证系统
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    调查智能体-&amp;gt;&amp;gt;经理智能体: 返回调查结果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;消费者应用场景&#34;&gt;消费者应用场景
+&lt;/h3&gt;&lt;p&gt;在消费者领域，两种协议的结合同样能带来全新的用户体验：&lt;/p&gt;
+&lt;h4 id=&#34;旅行规划助手&#34;&gt;旅行规划助手
+&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;用户的个人助理智能体（通过&lt;strong&gt;MCP 协议&lt;/strong&gt;访问用户数据）收集旅行偏好&lt;/li&gt;
+&lt;li&gt;该智能体使用&lt;strong&gt;A2A 协议&lt;/strong&gt;与专业旅行代理协作&lt;/li&gt;
+&lt;li&gt;旅行智能体通过&lt;strong&gt;MCP 协议&lt;/strong&gt;访问航班、酒店和景点数据&lt;/li&gt;
+&lt;li&gt;通过&lt;strong&gt;A2A 协议&lt;/strong&gt;，预算管理智能体参与规划财务安排&lt;/li&gt;
+&lt;li&gt;最终计划通过&lt;strong&gt;MCP 协议&lt;/strong&gt;被整合到用户的日历和旅行应用中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;开发者注意事项集成-a2a-协议与-mcp-协议&#34;&gt;开发者注意事项：集成 A2A 协议与 MCP 协议
+&lt;/h2&gt;&lt;h3 id=&#34;安全性考量&#34;&gt;安全性考量
+&lt;/h3&gt;&lt;p&gt;在实现&lt;strong&gt;A2A 协议&lt;/strong&gt;和&lt;strong&gt;MCP 协议&lt;/strong&gt;时，开发者需要特别注意安全性问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;身份验证与授权&lt;/strong&gt;：代理将代表用户行动，凭证必须在整个流程中得到保护&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多身份联合&lt;/strong&gt;：用户可能需要为不同系统提供不同身份&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;权限范围控制&lt;/strong&gt;：确保代理只能访问必要的资源&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;实施路径建议&#34;&gt;实施路径建议
+&lt;/h3&gt;&lt;p&gt;对于希望采用这些协议的开发者，建议以下实施路径：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先实现&lt;strong&gt;MCP 协议&lt;/strong&gt;集成，使代理能够访问工具和上下文&lt;/li&gt;
+&lt;li&gt;然后实现&lt;strong&gt;A2A 协议&lt;/strong&gt;支持，使代理能够与其他代理协作&lt;/li&gt;
+&lt;li&gt;创建代理卡片，明确声明代理的能力和服务边界&lt;/li&gt;
+&lt;li&gt;设计适当的用户界面，使用户能够控制代理行为和授权范围&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;结论a2a-协议与-mcp-协议共同构建的未来&#34;&gt;结论：A2A 协议与 MCP 协议共同构建的未来
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;A2A 协议&lt;/strong&gt;和&lt;strong&gt;MCP 协议&lt;/strong&gt;代表了 AI 智能体技术的重要进步，它们共同为更智能、更协作的代理生态系统奠定了基础。这些协议不仅仅是技术规范，更是新一代 AI 应用架构的基石。&lt;/p&gt;
+&lt;p&gt;随着这些协议的成熟和广泛采用，我们将看到：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;AI 智能体能力的显著增强，从单一功能走向复杂协作&lt;/li&gt;
+&lt;li&gt;跨平台、跨供应商的 AI 智能体协作成为常态&lt;/li&gt;
+&lt;li&gt;新型应用和服务模式的出现，重新定义用户与 AI 的交互方式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于开发者和企业来说，了解并采用&lt;strong&gt;A2A 协议&lt;/strong&gt;和&lt;strong&gt;MCP 协议&lt;/strong&gt;将是把握 AI 智能体技术浪潮的关键一步。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP客户端|Apify 测试版</title>
+        <link>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</link>
+        <pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFapify-%E6%B5%8B%E8%AF%95%E7%89%88/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" alt="Featured image of post MCP客户端|Apify 测试版" /&gt;&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 SSE 协议连接 MCP 服务器，实现与 Apify 执行器的交互。&lt;/li&gt;
+&lt;li&gt;提供类聊天界面，展示工具调用与结果。&lt;/li&gt;
+&lt;li&gt;客户端完全免费，仅需支付 LLM 服务商使用费和 Apify 平台资源消耗费。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;该客户端将 AI 智能体接入 Apify 生态系统中 5000+个网页抓取与自动化执行器（Actors），支持从网站、社交媒体、搜索引擎及地图中提取数据。&lt;/p&gt;
+&lt;h2 id=&#34;-核心功能&#34;&gt;🚀 核心功能
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;🔌 通过服务器推送事件(SSE)连接 MCP 服务器&lt;/li&gt;
+&lt;li&gt;💬 提供类聊天界面展示工具调用与结果&lt;/li&gt;
+&lt;li&gt;🇦 连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify MCP 服务器&lt;/a&gt;以调用多个 Apify 执行器&lt;/li&gt;
+&lt;li&gt;💥 根据上下文动态选用工具（需服务器支持）&lt;/li&gt;
+&lt;li&gt;🔓 采用授权头与 API 密钥保障安全连接&lt;/li&gt;
+&lt;li&gt;🪟 开源项目，可审查代码或提交改进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-功能场景&#34;&gt;🎯 功能场景
+&lt;/h2&gt;&lt;p&gt;连接&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;执行器-MCP-服务器&lt;/a&gt;后，您可通过交互式聊天界面：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询&amp;quot;最受欢迎的社交媒体抓取执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;获取&amp;quot;Instagram 爬虫最佳使用方案&amp;quot;&lt;/li&gt;
+&lt;li&gt;咨询&amp;quot;提取 LinkedIn 数据该选用哪个执行器&amp;quot;&lt;/li&gt;
+&lt;li&gt;了解&amp;quot;如何抓取谷歌搜索结果&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;客户端界面截图&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-工作原理&#34;&gt;📖 工作原理
+&lt;/h2&gt;&lt;p&gt;客户端通过 SSE 协议连接 MCP 服务器并实现以下功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过&lt;code&gt;/sse&lt;/code&gt;端点建立 SSE 连接&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;POST /message&lt;/code&gt;发送用户查询&lt;/li&gt;
+&lt;li&gt;实时接收流式响应（通过&lt;code&gt;GET /sse&lt;/code&gt;），内容可能包含：
+&lt;ul&gt;
+&lt;li&gt;大语言模型输出&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具调用&lt;/strong&gt;模块&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;根据响应协调工具调用并展示对话流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-使用方式&#34;&gt;⚙️ 使用方式
+&lt;/h2&gt;&lt;h3 id=&#34;标准模式apify-平台&#34;&gt;标准模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;在 Apify 平台运行客户端并连接任意支持 SSE 的 MCP 服务器。通过 UI 或 API 配置以下参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP 服务器 URL&lt;/li&gt;
+&lt;li&gt;系统提示词&lt;/li&gt;
+&lt;li&gt;API 密钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行后日志将生成动态访问链接（每次运行不同）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;INFO  请访问 https://......runs.apify.net 与MCP服务器交互
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;待机模式apify-平台&#34;&gt;待机模式（Apify 平台）
+&lt;/h3&gt;&lt;p&gt;开发中 🚧&lt;/p&gt;
+&lt;h2 id=&#34;-计费方案&#34;&gt;💰 计费方案
+&lt;/h2&gt;&lt;p&gt;客户端完全免费，仅需支付：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM 服务商使用费&lt;/li&gt;
+&lt;li&gt;Apify 平台资源消耗费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;采用&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费&lt;/a&gt;模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;执行器启动费（按 128MB 内存单元计费）&lt;/li&gt;
+&lt;li&gt;运行时长费（每 5 分钟/128MB 单元计费）&lt;/li&gt;
+&lt;li&gt;查询应答费（根据模型计费，自带 API 密钥可免除）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用自有 LLM 密钥时，128MB 内存运行 1 小时约$0.06。
+Apify 免费版（无需信用卡 💳）每月可运行 80 小时——充分满足测试需求！&lt;/p&gt;
+&lt;h2 id=&#34;-技术架构&#34;&gt;📖 技术架构
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;浏览器 ← (SSE) → 测试客户端 ← (SSE) → MCP服务器
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该链路将定制化桥接逻辑封装在客户端内，保持 MCP 服务器纯净。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;访问&lt;code&gt;https://tester-mcp-client.apify.actor?token=API密钥&lt;/code&gt;（本地开发则用 http://localhost:3000）&lt;/li&gt;
+&lt;li&gt;从&lt;code&gt;public/&lt;/code&gt;目录加载&lt;code&gt;index.html&lt;/code&gt;和&lt;code&gt;client.js&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;浏览器通过&lt;code&gt;GET /sse&lt;/code&gt;建立 SSE 流&lt;/li&gt;
+&lt;li&gt;用户查询通过&lt;code&gt;POST /message&lt;/code&gt;提交&lt;/li&gt;
+&lt;li&gt;查询处理流程：
+&lt;ul&gt;
+&lt;li&gt;调用大语言模型&lt;/li&gt;
+&lt;li&gt;按需调用工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;sseEmit(role, content)&lt;/code&gt;返回分块结果&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;本地开发&#34;&gt;本地开发
+&lt;/h3&gt;&lt;p&gt;客户端已开源至&lt;a class=&#34;link&#34; href=&#34;https://github.com/apify/rag-web-browser&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;，可按需修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/apify/tester-mcp-client.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; tester-mcp-client
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;参照&lt;code&gt;.env.example&lt;/code&gt;创建配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;APIFY_TOKEN=您的令牌
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LLM_PROVIDER_API_KEY=您的密钥
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行开发服务器：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;访问&lt;a class=&#34;link&#34; href=&#34;http://localhost:3000&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://localhost:3000&lt;/a&gt;即可开始测试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;祝您与 Apify 执行器畅快对话！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;-注意事项&#34;&gt;ⓘ 注意事项
+&lt;/h2&gt;&lt;p&gt;当前版本暂不支持：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Prompts 和 Resource 等 MCP 高级功能&lt;/li&gt;
+&lt;li&gt;对话历史存储（刷新页面将清空记录）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考资源&#34;&gt;参考资源
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;模型上下文协议&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://apify.com/apify/actors-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apify 执行器 MCP 服务器&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.apify.com/sdk/js/docs/guides/pay-per-event&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;按事件计费说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-are-ai-agents/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI 智能体详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.apify.com/what-is-model-context-protocol/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 协议核心价值&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

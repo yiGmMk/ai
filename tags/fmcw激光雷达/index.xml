@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>FMCW激光雷达 on AI</title>
+        <link>https://ai.programnotes.cn/tags/fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/</link>
+        <description>Recent content in FMCW激光雷达 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sat, 13 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家</title>
+        <link>https://ai.programnotes.cn/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/</link>
+        <pubDate>Sat, 13 Apr 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/1.5%E4%B8%87%E5%AD%97%E5%88%9D%E6%8E%A2%E8%BD%A6%E8%BD%BD%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E7%BB%88%E6%9E%81%E5%BD%A2%E6%80%81fmcw%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%9A%84%E5%8E%9F%E7%90%86%E4%BC%98%E5%8A%BF%E6%96%B9%E6%A1%88%E5%92%8C%E7%8E%A9%E5%AE%B6/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png" alt="Featured image of post 1.5万字初探：车载激光雷达的终极形态——FMCW激光雷达的原理、优势、方案和玩家" /&gt;&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  雪岭飞花  雪岭飞花   2024-04-13 21:32&lt;/p&gt;
+&lt;h2 id=&#34;01-前言&#34;&gt;01 前言
+&lt;/h2&gt;&lt;p&gt;激光雷达可能大家比较熟悉，但是“FMCW激光雷达”可能对许多朋友来说会比较陌生。&lt;/p&gt;
+&lt;p&gt;本文介绍FMCW激光雷达的基本原理、主要优势、系统方案、以及目前布局FMCW激光雷达的主要公司和产品。&lt;/p&gt;
+&lt;p&gt;下图从左到右，分别是普通毫米波雷达，4D成像毫米波雷达，常规激光雷达和FMCW激光雷达的点云对比。（常规激光雷达是指目前量产的采用dToF技术的半固态激光雷达）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c4b8cfd1f215c2623c40ac26495c9979.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;红色点：没有速度的反射点；其他颜色的点：有不同速度的反射点&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;可以看到，相对于毫米波雷达，&lt;br&gt;
+FMCW激光雷达有更高的点云密度，相对于常规激光雷达，&lt;br&gt;
+FMCW激光雷达每个点增加了速度信息。从某种意义上说，&lt;br&gt;
+FMCW激光雷达结合了毫米波雷达和常规激光雷达的优势。&lt;/p&gt;
+&lt;p&gt;做一个不太严谨的比喻：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2d70d29eab8ceb0412bf960e5dbdc2ee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;根据业内专家比较一致的观点，&lt;br&gt;
+&lt;strong&gt;FMCW激光雷达会是车载激光雷达的终极形态。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;02-基本原理&#34;&gt;02 基本原理
+&lt;/h2&gt;&lt;p&gt;激光雷达一般常见的分类方法是按照扫描方式来分，例如可以分为机械式、半固态和全固态。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/603fd6b847484e4f6876736551ff73da.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;除了按照扫描方式来分，还有一种不太常见的分类方法，&lt;br&gt;
+即按照按照测量方式来分，激光雷达可以分为dToF激光雷达和iToF激光雷达。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;dToF（Direct Time of Flight，直接飞行时间）：通过直接测量发射激光与回波的信号的时间差，基于光在空气中的传播速度得到目标物体的距离信息，具有响应速度快，探测精度高的优势。dToF方案技术成熟度高，成本相对低，该方案是目前量产激光雷达使用的主要方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;iToF（Indirect Time of Flight，间接飞行时间）：将发射激光的频率或者相位进行调制，通过回波信号与参考光进行相干拍频得到频率差或者相位差，从而间接获得飞行时间计算出目标距离。其中，使用调制频率技术的激光雷达，被称为FMCW激光雷达（Frequency Modulated Continuous Wave，调频连续波）。使用调制相位技术的激光雷达，被称为PMCW激光雷达（Phase Modulated Continuous Wave，调相连续波）。&lt;br&gt;
+FMCW激光雷达是iToF激光雷达最常见的形式。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;为了表述方便，dToF激光雷达在下文中采用“ToF雷达”、“ToF激光雷达”等同等含义表示。&lt;/p&gt;
+&lt;p&gt;dToF激光雷达和FMCW激光雷达的测距原理对比：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/904cec2c1b10d49727a2800acd31bdab.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达测量原理和毫米波雷达相同,都是通过频差和多普勒频移来计算距离和速度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f2ed43002c7aab5dd245d7533f0e15c7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不过FMCW激光雷达和毫米波雷达的测角原理不同，FMCW激光雷达由于波束极窄，可以通过扫描器件的角度直接计算目标的角度，而毫米波雷达由于波束很宽，需要使用复杂的DOA算法来估计目标角度。&lt;/p&gt;
+&lt;h2 id=&#34;03-主要优势&#34;&gt;03 主要优势
+&lt;/h2&gt;&lt;p&gt;总结来说，FMCW激光雷达在测距、测速、抗干扰、功率（人眼安全）、信噪比等多方面，全面优于ToF激光雷达，不过系统复杂，由于开发难度较大，目前FMCW成本很高。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eae3d9cbd3c4821878d82cbbbc612d23.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;优势1直接获取速度&#34;&gt;优势1：直接获取速度
+&lt;/h3&gt;&lt;p&gt;能够直接获取速度，是FMCW激光雷达相对于ToF激光雷达非常大的一个优势。&lt;/p&gt;
+&lt;p&gt;ToF激光雷达的速度是通过点的位置间接推算的，因此一般需要5-6帧，才能识别目标的速度。&lt;/p&gt;
+&lt;p&gt;而FMCW激光雷达采用多普勒效应直接获取径向速度，并且可以获取百万点云中每一个点的速度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a338388334c19ef8b25f537c45c3cbd0.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva，激光雷达老炮儿&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6425656506533b7d4a87fb61f137086.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;p&gt;有了速度信息之后，可以解决很多自动驾驶中的痛点场景。&lt;br&gt;
+下面部分案例来自Aeva。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;开门杀&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;“开门杀”在生活中经常遇到，对于自动驾驶车辆，需要在极短时间内识别并规避。&lt;/p&gt;
+&lt;p&gt;对于这种情况，ToF激光雷达通常需要2-3秒才能识别。而FMCW激光雷达由于有速度信息，从开车门那一刻就可以立刻捕捉到动态目标。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/583e3ac3ade3c025cf125dadd7754aea.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;鬼探头&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;“鬼探头”也是自动驾驶场景中非常棘手的问题，主要原因是除了目标本身有一定的遮挡，对于由静止到运动的目标，目前传感器需要较长时间的跟踪和计算才能确认。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f0552909df3dd77592841ae06c9f8e28.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达可以更容易的识别。例如，下图中的行人刚开始移动时，FMCW激光雷达就已经“捕捉”，感知时间的缩短，可以给后续的规划和控制留出足够的反应时间。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5784db571445343dc113fd94897bffdd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“扬尘”、“洒水”、“雾气”误识别&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于“扬尘”、“洒水”、“雾气”，ToF激光雷达容易误识别为静止目标，导致智能驾驶车辆错误的紧急制动。&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达可以识别每一个点的速度，因此可以更容易的将这些干扰目标滤除。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ff489c4f44dc2f9aa942c910b8147126.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;运动目标需要的点数更少&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;ToF激光雷达为了降低误报，识别运动目标一般至少要10个点，极限情况下最少需要5个点。而FMCW由于有每个点的速度信息，可以将需要的点云数量降低到甚至2个点，而不会有明显的误报。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/871bdcb42474ea090bcf0b3511a22acb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;h3 id=&#34;优势2抗干扰能力强&#34;&gt;优势2：抗干扰能力强
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;抗干扰能力强&lt;/strong&gt;，也是FMCW激光雷达的一个重大优势。&lt;/p&gt;
+&lt;p&gt;对于ToF类型激光雷达，很难分辨接收到的回波是自己发出去的，还是其他雷达发出来的激光，或者是环境光。当道路上激光雷达比较多，或者有阳光直射时，干扰问题更容易出现。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/490ea386962c756c5dd3580671e8b13e.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：3dtof&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达采用窄线宽激光，线宽一般在100kHz以下，由于采用相干检测技术，只接受一个极窄区间光谱的回波做混频，其他频率的光波都会被过滤，因此，受环境和其他附近激光雷达系统的干扰概率很低。&lt;/p&gt;
+&lt;p&gt;例如，即便是正对着太阳，也可以清晰的检测车辆目标：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/599619cd363fb48f83f84d987a3be1af.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;不过，FMCW激光雷达有可能在内部产生自干扰，比如通道之间串扰。假如采用OPA的扫描方式，还会出现旁瓣干扰，类似于毫米波雷达中的现象。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/638ecf89319c1123e2dd9cd90d5f8f8d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;优势3激光功率更低安全裕量更大&#34;&gt;优势3：激光功率更低，安全裕量更大
+&lt;/h3&gt;&lt;p&gt;对ToF激光雷达，决定测距范围的是功率和信噪比，而信噪比又与峰值激光功率成正比。因此尽量大提升峰值功率是ToF激光雷达设计的关键。&lt;/p&gt;
+&lt;p&gt;因此，目前ToF激光雷达往往是将所有可用的光子，&lt;br&gt;
+压缩成一道狭窄的（纳秒级），而又明亮的（功率高）激光闪光。对于1550nm的激光，激光雷达的脉冲峰值功率可以高达1000W以上。&lt;/p&gt;
+&lt;p&gt;而FMCW激光雷达的信噪比主要由调频线性度、激光线宽等决定，和激光功率相关性不是特别大。FMCW激光雷达功率一般在100mW以下，比ToF激光雷达的峰值激光功率&lt;br&gt;
+低四个数量级以上，平均功率是ToF激光雷达的&lt;br&gt;
+十分之一。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1d47c7ed7209eb4df435e31e199e5e2b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Lightigo&lt;/p&gt;
+&lt;p&gt;如此高的峰值功率，虽然对人类和大多数动物眼睛安全，但对图像传感器有害。最近不少报道案例提到，用户给智能汽车拍照，导致激光雷达将手机相机CMOS芯片烧坏。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/23594312e22803a6e381c0a161ea5425.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：https://mp.weixin.qq.com/s/TkVBElWjX7ROQXV5Vp0rNA&lt;/p&gt;
+&lt;p&gt;对于该问题，绿芯频道也有专门的分析，详见：&lt;br&gt;
+激光雷达，烧不烧摄像头？全网首次横评实测，解析Lidar的安全秘密_哔哩哔哩_bilibili，https://www.bilibili.com/video/BV1hw4m1f7oD/?spm_id_from=333.337.search-card.all.click&lt;/p&gt;
+&lt;h3 id=&#34;优势4信噪比更高检测性能更好&#34;&gt;优势4：信噪比更高，检测性能更好
+&lt;/h3&gt;&lt;p&gt;信噪比（Signal-to-noise Ratio，SNR），指的是系统中信号与噪声的比。信噪比对于激光雷达的性能极为关键，信噪比会直接影响激光雷达的测距性能、分辨率性能和灵敏度。&lt;/p&gt;
+&lt;p&gt;ToF激光雷达无法区分回波是自己发出去激光的反射，还是其他雷达的激光或者是环境光，因而信噪比较低。而FMCW激光雷达基于相干检测的方式，&lt;br&gt;
+SNR比ToF激光雷达高3~4个数量级。因此，FMCW激光雷达可实现比ToF激光雷达更远的探测距离和更高的分辨率。&lt;/p&gt;
+&lt;p&gt;ToF激光雷达和FMCW激光雷达的SNR对比：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9b5facbe0d18bd23b862c89732286c5f.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Lightigo&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达可以轻松检测500m左右的车辆目标：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/787a9c8b980ad4b06c8d9d1f26e5375d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;h3 id=&#34;优势5高动态范围&#34;&gt;优势5：高动态范围
+&lt;/h3&gt;&lt;p&gt;ToF激光雷达一般采用单光子探测器SiPM或者SPAD，动态范围有限，在遇到高反射目标时，容易发生膨胀（&lt;br&gt;
+Blooming），例如：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d8e6570549f7b6e804ac32c2f9ff49b3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：速腾聚创&lt;/p&gt;
+&lt;p&gt;而FMCW激光雷达由于采用PIN探测器，不存在高反膨胀问题。由于动态范围很广，高反目标和低反目标的区分非常清晰。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/45a9fb2dca08b28980357fcba6d75830.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片参考：Aeva&lt;/p&gt;
+&lt;h3 id=&#34;优势6多回波检测性能更好&#34;&gt;优势6：多回波检测性能更好
+&lt;/h3&gt;&lt;p&gt;FMCW激光雷达具备更好的多回波检测性能，可以更好的检测“前前”目标。&lt;/p&gt;
+&lt;p&gt;例如，清晰的检测金属网格围栏后的车辆目标：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eed81f9a4182dc352214c99611353e47.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;检测到被遮挡的“前前车”：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0bb979f098c59c5302e552aa7197df3b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：光勺科技&lt;/p&gt;
+&lt;h3 id=&#34;优势7更好的恶劣环境适应性&#34;&gt;优势7：更好的恶劣环境适应性
+&lt;/h3&gt;&lt;p&gt;ToF激光雷达在雨雪雾等恶劣天气条件下，其工作表现会受到较大影响。而FMCW激光雷达在不利天气条件下，仍能保持良好的性能。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/95852b0ebadbe143fc04b06f706d2364.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;视频来源：Aeva&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达检测雾霾环境中的行人：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/898c5e8e4f2569f25bbdd178629ce69b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片参考：Aeva&lt;/p&gt;
+&lt;h3 id=&#34;优势8更适于固态化降本潜力更大&#34;&gt;优势8：更适于固态化，降本潜力更大
+&lt;/h3&gt;&lt;p&gt;ToF激光雷达已经&lt;br&gt;
+将激光器和探测器芯片化，但是&lt;br&gt;
+光学部件及扫描模块实现芯片化较为困难。&lt;/p&gt;
+&lt;p&gt;而FMCW激光雷达由于发射功率低，如果扫描方式选择相控阵（OPA）技术，可以将激光器、探测器、扫描模块以及其他光学部件集成为一个硅光芯片中，做到真正的“芯片化”全固态。&lt;/p&gt;
+&lt;p&gt;“芯片化”将使得激光雷达的降本潜力大大提升。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b01ce047e5ae474035f40784b111d781.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：洛微科技&lt;/p&gt;
+&lt;p&gt;Aeva集成度很高的硅光芯片模块：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/38b4f900a926f82f393813a8a0cb8551.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;h2 id=&#34;系统方案&#34;&gt;系统方案
+&lt;/h2&gt;&lt;p&gt;FMCW激光雷达的典型架构如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/58dc379e14a442ae82a5bef885aa616a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达的关键技术包括：激光调频技术、收发光学系统、相干接收技术、硅光集成技术、信号解析算法等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/71095a1baef074dfff2f35a060e67c78.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：A_Spurless_and_Wideband_Continuous-Time_Electro-Op&lt;/p&gt;
+&lt;h3 id=&#34;核心器件1调频激光器&#34;&gt;核心器件1：调频激光器
+&lt;/h3&gt;&lt;p&gt;调频激光器是FMCW激光雷达的核心器件，要实现优秀的检测性能，激光器需要满足如下要求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;具有较大的频率可调范围。较大的频率可调范围决定了拍频信号的最大频率，这也决定了雷达的分辨率。测距分辨率ΔR和调频带宽B的关系是：ΔR=c/(2B)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;具有较快的调频速率。调制速率也影响着拍频的频率，并且决定了雷达的动态特性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线宽尽量窄。 线宽越窄，信噪比越高，雷达的探测距离和分辨率性能就会越好。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;激光线宽：激光光源发射光谱的半高全宽，即达到峰值一半高度（有时也取1/e），所对应的两个频率中间的宽度。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0410f1ebaef8ea470f6fe095c5ee05e2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：芯片工艺技术&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;频率调制具有尽量高的线性度，无跳模。调频的线性度是非常重要的一个指标，它决定了雷达的探测精度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/52a935dfb1e00281b525807ff30c5689.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：阿凯的学习笔记。左图：为调频线性非常好时所得到的拍频信号，对于固定的距离，拍频所得的频率是固定且唯一的。右图：本振光调频的曲线线性度过差，其与接收光相干后会产生不同频率的拍频信号，由此会容易导致距离的计算错误。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;噪声低。实际产生的调制波形与理想的调制波形应尽可能符合。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;出光功率稳定，功耗低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;控制尽量简单。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;成本低、尺寸小，满足车规**，**等等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;激光器的类型&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达一般选用半导体激光器，半导体激光器有如下分类：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5fdee4d5dfe07f10664373c468a6dd4d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：易天光通信&lt;/p&gt;
+&lt;p&gt;激光器按照调制方式，分为直接调制（或者内调制）和外调制两种。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;内调激光器：在谐振腔内放置调制元件，用信号控制调制元件物理特性的变化，以改变谐振腔的参数，从而改变激光的输出特性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;外调激光器：外调制是把激光的产生和调制分开。在调制器上加调制信号电压，使调制器的某些物理特性发生相的变化，当激光通过时，实现频率的调制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c86925a025014e0f5ddd636449b35fa3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;常见半导体窄线宽的激光器对比如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b47c962323f64a03e4f329a4097e6b34.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;外调激光器在线性度、线宽、功率等方面性能优秀，但是成本很高。&lt;/p&gt;
+&lt;p&gt;DFB激光器和DBR激光器的结构，分别如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/37c5210e3c97f8d083b08185b8267f6b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;资料来源：eagleyard Photonics&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;DFB激光器（Distributed Feed Back，分布式反馈），内置了布拉格光栅（Bragg Grating），属于侧面发射的半导体激光器。DFB激光器主要以半导体材料为介质，包括锑化镓(GaSb)、砷化镓（GaAs）、磷化铟(InP)、硫化锌(ZnS)等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;DBR激光器（Distributed Bragg Reflector，分布式布拉格反射），是具有增益、相位和DFB截面的多段激光器。DBR激光器通过布拉格光栅来充当反射镜，在两段布拉格光栅之间封装一段掺杂光纤，通过泵浦中间的掺杂光纤来提供增益。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;DFB激光器和DBR激光器的参数对比：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/44f63b6ab08148be25df028dfdb9a8a1.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：富泰科技&lt;/p&gt;
+&lt;h3 id=&#34;核心器件2扫描器&#34;&gt;核心器件2：扫描器
+&lt;/h3&gt;&lt;p&gt;FMCW激光雷达一般使用MEMS振镜、或者纯固态扫描方式。其中，后者由于完全没有运动部件，是目前的研究热点。&lt;/p&gt;
+&lt;p&gt;固态扫描方法一般常见的有3种形式：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2e60ce4bb921307e19f6de1ef106bef8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;优劣势对比：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/14a964d9eea86b30f1c8071429becc03.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;OPA光学相控阵扫描方式，是最具有潜力的扫描方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ac3b3f7f91ab2cc29395078aff29a0a4.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;采用移相器和光栅天线构建的OPA固态扫描系统：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bfddf56159dbc9f7e6875bc41f0dee68.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;核心器件3接收器&#34;&gt;核心器件3：接收器
+&lt;/h1&gt;&lt;p&gt;FMCW激光雷达可以使用相对低廉的PIN作为接收单元，但是需要非常精确的低噪声光信号处理（OSP）电路来构建相干接收器，因此难度也相当大。&lt;/p&gt;
+&lt;p&gt;平衡光电探测器：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b3b8c3cab848c23d0ebb7d5ab1e484de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：光翼智能&lt;/p&gt;
+&lt;h3 id=&#34;核心器件4处理器&#34;&gt;核心器件4：处理器
+&lt;/h3&gt;&lt;p&gt;FMCW激光雷达对ADC转换速率要求是ToF激光雷达的2~4倍，因此需要能够进行超高速的FFT转换，FMCW激光雷达处理器系统的复杂度是ToF系统的几倍，因此系统复杂，成本也更高。&lt;/p&gt;
+&lt;p&gt;Aeva开发的FMCW专用处理器&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f38af9d35f2e0dfc6ac878ba2ebffc6d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;h3 id=&#34;核心器件5硅光集成技术&#34;&gt;核心器件5：硅光集成技术
+&lt;/h3&gt;&lt;p&gt;硅基光电子集成技术（简称“硅光集成技术”或者“硅光技术”），是20世纪最重要的两项发明——集成电路和半导体激光器的组合。&lt;/p&gt;
+&lt;p&gt;硅光技术是以光子为信息载体的硅基大规模集成技术，其核心内容是采用CMOS兼容的工艺，将光学器件与电子器件进行集成，形成一个具有综合功能的大规模集成芯片，集成之后的芯片被称为“硅基光电子集成芯片”或者“硅光芯片”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c21ee8baebfd06db2e83c945bfd9ff26.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Scantinel Photonics&lt;/p&gt;
+&lt;p&gt;“硅光芯片”具有低成本、高兼容性、高集成度、超大规模制造的特点，由于可大规模集成激光器、调制器、放大器、光学天线等结构单元，使得激光雷达具有小型化、低功耗、低成本等优势。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;开发难度大，成本高&lt;/strong&gt;是FMCW激光雷达的最大挑战。&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达的系统复杂度远高于ToF，光学器件更多，激光调制、相干接收、对准耦合、信号处理等都难度很大，&lt;br&gt;
+FMCW激光雷达中硅光芯片的开发难度远超光通信产品。&lt;/p&gt;
+&lt;p&gt;例如，FMCW激光雷达使用相干探测，所有光学器件表面的公差都必须控制在λ/20以内。这种精度的元器件制作难度极高，良率很低，价格昂贵。&lt;br&gt;
+据了解，Blackmore测试用的激光雷达产品，价格高达10万美元一台。&lt;/p&gt;
+&lt;h2 id=&#34;05-国外玩家&#34;&gt;05 国外玩家
+&lt;/h2&gt;&lt;h3 id=&#34;1aeva&#34;&gt;1.Aeva
+&lt;/h3&gt;&lt;p&gt;Aeva成立于2017年，是一家主营FMCW 4D激光雷达的科技公司（包括硬件系统和软件算法），2021年通过SPAC方式在美股上市。&lt;/p&gt;
+&lt;p&gt;公司创始人为前苹果工程师Soroush Salehian和Mina Rezk，其他核心管理团队分别来自JUUL、Apple、BMW、Intel等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ca70cae89298f88da9a09cbf726349f4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;发展历程：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e482c11b18590f3bc4e3b1b1952e4d0e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;Aeva的FMCW激光雷达主要覆盖三大应用方向：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;汽车领域：包括乘用车、商用车（如Robotrunk）、移动出行（如Robotaxi）；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;消费类设备：消费电子（3D投影、AR/VR）、消费健康市场（非接触式健康监测，如监测脉搏率和呼吸率）；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;工业自动化：为机器人、工业计量机器和其他自动化设备提供一种以更清晰、更准确和更具成本效益的方式感知周围环境的方式。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Aeva最大的核心竞争力是“基于硅光芯片的模组”（module based on silicon photonic chip），这个模组是FMCW激光雷达的核心，也是量产最关键、最难的环节。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5401f4203e8217ad7253308085b9f0bd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Aeva硅光模组已经发展到第4代：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;第1代体积很大，重量达十几公斤；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第2代重量减少到5.5公斤；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第3代才做到了1.5公斤重量、5cm左右高度，成功将发射端、光学系统、探测端等器件集成到一块只要硬币大小的芯片上，从而在整机层面实现了体积的小型化。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第4代体积更小，运用在最新的Atlas产品中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/edb207e25de9cef047c87be35bef86ec.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Aeva的主要技术特点：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;定制半导体无光纤激光。采用1550nm的专用半导体激光器，方便大规模量产，成本更低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;定制接收器，采用定制的PIN-PD（无需使用APD或SPAD），基于成熟的互补金属氧化物半导体的光电探测器，集成在硅光子上，无需采用特殊工艺。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;硅光集成技术：主要激光雷达组件采用电信行业成熟的互补金属氧化物半导体工艺，集成在硅光子上。不依赖难以批量生产的特殊材料。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;收发器数量少：Aeva采用创新的FMCW技术，可以使用少量收发器，来提供整个视场的高分辨率性能&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;定制数字信号处理ASIC：专为FMCW激光雷达定制的ASIC，具备专用的DSP软件算法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;4D感知软件：可以实现物体检测、对象分类和精准跟踪、车辆状态估计（可以对车辆定位和动态特性，例如速度、加速度和转弯率，进行高质量估计，从而无需陀螺仪和惯导）、地面分割和车道检测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;点密度和最大范围：Aeva 实施创新的 FMCW 技术方法打破了最大范围和点密度之间的依赖关系，同时实现高分辨率的远距离能力，每条光束能够达到数百万像素/秒。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;主要产品&#34;&gt;主要产品：
+&lt;/h4&gt;&lt;h5 id=&#34;aeries-i&#34;&gt;Aeries I
+&lt;/h5&gt;&lt;p&gt;2019.12，Aeva发布第一代产品：Aeries&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/38b4f900a926f82f393813a8a0cb8551.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;h5 id=&#34;aeries-ii&#34;&gt;Aeries II
+&lt;/h5&gt;&lt;p&gt;2022年2月，发布Aareis II，首款具有相机级分辨率的4D Lidar。Aries II预计2024年量产。&lt;/p&gt;
+&lt;p&gt;Aeries II的硅光模块：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ae29aa68fbd5548c803a534fc6dcf249.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;据Aeva介绍，Aeries II提供每秒400万个原始点分辨率，最大视场120°×30°，以及高达500米的最大探测范围。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3b80eedbbed1909245db2c9065624491.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;安装案例：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/30808b8776972708405c049d22b5e546.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;主要性能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;测距：最远500米&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FOV：120°(H) * 30°(V)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;角分辨率：0.025°(H) * 0.025°(V)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;满足车规&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;防护和碰撞等级：IP69K/IK07&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以实现超分辨率：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8123f28aeeaed17e4003a88498cc9e1e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva&lt;/p&gt;
+&lt;h5 id=&#34;atlas&#34;&gt;Atlas
+&lt;/h5&gt;&lt;p&gt;2022年11月，Aeva推出&lt;strong&gt;Atlas&lt;/strong&gt;，将于2024年实现量产交付。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5f5fe33ec214db7fe8b5cc1c9d640eb2.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;Atlas采用Aeva在定制硅技术方面的创新，包括&lt;br&gt;
+Aeva CoreVision片上激光雷达模块和Aeva X1激光雷达处理器（SoC）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Aeva CoreVision片上激光雷达模块：Aeva的第四代片上激光雷达模块按照严格的汽车标准设计，在一个更小的模块中集成了所有关键的激光雷达元件，包括发射器、探测器和新的光学处理接口芯片。CoreVision建立在Aeva专有的硅光技术基础上，用硅光技术取代了传统飞行时间激光雷达传感器中的复杂光纤系统，确保了质量，并以可承受的成本实现了大规模生产。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e861cee3c317d5f23158ed03208ed254.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Aeva X1 SOC处理器：新型FMCW激光雷达SoC将数据采集、点云处理、扫描系统和应用软件无缝集成到单个混合信号处理芯片中，专为汽车级功能安全和网络安全的可靠性而设计。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b10bc1d5e92cd96edcd9abc713106356.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;Atlas内部结构如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dbbb127ee675aeac1830937d10c62c25.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Aeva官网&lt;/p&gt;
+&lt;p&gt;主要特点：&lt;br&gt;
+-测距：250 Meters（@10%），500 Meters（ 最大）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;FOV：120°(H) * 30°(V)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;功能安全：ASIL-B (D)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;满足车规&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Atlas处理器比Aeries II的小70%，功率降低75%，无需主动散热，可方便的布置在挡风玻璃后的车厢内、车顶或格栅中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;主要客户&#34;&gt;主要客户
+&lt;/h4&gt;&lt;p&gt;Aeva表示公司已拿到全球前十车企的定点，量产车型预计在 2025 年投产。&lt;/p&gt;
+&lt;p&gt;主要合作方如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;PorscheSE先后在2018年、2019年对Aeva完成了投资。PorscheSE是大众集团大股东，旗下有大众、奥迪、斯柯达等品牌；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2019年，Aeva与奥迪旗下自动驾驶部门AID（AID已与福特的自动驾驶子公司Argo.AI合并）建立合作伙伴关系；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Aeva与大众集团就LiDAR合作开发下一代汽车平台，目标是2024年投产；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;May  Mobility的下一代自主运输车辆，该车辆配备了Aeva 4D激光雷达技术，基于丰田Sienna  Autono-MaaS车辆平台打造。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2020年9月，Aeva与ZF建立生产合作伙伴关系；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2021年1月，Aeva与DENSO达成合作，双方将共同开发下一代激光雷达产品。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2021年1月，Aeva与图森未来达成合作，图森未来将搭载其4D激光雷达产品。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2021年11月，Aeva与Plus.AI达成合作，后者从2022年末开始在商用自动驾驶中使用Aeva的雷达产品；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在工业领域，Aeva与尼康建立合作，预计2024年量产第一个非汽车项目。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;与德国戴姆勒卡车达成定点合作，预计合同总价值达10亿美元，并预期将于2027年为其在美国上路的自动驾驶卡车提供传感器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2mobileye&#34;&gt;2.Mobileye
+&lt;/h3&gt;&lt;p&gt;英特尔在硅光技术方面造诣深厚，而Mobileye作为英特尔的子公司，在开发难度巨大的FMCW激光雷达上，无疑有着得天独厚的优势。&lt;/p&gt;
+&lt;p&gt;在2021年1月的CES上，Mobileye CEO Shashua在演讲中说：我们激光雷达的性能预计会超过市场上任何已知的解决方案，能够使激光雷达本身成为一个单一的、完整的、独立的感知系统。&lt;/p&gt;
+&lt;p&gt;Shashua自豪地宣称：“如果没有相应的的资产和能力，这个项目耗资巨大。幸运的是，我们在英特尔有足够的知识产权、专业知识和晶圆厂，知道如何将有源器件、无源器件和波导放到芯片上。借此，我们可以把这些都集成到SoC上，并交给英特尔硅光子部门在新墨西哥州的一家工厂制造。这是全球独一无二的资产。”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/26631aa3cc029127cd70ae3411c5c16e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;p&gt;该激光雷达可以做到600pt/deg^2的点云密度，和300米的测量范围。预计该激光雷达的量产价格在1000美元以下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ffe319c56feaf4f9d3aecf41c13307d9.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9cb8ae004db3e497904d541bd1e43c81.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;p&gt;Mobileye的FMCW激光雷达（&lt;br&gt;
+A2样）：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/165541138c7dd9b0dd02a4ad21086f6e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;p&gt;主要性能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;点频：120万点/秒&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;速度精度：5cm/s&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FOV：130°(H) * 28°(V)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线数：128线&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;像素：150万pixel/秒&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Mobileye的FMCW激光雷达预计2027年SOP，&lt;br&gt;
+感知效果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d6425656506533b7d4a87fb61f137086.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Mobileye&lt;/p&gt;
+&lt;h3 id=&#34;3silc&#34;&gt;3.SiLC
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3a715acac1d022a353e6cd40bbc354f6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;SiLC创立于2018年，是一家基于硅光技术的集成4D视觉解决方案供应商。&lt;/p&gt;
+&lt;p&gt;SiLC被Gartner评为硅光子学领域的优秀供应商。SiLC的投资者包括戴尔技术资本、IGV的索尼创新基金、FLUXUNIT-AMS  OSRAM Ventures、UMC资本、Alter Ventures和爱普生。&lt;/p&gt;
+&lt;p&gt;SiLC的使命是让机器能够像人类一样看东西，它正在发挥其在硅光子学领域的深厚专业知识，推动FMCW激光雷达解决方案的市场应用。&lt;/p&gt;
+&lt;p&gt;SiLC使用1550 nm波长FMCW技术，通过4D+Eyeonic芯片集成了实现相干视觉传感器所需的所有光子功能，探测距离超过200m，尺寸小、功耗低、成本低，面向机器人、自动驾驶汽车、生物识别、安全、工业自动化和其他领先市场。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/2eaded23cad4003593e4de73bfc89a34.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：SiLC官网&lt;/p&gt;
+&lt;p&gt;主要历程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;2018年，宣布在单芯片上集成了1550nm调频连续波（FMCW）激光雷达（LiDAR）功能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2019.12，Varroc Lighting Systems宣布在量产汽车前照灯中，集成SiLC的激光雷达技术。Varroc Lighting Systems前照灯基于复杂的LED设计，应用了四颗SiLC的硅光子FMCW视觉芯片，使每个前照灯能够提供完整的20 x 80度视场（FOV）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2023年10月4日，SiLC推出Eyeonic Vision系统，为从短距离到超过1250米的视觉检测能力而设计。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e608837afa6aa44d33637e1670ea021b.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;左：偏振强度，能够识别表面和材料；右：3D信息，图片来源：SiLC官网&lt;/p&gt;
+&lt;p&gt;SiLC的Eyeonic Vision系统产品组合包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;近程–该版本专为最远50米的视觉检测而设计，非常适合需要高精度的人工智能机器视觉任务，如托盘和卡车装载或产品检测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;中程–适用于最远150米的视觉检测，适合家庭安防和工厂自动化应用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;远程–该版本提供最远300米的视觉检测，专为ADAS和自动驾驶汽车量身定制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;超远程–用于超过1250米的视觉检测，目标是无人机跟踪、周界安全和飞机地面控制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/94c3b7f134e368c3dba8b6792a14923e.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：SiLC官网&lt;/p&gt;
+&lt;h3 id=&#34;4insight&#34;&gt;4.Insight
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/46e66b5da95f4705b75042d508969825.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Insight  LiDAR成立于2016年，目前正在研发超高分辨率芯片级FMCW激光雷达。该公司及其母公司Insight Photonic  Solutions总部位于美国科罗拉多州博尔德，是在3D成像和高速扫频激光技术领域屡获殊荣的全球领导者。Insight  LiDAR产品应用范围从汽车成像到生物医学成像，从半导体制造到材料加工。&lt;/p&gt;
+&lt;p&gt;Insight LiDAR将所有关键光学元器件集成到光子集成电路（PIC）上，实现业界领先的性能和成本。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/504bee7e453ea97f23268715b1951e94.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Insight&lt;/p&gt;
+&lt;p&gt;2019.1，Insight LiDAR在CES2019上推出了Digital Coherent LiDAR激光雷达产品（FMCW），这是一款面向新兴自动驾驶汽车市场的芯片级远距离激光雷达（LiDAR）传感器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/61601a210a3f94c01f5cb36bd64b547c.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Insight&lt;/p&gt;
+&lt;p&gt;主要特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;测距：200米@10%&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;角分辨率：0.025°x 0.025°&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FOV：120°x 340°&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;真正灵活的固态快轴扫描&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;低成本全半导体芯片方案，所有光子器件均在光子集成电路上（PIC），所有电子电路都在ASIC上。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Insight LiDAR还发布了Insight 1600前向激光雷达，该雷达适合前端安装远距离测距应用。Insight 1600利用半导体芯片架构——光子集成电路（PIC）和ASIC芯片，可以迅速扩大生产规模以实现低成本生产。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/68261980c0a75767bc0084187dc7465a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Insight&lt;/p&gt;
+&lt;p&gt;2021.3，Insight还发布Insight 400激光雷达，Insight 400主要安装在角向和后向。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/11178444b1c6965791f9f61f55a977ed.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Insight&lt;/p&gt;
+&lt;p&gt;Insight 400主要特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;小尺寸：13cm x 5cm x 5.5cm&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;角分辨率：0.025°(H) x 0.025°(V)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;专有的真正固态快速轴扫描&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当与Insight  1600结合使用时，Insight 400可实现360度远程激光雷达全覆盖，每辆车的激光雷达总成本不到1500美元，是其他解决方案的四分之一。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;5analog-photonics&#34;&gt;5.Analog Photonics
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dc08c8c75a09def411cba1ccc97449e4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Analog Photonics开发OPA纯固态FMCW激光雷达。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eb3dd3857bfedf5d8ca0d8207d5c4bfe.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Analog Photonics官网&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/739ea184f245c1c4c9c95d99cc78c014.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Analog Photonics官网&lt;/p&gt;
+&lt;h3 id=&#34;6scantinel-photonics&#34;&gt;6.Scantinel Photonics
+&lt;/h3&gt;&lt;p&gt;Scantinel Photonics是德国一家FMCW激光雷达专业开发商。Scantinel Photonics获得光学巨头蔡司投资，后者在2018年11月还投资了另外一家FMCW激光雷达开发商Bridger Photonics。&lt;/p&gt;
+&lt;p&gt;Scantinel  Photonics公司的激光雷达技术在纯固态平台上整合了相干测距和光谱扫描，使其能够以紧凑的尺寸和较低的成本提供大范围、高可靠的车辆环境精确检测。&lt;/p&gt;
+&lt;p&gt;Scantinel Photonics在CES 2024展示FMCW激光雷达硅芯片，这是该公司第二代芯片级大规模并行光子集成电路(PIC)。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4a55dbf45be4275a86d26757a52fb341.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：&lt;br&gt;
+Scantinel  Photonics&lt;/p&gt;
+&lt;h3 id=&#34;7scintil-photonics&#34;&gt;7.Scintil Photonics
+&lt;/h3&gt;&lt;p&gt;Scintil Photonics主要提供单片集成激光器和光放大器的硅光子集成电路（IC），该公司能够通过一种名为BackSide-on-BOX的技术，结合Si和InP/III-V材料，实现有源和无源光学元件的无缝集成，将III-V光放大器和激光器集成在先进的硅光子电路的背面。&lt;/p&gt;
+&lt;p&gt;基于BackSide-on-BOX技术的增强型硅光子集成电路产品是一种单芯片解决方案，能够在单芯片中实现包括激光器在内的全光学元件集成。这种设计使波导激光器达到高耦合效率，而且不需要校准激光器。同时，内部的密封设计使其不需要密封封装。该产品为大规模生产PIC（光子集成电路）提供了独特的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f623be87070cf9f195e585e55b4ff0a6.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：&lt;br&gt;
+Scintil Photonics&lt;/p&gt;
+&lt;p&gt;2022年6月21日，Scintil Photonics获得1350万欧元（约9517万元）的第二轮融资，本轮融资由老股东博世 领投。&lt;/p&gt;
+&lt;h3 id=&#34;8aurorablackmoreours&#34;&gt;8.Aurora（Blackmore+OURS）
+&lt;/h3&gt;&lt;p&gt;Blackmore是Bridger  Photonics的子公司，因此Blackmore的FMCW技术来自于其母公司。&lt;br&gt;
+Blackmore很早就开始研发线性调频激光测距技术，2018年即推出FMCW激光雷达产品。公司股东包含宝马、丰田等整车企业。&lt;/p&gt;
+&lt;p&gt;2019年，Blackmore被Aurora收购。Aurora于2021年还收购了激光雷达领域初创公司OURS  Technology，后者也以FMCW为技术路线。&lt;/p&gt;
+&lt;h3 id=&#34;9strobe&#34;&gt;9.Strobe
+&lt;/h3&gt;&lt;p&gt;Strobe是一家美国加州帕萨迪娜市的激光雷达研发制造公司。该公司研发的激光雷达技术，可将整个激光雷达阵列缩减到一个芯片上，使得激光雷达的体积更小，制造成本据说可降低99%。&lt;/p&gt;
+&lt;p&gt;Strobe的技术来源于其母公司OEwaves，采用FMCW技术路线，核心调频激光器通过注入式锁频锁定在WGM谐振器的谐振频率上，通过物理方法例如电光效应或压电形变，可以高速改变谐振器频率牵引激光频率。&lt;/p&gt;
+&lt;p&gt;该激光器体积小，可以实现高速线性调频，刚好满足FMCW激光雷达对激光器的需求。该外腔激光器同样面临着生产复杂、高成本、低可靠性等问题。&lt;/p&gt;
+&lt;p&gt;Strobe在2017年被通用旗下子公司Cruise Automation收购。&lt;/p&gt;
+&lt;p&gt;Strobe开发的激光雷达原型产品：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/51b6b56b541f1be095b125ee1bb5d81e.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Strobe&lt;/p&gt;
+&lt;h3 id=&#34;10baraja&#34;&gt;10.Baraja
+&lt;/h3&gt;&lt;p&gt;Baraja的纯固态FMCW激光雷达Spectrum HD25：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/affed186bdd223ea7926bb92bf430448.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Baraja官网&lt;/p&gt;
+&lt;p&gt;性能指标：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f08fa49105c8e7c08664662149f7aeae.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：Baraja官网&lt;/p&gt;
+&lt;h2 id=&#34;06-国内玩家&#34;&gt;06 国内玩家
+&lt;/h2&gt;&lt;h3 id=&#34;1洛微科技luminwave&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://luminwave.com.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;1.洛微科技（LuminWave）&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://luminwave.com.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官网&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;洛微科技(LuminWave)创立于2018年，是全球领先的激光雷达和3D传感器硬件和感知解决方案提供商。&lt;/p&gt;
+&lt;p&gt;洛微科技将光相控阵（OPA）、连续波调频（FMCW）和晶圆级微纳光学等的技术应用到LiDAR领域，自主研发了纯固态成像级激光雷达（Imaging  Grade  LiDAR）以及实现了毫米级的系统级封装（SiP）的微激光雷达（MicroLiDAR）。&lt;/p&gt;
+&lt;p&gt;目前，公司第一代的纯固态成像级LiDAR已经初步完成样品，MicroLiDAR已经进入量产，开始为多家客户供货。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8aa552c967bd142c61f5002c1fde9199.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;洛微科技基于硅光子技术，开发了&lt;br&gt;
+光相控阵扫描（OPA）芯片和相干探测芯片：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OPA芯片依靠硅半导体工艺大量集成波长尺度的光学功能，解决了高分辨率和大视场角的光信号覆盖问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;相干探测芯片基于FMCW的相干探测，进行测距和测速。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;长距HP系列 工业级高精度激光测距传感器,HP1是一款洛微自主研发的工业级高精度激光测距传感器，这款传感器采用自主研发的硅光子集成电路（Si-PIC）技术，通过先进的调频连续波（FMCW）方法，在长距测量时，HP1对于100米范围内的目标，可实现小于1mm的精度和小于2mm的绝对误差；在短距离测量时，可实现小于20um的精度。满足中长距离非接触高精度测量需求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/dba9e3b79edaaa9c9f0ea20efed7a209.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：洛微科技&lt;/p&gt;
+&lt;p&gt;2025 年伊始，洛微科技（LuminWave）正式宣布获得北京电控光电融合基金战略投资，并完成B1轮融资首关,此前B轮估值达15亿元(华盖资本,海松资本等机构投资).&lt;/p&gt;
+&lt;h3 id=&#34;2北京光勺科技&#34;&gt;2.北京光勺科技
+&lt;/h3&gt;&lt;p&gt;光勺科技成立于2019年1月，是一家FMCW激光雷达技术研发商。团队在FMCW激光雷达拥有十年的研产经验。&lt;/p&gt;
+&lt;p&gt;光勺科技的FMCW激光雷达调制的不仅是激光波的频率，还有相位。19年1月完成原理机，19年底完成了2台的样机，20年底小批量量产交付客户。&lt;/p&gt;
+&lt;p&gt;2020.1，光勺科技展示了FMCW激光雷达Demo及最新路测视频。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4cb034d1f062ca6d5d3a7aef6bab7889.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：光勺科技&lt;/p&gt;
+&lt;h3 id=&#34;3北京摩尔芯光lightic&#34;&gt;3.北京摩尔芯光（LightIC）
+&lt;/h3&gt;&lt;p&gt;摩尔芯光拥有领先的光子集成技术，公司致力于研发生产基于硅光技术的激光雷达（LiDAR）芯片及系统，为自动驾驶、机器人、智慧交通及物流、工业自动化、测绘等领域提供芯片化的3D感知方案。摩尔芯光已获得国际著名风投机构过亿元投资。&lt;/p&gt;
+&lt;p&gt;公司团队由国内外顶级高校和科研院所，以及Intel、Apple、Marvell、Uber等国际一流科技企业的资深工程师组成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f3144ab6d0f477f3e2fc64b524e4d02e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：摩尔芯光&lt;/p&gt;
+&lt;h3 id=&#34;4珠海映讯芯光&#34;&gt;4.珠海映讯芯光
+&lt;/h3&gt;&lt;p&gt;珠海映讯芯光科技有限公司是一家拥有领先硅光子集成芯片技术的硬科技创新企业。核心技术团队由来自硅谷顶级芯片企业的芯片专家和国际化高科技企业的精英人才组成。&lt;/p&gt;
+&lt;p&gt;公司专注于研发、生产和销售基于硅光芯片的应用于高端传感和自动驾驶/机器人FMCW激光雷达的核心激光光源、光电集成器件及子系统产品。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3e2b2b46870fabad42e614ce599f3acd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：映讯芯光&lt;/p&gt;
+&lt;p&gt;在技术方面，公司掌握了高性能激光器技术、III-V族材料与硅片上集成技术、多通道收发一体FMCW光学引擎技术、纯固态色散扫描技术等；&lt;/p&gt;
+&lt;p&gt;在硅光芯片设计、封装测试、光电系统研发、信号分析处理、4D点云AI算法等领域具有软硬件核心技术与持续创新能力。&lt;/p&gt;
+&lt;p&gt;基于对硅光子芯片技术、InP化合物半导体激光技术以及可调谐光子技术的长期研究和积累，映讯芯光可以为FMCW激光雷达整机客户提供窄线宽、可调谐的半导体激光器及高度硅光集成的FMCW激光雷达收发一体光学引擎。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8f4d398158e062b2509b1a0fb5cf47f5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：映讯芯光&lt;/p&gt;
+&lt;h3 id=&#34;5微源光子&#34;&gt;5.微源光子
+&lt;/h3&gt;&lt;p&gt;微源光子成立于2018年，是一家智能汽车传感器核心器件供应商，专注于混合集成电路、片式元器件、高性能及挂起芯片、配套光电模组及传感器等新型电子元器件的研发和生产。&lt;/p&gt;
+&lt;p&gt;公司获得小米、顺为资本和华为的战略投资。&lt;/p&gt;
+&lt;p&gt;据了解，&lt;br&gt;
+微源光子目前研发的高性能激光器芯片及配套光电模组产品技术，在国内有唯一性。微源光子的核心资源是高性能激光器芯片和配套模组，其激光雷达相关技术在自动驾驶领域起着重要作用，已申请获得多项激光相关专利。&lt;/p&gt;
+&lt;p&gt;微源光子聚焦于微型化窄线宽激光器、低噪声毫米波源以及配套光电模组的研发、生产，核心技术拥有自主知识产权，产品性能指标可达到国际先进水平。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ec08915d038ee915a7fc19dccbc94611.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：微源光子&lt;/p&gt;
+&lt;h3 id=&#34;6挚感光子&#34;&gt;6.挚感光子
+&lt;/h3&gt;&lt;p&gt;挚感光子是一家自主研发、生产、销售各类以集成光学技术为特色的高端激光传感器的科技创新型企业。公司专注于开发可延展性传感技术，致力颠覆传统3D精密测量领域，并为新兴的机器视觉和自动驾驶激光雷达提供终极解决方案。公司的目标是成为全球领先的集成相干光学传感器企业。&lt;/p&gt;
+&lt;p&gt;挚感光子由多名留美光电芯片专家，通信系统专家和医学教授联合创立，核心成员来自美国马里兰大学、清华大学，协和医科大学，上海交通大学，浙江大学等知名院校。公司成员具有丰厚的工业界经验，曾分别在Neophotonics，Ciena，Infinera，Marvell，华为及澜起科技等业界知名公司担任关键职务。&lt;/p&gt;
+&lt;p&gt;公司的核心竞争力在于拥有原创的完整的自主知识产权，具有自主研发的集成光学专用芯片、一体化的模组设计与封装、模块化的传感器解决方案，产品实现从芯片、模组到系统和应用的垂直整合。&lt;/p&gt;
+&lt;p&gt;挚感FMCW激光雷达具有灵敏度高，抗互扰和多径干扰强，探测速度快，器件成本低等优势。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fd32b2b9ffb1dc5d95028343d136bae3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：挚感光子&lt;/p&gt;
+&lt;h3 id=&#34;7杭州爱莱达&#34;&gt;7.杭州爱莱达
+&lt;/h3&gt;&lt;p&gt;杭州爱莱达科技有限公司是由中科院和美国麻省理工学院的国际一流激光雷达与空间激光通信科研团队创办的高科技研发型企业，核心团队包括国家重点人才计划专家1名，中科院博士4名，美国麻省理工学院博士2名，研发团队具有十几年的激光雷达与空间激光通信技术研发经验，拥有国际一流的科研成果，是国内第一家系统性研究和开发FMCW激光雷达的企业。&lt;/p&gt;
+&lt;p&gt;杭州爱莱达获得了百度风投和华登的联合投资。&lt;/p&gt;
+&lt;p&gt;杭州爱莱达致力于新型激光雷达与空间激光通信的技术创新与产业化，为客户提供激光雷达与空间激光通信系统、核心部件模块及完整技术解决方案。公司产品拥有完全自主知识产权，主要覆盖“激光雷达”和“自由空间高速激光通信及组网”两个领域，具体包括车载激光雷达（FMCW体制）、远距离激光测振仪等。&lt;/p&gt;
+&lt;h3 id=&#34;8其他&#34;&gt;8.其他
+&lt;/h3&gt;&lt;p&gt;据行业消息，禾赛、速腾等头部车载激光雷达厂家，都在积极布局FMCW激光雷达，预计产品会在2026年之后逐渐量产。&lt;/p&gt;
+&lt;h2 id=&#34;07-结语&#34;&gt;07 结语
+&lt;/h2&gt;&lt;p&gt;FMCW激光雷达具有致密的点云，并且每个点都具有速度信息，得益于相干检测原理，系统具备极佳的信噪比和抗干扰能力，检测性能强，功耗低。采用硅光集成技术纯固态化之后，具备很大的降本潜力。&lt;/p&gt;
+&lt;p&gt;期待FMCW激光雷达技术持续取得突破，在降本和产业化方面不断突破。&lt;/p&gt;
+&lt;p&gt;坚定的相信，FMCW纯固态激光雷达是未来车载激光雷达的终极形态。&lt;br&gt;
+毕竟，如果彩色电视价格降低到可以接受的程度，谁还买黑白电视呢？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/715e7951a2345478390ab2ed8771eb47.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;FMCW激光雷达系统复杂，涉及到的知识点众多。&lt;br&gt;
+本文尽管有1.5万余字，也仅能描述其表面的浅浅一层，希望能给大家一点帮助。&lt;/p&gt;
+&lt;p&gt;后续笔者持续关注FMCW激光雷达技术进展，对于其中每个关键的技术点，进行更为深入的分析，也期待向各方向专家深入交流学习。&lt;/p&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;激光雷达老炮儿，《来了！FMCW激光雷达能解决哪些自动驾驶/ADAS难题？究竟好在哪里？——Aeva专访系列》&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;九章智驾，FMCW激光雷达科普（上）：基本概念、技术路线、优势及争议和误解&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;九章智驾，FMCW激光雷达科普（中）：激光器、探测器与扫描&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;九章智驾，FMCW激光雷达科普（下）：主要挑战、前景及市场格局&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Aeva，FMCW激光雷达技术发展和展望_哔哩哔哩_bilibili&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;光勺科技，无人驾驶演化和FMCW激光雷达应用_哔哩哔哩_bilibili&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;微源光子，从硅光通信技术看FMCW lidar的集成挑战_哔哩哔哩_bilibili&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;洛微科技，激光雷达的终极方案 Si Photonics LiDAR-on-a-Chip_哔哩哔哩_bilibili&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;智驾前沿，硅光FMCW固态激光雷达为自动驾驶赋能_车家号_发现车生活_汽车之家&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;光通信Fiona，Mobileye英特尔激光雷达详细介绍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Aeva，https://s27.q4cdn.com/943454653/files/doc_presentations/02.2021-Aeva_Investor_Presentation_vF.pdf&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Aeva，Aeva Aeries II 世界上第一个 4D FMCW激光雷达_哔哩哔哩_bilibili&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Aeva，Aeva Introduces Aeries II – The World’s First 4D LiDAR with Camera-Level Resolution&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Lightigo，由iphone说说激光雷达 FMCW激光雷达&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调皮连续波，温故而知新：FMCW雷达基本原理 (第一部分)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调皮连续波，温故而知新：FMCW雷达基本原理 (第二部分)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调皮连续波，温故而知新：FMCW雷达基本原理 (第三部分)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www2.eecs.berkeley.edu/Pubs/TechRpts/2019/EECS-2019-148.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www2.eecs.berkeley.edu/Pubs/TechRpts/2019/EECS-2019-148.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://4sense.medium.com/fmcw-lidar-vs-tof-lidar-da1fefcf4be8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://4sense.medium.com/fmcw-lidar-vs-tof-lidar-da1fefcf4be8&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.aeye.ai/technology/time-of-flight-vs-fmcw-lidar-a-side-by-side-comparison/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.aeye.ai/technology/time-of-flight-vs-fmcw-lidar-a-side-by-side-comparison/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.novuslight.com/fmcw-the-future-of-lidar_N9691.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.novuslight.com/fmcw-the-future-of-lidar_N9691.html&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.laserfocusworld.com/home/article/16556322/lasers-for-lidar-fmcw-lidar-an-alternative-for-selfdriven-cars&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.laserfocusworld.com/home/article/16556322/lasers-for-lidar-fmcw-lidar-an-alternative-for-selfdriven-cars&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文中提到各公司官网（不再一一列举）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我是&lt;strong&gt;雪岭飞花&lt;/strong&gt;，汽车行业24年开发经验，自动驾驶行业发展的见证者和参与者，自动驾驶感知和控制系统资深专家。&lt;/p&gt;
+&lt;p&gt;做有深度、高质量的技术分享，如果文章对您有帮助，还请&lt;strong&gt;关注、点赞、转发&lt;/strong&gt;。如有疏漏或者错误，还请批评指正。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/people/lwascl-73&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;知乎专栏: https://www.zhihu.com/people/lwascl-73&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

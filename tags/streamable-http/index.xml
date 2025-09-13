@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Streamable HTTP on AI</title>
+        <link>https://ai.programnotes.cn/tags/streamable-http/</link>
+        <description>Recent content in Streamable HTTP on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Sat, 26 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/streamable-http/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>MCP 的新传输层 - Streamable HTTP 协议详解</title>
+        <link>https://ai.programnotes.cn/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/</link>
+        <pubDate>Sat, 26 Oct 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/mcp-%E7%9A%84%E6%96%B0%E4%BC%A0%E8%BE%93%E5%B1%82-streamable-http-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容点:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Streamable HTTP 解决了原有 HTTP+SSE 传输机制的断线重连、服务器资源消耗和基础设施兼容性等问题。&lt;/li&gt;
+&lt;li&gt;Streamable HTTP 通过统一端点、按需流式传输、会话标识和灵活初始化等关键改进，实现了更高的灵活性和资源效率。&lt;/li&gt;
+&lt;li&gt;Streamable HTTP 支持多种应用场景，包括无状态服务器模式、流式进度反馈模式、复杂 AI 会话模式和断线恢复模式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 是一个用于 AI 模型和工具间通信的标准协议。随着 AI 应用的日益复杂和广泛部署，原有的通信机制面临着一系列挑战。GitHub 上的 206号 PR 引入了全新的 Streamable HTTP 传输层，这是对原有 HTTP+SSE 传输机制的重大改进。本文将详细解析这个协议的设计思想、技术细节以及实际应用。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.claudemcp.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Model Context Protocol (MCP)&lt;/a&gt; 是一个用于 AI 模型和工具间通信的标准协议。随着 AI 应用的日益复杂和广泛部署，原有的通信机制面临着一系列挑战。GitHub 上的 &lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/modelcontextprotocol/pull/206&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PR #206&lt;/a&gt; 引入了全新的 &lt;code&gt;Streamable HTTP&lt;/code&gt; 传输层，这是对原有 HTTP+SSE 传输机制的重大改进。本文将详细解析这个协议的设计思想、技术细节以及实际应用。&lt;/p&gt;
+&lt;h2 id=&#34;原有-httpsse-传输机制及其局限&#34;&gt;原有 HTTP+SSE 传输机制及其局限
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://mcp.programnotes.cn/images/blog/mcp-http-sse.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;HTTP&amp;#43;SSE 传输机制&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在原有的 MCP 实现中，客户端和服务器通过两个主要通道通信：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;HTTP 请求/响应&lt;/strong&gt;：客户端通过标准 HTTP 请求发送消息到服务器&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;服务器发送事件(SSE)&lt;/strong&gt;：服务器通过专门的 &lt;code&gt;/sse&lt;/code&gt; 端点向客户端推送消息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;主要问题&#34;&gt;主要问题
+&lt;/h3&gt;&lt;p&gt;这种设计虽然简单直观，但存在几个关键问题：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;不支持断线重连/恢复&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当 SSE 连接断开时，所有会话状态丢失，客户端必须重新建立连接并初始化整个会话。例如，正在执行的大型文档分析任务会因 WiFi 不稳定而完全中断，迫使用户重新开始整个过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;服务器需维护长连接&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;服务器必须为每个客户端维护一个长时间的 SSE 连接，大量并发用户会导致资源消耗剧增。当服务器需要重启或扩容时，所有连接都会中断，影响用户体验和系统可靠性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;服务器消息只能通过 SSE 传递&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;即使是简单的请求-响应交互，服务器也必须通过 SSE 通道返回信息，造成不必要的复杂性和开销。对于某些环境（如云函数）不适合长时间保持 SSE 连接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;基础设施兼容性限制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;许多现有的 Web 基础设施如 CDN、负载均衡器、API 网关等可能不能正确处理长时间的 SSE 连接，企业防火墙可能会强制关闭超时连接，导致服务不可靠。&lt;/p&gt;
+&lt;h2 id=&#34;streamable-http设计与原理&#34;&gt;Streamable HTTP：设计与原理
+&lt;/h2&gt;&lt;p&gt;Streamable HTTP 的设计基于以下几个核心理念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;最大化兼容性&lt;/strong&gt;：与现有 HTTP 生态系统无缝集成&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;灵活性&lt;/strong&gt;：同时支持无状态和有状态模式&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;资源效率&lt;/strong&gt;：按需分配资源，避免不必要的长连接&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可靠性&lt;/strong&gt;：支持断线重连和会话恢复&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;关键改进&#34;&gt;关键改进
+&lt;/h3&gt;&lt;p&gt;相比原有机制，Streamable HTTP 引入了几项关键改进：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;统一端点&lt;/strong&gt;：移除专门的 &lt;code&gt;/sse&lt;/code&gt; 端点，所有通信通过单一端点（如 &lt;code&gt;/message&lt;/code&gt;）进行&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;按需流式传输&lt;/strong&gt;：服务器可灵活选择是返回普通 HTTP 响应还是升级为 SSE 流&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;会话标识&lt;/strong&gt;：引入会话 ID 机制，支持状态管理和恢复&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;灵活初始化&lt;/strong&gt;：客户端可通过空 GET 请求主动初始化 SSE 流&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;技术细节&#34;&gt;技术细节
+&lt;/h3&gt;&lt;p&gt;Streamable HTTP 的工作流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;会话初始化&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;客户端发送初始化请求到 &lt;code&gt;/message&lt;/code&gt; 端点&lt;/li&gt;
+&lt;li&gt;服务器可选择生成会话 ID 返回给客户端&lt;/li&gt;
+&lt;li&gt;会话 ID 用于后续请求中标识会话&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;客户端向服务器通信&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;所有消息通过 HTTP POST 请求发送到 &lt;code&gt;/message&lt;/code&gt; 端点&lt;/li&gt;
+&lt;li&gt;如果有会话 ID，则包含在请求中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;服务器响应方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;普通响应&lt;/strong&gt;：直接返回 HTTP 响应，适合简单交互&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;流式响应&lt;/strong&gt;：升级连接为 SSE，发送一系列事件后关闭&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;长连接&lt;/strong&gt;：维持 SSE 连接持续发送事件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;主动建立 SSE 流&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;客户端可发送 GET 请求到 &lt;code&gt;/message&lt;/code&gt; 端点主动建立 SSE 流&lt;/li&gt;
+&lt;li&gt;服务器可通过该流推送通知或请求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;连接恢复&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;连接中断时，客户端可使用之前的会话 ID 重新连接&lt;/li&gt;
+&lt;li&gt;服务器可恢复会话状态继续之前的交互&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;实际应用场景&#34;&gt;实际应用场景
+&lt;/h2&gt;&lt;h3 id=&#34;无状态服务器模式&#34;&gt;无状态服务器模式
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;场景&lt;/strong&gt;：简单工具 API 服务，如数学计算、文本处理等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;客户端                                 服务器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;计算请求&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; --------&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- 执行计算
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- HTTP &lt;span class=&#34;m&#34;&gt;200&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;计算结果&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; -------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：极简部署，无需状态管理，适合无服务器架构和微服务。&lt;/p&gt;
+&lt;h3 id=&#34;流式进度反馈模式&#34;&gt;流式进度反馈模式
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;场景&lt;/strong&gt;：长时间运行的任务，如大文件处理、复杂 AI 生成等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;客户端                                 服务器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;处理请求&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; --------&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- 启动处理任务
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- HTTP &lt;span class=&#34;m&#34;&gt;200&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;SSE开始&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; --------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 进度10% ---------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 进度30% ---------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 进度70% ---------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 完成 + 结果 ------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：提供实时反馈，但不需要永久保持连接状态。&lt;/p&gt;
+&lt;h3 id=&#34;复杂-ai-会话模式&#34;&gt;复杂 AI 会话模式
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;场景&lt;/strong&gt;：多轮对话 AI 助手，需要维护上下文。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;客户端                                 服务器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;初始化&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ----------&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;-- HTTP &lt;span class=&#34;m&#34;&gt;200&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;会话ID: abc123&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- GET /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;会话ID: abc123&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ---&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE流建立 -----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;问题1, abc123&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ---&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 思考中... -------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 回答1 ----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;问题2, abc123&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ---&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 思考中... -------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 回答2 ----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：维护会话上下文，支持复杂交互，同时允许水平扩展。&lt;/p&gt;
+&lt;h3 id=&#34;断线恢复模式&#34;&gt;断线恢复模式
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;场景&lt;/strong&gt;：不稳定网络环境下的 AI 应用使用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;客户端                                 服务器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;初始化&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ----------&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;-- HTTP &lt;span class=&#34;m&#34;&gt;200&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;会话ID: xyz789&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- GET /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;会话ID: xyz789&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ---&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE流建立 -----------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- POST /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;长任务, xyz789&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; --&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 进度30% ---------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;网络中断&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;                      &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;-- GET /message &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;会话ID: xyz789&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ---&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE流重新建立 --------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 进度60% ---------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;   &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&amp;lt;------- SSE: 完成 ------------------&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：提高弱网环境下的可靠性，改善用户体验。&lt;/p&gt;
+&lt;h2 id=&#34;streamable-http-的主要优势&#34;&gt;Streamable HTTP 的主要优势
+&lt;/h2&gt;&lt;h3 id=&#34;技术优势&#34;&gt;技术优势
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;简化实现&lt;/strong&gt;：可以在普通 HTTP 服务器上实现，无需特殊支持&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;资源效率&lt;/strong&gt;：按需分配资源，不需要为每个客户端维护长连接&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;基础设施兼容性&lt;/strong&gt;：与现有 Web 基础设施（CDN、负载均衡器、API 网关）良好配合&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;水平扩展&lt;/strong&gt;：支持通过消息总线路由请求到不同服务器节点&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;渐进式采用&lt;/strong&gt;：服务提供者可根据需求选择实现复杂度&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;断线重连&lt;/strong&gt;：支持会话恢复，提高可靠性&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;业务优势&#34;&gt;业务优势
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;降低运维成本&lt;/strong&gt;：减少服务器资源消耗，简化部署架构&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提升用户体验&lt;/strong&gt;：通过实时反馈和可靠连接改善体验&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;广泛适用性&lt;/strong&gt;：从简单工具到复杂 AI 交互，都有合适的实现方式&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;扩展能力&lt;/strong&gt;：支持更多样化的 AI 应用场景&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;开发友好&lt;/strong&gt;：降低实现 MCP 的技术门槛&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;实现参考&#34;&gt;实现参考
+&lt;/h2&gt;&lt;h3 id=&#34;服务器端实现要点&#34;&gt;服务器端实现要点
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;端点设计&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实现单一的 &lt;code&gt;/message&lt;/code&gt; 端点处理所有请求&lt;/li&gt;
+&lt;li&gt;支持 POST 和 GET 两种 HTTP 方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;状态管理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设计会话 ID 生成和验证机制&lt;/li&gt;
+&lt;li&gt;实现会话状态存储（内存、Redis 等）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;请求处理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解析请求中的会话 ID&lt;/li&gt;
+&lt;li&gt;确定响应类型（普通 HTTP 或 SSE）&lt;/li&gt;
+&lt;li&gt;处理流式响应的内容类型和格式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;连接管理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实现 SSE 流初始化和维护&lt;/li&gt;
+&lt;li&gt;处理连接断开和重连逻辑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;客户端实现要点&#34;&gt;客户端实现要点
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;请求构造&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;构建符合协议的消息格式&lt;/li&gt;
+&lt;li&gt;正确包含会话 ID（如有）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;响应处理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;检测响应是普通 HTTP 还是 SSE&lt;/li&gt;
+&lt;li&gt;解析和处理 SSE 事件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;会话管理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;存储和管理会话 ID&lt;/li&gt;
+&lt;li&gt;实现断线重连逻辑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;错误处理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;处理网络错误和超时&lt;/li&gt;
+&lt;li&gt;实现指数退避重试策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论
+&lt;/h2&gt;&lt;p&gt;Streamable HTTP 传输层代表了 MCP 协议的重要进化，它通过结合 HTTP 和 SSE 的优点，同时克服二者的局限，为 AI 应用的通信提供了更灵活、更可靠的解决方案。它不仅解决了原有传输机制的问题，还为未来更复杂的 AI 交互模式奠定了基础。&lt;/p&gt;
+&lt;p&gt;这个协议的设计充分体现了实用性原则，既满足了技术先进性要求，又保持了与现有 Web 基础设施的兼容性。它的灵活性使得开发者可以根据自身需求选择最合适的实现方式，从简单的无状态 API 到复杂的交互式 AI 应用，都能找到合适的解决方案。&lt;/p&gt;
+&lt;p&gt;随着这个 PR 的合并，MCP 社区的技术生态将更加丰富多样，也为更多开发者采用 MCP 提供了便利。相信在不久的将来，我们将看到基于 Streamable HTTP 的 MCP 实现在各种 AI 应用中的广泛应用。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

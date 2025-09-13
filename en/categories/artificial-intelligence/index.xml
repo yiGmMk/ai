@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Artificial Intelligence on AI News</title>
+        <link>https://ai.programnotes.cn/en/categories/artificial-intelligence/</link>
+        <description>Recent content in Artificial Intelligence on AI News</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Mon, 08 Sep 2025 10:00:00 +0800</lastBuildDate><atom:link href="https://ai.programnotes.cn/en/categories/artificial-intelligence/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Weekly Tech &amp; AI News Update (2025-09-08)</title>
+        <link>https://ai.programnotes.cn/en/p/weekly-tech-ai-news-update-2025-09-08/</link>
+        <pubDate>Mon, 08 Sep 2025 10:00:00 +0800</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/weekly-tech-ai-news-update-2025-09-08/</guid>
+        <description>&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;AI Chatbots&lt;/strong&gt; Send Risqué Messages to Teenagers: Virtual celebrity avatars discussed sex and drugs with users, sparking concerns about AI&amp;rsquo;s role in youth engagement.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OpenAI&lt;/strong&gt; Faces Lawsuit Over AI&amp;rsquo;s Role in Teen Suicide: A family claims ChatGPT discouraged their son from seeking help, raising ethical issues in AI development.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SpaceX&lt;/strong&gt; Aces Daily Launches with Starship Test Flight: SpaceX conducted 7 launches in 7 days, including a successful Starship test after a year-long hiatus.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Epic Games Store&lt;/strong&gt; Offers Major Discounts: Cyberpunk 2077 (65% off), GTA V (50% off), and others are on sale, with free games like &lt;em&gt;Monument Valley&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;New Indie Games&lt;/strong&gt; Highlighted: &lt;em&gt;The Legend of Baboo&lt;/em&gt;, &lt;em&gt;Dreams of Another&lt;/em&gt;, &lt;em&gt;Tombwater&lt;/em&gt;, and &lt;em&gt;Fantasy Football Tactics Demo&lt;/em&gt; are upcoming or in development.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Boston Dynamics&amp;rsquo; Atlas Robot&lt;/strong&gt; Uses Single AI Model: The robot masters human-like movements with just one AI model, signaling advancements in robotics.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;India&amp;rsquo;s Chip Industry&lt;/strong&gt; Gains Momentum: Years of investment are yielding results, with efforts to boost AI independence and global partnerships.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Firefly Aerospace&lt;/strong&gt; Clears Rocket Failure Investigation: The company resumes launches after resolving issues from a failed April rocket mission.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ULA&lt;/strong&gt; Recovers Reusable Booster: United Launch Alliance successfully recovers a rocket booster, marking progress in cost-effective space travel.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;xAI&lt;/strong&gt; Loses Executives, Including CFO: The Elon Musk-backed AI firm faces leadership challenges shortly after its launch.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;China&lt;/strong&gt; Aims to Triple AI Chip Production: Factories are operating 24/7 to meet demand, while repurposing NASA tech for hypersonic drones.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Anthropic&lt;/strong&gt; Settles Copyright Lawsuit with Authors: The AI company avoids $1 trillion damages by resolving claims over training data use.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Google&lt;/strong&gt; Reveals Energy Costs of AI Prompts: Data shows the environmental impact of AI interactions, sparking debates on sustainability.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;South Korean Seniors&lt;/strong&gt; Bond with Companionship Robots: Hydol robots are helping elderly combat loneliness, with potential dementia care applications.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Anguilla&lt;/strong&gt; Profits from AI-Themed .ai Domains: The Caribbean island capitalizes on AI trends by selling domains, linking tech to cybersecurity issues.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>The Model Context Protocol (MCP): A Comprehensive Analysis</title>
+        <link>https://ai.programnotes.cn/en/p/the-model-context-protocol-mcp-a-comprehensive-analysis/</link>
+        <pubDate>Thu, 28 Aug 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/the-model-context-protocol-mcp-a-comprehensive-analysis/</guid>
+        <description>&lt;p&gt;The Model Context Protocol (MCP) is rapidly emerging as a pivotal open standard, poised to revolutionize how AI applications engage with external data sources, tools, and APIs. Conceived by Anthropic, MCP seeks to establish a harmonized and standardized interface, empowering Large Language Models (LLMs) and AI agents to harness external resources with unprecedented efficiency and security. This analysis provides a comprehensive examination of MCP, dissecting its architecture, advantages, limitations, adoption patterns, and its standing relative to alternative methodologies.[^1]&lt;/p&gt;
+&lt;h2 id=&#34;core-architecture&#34;&gt;Core Architecture
+&lt;/h2&gt;&lt;p&gt;MCP adopts a client-server architecture, wherein AI applications (clients) interface with MCP servers that serve as intermediaries to external resources. The protocol leverages JSON-RPC 2.0 and accommodates transports such as Server-Sent Events (SSE). Key operational facets include dynamic tool discovery, a standardized interface, context management, and robust security protocols.[^2]&lt;/p&gt;
+&lt;h2 id=&#34;functionalitydescription&#34;&gt;Functionality	Description
+&lt;/h2&gt;&lt;p&gt;Tool Discovery	Enables AI agents to dynamically identify available tools and their schemas, facilitating optimal tool selection for specific tasks.
+Standardized Interface	Offers a unified interface for interacting with diverse APIs, tools, and data sources, thereby minimizing the need for custom code and simplifying integration processes.
+Context Management	Streamlines context management across multiple interactions, ensuring AI agents possess the requisite information for executing intricate tasks.
+Security	Integrates security measures to avert unauthorized access and safeguard sensitive data, maintaining data integrity and confidentiality.
+Key Advantages
+MCP presents several compelling advantages over conventional AI integration techniques, such as function calling and direct API invocations. These benefits include simplified integration processes, improved scalability, enhanced security measures, and dynamic tool discovery capabilities.&lt;/p&gt;
+&lt;p&gt;Simplified integration is achieved through MCP&amp;rsquo;s standardized interface and tool discovery mechanism, which significantly reduces the complexities associated with integrating AI with external resources. This streamlined approach not only accelerates development cycles but also lowers the barrier to entry for developers seeking to leverage AI in their applications.&lt;/p&gt;
+&lt;p&gt;Scalability is promoted by decoupling tool implementation from consumption, allowing AI agents to access a broad spectrum of tools without needing specific knowledge of their implementation nuances. This decoupling fosters a more flexible and scalable AI ecosystem, where new tools can be seamlessly integrated and utilized across various applications.&lt;/p&gt;
+&lt;p&gt;Enhanced security is realized through centralized control and monitoring of AI interactions, which improves overall security and mitigates the risk of unauthorized access. MCP&amp;rsquo;s security architecture provides a robust framework for managing permissions and access controls, ensuring that sensitive data remains protected.&lt;/p&gt;
+&lt;p&gt;Dynamic tool discovery empowers AI agents to discover and utilize new tools on-the-fly, enhancing their adaptability and versatility. This dynamic capability enables AI agents to respond to changing conditions and emerging opportunities, making them more effective in dynamic and unpredictable environments.&lt;/p&gt;
+&lt;h2 id=&#34;inherent-limitations&#34;&gt;Inherent Limitations
+&lt;/h2&gt;&lt;p&gt;Despite its promise, MCP is not without its limitations and challenges. These include concerns about its maturity as a relatively new technology, the need for widespread adoption, the complexity of implementing and managing MCP servers, potential security risks, and the overhead associated with running MCP clients within host applications.[^3]&lt;/p&gt;
+&lt;p&gt;The immaturity of MCP as a technology means that its long-term viability remains uncertain. As the protocol evolves, it is essential to address any shortcomings and ensure that it meets the needs of the AI community.&lt;/p&gt;
+&lt;p&gt;Widespread adoption of MCP hinges on support from major AI providers and developers, which may take time to materialize. Overcoming this adoption hurdle requires demonstrating the value of MCP and fostering a collaborative ecosystem where developers can contribute to its growth.&lt;/p&gt;
+&lt;p&gt;Implementing and managing MCP servers can be a complex undertaking, requiring specialized expertise. Simplifying the deployment and management of MCP servers is crucial for lowering the barrier to entry and encouraging broader adoption.&lt;/p&gt;
+&lt;p&gt;MCP introduces new security risks, such as prompt injection attacks and unauthorized access, which must be carefully addressed. Implementing robust security measures and adhering to best practices is essential for mitigating these risks and ensuring the integrity of AI systems.&lt;/p&gt;
+&lt;p&gt;The overhead of running MCP clients within host applications can impact performance, particularly in resource-constrained environments. Optimizing the performance of MCP clients is essential for ensuring that AI applications remain responsive and efficient.&lt;/p&gt;
+&lt;p&gt;Adoption Trends
+MCP is steadily gaining traction within the AI community, with numerous companies and organizations actively exploring its potential. Early adopters, including Block (Square), Apollo, Zed, Replit, Codeium, and Sourcegraph, are pioneering the integration of MCP into diverse applications and platforms. These include Integrated Development Environments (IDEs), enterprise AI deployments, and agentic Retrieval-Augmented Generation (RAG) applications.[^4]&lt;/p&gt;
+&lt;h2 id=&#34;comparative-analysis&#34;&gt;Comparative Analysis
+&lt;/h2&gt;&lt;p&gt;MCP is frequently contrasted with function calling, a mechanism that enables LLMs to directly invoke predefined functions. While function calling facilitates AI model interaction with external resources, it lacks the standardization and scalability inherent in MCP. Furthermore, MCP diverges from other AI agent protocols, such as A2A, which emphasizes agent-to-agent communication rather than model-to-tool interactions.[^5]&lt;/p&gt;
+&lt;p&gt;Function calling, while useful for specific tasks, often requires custom implementations for each LLM, leading to a fragmented and less scalable ecosystem. MCP, on the other hand, provides a unified interface that can be used across different LLMs, promoting interoperability and reducing the need for custom code.&lt;/p&gt;
+&lt;p&gt;A2A protocols focus on enabling collaboration between AI agents, whereas MCP focuses on enabling AI agents to access and utilize external resources. While these protocols address different aspects of AI system design, they can be complementary, with MCP providing the infrastructure for accessing tools and A2A providing the framework for coordinating multi-agent interactions.&lt;/p&gt;
+&lt;h2 id=&#34;future-implications&#34;&gt;Future Implications
+&lt;/h2&gt;&lt;p&gt;MCP holds significant promise as a means of standardizing AI integration, offering substantial advantages over traditional methodologies. Despite existing challenges, the burgeoning interest in MCP suggests its potential to play a pivotal role in the future of AI. As the protocol matures and its adoption broadens, it is poised to unlock novel possibilities for AI-powered applications and services.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;The future success of MCP will depend on addressing its limitations, fostering a collaborative ecosystem, and demonstrating its value to the broader AI community. By overcoming these challenges, MCP can pave the way for a more integrated, scalable, and secure AI landscape, where AI agents can seamlessly interact with external resources to solve complex problems and create new opportunities.&lt;/p&gt;
+&lt;p&gt;The question remains: Can MCP truly become the &amp;ldquo;USB-C&amp;rdquo; of AI, or will it be relegated to a niche technology overshadowed by proprietary solutions? Only time, and the collective efforts of the AI community, will reveal the answer.&lt;/p&gt;
+&lt;h2 id=&#34;ref&#34;&gt;Ref
+&lt;/h2&gt;&lt;p&gt;[1]: MCP is promising but immature explore its security flaws cost issues and why orchestration and backward compatibility remain major hurdles MCP Will be the Death of Low-Code Automation, and Other&lt;/p&gt;
+&lt;p&gt;[2]: The Model Context Protocol MCP is an open standard introduced by Anthropic with the goal to standardize how AI applications chatbots IDE assistants or Model Context Protocol (MCP) an overview - Philschmid&lt;/p&gt;
+&lt;p&gt;[3]: Community and Adoption In just a few months MCP went from concept to a growing ecosystem Early adopters included companies like Block Square Apollo Zed Replit Codeium and Sourcegraph who began integrating MCP to enhance their platforms Fast forward to 2025 and the ecosystem has exploded by February there were over 1 000 community built MCP servers connectors available Clearly MCP has struck a chord as the industry moves toward more integrated and context aware AI This network effect makes MCP even more attractive the more tools available via MCP the more useful it is to adopt the standard What Is MCP, and Why Is Everyone – Suddenly!– Talking About It?&lt;/p&gt;
+&lt;p&gt;[4]: MCP is rapidly maturing into a powerful standard protocol that turns AI from an isolated brain into a versatile doer By streamlining how agents connect with external systems it clears the path for more capable interactive and user friendly AI workflows What Is MCP, and Why Is Everyone – Suddenly!– Talking About It?&lt;/p&gt;
+&lt;p&gt;[5]: Quick Comparison Function Calling vs MCP vs A2A It s tempting to see these protocols as competitors but they actually solve different If Function Calling is like having to speak multiple languages to different chefs MCP is like having a universal translator in the kitchen Define your tools In architectural terms MCP answers what tools can my agent use while A2A handles how can my agents work together This resembles how While Function Calling and MCP focus on model to tool interaction A2A Agent to Agent Protocol introduced by Google tackles a different The Great AI Agent Protocol Race: Function Calling vs. MCP vs. A2A&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;MCP follows a client host server architecture where each host can run multiple client instances This architecture enables users to integrate AI capabilities The Model Context Protocol (MCP) — A Complete Tutorial - Medium&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP Ultimate Guide</title>
+        <link>https://ai.programnotes.cn/en/p/mcp-ultimate-guide/</link>
+        <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/mcp-ultimate-guide/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/MCP.png" alt="Featured image of post MCP Ultimate Guide" /&gt;&lt;p&gt;Core content:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP is an open, universal, consensus protocol standard led by Claude to address the problem of slow integration of AI models with existing systems.&lt;/li&gt;
+&lt;li&gt;MCP defines standardized protocols to enable AI models to interact seamlessly with different APIs and data sources, replacing fragmented Agent code integration, thus making AI systems more reliable and efficient.&lt;/li&gt;
+&lt;li&gt;MCP Server is the key to implementing AI Agent automation. It acts as an intermediate layer to inform the AI ​​Agent which services, APIs and data sources exist, so that the AI ​​Agent can decide independently whether to call a service to complete the task.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;From&lt;/strong&gt; | guangzhengli AI independent development&lt;/p&gt;
+&lt;p&gt;I haven&amp;rsquo;t updated AI-related blogs in almost a year. On the one hand, I&amp;rsquo;m busy with side projects. On the other hand, although AI technology is changing with each passing day, there is not much new development of the AI ​​application layer. It&amp;rsquo;s basically the three things that [2023 blog] (&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/gpt-embeddings/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://guangzhengli.com/blog/zh/gpt-embeddings/&lt;/a&gt;) are mentioned, Prompt, RAG, and Agent.&lt;/p&gt;
+&lt;p&gt;However, since Claude (Anthropic) led the release of MCP (Model Context Protocol Model Context Protocol) at the end of November last year, the development of the AI ​​application layer has entered a new era.&lt;/p&gt;
+&lt;p&gt;However, there seems to be no information on the explanation and development of MCP, so the author decided to organize some of his experiences and thoughts into an article, hoping to help everyone.&lt;/p&gt;
+&lt;h2 id=&#34;why-is-mcp-a-breakthrough&#34;&gt;Why is MCP a breakthrough
+&lt;/h2&gt;&lt;p&gt;We know that AI models have developed very rapidly over the past year, and from GPT 4 to Claude Sonnet 3.5 to Deepseek R1, both reasoning and hallucination have improved very significantly.&lt;/p&gt;
+&lt;p&gt;There are many new AI applications, but one thing we can all feel is that the AI ​​applications on the market are basically brand new services and do not integrate with our usual services and systems. In other words, the integration of AI models and our existing systems is developing very slowly.&lt;/p&gt;
+&lt;p&gt;For example, we cannot currently use an AI application to search online, send emails, publish your own blog, etc. It is not difficult to implement these functions individually, but if you want to integrate them all into one system, it will become out of reach.&lt;/p&gt;
+&lt;p&gt;If you don’t have a specific feeling yet, we can think about daily development and imagine that in IDE, we can do the following tasks through IDE’s AI.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ask AI to query the existing data from the local database to assist in development&lt;/li&gt;
+&lt;li&gt;Ask AI to search Github Issue to determine if a problem is a known bug&lt;/li&gt;
+&lt;li&gt;Code Review via AI to send comments from a PR to colleagues&amp;rsquo; instant messaging software (such as Slack)&lt;/li&gt;
+&lt;li&gt;Complete deployment through AI query or even modify the current AWS and Azure configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The functions mentioned above are now becoming a reality through MCP. You can follow &lt;a class=&#34;link&#34; href=&#34;https://docs.cursor.com/context/model-context-protocol&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cursor MCP&lt;/a&gt; and &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=Y_kaQmhGmZk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windsurf MCP&lt;/a&gt; for more information. You can try the Cursor MCP + &lt;a class=&#34;link&#34; href=&#34;https://browsertools.agentdesk.ai/installation&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;browsertools&lt;/a&gt; plug-in to experience the ability to automatically obtain Chrome dev tools console log in Cursor.&lt;/p&gt;
+&lt;p&gt;Why is AI integration of existing services so slow? There are many reasons for this. On the one hand, enterprise-level data is very sensitive, and most companies take a long time and process to move. Another aspect is the technology aspect, we lack an open, general, and consensus protocol standard.&lt;/p&gt;
+&lt;p&gt;MCP is an open, general and consensus protocol standard led by Claude (Anthropic). If you are a developer who is familiar with AI models, you must be familiar with Anthropic. They released the Claude 3.5 Sonnet model, which should be the strongest programming AI model so far (3.7😅 was released as soon as it was written).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I would like to mention here that the best opportunity for release of this protocol should belong to OpenAI. If OpenAI promoted the protocol when it first released GPT, I believe no one would refuse it. However, OpenAI has become CloseAI and has only released one closed GPTs. This standard protocol that requires dominance and consensus is generally difficult to form spontaneously in the community and is generally dominated by industry giants.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;After Claude released MCP, the official Claude Desktop opened up MCP functionality and promoted the open source organization &lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Model Context Protocol&lt;/a&gt;, which is participated by different companies and communities. For example, the following lists some examples of MCP servers being released by different organizations.&lt;/p&gt;
+&lt;h3 id=&#34;mcp-official-integrated-teaching&#34;&gt;MCP official integrated teaching:
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers/blob/main/src/git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Git&lt;/a&gt;&lt;/strong&gt; - Git Read, operate, search.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers/blob/main/src/github&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;&lt;/strong&gt; - Repo management, file manipulation, and GitHub API integration.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers/blob/main/src/google-maps&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google Maps&lt;/a&gt;&lt;/strong&gt; - Integrate Google Map to get location information.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers/blob/main/src/postgres&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PostgreSQL&lt;/a&gt;&lt;/strong&gt; - Read-only database query.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers/blob/main/src/slack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Slack&lt;/a&gt;&lt;/strong&gt; - Slack message sending and querying.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-examples-of-mcp-official-support-by-third-party-platforms&#34;&gt;🎖️ Examples of MCP official support by third-party platforms
+&lt;/h3&gt;&lt;p&gt;MCP server built by third-party platforms.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/grafana/mcp-grafana&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Grafana&lt;/a&gt;&lt;/strong&gt; - Search for query data in Grafana.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/JetBrains/mcp-jetbrains&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;JetBrains&lt;/a&gt;&lt;/strong&gt; – JetBrains IDEs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/stripe/agent-toolkit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stripe&lt;/a&gt;&lt;/strong&gt; - Interact with the Stripe API.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-community-mcp-server&#34;&gt;🌎 Community MCP Server
+&lt;/h3&gt;&lt;p&gt;Here are some MCP servers developed and maintained by the open source community.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/rishikavikondala/mcp-server-aws&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS&lt;/a&gt;&lt;/strong&gt; - Use LLM to operate AWS resources.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sooperset/mcp-atlassian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Atlassian&lt;/a&gt;&lt;/strong&gt; - Interact with Confluence and Jira, including searching/querying Confluence space/pages, accessing Jira Issue and projects.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/v-3/google-calendar&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google Calendar&lt;/a&gt;&lt;/strong&gt; - Integrate with Google Calendar, schedule, find time, and add/remove events.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Flux159/mcp-server-kubernetes&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Kubernetes&lt;/a&gt;&lt;/strong&gt; - Connect to a Kubernetes cluster and manage pods, deployments, and services.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/EnesCinr/twitter-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;X (Twitter)&lt;/a&gt;&lt;/strong&gt; - Interact with the Twitter API. Post a tweet and search for tweets by query.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ZubeidHendricks/youtube-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;YouTube&lt;/a&gt;&lt;/strong&gt; - Integrate with YouTube API, video management, short video creation, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;why-mcp&#34;&gt;Why MCP?
+&lt;/h2&gt;&lt;p&gt;After seeing this, you may have a question. When OpenAI released GPT function calling in 2023, wasn’t it possible to implement similar functions? Isn’t the AI ​​Agent introduced in our previous blog just used to integrate different services? Why is MCP again?&lt;/p&gt;
+&lt;p&gt;What is the difference between function calling, AI Agent, and MCP?&lt;/p&gt;
+&lt;h3 id=&#34;function-calling&#34;&gt;Function Calling
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Function Calling refers to the mechanism by which the AI ​​model automatically executes functions based on the context.&lt;/li&gt;
+&lt;li&gt;Function Calling acts as a bridge between AI models and external systems. Different models have different implementations of Function Calling, and the methods of code integration are also different. Defined and implemented by different AI model platforms.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If we use Function Calling, we need to provide a set of functions to the LLM through code and provide clear function description, function input and output, then the LLM can reason and execute functions based on clear structured data.&lt;/p&gt;
+&lt;p&gt;The disadvantage of Function Calling is that it cannot handle many rounds of dialogue and complex needs, and is suitable for tasks with clear boundaries and clear descriptions. If you need to deal with a lot of tasks, then the code of Function Calling is difficult to maintain.&lt;/p&gt;
+&lt;h3 id=&#34;model-context-protocol-mcp&#34;&gt;Model Context Protocol (MCP)
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;MCP is a standard protocol, like the Type C protocol of electronic devices (can be charged or transmitted data), allowing AI models to interact seamlessly with different APIs and data sources.&lt;/li&gt;
+&lt;li&gt;MCP is designed to replace fragmented Agent code integration, making AI systems more reliable and efficient. By establishing common standards, service providers can launch the AI ​​capabilities they serve based on protocols, thus enabling developers to build more powerful AI applications faster. Developers do not need to re-create the wheel. Open source projects can build a strong AI Agent ecosystem.&lt;/li&gt;
+&lt;li&gt;MCP can maintain context between different applications/services, thereby enhancing the overall ability to perform tasks autonomously.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It can be understood that MCP is to layer different tasks, each layer provides specific capabilities, descriptions, and limitations. The MCP Client judges based on different tasks, selects whether a certain capability needs to be called, and then builds an Agent that can handle complex, multi-step dialogue and unified context through the input and output of each layer.&lt;/p&gt;
+&lt;h3 id=&#34;ai-agent&#34;&gt;AI Agent
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;AI Agent is an intelligent system that can run autonomously to achieve specific goals. Traditional AI chat only provides advice or requires manual tasks, and AI Agent can analyze specific situations, make decisions, and take action on its own.&lt;/li&gt;
+&lt;li&gt;AI Agent can leverage the functional description provided by MCP to understand more context and automate tasks across various platforms/services.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;think&#34;&gt;think
+&lt;/h3&gt;&lt;p&gt;Why is Claude widely accepted after launching MCP? In fact, I have personally participated in the development of several small AI projects in the past year. During the development process, it is really troublesome to integrate AI models into existing systems or third-party systems.&lt;/p&gt;
+&lt;p&gt;Although there are some frameworks on the market that support Agent development, such as &lt;a class=&#34;link&#34; href=&#34;https://www.langchain.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;LangChain Tools&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://docs.llamaindex.ai/en/stable/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;LlamaIndex&lt;/a&gt; or &lt;a class=&#34;link&#34; href=&#34;https://sdk.vercel.ai/docs/introduction&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Vercel AI SDK&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Although LangChain and LlamaIndex are both open source projects, the overall development is still quite chaotic. First of all, the abstraction level of the code is too high. What you want to promote is to let developers complete certain AI functions in just a few lines of code. This is very useful in the demo stage. However, in actual development, as long as the business starts to be complex, poor code design brings a very bad programming experience. Also, these projects are too commercialized and ignore the construction of the overall ecology.&lt;/p&gt;
+&lt;p&gt;Another one is the Vercel AI SDK. Although I personally think that the Vercel AI SDK code is better abstract, it is just that the front-end UI combination and some AI functions are packaged well. The biggest problem is that it is too deeply bound to Nextjs and does not support other frameworks and languages.&lt;/p&gt;
+&lt;p&gt;Therefore, Claude promotes MCP as a good time. First of all, Claude Sonnet 3.5 has a high status in the minds of developers, and MCP is an open standard, so many companies and communities are willing to participate, hoping that Claude can always maintain a good open ecosystem.&lt;/p&gt;
+&lt;p&gt;The benefits of MCP for community ecology are mainly the following two points:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open standards to service providers, which can open their APIs and some capabilities to MCPs.&lt;/li&gt;
+&lt;li&gt;No need to remake the wheel, developers can use existing open source MCP services to enhance their agents.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;how-mcp-works&#34;&gt;How MCP works
+&lt;/h2&gt;&lt;p&gt;Then let’s introduce how MCP works. First, let’s take a look at the [official MCP architecture diagram] (&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.io/introduction%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://modelcontextprotocol.io/introduction)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/MCP.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Image 2: MCP architecture diagram&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;It is divided into the following five parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP Hosts: Hosts refers to applications where LLM starts connections, such as Cursor, Claude Desktop, &lt;a class=&#34;link&#34; href=&#34;https://github.com/cline/cline&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cline&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;MCP Clients: The client is used to maintain a 1:1 connection to the Server within the Hosts application.&lt;/li&gt;
+&lt;li&gt;MCP Servers: Provides context, tools and tips for the Client through standardized protocols.&lt;/li&gt;
+&lt;li&gt;Local Data Sources: Local files, databases, and APIs.&lt;/li&gt;
+&lt;li&gt;Remote Services: External files, databases, and APIs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The core of the entire MCP protocol lies in Server, because Host and Client are familiar with computer networks, which are very easy to understand, but how does Server understand it?&lt;/p&gt;
+&lt;p&gt;Looking at Cursor&amp;rsquo;s AI Agent development process, we will find that the entire process of AI automation will evolve from Chat to Composer to a complete AI Agent.&lt;/p&gt;
+&lt;p&gt;AI Chat just provides suggestions on how to convert AI responses into behavior and the end result, all relying on humans, such as manual copy-paste, or making some modifications.&lt;/p&gt;
+&lt;p&gt;AI Composer can automatically modify code, but requires human participation and confirmation, and cannot do other operations other than modifying code.&lt;/p&gt;
+&lt;p&gt;AI Agent is a completely automated program. In the future, it can automatically read Figma pictures, automatically produce code, automatically read logs, automatically debug code, and automatically push code to GitHub.&lt;/p&gt;
+&lt;p&gt;MCP Server exists to realize the automation of AI Agent. It is an intermediate layer that tells the AI ​​Agent which services, APIs, and data sources currently exist. The AI ​​Agent can decide whether to call a certain service based on the information provided by the server, and then execute the functions through Function Calling.&lt;/p&gt;
+&lt;h3 id=&#34;how-mcp-server-works&#34;&gt;How MCP Server Works
+&lt;/h3&gt;&lt;p&gt;Let&amp;rsquo;s first look at a simple example. Suppose we want the AI ​​Agent to automatically search for GitHub Repository, then search for Issue, then determine whether it is a known bug, and finally decide whether we need to submit a new Issue function.&lt;/p&gt;
+&lt;p&gt;Then we need to create a Github MCP Server, which needs to provide three capabilities: finding Repository, searching Issues and creating Issue.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take a look at the code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;github-mcp-server&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;VERSION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;capabilities&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nx&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setRequestHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListToolsRequestSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;async&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;tools&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;search_repositories&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Search for GitHub repositories&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;inputSchema&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;zodToJsonSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;SearchRepositoriesSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;create_issue&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Create a new issue in a GitHub repository&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;inputSchema&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;zodToJsonSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;issues&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CreateIssueSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;search_issues&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Search for issues and pull requests across GitHub repositories&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;inputSchema&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;zodToJsonSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;search&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;SearchIssuesSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setRequestHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CallToolRequestSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Arguments are required&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;switch&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;search_repositories&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;SearchRepositoriesSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;searchRepositories&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;query&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;          &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;          &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;perPage&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;          
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;kr&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;text&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;JSON.stringify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                       &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;      
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;create_issue&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;issues&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CreateIssueSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;owner&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;issue&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;issues&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createIssue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;owner&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;          &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;text&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;JSON.stringify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;issue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;       &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;search_issues&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;search&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;SearchIssuesSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;search&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;searchIssues&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;          &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;text&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;JSON.stringify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;      
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`Unknown tool: &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{}});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;kr&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;runServer() {&lt;/span&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;transport&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;StdioServerTransport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;connect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;transport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                       &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;GitHub MCP Server running on stdio&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);}&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;runServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                         &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Fatal error in main():&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;process&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In the above code, we use &lt;code&gt;server.setRequestHandler&lt;/code&gt; to tell the Client what capabilities we provide, describe the role of this capability through the &lt;code&gt;description&lt;/code&gt; field, and describe the input parameters required to complete this capability through the &lt;code&gt;inputSchema&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take a look at the specific implementation code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;SearchOptions&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;object&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;q&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;order&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;asc&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;desc&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;min&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;per_page&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;min&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;SearchIssuesOptions&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;SearchOptions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;extend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;sort&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.enum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;comments&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;]).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;searchUsers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.infer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;SearchUsersSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;githubRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buildUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;https://api.github.com/search/users&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;SearchRepositoriesSchema&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;object&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;query&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;describe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Search query (see GitHub search syntax)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;describe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Page number for pagination (default: 1)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;perPage&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;z.number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;describe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Number of results per page (default: 30, max: 100)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;kr&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;searchRepositories&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;query&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;perPage&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;30&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;https://api.github.com/search/repositories&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;searchParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;q&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;query&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;searchParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;page&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;searchParams&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;per_page&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;perPage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;githubRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;GitHubSearchResponseSchema&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;It can be clearly seen that our final implementation uses the &lt;code&gt;https://api.github.com&lt;/code&gt; API to interact with Github. We use the &lt;code&gt;githubRequest&lt;/code&gt; function to call the GitHub API and finally return the result.&lt;/p&gt;
+&lt;p&gt;Before calling the official Github API, MCP&amp;rsquo;s main job is to describe what capabilities the Server provides (provided to LLM), which parameters are needed (what the specific functions of the parameters are), and what the final result is returned.&lt;/p&gt;
+&lt;p&gt;So MCP Server is not a novel and advanced thing, it is just a consensus protocol.&lt;/p&gt;
+&lt;p&gt;If we want to implement a more powerful AI Agent, for example, we want the AI ​​Agent to automatically search for the relevant GitHub Repository based on the local error log, then search for Issue, and finally send the result to Slack.&lt;/p&gt;
+&lt;p&gt;Then we may need to create three different MCP Servers, one is Local Log Server, used to query local logs; one is GitHub Server, used to search for Issue; and the other is Slack Server, used to send messages.&lt;/p&gt;
+&lt;p&gt;After the user enters the ``I need to query the local error log and send the relevant Issue to the Slack` instruction, I will judge which MCP Servers to call by myself and decide the order of call. Finally, based on the results returned by different MCP Servers, I will decide whether the next server needs to be called to complete the entire task.&lt;/p&gt;
+&lt;h2 id=&#34;how-to-use-mcp&#34;&gt;How to use MCP
+&lt;/h2&gt;&lt;p&gt;If you haven&amp;rsquo;t tried how to use MCP, we can consider using Cursor (I have only tried Cursor), Claude Desktop or Cline to experience it.&lt;/p&gt;
+&lt;p&gt;Of course, we do not need to develop MCP Servers ourselves. The benefits of MCP are universal and standard, so developers do not need to re-create wheels (but learning can re-create wheels).&lt;/p&gt;
+&lt;p&gt;The first thing I recommend is some servers from the official organization: [official MCP Server List] (&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/modelcontextprotocol/servers)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At present, the MCP Server in the community is still quite chaotic, with many lacking tutorials and documents, and many code functions are also problematic. We can try some examples of &lt;a class=&#34;link&#34; href=&#34;https://cursor.directory/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cursor Directory&lt;/a&gt; on our own. The author will not go into details about the specific configuration and actual combat. You can refer to the official documentation.&lt;/p&gt;
+&lt;h2 id=&#34;some-resources-of-mcp&#34;&gt;Some resources of MCP
+&lt;/h2&gt;&lt;p&gt;Below are some MCP resources that I personally recommend, you can refer to.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/gpt-embeddings/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://guangzhengli.com/blog/zh/gpt-embeddings/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.cursor.com/context/model-context-protocol&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.cursor.com/context/model-context-protocol&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=Y_kaQmhGmZk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.youtube.com/watch?v=Y_kaQmhGmZk&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://browsertools.agentdesk.ai/installation&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://browsertools.agentdesk.ai/installation&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/modelcontextprotocol&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/grafana/mcp-grafana&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/grafana/mcp-grafana&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/JetBrains/mcp-jetbrains&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/JetBrains/mcp-jetbrains&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/stripe/agent-toolkit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/stripe/agent-toolkit&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/rishikavikondala/mcp-server-aws&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/rishikavikondala/mcp-server-aws&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/sooperset/mcp-atlassian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/sooperset/mcp-atlassian&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/v-3/google-calendar&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/v-3/google-calendar&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/Flux159/mcp-server-kubernetes&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/Flux159/mcp-server-kubernetes&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/EnesCinr/twitter-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/EnesCinr/twitter-mcp&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ZubeidHendricks/youtube-mcp-server&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/ZubeidHendricks/youtube-mcp-server&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.langchain.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.langchain.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.llamaindex.ai/en/stable/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.llamaindex.ai/en/stable/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://sdk.vercel.ai/docs/introduction&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://sdk.vercel.ai/docs/introduction&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://modelcontextprotocol.io/introduction&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://modelcontextprotocol.io/introduction&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/cline/cline&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/cline/cline&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/modelcontextprotocol/servers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/modelcontextprotocol/servers&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/model-context-protocol&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anthropic.com/news/model-context-protocol&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cursor.directory/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cursor.directory&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.pulsemcp.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.pulsemcp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://glama.ai/mcp/servers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://glama.ai/mcp/servers&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E4%B8%BA%E4%BB%80%E4%B9%88-mcp-%E6%98%AF%E4%B8%80%E4%B8%AA%E7%AA%81%E7%A0%B4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为什么 MCP 是一个突破&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%AE%98%E6%96%B9%E9%9B%86%E6%88%90%E6%95%99%E5%AD%A6&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 官方集成教学：&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%EF%B8%8F-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B9%B3%E5%8F%B0%E5%AE%98%E6%96%B9%E6%94%AF%E6%8C%81-mcp-%E7%9A%84%E4%BE%8B%E5%AD%90&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;🎖️ 第三方平台官方支持 MCP 的例子&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#-%E7%A4%BE%E5%8C%BA-mcp-%E6%9C%8D%E5%8A%A1%E5%99%A8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;🌎 社区 MCP 服务器&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为什么是 MCP？&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#function-calling&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Function Calling&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#model-context-protocol-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Model Context Protocol (MCP)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#ai-agent&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AI Agent&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E6%80%9D%E8%80%83&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;思考&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 如何工作&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#mcp-server-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP Server 的工作原理&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-mcp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;如何使用 MCP&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E7%9A%84%E4%B8%80%E4%BA%9B%E8%B5%84%E6%BA%90&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 的一些资源&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#mcp-%E5%AE%98%E6%96%B9%E8%B5%84%E6%BA%90&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MCP 官方资源&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E7%A4%BE%E5%8C%BA%E7%9A%84-mcp-server-%E7%9A%84%E5%88%97%E8%A1%A8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;社区的 MCP Server 的列表&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;写在最后&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://guangzhengli.com/blog/zh/model-context-protocol#references&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;References&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>MCP Client|Continue Dev: Redefine Programming Assisted Experience</title>
+        <link>https://ai.programnotes.cn/en/p/mcp-clientcontinue-dev-redefine-programming-assisted-experience/</link>
+        <pubDate>Sat, 26 Oct 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/en/p/mcp-clientcontinue-dev-redefine-programming-assisted-experience/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Core Content Point 1&lt;/strong&gt;: Continue Dev is an open source IDE extension that changes the programming experience through AI technology.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Core content point 2&lt;/strong&gt;: It supports multiple IDEs, custom AI code assistants and code base understanding.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Core Content Point 3&lt;/strong&gt;: Continue Dev integrates with Model Control Protocol (MCP) to provide powerful feature expansion and flexibility.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Continue is an integration center for creating, sharing, and using custom AI code assistants, and through our open source IDE plug-ins and models, rules, tips, documents, and other building blocks&lt;/p&gt;
+&lt;p&gt;author: Continue&lt;/p&gt;
+&lt;p&gt;homepage: &lt;a class=&#34;link&#34; href=&#34;https://www.continue.dev&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.continue.dev&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;repository: &lt;a class=&#34;link&#34; href=&#34;https://github.com/continuedev/continue&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/continuedev/continue&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;continue-dev-redefining-programming-assisted-experience&#34;&gt;Continue Dev: Redefining Programming Assisted Experience
+&lt;/h2&gt;&lt;p&gt;Continue Dev is a revolutionary open source project aimed at revolutionizing the developer&amp;rsquo;s programming experience with AI technology. As a powerful IDE extension tool, Continue seamlessly integrates artificial intelligence into the development environment, significantly improving coding efficiency and reducing development difficulty. This article will explore the core functionality, architecture design, usage scenarios, and tight integration with Model Control Protocol (MCP).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mcp.programnotes.cn/images/continuedev-ui.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;continue dev plugin ui&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;core-functions-and-features&#34;&gt;Core functions and features
+&lt;/h2&gt;&lt;h3 id=&#34;1-multiple-ide-support&#34;&gt;1. Multiple IDE support
+&lt;/h3&gt;&lt;p&gt;Continue provides extensive IDE support, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Visual Studio Code&lt;/li&gt;
+&lt;li&gt;JetBrains Family Bucket (IntelliJ IDEA, PyCharm, WebStorm, etc.)&lt;/li&gt;
+&lt;li&gt;Cursor Editor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This cross-platform compatibility ensures that developers can use the power of Continue in their familiar development environment.&lt;/p&gt;
+&lt;h3 id=&#34;2-customize-ai-code-assistant&#34;&gt;2. Customize AI Code Assistant
+&lt;/h3&gt;&lt;p&gt;The core advantage of Continue is its highly customizable AI code assistant:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Custom Prompt Template&lt;/strong&gt;: Developers can create and share task-specific Prompt Template&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-Model Support&lt;/strong&gt;: Supports multiple AI models including GPT-4, Claude, PaLM, Ollama and Llama2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context Awareness&lt;/strong&gt;: Automatically analyze the code base structure and provide suggestions related to the current encoding context&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-language support&lt;/strong&gt;: Supports almost all mainstream programming languages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-codebase-understanding&#34;&gt;3. Codebase understanding
+&lt;/h3&gt;&lt;p&gt;Continue has powerful code comprehension:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Automatically import related files and dependencies&lt;/li&gt;
+&lt;li&gt;Intelligent analysis of project structure and code conventions&lt;/li&gt;
+&lt;li&gt;Generate consistent new code based on the style and pattern of existing code&lt;/li&gt;
+&lt;li&gt;Identify complex code relationships and dependency graphs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4-collaboration-function&#34;&gt;4. Collaboration Function
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Teams can share custom assistant configuration&lt;/li&gt;
+&lt;li&gt;Support version control and collaborative editing&lt;/li&gt;
+&lt;li&gt;Tracking and auditing AI-generated code suggestions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;integration-with-model-control-protocol-mcp&#34;&gt;Integration with Model Control Protocol (MCP)
+&lt;/h2&gt;&lt;p&gt;Continue Dev is one of the first development tools to support Model Control Protocol (MCP), and this episode brings powerful feature expansion and flexibility to developers.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/continue-x-mcp.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;continue dev x mcp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;technical-architecture&#34;&gt;Technical Architecture
+&lt;/h2&gt;&lt;p&gt;Continue Dev&amp;rsquo;s architecture is designed with full consideration of performance, scalability and security:&lt;/p&gt;
+&lt;h3 id=&#34;1-core-components&#34;&gt;1. Core Components
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IDE extension&lt;/strong&gt;: Front-end interface directly integrated into the development environment&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Continue Engine&lt;/strong&gt;: The core component that handles code analysis and AI model interaction&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP Adapter&lt;/strong&gt;: Responsible for converting Continue requests to MCP compatible formats&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Web Server&lt;/strong&gt;: Provides REST API and WebSocket support&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-data-process&#34;&gt;2. Data Process
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;The developer triggers the Continue operation in the IDE&lt;/li&gt;
+&lt;li&gt;Continue engine analyzes the current code context&lt;/li&gt;
+&lt;li&gt;Send requests to the configured AI model via the MCP adapter&lt;/li&gt;
+&lt;li&gt;The model generates a response and is presented to the developer after post-processing.&lt;/li&gt;
+&lt;li&gt;All interactions can be monitored and managed through the web interface&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;3-safety-considerations&#34;&gt;3. Safety considerations
+&lt;/h3&gt;&lt;p&gt;Continue Dev attaches great importance to code security in design:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;All sensitive code analysis is performed locally by default&lt;/li&gt;
+&lt;li&gt;Provide fine-grained data sharing control&lt;/li&gt;
+&lt;li&gt;Supports open source models running locally, working completely offline&lt;/li&gt;
+&lt;li&gt;Enterprise-level encryption and access control options&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;future-development-direction&#34;&gt;Future development direction
+&lt;/h2&gt;&lt;p&gt;The Continue Dev team is actively developing the following features:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Enhanced MCP Integration&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Support more MCP-compatible models&lt;/li&gt;
+&lt;li&gt;Improve the expansion capabilities of MCP standards&lt;/li&gt;
+&lt;li&gt;Develop dedicated MCP debugging tools&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Advanced code generation function&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Automatic generation of complete functional modules&lt;/li&gt;
+&lt;li&gt;Automatic code implementation based on test cases&lt;/li&gt;
+&lt;li&gt;Intelligent reconstruction suggestions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Team Collaboration Enhancement&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Integration into CI/CD process&lt;/li&gt;
+&lt;li&gt;Team-level AI-assisted code review&lt;/li&gt;
+&lt;li&gt;Shared knowledge base and best practices&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Web interface upgrade&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;More richer visual analysis tools&lt;/li&gt;
+&lt;li&gt;Custom dashboards and reports&lt;/li&gt;
+&lt;li&gt;Improved multi-user support&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;in-conclusion&#34;&gt;in conclusion
+&lt;/h2&gt;&lt;p&gt;Continue Dev has revolutionized the way developers collaborate with AI with its comprehensive MCP web integration. Its open source nature, flexible architecture and powerful capabilities make it a key tool in modern software development workflows. Whether it is an individual developer, educational institution or large enterprises, Continue Dev provides an efficient and intelligent programming assistance solution.&lt;/p&gt;
+&lt;p&gt;With the continuous development and improvement of MCP standards, Continue Dev will continue to expand its capabilities to create a smarter and more efficient programming experience for developers. We look forward to seeing how this innovative tool continues to drive the future of software development.&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

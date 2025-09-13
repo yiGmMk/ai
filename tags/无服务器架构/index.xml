@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>无服务器架构 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84/</link>
+        <description>Recent content in 无服务器架构 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Tue, 08 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>把MCP和AI代理部署在无服务器架构上，大幅提升业务性能</title>
+        <link>https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/</link>
+        <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E6%8A%8Amcp%E5%92%8Cai%E4%BB%A3%E7%90%86%E9%83%A8%E7%BD%B2%E5%9C%A8%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E4%B8%8A%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E4%B8%9A%E5%8A%A1%E6%80%A7%E8%83%BD/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png" alt="Featured image of post 把MCP和AI代理部署在无服务器架构上，大幅提升业务性能" /&gt;&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; | maxlong  腾讯云原生&lt;/p&gt;
+&lt;p&gt;MCP协议通过标准化接口实现AI模型与外部工具的无缝连接，而Serverless架构提供弹性计算资源，两者结合可解决AI代理的动态资源需求。例如，企业内大量AI智能体（如千人规模）的实时调度，可通过Serverless函数动态部署MCP服务器，按需扩展计算能力。这种模式尤其适用于低频但需快速响应的场景（如临时视频处理、数据查询），避免传统软件采购的高昂成本。同时在 Serverless 环境中，每个函数执行都有独立的执行环境，这种隔离性确保了不同 AI 代理之间的安全性。通过精细的权限控制和资源访问管理，可以有效防止数据泄露和未经授权的访问，增强系统的安全性。&lt;/p&gt;
+&lt;h3 id=&#34;1-mcp&#34;&gt;1. MCP
+&lt;/h3&gt;&lt;h4 id=&#34;11简介&#34;&gt;1.1. 简介
+&lt;/h4&gt;&lt;p&gt;模型上下文协议（Model Context Protocol，简称 MCP）是由 Anthropic 推动的一项开放标准，它标准化了应用程序向 LLM 提供上下文的方式。可以将 MCP 视为 AI 应用程序的 USB-C 端口。正如 USB-C 提供了一种将设备连接到各种外围设备和配件的标准化方式一样，MCP 提供了一种将 AI 模型连接到不同数据源和工具的标准化方式。&lt;/p&gt;
+&lt;p&gt;近期，OpenAI 对其 Agent SDK 进行了重大更新，正式支持 MCP 协议。这一举措使开发者能够在统一的接口标准下，快速集成多种工具，极大地扩展了 AI 模型的能力。这一变化标志着 MCP 协议在业界的广泛认可和应用，进一步推动了人工智能技术的发展。&lt;/p&gt;
+&lt;h4 id=&#34;12为什么用mcp&#34;&gt;1.2. 为什么用MCP
+&lt;/h4&gt;&lt;p&gt;MCP可以帮助我们在LLM之上构建Agent或者复杂的工作流，对于一些经常需要与数据和工具集成的场景，MCP协议提供以下功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;基于协议实现的集成数据集或工具可以以插件方式快速连接到LLM。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;解耦工具和LLM，使得应用可以在多个LLM提供商切换。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据和工具不需要上传远端，保护数据隐私。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;13总体架构&#34;&gt;1.3. 总体架构
+&lt;/h4&gt;&lt;p&gt;MCP 的核心是客户端-服务器架构，其中主机应用程序可以连接到多个服务器：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/eece5d1ae0f8710e55457ee03acb53de.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;● MCP 主机：希望通过 MCP 访问数据的程序，例如 Claude Desktop、IDE 或 AI 工具&lt;/p&gt;
+&lt;p&gt;● MCP 客户端：与服务器保持 1:1 连接的协议客户端&lt;/p&gt;
+&lt;p&gt;● MCP 服务器：轻量级程序，每个程序都通过标准化模型上下文协议公开特定功能&lt;/p&gt;
+&lt;p&gt;● 本地数据源：MCP 服务器可以安全访问的您的计算机文件、数据库和服务&lt;/p&gt;
+&lt;p&gt;● 远程服务：MCP 服务器可通过互联网（例如通过 API）连接到的外部系统&lt;/p&gt;
+&lt;h3 id=&#34;2mcpserveronserverless&#34;&gt;2. MCPServerOnServerless
+&lt;/h3&gt;&lt;h4 id=&#34;21效果展示&#34;&gt;2.1. 效果展示
+&lt;/h4&gt;&lt;p&gt;先看看效果，模仿mcp 官方server例子开发一个天气查询的mcp server，同时部署到腾讯云云函数。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c5e2e4e2d1cd92eaad5b2ebf0473722a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;22-天气查询mcp-server代码&#34;&gt;2.2. 天气查询MCP Server代码
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fastmcp&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FastMCPimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;osimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loggingimport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;httpximport&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Initialize FastMCP servermcp = FastMCP(&amp;#34;weather&amp;#34;, host=&amp;#34;0.0.0.0&amp;#34;, port=9000)# Constants# 天气API地址 设置对应天气api接口地址 如腾讯天气api接口地址https://apis.map.qq.com/ws/weather/v1/NWS_API_BASE = &amp;#34;api url&amp;#34;USER_AGENT = &amp;#34;weather-app/1.0&amp;#34;API_KEY = &amp;#34;api key&amp;#34;#以下为腾讯天气api接口伪代码，需要自行完善@mcp.tool()def get_weather(city: str) -&amp;gt; str:    &amp;#34;&amp;#34;&amp;#34;    获取某个城市的天气    Args:    city: 城市    &amp;#34;&amp;#34;&amp;#34;        try:        # 使用 HTTPS 协议并验证 SSL        client = httpx.Client(verify=True)                # 构建请求参数        params = {            &amp;#34;key&amp;#34;: API_KEY,            &amp;#34;city&amp;#34;: city,            &amp;#34;output&amp;#34;: &amp;#34;json&amp;#34;        }                # 使用新的天气API地址        response = client.get(            &amp;#34;https://apis.map.qq.com/ws/weather/v1/&amp;#34;,            params=params,            timeout=10        )                # 打印响应状态和内容以便调试        logging.info(f&amp;#34;Status Code: {response.status_code}&amp;#34;)        logging.info(f&amp;#34;Response: {response.text}&amp;#34;)                weather_data = response.json()                if weather_data.get(&amp;#34;status&amp;#34;) != 0:            returnf&amp;#34;获取天气信息失败: {weather_data.get(&amp;#39;message&amp;#39;, &amp;#39;未知错误&amp;#39;)}&amp;#34;                    # 获取实时天气数据        data = weather_data.get(&amp;#34;result&amp;#34;, {})        observe = data.get(&amp;#34;realtime&amp;#34;, {})        infos = data.get(&amp;#34;infos&amp;#34;, {})                ifnot observe:            return&amp;#34;无法获取天气信息: 数据为空&amp;#34;                    # 返回格式化的天气信息        weather_info = f&amp;#34;&amp;#34;&amp;#34;            天气: {infos.get(&amp;#39;weather&amp;#39;, &amp;#39;&amp;#39;)}            温度: {infos.get(&amp;#39;temperature&amp;#39;, &amp;#39;&amp;#39;)}°C            湿度: {infos.get(&amp;#39;humidity&amp;#39;, &amp;#39;&amp;#39;)}%            风力: {infos.get(&amp;#39;wind_power&amp;#39;, &amp;#39;&amp;#39;)}级        &amp;#34;&amp;#34;&amp;#34;        return weather_info            except httpx.HTTPError as e:        error_msg = f&amp;#34;HTTP请求失败: {str(e)}&amp;#34;        logging.error(error_msg)        return error_msg    except Exception as e:        error_msg = f&amp;#34;获取天气信息失败: {str(e)}&amp;#34;        logging.error(error_msg)        return error_msg    finally:        if&amp;#39;client&amp;#39;in locals():            client.close()if __name__ == &amp;#39;__main__&amp;#39;:    logging.basicConfig(level=logging.INFO)    mcp.run(transport=&amp;#39;sse&amp;#39;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;特别注意的地方是函数镜像或者web代码都需要设置9000的监听端口，所以代码要设置server 端口为9000&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mcp = FastMCP(&amp;#34;weather&amp;#34;, host=&amp;#34;0.0.0.0&amp;#34;, port=9000)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;23相关依赖&#34;&gt;2.3. 相关依赖
+&lt;/h4&gt;&lt;p&gt;requirements.txt&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;httpxmcp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;24部署到云函数&#34;&gt;2.4. 部署到云函数
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;Remote MCP Server VS Local MCP Server&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/23d0067d60a3138eaf17af6dd92d2233.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h5 id=&#34;241通过镜像部署云函数&#34;&gt;2.4.1. 通过镜像部署云函数
+&lt;/h5&gt;&lt;p&gt;Dockerfile内容&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 使用官方的 Python 3.13 镜像作为基础镜像FROM python:3.13.2-slim# 设置工作目录WORKDIR /app# 复制当前目录下的所有文件到工作目录COPY . /app# 安装依赖RUN pip install --no-cache-dir .# 暴露端口EXPOSE 9000# 运行应用CMD [&amp;#34;python&amp;#34;, &amp;#34;weather.py&amp;#34;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;``&lt;/p&gt;
+&lt;p&gt;构建好Docker镜像，将Docker进行push到tcr镜像仓库&lt;/p&gt;
+&lt;p&gt;tcr镜像仓库详见：&lt;br&gt;
+ https://cloud.tencent.com/document/product/1141&lt;/p&gt;
+&lt;p&gt;web镜像函数：&lt;br&gt;
+ https://cloud.tencent.com/document/product/583/56051&lt;/p&gt;
+&lt;p&gt;上传好镜像之后，可以开始创建云函数，选择使用&lt;strong&gt;容器镜像&lt;/strong&gt;&lt;br&gt;
+，函数类型&lt;strong&gt;选择Web函数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b2b3b40923f2906a68469544c512a4a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;选择&lt;strong&gt;函数镜像&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d04975d6f7667fc1c1a3108e06119bee.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在高级配置中需要&lt;strong&gt;设置超时时间&lt;/strong&gt;&lt;br&gt;
+为较长时间，比如120s，因为sse服务需要进行长连接，如果时间太短，连接会被快速断开。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1a980411da4722c593cf20c8ceff4723.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时需要设置函数支持&lt;strong&gt;请求多并发。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ad40b3314af401f11c9517856e15845a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【保存】&lt;/strong&gt;&lt;br&gt;
+之后就完成了mcp server函数的创建&lt;/p&gt;
+&lt;p&gt;最后一步&lt;strong&gt;创建函数的URL&lt;/strong&gt;&lt;br&gt;
+，使用该URL提供给mcp client进行sse方式的访问：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/31a5b8736fcca6e112afea7baa82867b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同时使用&lt;strong&gt;镜像加速，&lt;/strong&gt;&lt;br&gt;
+云函数拉取镜像会比较快：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/125b8cd25723570ec8f331f8f0c57caf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最后在cursor mcp中设置好函数的url即可进行mcp tools的使用了&lt;/p&gt;
+&lt;h5 id=&#34;242通过代码函数部署&#34;&gt;2.4.2. 通过代码函数部署
+&lt;/h5&gt;&lt;p&gt;区别于镜像方式部署，通过代码部署的云函数拉取代码的耗时会比镜像耗时小&lt;/p&gt;
+&lt;p&gt;创建函数的方式以下图例子方式创建即可，其它步骤同镜像部署&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fb824ab3f171b3d09f763eb217d43fe1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;app.py代码使用前面的代码范例即可&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用云函数的CLI工具能更快速（秒级）的部署MCP Server服务，相对于tke或者CVM部署速度和管理成本极低&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;云函数也支持java，go，nodejs，php的代码&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;25使用云函数的收益&#34;&gt;2.5. 使用云函数的收益
+&lt;/h4&gt;&lt;h5 id=&#34;251云函数相比k8s优势&#34;&gt;2.5.1. 云函数相比K8S优势
+&lt;/h5&gt;&lt;p&gt;腾讯云云函数（SCF, Serverless Cloud Function）和 Kubernetes（K8s）相比，也有一些明显的优势，尤其是在特定的应用场景下。以下是腾讯云云函数相对于 Kubernetes 的一些优势：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 无服务器架构 (Serverless)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无需管理基础设施&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是完全托管的计算服务，用户不需要关注底层服务器、虚拟机、容器集群等基础设施的管理。与此相比，Kubernetes 需要管理集群中的节点、容器生命周期以及各种资源调度。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动扩展和缩减&lt;/strong&gt;&lt;br&gt;
+：云函数会根据实际的事件或请求数量自动扩展和缩减，用户无需手动配置和调整。Kubernetes 的扩展则需要配置 Horizontal Pod Autoscaling（HPA）或 Vertical Pod Autoscaling（VPA），并且通常还需要设置资源池和负载均衡策略。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 按需计费&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;按请求和执行时间计费&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是按请求数和执行时间计费的，用户只需为实际使用的计算资源付费。相比之下，Kubernetes 中通常需要为整个集群中的节点付费，即使节点没有承载任何负载也需要支付固定费用，可能导致资源的浪费。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;零资源消耗&lt;/strong&gt;&lt;br&gt;
+：当没有请求时，云函数不会消耗任何计算资源，而 Kubernetes 需要至少保持最小的节点运行状态，即使没有容器或任务需要处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 简化的运维和管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动化运维&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数完全托管，自动管理所有的计算资源和基础设施，包括计算、存储和网络资源，减少了运维负担。相比之下，Kubernetes 需要用户自己管理集群、节点、负载均衡、网络配置等，增加了运维复杂度。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无需管理容器或集群&lt;/strong&gt;&lt;br&gt;
+：云函数抽象了底层容器或虚拟机的管理，用户只需关注业务逻辑，而 Kubernetes 则需要开发者管理容器化应用的构建、镜像推送、容器调度、服务暴露等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 快速部署和启动&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速响应时间&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数是事件驱动的，可以在几毫秒内响应并启动，特别适合短时间、瞬时计算的任务。Kubernetes 的容器虽然也支持快速启动，但仍然需要更多的时间来调度和运行，尤其是涉及到节点的资源分配和容器的启动。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化的部署流程&lt;/strong&gt;&lt;br&gt;
+：云函数支持从代码直接部署，不需要预先构建和管理镜像，而 Kubernetes 通常要求将应用打包为容器镜像，推送到容器注册表并进行部署。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 事件驱动&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无缝与事件源集成&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数能够直接与腾讯云其他服务（如对象存储 COS、消息队列 CKafka、数据库等）进行事件驱动的集成，支持自动触发，简化了应用架构的设计。Kubernetes 虽然也能与事件源进行集成，但通常需要额外的配置和工具（如通过消息队列或触发器调度 Pod）。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;自动触发&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数可以轻松响应云端各种事件，如文件上传、数据库变更、HTTP 请求等，而 Kubernetes 通常需要设置外部系统来触发容器启动或服务处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6. 自动弹性伸缩&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无限扩展&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数能够根据请求自动扩展，支持从零到上千个实例的快速扩展，用户无需担心如何管理资源的扩展和缩减。Kubernetes 需要手动配置集群的资源池，并根据需要调整节点或Pod数量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;零延迟扩展&lt;/strong&gt;&lt;br&gt;
+：云函数可以非常迅速地应对突发流量，Kubernetes 可能需要一定的时间来扩展节点并启动新容器，特别是在大规模应用中，可能会受到集群资源的限制。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7. 低成本和高效能&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;精细的资源使用&lt;/strong&gt;&lt;br&gt;
+：由于按执行时间和请求数计费，云函数的资源利用率非常高，能够确保不浪费资源。在 Kubernetes 中，虽然容器也可以相对轻量化，但资源消耗依赖于集群中配置的节点大小和容器数量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无闲置成本&lt;/strong&gt;&lt;br&gt;
+：Kubernetes 集群中即使没有请求，节点也可能保持活动，用户仍然需要为空闲的资源支付费用。而云函数在没有请求时完全不消耗资源，从而降低了成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;8. 开发和调试简化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简单的开发流程&lt;/strong&gt;&lt;br&gt;
+：开发者只需要关注代码的实现，上传到腾讯云云函数即可，开发和部署非常快速。而 Kubernetes 通常要求开发者将应用容器化，构建镜像、推送到容器注册表，并配置复杂的部署管道。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;内置集成调试工具&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数提供了调试和日志功能，能够方便地查看函数执行过程中的详细日志，帮助开发者快速定位问题。而 Kubernetes 的调试通常涉及到容器日志、Pod 状态和容器的网络配置，调试可能更为复杂。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;9. 简化的 CI/CD 流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;无缝与 CI/CD 集成&lt;/strong&gt;&lt;br&gt;
+：腾讯云云函数可以直接与 CI/CD 工具集成（例如腾讯云开发工具、GitHub 等），实现自动化的代码部署。Kubernetes 则需要手动配置持续集成和持续交付流程，并且通常需要更多的工具和管理。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速更新&lt;/strong&gt;&lt;br&gt;
+：云函数支持快速更新和版本管理，开发者可以轻松更新代码并部署。Kubernetes 则需要通过滚动更新或蓝绿部署等方式来更新容器中的应用，管理相对更复杂。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;腾讯云云函数&lt;/strong&gt;&lt;br&gt;
+ 的优势在于完全托管的无服务器架构、按需计费、快速启动和事件驱动架构，使得它非常适合用于轻量级、事件驱动的应用场景，尤其是那些短时间、瞬时任务和弹性伸缩需求较高的场景。与此相比，&lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 更适合需要大规模、高度可配置、容器化管理的长时间运行的应用，尤其是在复杂的微服务架构中，Kubernetes 提供了更高的控制权和灵活性，但也增加了更多的管理复杂度。&lt;/p&gt;
+&lt;p&gt;如果你需要快速部署、低成本、简单运维的应用，云函数可能是更好的选择；如果你需要更复杂的应用架构、容器编排和集群管理，Kubernetes 则可能更适合。&lt;/p&gt;
+&lt;h5 id=&#34;252基于cube底座的云函数&#34;&gt;2.5.2. 基于Cube底座的云函数
+&lt;/h5&gt;&lt;p&gt;云函数是基于Cube安全容器来打造的Serverless服务，Cube 提供了高并发，高密度部署的运行环境，使Serverless场景下的安全容器的交付更加迅速，并在有限空间内提供高性能、低开销的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e49fc3e97cd18ab192c66b0818555428.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;并且通过CubeGW打通云函数和用户VPC网络，用户可以使用MCP来操作VPC内资源，比如数据库的操作，内部系统的访问等等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/adec5a3f4c4eebd72e134dca3a8f5fa9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用基于Cube底座的云函数，具备强隔离的安全性，灵活的规格可以支撑0.1C64M的MCP Server实例，启动速度在100ms以内（不包括mcp server启动时间）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/433dcd034b83471c276ff4f4ee479128.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h5 id=&#34;253cube安全容器优势&#34;&gt;2.5.3. Cube安全容器优势
+&lt;/h5&gt;&lt;p&gt;&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+在 AI 代理（AI Agent）和 MCP（模型上下文协议）方面，相较于传统的 Kubernetes (K8s) 和虚拟机 (VM)，具有以下优势：&lt;/p&gt;
+&lt;p&gt;**1.**&lt;strong&gt;更高的安全性和隔离性&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube&lt;/strong&gt;&lt;br&gt;
+使用安全容器技术，提供比传统容器更强的隔离性。每个容器都运行在独立的安全环境中，能够有效防止容器之间的攻击或数据泄漏，特别是在多租户环境中。对于 AI 代理和 MCP 服务器，这种强隔离能够确保不同代理或工具之间的操作不会互相影响，减少了潜在的安全风险。&lt;/p&gt;
+&lt;p&gt;● 相比之下，&lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和传统的虚拟机通常需要额外的配置来实现类似的隔离效果。Kubernetes 在多租户场景下的容器隔离依赖于操作系统的安全性，而虚拟机虽然提供更强的隔离，但由于资源消耗较大，可能无法高效处理大量小规模的容器化任务。&lt;/p&gt;
+&lt;p&gt;**2.**&lt;strong&gt;更轻量的资源消耗&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube安全容器&lt;/strong&gt;&lt;br&gt;
+比传统虚拟机轻量，具有虚拟机的隔离性，但启动时间和资源消耗接近容器。这使得它特别适合用于那些需要高度并发和快速响应的 AI 代理和 MCP 服务器场景，例如短期的推理请求、实时数据处理等。相对于虚拟机，Cube 容器能更高效地利用计算资源，减少开销。&lt;/p&gt;
+&lt;p&gt;● 在 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 中，虚拟机的资源消耗较高，启动时间较长，尤其是在多实例部署的场景下，K8s 集群的扩展可能会受到资源瓶颈的限制。而 Cube 的轻量级特性使得在这些场景中更具优势，尤其是对于需要弹性扩展的应用。&lt;/p&gt;
+&lt;p&gt;**3.**&lt;strong&gt;快速启动和高效扩展&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供接近容器的启动速度，但又具有虚拟机级别的隔离性，非常适合动态扩展的需求，例如 AI 代理需要快速启动多个实例来处理突发流量或大规模请求。在 Serverless 架构中，这种快速扩展的能力尤为重要，可以减少冷启动延迟，提高响应速度。&lt;/p&gt;
+&lt;p&gt;● 与传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 或 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 相比，Cube 容器的启动时间远远快于虚拟机，能够在高负载和高并发场景中提供更好的性能表现。&lt;/p&gt;
+&lt;p&gt;**4.**&lt;strong&gt;容器与虚拟化的完美平衡&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了容器的轻量级特性和虚拟机的隔离性，弥补了传统容器的不足。AI 代理和 MCP 服务器通常需要频繁与外部工具和数据源交互，容器化方式能够提高服务部署和管理的效率，Cube 的虚拟化特性进一步确保了在复杂场景下的高安全性和稳定性。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+ 虽然提供更强的隔离，但其资源开销较大，启动速度较慢，通常不适合用来处理高频、短时任务。而 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 本身并不提供虚拟化隔离，它依赖于容器和节点来提供服务，这会在某些高安全要求的场景中带来风险，尤其是当多个用户或服务共享同一 Kubernetes 集群时。&lt;/p&gt;
+&lt;p&gt;**5.**&lt;strong&gt;与 AI 和 MCP 的集成优势&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;AI 代理和 MCP 服务器&lt;/strong&gt;&lt;br&gt;
+ 需要快速处理大量数据并进行实时推理，尤其是在 AI 推理请求和数据交互密集的场景中。&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 能够为这些任务提供快速响应和动态扩展，同时保留虚拟机级别的安全隔离特性，从而提供更好的服务质量。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 在大规模分布式部署和容器管理方面的优势毋庸置疑，但对于需要更高隔离性和快速响应的场景，&lt;strong&gt;Cube 安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了更好的选择。特别是在处理敏感数据或需要高安全性和资源隔离的任务时，Cube 提供了容器和虚拟机的最佳平衡。&lt;/p&gt;
+&lt;p&gt;**6.**&lt;strong&gt;更好的资源调度与成本优化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 能够高效地调度资源并优化成本，它在提供虚拟机隔离的同时，减少了虚拟机带来的资源消耗和成本。对于需要频繁扩展和收缩的 AI 代理和 MCP 服务器场景，Cube 容器提供了较传统虚拟机或 Kubernetes 更加高效的解决方案，减少了因过度预分配资源而产生的浪费。&lt;/p&gt;
+&lt;p&gt;● 传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 需要配置和管理节点，并且节点上常常有较多的资源冗余，造成资源浪费。而 &lt;strong&gt;Cube 容器&lt;/strong&gt;&lt;br&gt;
+ 能够在提供虚拟机级别的隔离的同时，减少这些冗余。&lt;/p&gt;
+&lt;p&gt;**7.**&lt;strong&gt;容器化与虚拟化的一体化管理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 提供了统一的容器化与虚拟化管理体验，简化了基础设施的管理和运维。相比于 Kubernetes 需要通过多个组件来管理容器和虚拟机，Cube 可以提供一体化的解决方案，降低管理复杂度，尤其适合多租户的 AI 和 MCP 部署。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结：Cube&lt;strong&gt;&lt;strong&gt;安全容器&lt;/strong&gt;&lt;/strong&gt;在 AI 代理与 MCP 部署中的优势&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cube****安全容器&lt;/strong&gt;&lt;br&gt;
+ 是一种高效、轻量、安全的容器化技术，特别适合 AI 代理和 MCP 服务器的动态扩展与快速响应需求。它在提供容器的灵活性和虚拟机的隔离性方面找到了完美的平衡，能够在多租户、高安全性需求的场景中提供显著优势。相比于传统的 &lt;strong&gt;Kubernetes&lt;/strong&gt;&lt;br&gt;
+ 和 &lt;strong&gt;虚拟机&lt;/strong&gt;&lt;br&gt;
+，Cube 更适合处理那些需要快速扩展、低延迟、强隔离的任务，特别是在 Serverless 架构下，能够为 AI 和 MCP 提供更高效、可靠和安全的运行环境。&lt;/p&gt;
+&lt;h4 id=&#34;26ai-on-serverless&#34;&gt;2.6. AI On Serverless
+&lt;/h4&gt;&lt;p&gt;将&lt;strong&gt;模型上下文协议（MCP）&lt;/strong&gt;&lt;br&gt;
+ 与 &lt;strong&gt;AI 代理（AI Agent）&lt;/strong&gt;&lt;br&gt;
+ 部署在无服务器（Serverless）架构上，展现出显著的优势：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 模型上下文协议（MCP）与无服务器架构的结合&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MCP 旨在为大型语言模型（LLM）提供标准化的接口，使其能够连接和交互外部数据源和工具。在无服务器架构中，MCP 服务器可以作为轻量级的执行单元，动态处理 AI 代理的请求。这种结合带来了以下好处：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;弹性扩展&lt;/strong&gt;&lt;br&gt;
+：无服务器平台根据需求自动分配资源，确保 MCP 服务器在高负载时能够扩展，满足大量并发请求的处理需求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;按需计费&lt;/strong&gt;&lt;br&gt;
+：用户仅为实际使用的计算资源付费，避免了资源闲置带来的成本浪费。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化运维&lt;/strong&gt;&lt;br&gt;
+：无服务器架构由云服务商管理基础设施，开发者专注于业务逻辑的实现，减少了运维复杂度。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. AI 代理与无服务器架构的结合&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;AI 代理是能够自主执行任务的智能实体，需要频繁访问外部工具和数据源。无服务器架构为 AI 代理提供了以下优势：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;高可用性&lt;/strong&gt;&lt;br&gt;
+：无服务器平台通常具备高可用性和容错性，确保 AI 代理在各种条件下稳定运行。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;快速响应&lt;/strong&gt;&lt;br&gt;
+：无服务器函数的快速启动时间有助于 AI 代理及时响应外部事件和请求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;灵活性&lt;/strong&gt;&lt;br&gt;
+：无服务器架构支持事件驱动的执行模型，AI 代理可以根据不同事件触发相应的功能，提高系统的灵活性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. MCP 和 AI 代理在无服务器架构中的协同作用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将 MCP 与 AI 代理部署在无服务器架构中，二者相互补充，优势互补：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;标准化通信&lt;/strong&gt;&lt;br&gt;
+：MCP 提供统一的通信协议，使 AI 代理能够高效地与各种数据源和工具交互。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;动态资源分配&lt;/strong&gt;&lt;br&gt;
+：无服务器平台根据实际需求动态分配资源，确保 MCP 服务器和 AI 代理在高负载时获得足够的计算能力。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;简化开发流程&lt;/strong&gt;&lt;br&gt;
+：开发者可以专注于业务逻辑的实现，无需关心基础设施的管理，提高了开发效率。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 适用场景&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将 MCP 和 AI 代理部署在无服务器架构上，适用于以下场景：&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;动态生成 AI 代理&lt;/strong&gt;&lt;br&gt;
+：随着业务需求变化，动态生成和部署大量 AI 代理，利用无服务器架构的弹性满足计算资源的波动需求。&lt;/p&gt;
+&lt;p&gt;● &lt;strong&gt;工具和数据源集成&lt;/strong&gt;&lt;br&gt;
+：需要将 AI 代理与多种工具和数据源集成的场景，MCP 提供了标准化的集成方式，简化了开发和维护工作。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 结论&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;综合来看，将 MCP 和 AI 代理部署在无服务器架构上，是一种非常契合的组合，能够充分发挥各自的优势。这种架构在需要高弹性、动态扩展和简化运维的场景中，表现尤为出色。然而，具体的应用效果还需根据实际业务需求和技术环境进行评估和实施。&lt;/p&gt;
+&lt;h4 id=&#34;27应用场景&#34;&gt;2.7. 应用场景
+&lt;/h4&gt;&lt;p&gt;1.访问数据库的MCP Server访问内部数据库进行数据分析&lt;/p&gt;
+&lt;p&gt;2.通过云API的MCP Server管理资源&lt;/p&gt;
+&lt;p&gt;3.通过CLS的MCP Server来进行日志的分析&lt;/p&gt;
+&lt;p&gt;4.通过云监控的MCP Server分析系统运行状态&lt;/p&gt;
+&lt;p&gt;5.通过云函数的MCP Server来调度云函数的Job以及各种ai agent服务&lt;/p&gt;
+&lt;p&gt;6.基于云函数执行Puppeteer实现爬虫或者页面操作任务&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e7c079505661a80e3f02e592471a5f49.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

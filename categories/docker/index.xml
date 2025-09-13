@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Docker on AI</title>
+        <link>https://ai.programnotes.cn/categories/docker/</link>
+        <description>Recent content in Docker on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Mon, 07 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/docker/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>告别镜像下载慢！一个简单又强大的 Docker 镜像加速方案</title>
+        <link>https://ai.programnotes.cn/p/%E5%91%8A%E5%88%AB%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E6%85%A2%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%8F%88%E5%BC%BA%E5%A4%A7%E7%9A%84-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/</link>
+        <pubDate>Mon, 07 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%91%8A%E5%88%AB%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E6%85%A2%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%8F%88%E5%BC%BA%E5%A4%A7%E7%9A%84-docker-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  李小飞云原生构建 2025-07-07 17:32&lt;/p&gt;
+&lt;p&gt;众所周知，Docker 已成为现代开发者的“标配”工具。然而，由于 Docker 官方镜像仓库位于境外，国内开发者经常在拉取镜像时遇到 &lt;strong&gt;下载缓慢甚至失败&lt;/strong&gt; 的问题：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/fdf5c45877bfedfb67f5a33629281dd6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;镜像下载失败示意图&lt;/p&gt;
+&lt;p&gt;面对这种情况，许多开发者第一时间想到的是配置镜像加速源，于是 daemon.json 文件就会变成这样👇：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7e670ae6d6d7a4c786d0d18d97f862fc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;配置多个镜像源示意图&lt;/p&gt;
+&lt;p&gt;虽然这种方式在一定程度上解决了镜像下载问题，但也带来了不少新的困扰：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;网络质量不一&lt;/strong&gt;
+：不同镜像源速度参差不齐，体验不稳定&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;可靠性差&lt;/strong&gt;
+：很多镜像源用着用着就没了&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;⚠ &lt;strong&gt;配置繁琐&lt;/strong&gt;
+：在 K8s 多节点集群中，每个节点都要单独配置镜像源，费时费力&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;有没有更优雅的解决方案&#34;&gt;有没有更优雅的解决方案？
+&lt;/h2&gt;&lt;p&gt;当然有！今天给大家推荐一个开源神器 —— 基于 CNB 云原生平台 的镜像同步工具：https://cnb.cool/xiaofei/docker-sync。&lt;/p&gt;
+&lt;h2 id=&#34;-什么是-cnb&#34;&gt;🧩 什么是 CNB？
+&lt;/h2&gt;&lt;p&gt;CNB 是由腾讯云原 Coding 团队打造的 &lt;strong&gt;云原生开发平台&lt;/strong&gt;
+，专为构建、发布和交付而设计，具有以下亮点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;🚀 &lt;strong&gt;内置镜像加速服务&lt;/strong&gt;
+：无需配置任何加速器，就能稳定访问国外镜像源&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;🗃 &lt;strong&gt;免费 Docker 制品库&lt;/strong&gt;
+：每位用户享有 &lt;strong&gt;100G 免费存储空间&lt;/strong&gt;
+，可上传私有镜像&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;🔒 &lt;strong&gt;长期可用&lt;/strong&gt;
+：上传后的镜像地址长期有效，除非你主动删除&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-什么是-docker-sync&#34;&gt;🧰 什么是 docker-sync？
+&lt;/h2&gt;&lt;p&gt;docker-sync
+ 是一个专为 CNB 平台打造的镜像同步工具，它的作用非常简单粗暴：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;✅ 自动将 Docker Hub 等镜像仓库的镜像同步到 CNB 平台，&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;✅ 你再从 CNB 拉取镜像，速度稳定、配置简单！&lt;/p&gt;
+&lt;h2 id=&#34;-一键同步-docker-镜像到-cnb&#34;&gt;🛠️ 一键同步 Docker 镜像到 CNB
+&lt;/h2&gt;&lt;h3 id=&#34;第一步注册-cnb-账号并实名认证&#34;&gt;第一步：注册 CNB 账号并实名认证
+&lt;/h3&gt;&lt;p&gt;访问 CNB 官网，完成账号注册并通过实名认证，然后创建一个组织。&lt;/p&gt;
+&lt;h3 id=&#34;第二步fork-项目&#34;&gt;第二步：Fork 项目
+&lt;/h3&gt;&lt;p&gt;访问开源项目地址：https://cnb.cool/xiaofei/docker-sync，点击右上角 Fork
+ 按钮，将项目复制到你的名下。&lt;/p&gt;
+&lt;h3 id=&#34;第三步开始同步镜像&#34;&gt;第三步：开始同步镜像
+&lt;/h3&gt;&lt;p&gt;Fork 成功后，进入你名下的项目页面：&lt;/p&gt;
+&lt;p&gt;点击右上角的【构建】按钮，选择【同步 Docker 镜像到 CNB】&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a999ca6fa2035e31e0dcb02a2db52666.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;点击同步镜像按钮&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击同步镜像按钮&lt;/p&gt;
+&lt;p&gt;在弹出框中填写你想同步的镜像名称，并选择所需的架构（支持 amd64
+、arm64
+ 等），然后点击执行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f2a1a9c974ae76af4fb3e84c44694d67.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;填写镜像信息&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;填写镜像信息&lt;/p&gt;
+&lt;p&gt;执行后，会弹出一个流水线执行窗口，点击对应的流水线 ID 查看执行详情：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/430eddfcfca7c98d76cc962011f43b11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;查看执行详情&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看执行详情&lt;/p&gt;
+&lt;p&gt;等待几十秒到一分钟不等（取决于镜像体积），镜像就会成功同步到 CNB 的制品库。&lt;/p&gt;
+&lt;h3 id=&#34;第四步获取-cnb-镜像地址&#34;&gt;第四步：获取 CNB 镜像地址
+&lt;/h3&gt;&lt;p&gt;同步成功后，点击【查看镜像地址】，即可获得同步后的镜像地址。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;这个地址长期有效，只要你不手动删除，永久可用！&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/5e2a35b701b903a398f35dcc42f68228.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;获取镜像地址&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;获取镜像地址&lt;/p&gt;
+&lt;h3 id=&#34;第五步本地使用&#34;&gt;第五步：本地使用
+&lt;/h3&gt;&lt;p&gt;接下来，只需像平常一样使用 docker pull
+ 拉取 CNB 镜像地址即可，速度飞快，稳定性极高！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/75cab8efd8aa797bddf9a0f9bef4032b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;本地使用镜像&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地使用镜像&lt;/p&gt;
+&lt;h2 id=&#34;-总结&#34;&gt;✅ 总结
+&lt;/h2&gt;&lt;p&gt;使用 docker-sync
+ 和 CNB 平台，不仅彻底告别镜像下载慢、镜像源配置乱的问题，还让镜像管理更稳定、更自动、更现代化。&lt;/p&gt;
+&lt;p&gt;现在就去试试吧，一次配置，终身省心！&lt;/p&gt;
+&lt;p&gt;👉 项目地址：https://cnb.cool/xiaofei/docker-sync&lt;/p&gt;
+&lt;p&gt;👉 喜欢作者欢迎关注他：
+&lt;a class=&#34;link&#34; href=&#34;https://cnb.cool/u/lixiaofei&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cnb.cool/u/lixiaofei&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你觉得这篇文章对你有帮助，欢迎点赞、收藏或分享给更多有需要的小伙伴 🚀&lt;/p&gt;&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

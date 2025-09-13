@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>区块链 on AI</title>
+        <link>https://ai.programnotes.cn/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</link>
+        <description>Recent content in 区块链 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 05 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>V2EX上关于SOL的讨论</title>
+        <link>https://ai.programnotes.cn/p/v2ex%E4%B8%8A%E5%85%B3%E4%BA%8Esol%E7%9A%84%E8%AE%A8%E8%AE%BA/</link>
+        <pubDate>Thu, 05 Oct 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/v2ex%E4%B8%8A%E5%85%B3%E4%BA%8Esol%E7%9A%84%E8%AE%A8%E8%AE%BA/</guid>
+        <description>&lt;p&gt;核心内容:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Solana Name Service (SNS) 支持使用SOL/USDC注册域名，实现钱包地址简写化&lt;/li&gt;
+&lt;li&gt;V2EX已实现.sol域名与用户主页的站内跳转功能&lt;/li&gt;
+&lt;li&gt;通过IPNS记录可将网站与Solana名称绑定，支持IPFS内容访问&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solana-name-service&#34;&gt;Solana Name Service
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://sns.id/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://sns.id/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;你可以用 SOL 或者 USDC 注册一个 Solana 域名，这样如果别人需要给你直接转账的时候，就可以不用很长的钱包地址，而可以是类似这样的地址:  v2ex.sol&lt;/p&gt;
+&lt;p&gt;Phantom 和 solscan 网站都支持查询 Solana 域名上的余额和持有。&lt;/p&gt;
+&lt;p&gt;同时 Solana 域名上也可以运行用 IPFS 做的网站，在 .sol 后面加上 .build 就可以访问上面的 IPFS 内容，比如这是我的一个短内容博客：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://sepia.sol.build/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://sepia.sol.build/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;link-a-website-to-solana-name&#34;&gt;Link a Website to Solana Name
+&lt;/h2&gt;&lt;p&gt;Solana 名称服务（sns.id）是运行在 Solana 区块链上的身份系统。它支持向名称中添加 IPNS 记录，并且还有一个网关可以访问带有 IPFS/IPNS 记录的 .sol 名称。&lt;/p&gt;
+&lt;p&gt;你可以在 sns.id 上注册你的 Solana 名称。建议使用 Phantom 钱包应用，并且钱包中需要有一些 USDC。&lt;/p&gt;
+&lt;h3 id=&#34;第一步--复制-ipns&#34;&gt;第一步 · 复制 IPNS
+&lt;/h3&gt;&lt;p&gt;在“My Planets”下，右键点击你的网站，选择“复制 IPNS”。你将获得一个以 k51 开头的长字符串，已经复制到剪贴板。&lt;/p&gt;
+&lt;h3 id=&#34;第二步--设置-ipns-记录&#34;&gt;第二步 · 设置 IPNS 记录
+&lt;/h3&gt;&lt;p&gt;打开你的名称的记录页面，点击“编辑记录”。&lt;/p&gt;
+&lt;p&gt;找到名为 IPNS 的一行，粘贴之前复制的以 k51 开头的 IPNS 字符串。&lt;/p&gt;
+&lt;p&gt;然后点击“保存更改”。&lt;/p&gt;
+&lt;h3 id=&#34;第三步--访问&#34;&gt;第三步 · 访问
+&lt;/h3&gt;&lt;p&gt;Solana 是一个高速区块链，能够在不到一秒的时间内更新你的记录。保存 IPNS 记录后，你可以通过 sol.build 公共网关访问你的网站。&lt;/p&gt;
+&lt;h2 id=&#34;论坛新功能-solana-域名在-v2ex站内跳转到用户主页&#34;&gt;论坛新功能: Solana 域名在 V2EX站内跳转到用户主页
+&lt;/h2&gt;&lt;p&gt;如果你已经注册了 .sol 域名，那么现在 V2EX 可以支持这样的跳转：&lt;/p&gt;
+&lt;p&gt;v2ex.com/v2ex.sol -&amp;gt; v2ex.com/member/Livid&lt;/p&gt;
+&lt;p&gt;接下来，会有更多和 .sol 域名的集成及新玩法。&lt;/p&gt;
+&lt;p&gt;感谢 api.web3.bio 提供的好用的解析 API 。&lt;/p&gt;
+&lt;h2 id=&#34;参考链接&#34;&gt;参考链接
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Solana Name Service,&lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/t/1150717&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.v2ex.com/t/1150717&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Link a Website to Solana Name (.sol), &lt;a class=&#34;link&#34; href=&#34;https://www.planetable.xyz/guides/solana/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.planetable.xyz/guides/solana/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Solana 域名在 V2EX 站内跳转到用户主页, &lt;a class=&#34;link&#34; href=&#34;https://www.v2ex.com/t/1152423&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.v2ex.com/t/1152423&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

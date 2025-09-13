@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>软件开发 on AI</title>
+        <link>https://ai.programnotes.cn/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/</link>
+        <description>Recent content in 软件开发 on AI</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Mon, 14 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://ai.programnotes.cn/categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>2万行代码，Claude Code完成95%！一位独立开发者发布APP的实录</title>
+        <link>https://ai.programnotes.cn/p/2%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81claude-code%E5%AE%8C%E6%88%9095%E4%B8%80%E4%BD%8D%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%91%E5%B8%83app%E7%9A%84%E5%AE%9E%E5%BD%95/</link>
+        <pubDate>Mon, 14 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/2%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81claude-code%E5%AE%8C%E6%88%9095%E4%B8%80%E4%BD%8D%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%91%E5%B8%83app%E7%9A%84%E5%AE%9E%E5%BD%95/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AI 编程极大地提高了开发效率，开发者主要负责思考和决策，AI 负责执行和试错。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通过“预激活”、强制“深度思考”和提供清晰的“需求文档”，可以有效提升 AI 的代码产出质量。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 不仅能辅助核心编码，还能承担生成模拟数据、自动化发布流程等繁琐的杂活，让开发者更专注于核心价值。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  付奶茶  夕小瑶科技说   2025-07-14 13:29&lt;/p&gt;
+&lt;p&gt;家人们，先来开个脑洞：&lt;/p&gt;
+&lt;p&gt;一款功能贼复杂、UI 巨精美的 macOS 应用，从一个空文件夹到上架 App Store，只花了一周。&lt;/p&gt;
+&lt;p&gt;这个项目总代码量超过 2 万行，&lt;strong&gt;95% 是 AI 写的。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这是不是听起来像某书上哪个人编的爽文？&lt;/p&gt;
+&lt;p&gt;但这确实是来自一位资深 Mac 开发者的亲身经历，刷新了我们对 AI 编程能力的上限。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cf82f6eb6d7bfa88f11b2f106c378882.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这位开发者名叫 Indragie Karunaratne，从 2008 年开始就开始搞 Mac 软件开发。&lt;/p&gt;
+&lt;p&gt;最近，他用 AI 编程工具 Claude Code，从零撸了个叫“Context”的 App，并且都上架了。最后统计发现，他自己手写的代码，竟然不到 1000 行，95% 的开发工作，都是 Claude Code 完成的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“整个过程几乎没怎么写代码，反而像是在给一个特别聪明的远程实习生发指令。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;听起来挺暴力的，Indragie 把整个过程写成了博客，直接在开发者圈子里炸了锅。&lt;/p&gt;
+&lt;p&gt;这已经不是单纯的“炫技”，而是他摸索出了一套“人机协作”的教科书式开发教程，教大家如何把“代码工具”调教成一个能扛起整个项目的“主力”，人全程只需要负责动嘴和审查。&lt;/p&gt;
+&lt;p&gt;下面一起看看他完整的开发历程，包括如何选择工具，这些工具的优缺点，以及最重要的，你该如何利用它们，最大限度地提升代码产出质量，特别是当你也想构建一款原生应用时。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/7597ec09a8b23067571621850d00ff59.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ai-编程究竟能做到什么地步&#34;&gt;AI 编程，究竟能做到什么地步？
+&lt;/h2&gt;&lt;p&gt;这个“Context”的 App，是一款用于调试 MCP 服务器的原生 macOS 应用，基于苹果的 SwiftUI 框架。&lt;/p&gt;
+&lt;p&gt;作者 Indragie 察觉到目前构建和测试 MCP 服务器的体验相当繁琐，所以想要尝试构建一个原生应用来解决这个问题，“Context”便诞生了。&lt;/p&gt;
+&lt;p&gt;Indragie 摸索出的这套工作流，核心思想就是是：&lt;strong&gt;人类负责思考和决策，AI 负责执行和试错。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Indragie 只下达指令，不纠结代码细节；Claude 会根据指令，迅速生成一整块、甚至一整个文件的代码。Indragie 拿到代码后，几乎不审查逻辑。他只做一件事——全选、复制、粘贴到 Xcode 里，然后“编译”。Indragie 再把所有错误日志，原封不动地再“甩”回给 Claude。Claude 立刻理解错误道歉，然后提供修复后的新版本代码。&lt;/p&gt;
+&lt;p&gt;“下指令 -&amp;gt; AI 编码 -&amp;gt; 运行 -&amp;gt; 甩回错误 -&amp;gt; AI 修复”的循环，是整个项目的推进主轴。&lt;/p&gt;
+&lt;p&gt;Indragie 也给出了最直接的评价：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;搭载了最新 Sonnet 4 和 Opus 4 模型的 Claude Code，代码能力极为出色。虽不及“顶尖 1%”的人类程序员，但其输出质量已“明显高于普通开发者”。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;面对一个功能需求，Claude 能做到的事情，几乎覆盖了开发的完整闭环：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;阅读理解：&lt;/strong&gt;&lt;br&gt;
+ 自主定位并阅读项目源码，理解相关上下文和代码风格。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;学习消化：&lt;/strong&gt;&lt;br&gt;
+ “喂”给它外部文档或 API 规范，它能自己啃下来。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;代码生成：&lt;/strong&gt;&lt;br&gt;
+ 根据需求实现功能，生成配套的测试用例。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;构建测试：&lt;/strong&gt;&lt;br&gt;
+ 自主编译程序、运行测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;自主修复：&lt;/strong&gt;&lt;br&gt;
+ 遇到编译错误或测试失败能像人一样反复迭代、尝试修复，直到通过。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;视觉调试：&lt;/strong&gt;&lt;br&gt;
+ 通过分析截图或控制台日志，来定位并修复 Bug。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f52862024e799628a4d9e25ba8208a8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;AI 最强大的地方在于能自主迭代，人类最大的功能是给 AI 建立反馈闭环。&lt;/p&gt;
+&lt;p&gt;最让 Indragie 感到不可思议的是，完成这一切所花的时间，仅仅是人类开发者的一小部分：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;“这就像让一个对项目零背景的新员工，在短短几分钟内，就完整交付一个功能。”&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;一句make-it-more-beautiful就能让-ui-升级&#34;&gt;一句“Make it more beautiful” 就能让 UI 升级
+&lt;/h2&gt;&lt;p&gt;作者选择了最新的技术栈：Swift 6.1 和 SwiftUI。想看看在训练数据远少于 Python 或 JavaScript 的情况下，Claude 写 Swift 代码的表现如何。&lt;/p&gt;
+&lt;p&gt;好消息是，Claude 能胜任 Swift 5.5 之前的大部分语言特性。&lt;/p&gt;
+&lt;p&gt;但对于之后引入的 Swift Concurrency（并发），它就有点抓瞎，比如会固执地用老 API，或者第一次写的 UI 丑得不忍直视。&lt;/p&gt;
+&lt;p&gt;但好消息是，它的学习和纠错能力极强。你只需提点几句，经过几次迭代，它就能写出设计精良的现代化代码。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ccdd73a763201c3ec31bc0757c0e8f89.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;更惊人的是，它甚至在遇到 Swift 编译器那个著名的“类型检查超时”错误后：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The compiler is unable to type-check this expression in reasonable time&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;能够自主将复杂代码重构成了更小的部分，在不破坏原有逻辑的前提下，完美解决问题。&lt;/p&gt;
+&lt;h2 id=&#34;提升产出的核心上下文工程&#34;&gt;提升产出的核心：上下文工程
+&lt;/h2&gt;&lt;p&gt;此外，Indragie 发现，AI 越聪明，瓶颈就越不是“怎么问”，而是“它能记住多少”。“上下文窗口”是有限的，高效利用这有限的“记忆”，才是关键。&lt;/p&gt;
+&lt;p&gt;他总结了三个核心技巧：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. “预激活”（Priming）：先让 AI 学习，再让 AI 工作&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;别直接派活！&lt;/p&gt;
+&lt;p&gt;在让 AI 开始工作前，先让它“预热”——阅读额外的上下文，以提高输出质量。比如，先抛给它这样的指令：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“阅读 文件A.swift&lt;br&gt;
+, 文件B.swift&lt;br&gt;
+ 和 这篇网页上的文档&lt;br&gt;
+，然后总结你学到了什么。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;它会先去阅读和学习，这个“总结”的动作能强迫它思考，并将关键信息保留在上下文中，对后续任务的质量有极大提升。&lt;/p&gt;
+&lt;p&gt;Claude 还会贴心地显示剩余上下文容量的提示条，当 token 耗尽时系统会启动&amp;quot;对话压缩&amp;quot;机制。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8b92d9df0f39eddebafb7345d3b9717d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 强制让 AI“深度思考”（Ultrathink）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Claude 有时会跳过充分思考，直接“莽”上去写代码，结果自然不理想。&lt;/p&gt;
+&lt;p&gt;Indragie 发现，Claude 有一个“隐藏技能”，你可以通过一些关键词让它进行更深度的思考。这些关键词是：think&lt;br&gt;
+ &amp;lt; think hard&lt;br&gt;
+ &amp;lt; think harder&lt;br&gt;
+ &amp;lt; ultrathink&lt;br&gt;
+。&lt;/p&gt;
+&lt;p&gt;ultrathink&lt;br&gt;
+ 会消耗最多的 Token，但能产出最好的结果。在指令中加入这个词，它会先制定一个周密的计划，而不是直接动手写代码，这能有效避免走弯路。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 给 AI 清晰的“需求文档”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;“一句话造应用”的梦还没照进现实。想让 AI 构建真正可用的复杂功能，前提是你能给一份清晰的需求文档。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3b2c040ab748c1ceaa65fd2211ef384d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“花点时间把想法写清楚，绝对比后面花大把时间调试它写的烂代码要划算得多。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;垃圾进，垃圾出，这铁律在 AI 时代依然有效。&lt;/p&gt;
+&lt;h2 id=&#34;建立反馈循环&#34;&gt;建立反馈循环
+&lt;/h2&gt;&lt;p&gt;如果说以上三点是与 AI 相处的技巧，那下面这点，则是 Claude 最让 Indragie 震撼的“执行”能力。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;它能够独立驱动一个“构建 -&amp;gt; 测试 -&amp;gt; 修复”的反馈循环。&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这意味着，AI 可以自主地完成一个迭代周期：&lt;/p&gt;
+&lt;p&gt;全自动能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;构建 (Build):&lt;/strong&gt;&lt;br&gt;
+ Claude 能直接运行 swift build 来编译 Swift 包。对于复杂的 macOS 应用，开发者需要预先配置好 xcodebuild 等工具，AI 可以调用这些工具。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;测试 (Test):&lt;/strong&gt;&lt;br&gt;
+ 同样，它可以自主执行 swift test 来运行单元测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;半自动化能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;收集、修复 Bug:&lt;/strong&gt;&lt;br&gt;
+ AI 知道通过日志进行调试，但它无法自行操作应用界面来复现一个特定的 Bug。因此，开发者需要手动操作应用，并将相关的控制台日志或错误信息粘贴给 AI，AI 才能进行分析和修复。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;修复 UI 问题（迭代）&lt;/strong&gt;&lt;br&gt;
+: 对于 UI 的调整，也需要开发者先将应用运行到需要修改的界面，然后提供截图给 Claude。开发者通过在截图上标记或用文字描述，来指导 AI 进行界面元素的调整和优化。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;让杂活变得免费&#34;&gt;让杂活变得“免费”
+&lt;/h2&gt;&lt;p&gt;除了核心编码，AI 在干那些“吃力不讨好”的杂活上，同样表现惊人。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;秒级生成模拟数据：&lt;/strong&gt;&lt;br&gt;
+手动创建高质量的模拟数据（Mock Data）足以扼杀许多 UI 探索的灵感。而 Claude 能在几秒内生成以假乱真的数据，让他能快速迭代 UI 原型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/ed1314e437855516c3a3509b38c58f70.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;“免费”的自动化发布流：&lt;/strong&gt;&lt;br&gt;
+对独立开发者来说，最痛苦的莫过于打包发布。代码签名、软件公证、生成更新日志、上传版本…一套流程下来，身心俱疲。过去 Indragie 只能勉强拼凑一个简陋脚本，而这次，他通过与 Claude 迭代，生成了一个近 2000 行的 Python 发布脚本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/179dee3240b2d0115c7b93dc6d9c9688.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这个脚本功能全面、界面美观，能自动完成从生成更新日志到打包签名、发布到 GitHub、上传调试符号等所有繁琐工作。这个过去需要花费数小时甚至数天的任务，现在成了“一次点击，喝杯咖啡”的享受 ～&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语
+&lt;/h2&gt;&lt;p&gt;Indragie 算了一笔账：&lt;strong&gt;AI 带来了“每天凭空多出 5 个小时”的感觉，让他重新找回了将项目打磨并成功发布的掌控感和乐趣。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;获得这种开发“超能力”的代价呢？仅仅是每月 200 美元。。。&lt;/p&gt;
+&lt;p&gt;Indragie 的实践并非个例。&lt;/p&gt;
+&lt;p&gt;最近，Reddit 上一个热帖《开发工作即将迎来彻底变革，而没有人做好准备》也引发了热议。发帖者激动地宣称，AI 让他一周内完成了拖延十年的项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3a0c35d2052cace97968d092d6075f72.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当然，评论区的反响并非一边倒的赞歌。许多开发者在肯定 AI 潜力的同时，也一针见血地指出：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“AI 生成的代码依然存在大量冗余，上下文管理仍是巨大挑战，离真正高质量、可维护的大规模生产应用，还有很长的路要走。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d397ec3c71a9e362a73110fabe6a4620.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这让网友们联想起了传奇程序员肯特·贝克（Kent Beck）的观点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1054c0913713ff17b90d01419438c09f.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“你 90% 的编码技巧正在迅速贬值，但你 10% 的架构远见、设计品味和复杂性管理能力，正被放大 1000 倍。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这一点，奶茶我是非常认同的！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;人类程序员的价值正在从“如何写”，转移到“写什么”和“为何写”。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所以，朋友们，真正的问题已经不是“AI 会替代我吗？”，也不是“我该去学哪门新语言？”。&lt;/p&gt;
+&lt;p&gt;而是：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你那 10% 不可替代的价值，究竟是什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;以及，你准备好如何用 AI，将它放大 1000 倍了吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/becb445decf247b76b6c5f50799c3985.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考文献&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.indragie.com/blog/i-shipped-a-macos-app-built-entirely-by-claude-code&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.indragie.com/blog/i-shipped-a-macos-app-built-entirely-by-claude-code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.reddit.com/r/ClaudeAI/comments/1lhgdbd/dev_jobs_are_about_to_get_a_hard_reset_and/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.reddit.com/r/ClaudeAI/comments/1lhgdbd/dev_jobs_are_about_to_get_a_hard_reset_and/&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>OpenAI祭出代码杀器，Codex代理横空出世，1.5美元/百万token血洗编程界</title>
+        <link>https://ai.programnotes.cn/p/openai%E7%A5%AD%E5%87%BA%E4%BB%A3%E7%A0%81%E6%9D%80%E5%99%A8codex%E4%BB%A3%E7%90%86%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%961.5%E7%BE%8E%E5%85%83/%E7%99%BE%E4%B8%87token%E8%A1%80%E6%B4%97%E7%BC%96%E7%A8%8B%E7%95%8C/</link>
+        <pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/openai%E7%A5%AD%E5%87%BA%E4%BB%A3%E7%A0%81%E6%9D%80%E5%99%A8codex%E4%BB%A3%E7%90%86%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%961.5%E7%BE%8E%E5%85%83/%E7%99%BE%E4%B8%87token%E8%A1%80%E6%B4%97%E7%BC%96%E7%A8%8B%E7%95%8C/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/6aa0ff754bb7aeffa3ff7b58718d4831.png" alt="Featured image of post OpenAI祭出代码杀器，Codex代理横空出世，1.5美元/百万token血洗编程界" /&gt;&lt;p&gt;&lt;strong&gt;核心内容点&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OpenAI推出了功能最强的AI编码代理Codex，可以并行处理多项任务。&lt;/li&gt;
+&lt;li&gt;Codex经历了多次演变，最新版由codex-1模型支持，专为软件工程优化。&lt;/li&gt;
+&lt;li&gt;OpenAI的AI编码展望是构建一整套Codex相关工具，支持实时协作和异步委托，并与开发者现有工具进行更深入的集成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;今天，OpenAI推出了该公司迄今为止功能最强的AI编码代理：Codex研究预览版。&lt;/p&gt;
+&lt;p&gt;这是一款基于云的软件工程代理，可以并行处理多项任务，例如编写功能、解答代码库相关问题、修复错误以及提交拉取请求以供审核等，每个任务都在其专属的云沙盒环境中运行，并能预加载代码库。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a42dbbdce290e033621043b8aaa2ac82.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;近几个月来，面向软件工程师（也称为氛围编码员）的AI工具人气持续飙升。谷歌和微软等大厂纷纷对外宣称，他们公司大约30%的代码现在已由人工智能编写。今年2月，Anthropic发布了自己的代理编码工具Claude Code；4月，谷歌更新了其人工智能编码助手Gemini Code Assist，增加了更多代理功能；5月份，OpenAI被曝达成协议将以30亿美元收购AI开发工具初创公司Windsurf，但双方均未明确回应。&lt;/p&gt;
+&lt;p&gt;外界推测，Codex的最新发布&lt;br&gt;
+表明，OpenAI可能转向于自主构建而非直接收购&lt;br&gt;
+AI编码产品。&lt;/p&gt;
+&lt;h2 id=&#34;一波三折的codex&#34;&gt;&lt;strong&gt;一波三折的Codex&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;Codex系列并非第一次推出，过去几年经历了多次演变。&lt;/p&gt;
+&lt;p&gt;最初的Codex于2021年就首次亮相，作为将自然语言翻译成代码的模型，可通过OpenAI的应用程序编程接口 (API) 使用，它是GitHub Copilot背后的引擎，GitHub Copilot是一款流行的自动完成式编码助手，由微软、GitHub和OpenAI联合开发。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/86d59fd8d064b4c359563523ef1bddc4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;GitHub Copilot于2023年3月正式脱离OpenAI的Codex模型，采用GPT-4作为其Copilot X升级的一部分，以实现更深层次的IDE集成，同年，OpenAI关闭了对Codex的公开访问，然而，由于来自研究者们的公开呼吁，Codex模型最终保留可供OpenAI研究访问计划的研究者使用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6aa0ff754bb7aeffa3ff7b58718d4831.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当下，OpenAI正在构建一个开源轻量级编码代理Codex CLI，目前该项目在  GitHub上已获得&lt;strong&gt;21.8k&lt;/strong&gt;颗星，得到开发者广泛关注。&lt;/p&gt;
+&lt;p&gt;最新版的Codex由codex-1模型提供支持，codex-1是OpenAI o3模型的一个衍生版本，专门针对软件工程进行了优化，它使用强化学习在各种环境中针对真实世界的编码任务进行训练，以生成与人类风格和PR偏好高度相似的代码，精确遵循指令，并可以迭代运行测试直至获得通过结果。&lt;/p&gt;
+&lt;p&gt;今天，OpenAI还发布了codex-1的精简版本，这是专为Codex CLI使用而设计的o4-mini版本，这个新模型支持CLI中更快的工作流程，并针对低延迟代码问答和编辑进行了优化，同时保留了指令遵循和样式方面的相同优势，它现在作为Codex CLI中的默认模型，并在API中以codex-mini-latest的形式提供。&lt;/p&gt;
+&lt;p&gt;OpenAI方面表示，未来几周，用户将可以免费畅享Codex的强大功能，之后，将推出限速访问和灵活的定价方案，开发者可以按需购买更多使用量。对于使用codex-mini-latest构建的开发人员，该模型可在Responses API上使用，价格为每100万个输入令牌1.50美元，每100万个输出令牌6美元，目前有75%的即时缓存折扣。&lt;/p&gt;
+&lt;h2 id=&#34;专为编码定制模型&#34;&gt;&lt;strong&gt;专为编码定制模型&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;开发者目前可以通过ChatGPT的侧边栏访问Codex，并通过输入提示并点击“代码”按钮为其分配新的编码任务，每个任务都在预加载了开发者代码库的独立隔离环境中独立处理。&lt;/p&gt;
+&lt;p&gt;Codex可以读取和编辑文件，以及运行包括测试工具、linters和类型检查器在内的命令，任务完成通常需要1到30分钟，具体取决于复杂程度，开发者可以实时监控Codex的进度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4390b190dc2216eb5bc8b2dc616d2d4a.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在产品中，开发者可以配置Codex环境，使其尽可能与实际开发环境匹配。&lt;/p&gt;
+&lt;p&gt;Codex可以通过放置在代码库中的AGENTS.md文件进行引导，开发者可以在其中告知Codex如何导航代码库、运行哪些命令进行测试以及如何最好地遵循项目的标准实践，与人类开发人员一样，Codex代理在配置好开发环境、可靠的测试设置和清晰的文档后，性能最佳。 &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/cec9ddd06c4e928118b7875d2c778b4d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在编码评估和内部基准测试中，codex-1表现出强劲性能。&lt;/p&gt;
+&lt;p&gt;OpenAI表示，训练codex-1的主要目标是使输出与人类的编码偏好和标准紧密结合，与OpenAI o3模型相比，codex-1始终能够生成更清晰的补丁，可供立即进行人工审核并集成到标准工作流程中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8cd113d3c956db2e87dcf849d9ad8777.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/d4dca4159ed475781342a1ea9b02f43c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;为了平衡安全性和实用性，Codex经过了训练，能够识别并精准拒绝旨在开发恶意软件的请求，同时清晰区分并支持合法任务。&lt;/p&gt;
+&lt;p&gt;此外，Codex代理完全在云端安全隔离的容器中运行，在任务执行期间，互联网访问被禁用，代理的交互仅限于通过GitHub代码库明确提供的代码以及用户通过安装脚本配置的预安装依赖项，代理无法访问外部网站、API或其他服务。&lt;/p&gt;
+&lt;p&gt;最后，OpenAI宣称其技术团队已开始将Codex纳入其日常工具包，OpenAI 工程师最常使用它来替代那些重复且范围明确的任务，例如重构、重命名和编写测试，&lt;br&gt;
+它同样适用于构建新功能、连接组件、修复错误以及起草文档。&lt;/p&gt;
+&lt;h2 id=&#34;openai的ai编码展望&#34;&gt;&lt;strong&gt;OpenAI的AI编码展望&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;对于AI编码布局，OpenAI表示最新版的 Codex 仅仅是个开始。&lt;/p&gt;
+&lt;p&gt;未来，开发者可以自主掌控想要完成的重点工作，其余工作则能全面委托给代理——借助AI，开发速度会更快，效率更高，为了实现这一目标，OpenAI正在构建一整套Codex相关工具，支持实时协作和异步委托。&lt;/p&gt;
+&lt;p&gt;最终，实时配对和任务委托将逐渐融合，开发者将通过IDE和日常工具与AI代理协作，提出问题、获取建议并卸载耗时较长的任务，所有这些都在统一的工作流程中进行。&lt;/p&gt;
+&lt;p&gt;OpenAI还在推进与开发者现有的工具进行更深入的集成：&lt;br&gt;
+目前Codex已与GitHub连接，不久后开发者将能够从Codex CLI、ChatGPT桌面应用，甚至是问题跟踪器或CI系统等工具中分配任务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/224ee15baf8f3998be26b5b0a1f26542.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;根据SimilarWeb的市场分析数据，过去12周内，以开发人员为中心的AI工具的流量激增了75%，凸显了行业对编码助手作为基本基础设施而非实验性附加组件的需求日益增长。&lt;/p&gt;
+&lt;p&gt;OpenAI曾与快速发展的AI开发工具初创公司Cursor和Windsurf进行收购谈判，据称，Cursor拒绝了收购，Windsurf原则上同意OpenAI以30亿美元价格收购，但这笔收购目前尚没有尘埃落定，就在昨天，Windsurf还推出了其专注于编码的基础模型SWE-1强化市场竞争。&lt;/p&gt;
+&lt;p&gt;新的Codex代理推出，外界分析认为是OpenAI向Windsurf、Cursor等施压的一种方式，增加谈判筹码进而达成更有性价比的交易或收购，同时与谷歌、Anthropic等在AI编码代理领域展开正面对抗，重塑市场竞争格局。&lt;/p&gt;
+&lt;p&gt;原标题：《加速AI编码竞赛！OpenAI上线软件工程代理Codex研究预览版，可并行处理多项任务》&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来</title>
+        <link>https://ai.programnotes.cn/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/</link>
+        <pubDate>Wed, 23 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%85%B3%E4%BA%8Emcp%E6%9C%80%E5%80%BC%E5%BE%97%E7%9C%8B%E7%9A%84%E4%B8%80%E7%AF%87mcp%E5%88%9B%E9%80%A0%E8%80%85%E8%81%8Amcp%E7%9A%84%E8%B5%B7%E6%BA%90%E6%9E%B6%E6%9E%84%E4%BC%98%E5%8A%BF%E5%92%8C%E6%9C%AA%E6%9D%A5/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/921173eb687158463316045c885cd26a.png" alt="Featured image of post 关于MCP最值得看的一篇：MCP创造者聊MCP的起源、架构优势和未来" /&gt;&lt;p&gt;核心内容点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MCP协议的设计理念，以及其与现有API的区别。&lt;/li&gt;
+&lt;li&gt;快速构建MCP服务器的方法，包括利用AI辅助编码。&lt;/li&gt;
+&lt;li&gt;MCP协议的未来发展方向，特别是关于Statefulness的讨论。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;转自&lt;/strong&gt; | Founder ParkAnthropic DataFunTalk 2025-04-23 13:01&lt;/p&gt;
+&lt;p&gt;在去年发布的 MCP 协议，今年因为 Manus 和 Agent 的热潮，突然成为了 AI 领域最热门的协议。OpenAI、微软、Google 等大厂也纷纷支持协议，国内阿里云百炼、腾讯云也迅速跟进，上线了快速搭建平台。但争议也不少，很多人质疑 MCP 和 API 区别不大、Anthropic 的工程师对互联网协议不怎么精通、以及协议太简单带来的安全问题等等。&lt;/p&gt;
+&lt;p&gt;让 MCP 协议的发明者来回答这些问题，再合适不过了。在 Latent Space 最近的一起播客中，他们邀请到了 Anthropic 团队 MCP 协议的发明者——Justin Spahr-Summers、 David Soria Parra，详细聊了聊 MCP 的起源，以及他们对于 MCP 诸多想法：为何推出 MCP、 MCP 与现有的 API 有何不同、如何让 MCP 更好利用好工具等等。信息量很大，建议收藏阅读。&lt;/p&gt;
+&lt;p&gt;对谈嘉宾介绍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Alessio Fanelli（主持人）&lt;/li&gt;
+&lt;li&gt;Decibel 合伙人兼 CTOswyx（主持人）&lt;/li&gt;
+&lt;li&gt;Small AI 创始人David Soria Parra&lt;/li&gt;
+&lt;li&gt;Anthropic 工程师Justin Spahr-Summers&lt;/li&gt;
+&lt;li&gt;Anthropic 工程师TLDR&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MCP 概念的「灵光一闪」来自 Anthropic 的一个内部项目 LSP（Language Server Protocol），两位工程师借由 LSP 的启发，想到能否做一个类似 LSP 的东西，从而把「AI 应用与扩展之间的通信」标准化。MCP 的核心设计原则是：工具这个概念实际上不仅仅是工具本身，还与客户端应用程序息息相关，进而也与用户紧密相连。通过 MCP 的操作，用户应该拥有完全的控制权。工具由模型控制，指的是仅仅由模型来调用，而不是由用户主动指定使用某个工具（出于提示目的的情况除外）。开放 API 和 MCP 并非相互对立，而是非常互补。关键在于选择最适合特定任务的工具。如果目标是实现 AI 应用之间丰富的交互，MCP 更适合；如果希望模型能够轻松读取和解释 API 规范，开放 API 会是更好的选择。对于 MCP 服务器的快速构建，利用 AI 辅助编码是一种非常好的方式。在开发初期，将 MCP SDK 的代码片段放入 LLM 的上下文窗口，让 LLM 帮助构建服务器，结果往往很不错，细节可以在后期进一步优化，这是一种快速实现基本功能并进行迭代的好方法。同时，Anthropic 的 MCP 团队非常注重简化服务器的构建流程，便于 LLM 能够参与进来。&lt;/p&gt;
+&lt;p&gt;AI 应用、生态系统和 Agent 的未来发展方向会倾向于 Statefulness，同时这也是 Anthropic 的 MCP 核心团队内部最具争议的话题之一。在经过了多次讨论和迭代后，得出的结论是尽管目前看好 Statefulness 的未来，但不能因此背离现有的范式，必须在 Statefulness 的理念和实际操作的复杂性之间找到平衡。&lt;/p&gt;
+&lt;h2 id=&#34;1mcp-是如何诞生的&#34;&gt;&lt;strong&gt;1.MCP 是如何诞生的？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：首先，MCP 是什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+模型上下文协议，Model Context Protocol，简称 MCP，基本上是我们设计出来帮助 AI 应用拓展自身或集成插件生态系统的设计，具体而言，MCP 提供了一套通信协议，让 AI 应用（我们叫「客户端」）和各种外部扩展（我们叫「MCP 服务器」）能彼此协作。这里的「扩展」可以是插件、工具或者其它资源。&lt;/p&gt;
+&lt;p&gt;MCP 的目的就在于让大家在构建 AI 应用时，能够轻松引入外部服务、功能，或者调取更多数据，让应用拥有更丰富的能力。我们的命名中有「client-server」的概念，主要是为了强调交互模式，但本质就是在做一个「让 AI 应用更易扩展」的通用接口。&lt;/p&gt;
+&lt;p&gt;不过需要强调的是，MCP 关注 AI 应用而非模型本身，这是常见的误解。此外，我们认同将 MCP 类比为 AI 应用程序的 USB-C 接口，它是连接整个生态系统的通用接口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：客户端和服务器的特性意味着它是双向，就像 USB-C 接口一样，这很有意思。很多人尝试做相关研究、构建开源项目。我感觉 Anthropic 在争取开发者方面，比其他实验室都积极。好奇这背后是受外部影响，还是你们俩在某个房间里灵光一现想出来的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David&lt;/strong&gt;：&lt;br&gt;
+实际上，大多就是我们俩在房间里灵光一现想出来的。这不是宏大战略的一部分。2024 年 7 月，我加入 Anthropic 不久，主要负责内部开发者工具。期间，我思考如何让更多员工深入整合现有模型，毕竟这些模型很棒，而且前景更好，自然是希望大家多用自家模型。&lt;/p&gt;
+&lt;p&gt;在工作中，基于我在开发工具方面的背景，很快就觉得有点沮丧，一方面因为 Claude Desktop 功能有限，无法拓展，而 IDE 又缺少 Claude Desktop 的实用功能，所以我只能在两者间来回复制内容很麻烦。久而久之。我意识到这是个 MxN 的问题，也就是多个应用程序与多种集成的难题，而用一种协议解决再合适不过。当时我还在做一个与 LSP（Language Server Protocol）相关的内部项目，没什么进展。综合这些想法，琢磨几周后，我有了构建某种协议的念头：&lt;strong&gt;能不能做一个类似 LSP 的东西？把这种「&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用与扩展之间的通信」标准化。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;于是，我找到 Justin，分享了这个想法，幸运的是他很感兴趣，我们便一起着手构建。&lt;/p&gt;
+&lt;p&gt;从有想法开始，花了约一个半月构建协议并完成首次集成。Justin 在 Claude Desktop 首次集成中承担了大量工作，我则在 IDE 中做了许多概念验证，展示协议在 IDE 中的应用。在正式发布前，查看相关代码库能发现不少细节，这就是 MCP 大概的起源故事 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：时间线是怎样的呢？我知道 11 月 25 日是正式发布日期。你们什么时候开始着手做这个项目的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+7 月左右，David 提出想法后，我很快就兴奋地与他着手构建 MCP。最初几个月，因为搭建包含客户端、服务器和 SDK 的通信协议有大量基础工作，所以进展很缓慢。但当东西能通过协议通信后，便令人兴奋起来，能构建各种奇妙的应用。&lt;/p&gt;
+&lt;p&gt;后来我们内部办了一场黑客松，一些同事用 MCP 编了可以控制 3D 打印机的服务器，还有实现「记忆功能」之类的扩展。这些原型大受欢迎，让我们相信这个想法能带来很大潜力。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：回到构建 MCP，我们看到的只是最终成果，它明显受 LSP 启发，这点你们俩也承认。想问问构建时的工作量如何？构建过程主要是大量编写代码，还是做大量设计工作？我感觉设计工作占比大，比如选用 JSON-RPC，借鉴 LSP 的程度如何？还有哪些部分难度较大 ？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+我们从 LSP 获得很多灵感。David 在开发工具方面对 LSP 经验丰富，我主要从事产品或基础设施工作，LSP 对我来说是新事物。&lt;/p&gt;
+&lt;p&gt;从设计原则看，LSP 解决了 David 提到的 M x N Problem。之前，不同 IDE、编辑器和编程语言各自为政，你无法在 Vim 中使用 JetBrains 出色的 Java 支持，也无法在 JetBrains 中使用 Vim 出色的 C 语言支持。LSP 通过创建通用语言让各方能 「交流」，LSP 统一了协议，让「编辑器-语言」各自只需要实现一次。而我们的目标类似，只不过场景换成了「AI 应用-扩展」之间的对接。&lt;/p&gt;
+&lt;p&gt;具体细节上，我们采用 JSON-RPC 和双向通信概念之后，走向了不同方向。LSP 注重功能呈现，思考并提供不同的基本元素，而非语义的原则，我们也应用到 MCP 中。之后，我们花大量时间思考 MCP 中的每个基本元素及其差异的原因，这是大量的设计工作。一开始，我们想支持 TypeScript、Python 以及用于 Zed 集成的 Rust 三种语言，构建含客户端和服务器的 SDK，打造内部试验生态系统，并让本地 MCP 概念（涉及启动子进程等）稳定下来。&lt;/p&gt;
+&lt;p&gt;我们参考了针对 LSP 的诸多批评意见，尽量在 MCP 中改进。例如 LSP 在 JSON-RPC 上的某些做法太复杂，我们就做了一些更直接的实现方式。因为构建 MCP 时，我们&lt;strong&gt;选择在特定领域创新，在其他方面借鉴成熟的模式&lt;/strong&gt;&lt;br&gt;
+，比如选择 JSON-RPC 之类的并不重要，而将重点放在基本元素等创新上，这些方面借鉴前人成果对我们很有帮助 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我对协议设计感兴趣，这里有很多内容能展开。你们已经提到 M x N Problem，其实从事开发者工具工作的人都遇到过，也就是 「万能盒子（Universal Box）」 问题。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;基础设施工程的基本问题和解决办法是，要将很多东西连接到 N 个不同事物，弄个 「万能盒子」 就好。像优步、GraphQL、我曾工作的 Temporal 以及 React 都有这类问题。好奇你们在脸书时有没有解决过 N 乘以 N 的问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/9560fc9c652d0c299067df192e51f912.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+某种程度上确实如此。这是个很好的例子。我在版本控制系统等方面处理过很多这类问题。就是把问题都整合到一个大家能读写的东西里，构建「万能盒子」来解决。在开发者工具领域，这类问题随处可见。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+有趣的是，构建「万能盒子」的人都会面临同样问题，也就是可组合性、远程与本地问题等。Justin 提到的功能呈现问题，有些本质相同的东西，却要明确概念让它的呈现方式不同。&lt;/p&gt;
+&lt;h2 id=&#34;2mcp-的核心概念工具资源与提示缺一不可&#34;&gt;&lt;strong&gt;2.MCP 的核心概念：工具、资源与提示缺一不可&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：看 MCP 文档时我就有这个疑问，为什么这两个东西要有区别呢？很多人将工具调用当成万能解法，实际上不同类型的工具调用意义不同，有时是资源，有时是执行操作，有时是其他用途。我想了解你们将哪些概念归为相近类别？为什么强调它们的重要？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+我们从应用开发者角度思考每个基本概念。开发应用时，不管是 IDE、Claude Desktop 或 Agent 界面，从用户的角度想要从集成中获取的功能，就会清晰很多，同时，工具调用是必要的，还要区分不同功能。&lt;/p&gt;
+&lt;p&gt;所以，MCP 最初的核心基本概念，后来又有所增加：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;工具（Tool）&lt;/strong&gt;&lt;br&gt;
+：是核心。即直接给模型添加工具，让模型自行决定什么时候调用。对应用开发者而言，这类似「函数调用」，只是由模型发起的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;资源（Resource）&lt;/strong&gt;&lt;br&gt;
+：基本上指可添加到模型上下文的数据或背景信息，可由应用程序控制。例如：可能希望模型自动搜索并找到相关资源，进而将它们纳入上下文；也可能希望在应用程序中设置一个明确的用户界面功能，让用户通过下拉菜单、回形针式菜单等方式，使其成为发送给 LLM 信息的一部分，这些都是资源的应用场景。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;提示（Prompt）&lt;/strong&gt;&lt;br&gt;
+：特意设计为由用户发起或由用户替换的文本或消息。打个比方，如果处于编辑器环境中，就如同斜杠命令，或者类似自动补全功能，比如有一个宏想要直接插入使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过 MCP，我们对这些内容的不同呈现方式有自己的见解，但最终还是由应用开发者来决定。作为应用开发者，能得到这些以不同方式表达的概念很有用，可以根据这些确定合适的体验方式，形成差异化。从应用开发者的角度考虑，他们不想让应用千篇一律，在连接开放集成生态系统时，需要独特做法来创造最佳体验。&lt;/p&gt;
+&lt;p&gt;我觉得有两个方面：第一个方面是，目前工具调用在集成中占比超 95%，我期望更多客户端运用资源调用、提示调用。第一个实现的是提示功能，很实用，能构建可回溯的 MCP 服务器，这是用户驱动的交互，由用户决定信息导入时机，优于等待模型处理。同时希望更多 MCP 服务器用提示展示工具用法。&lt;/p&gt;
+&lt;p&gt;另一方面就是资源部分也很有潜力，设想一个 MCP 服务器公开文档、数据库等资源，客户端围绕这些构建一个完整的索引。因为资源内容丰富，不是由模型驱动公开，因为你可能拥有比在上下文窗口中实际可用的多得多的资源内容。期待未来几个月，应用程序能更好利用这些基本概念，打造更丰富的体验。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：拿着锤子，就想把所有东西都当成钉子，用工具调用解决一切问题。比如很多人用它进行数据库查询，而不是资源调用。我好奇在有&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;接口（如数据库）的情况下，使用工具和资源各有哪些优缺点？什么时候该用工具做 SQL 查询？什么时候该用资源处理数据？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+我们区分工具与资源的方式是：工具由模型发起调用，由模型自行判断找到合适的工具并应用，如果想让 LLM 能运行 SQL 查询，把它设为工具合理。&lt;/p&gt;
+&lt;p&gt;资源使用更灵活，不过目前因为很多客户端不支持，情况很复杂。理想状态下，对于数据库表架构等内容，可以通过资源调用。用户能借这个告知应用相关信息开启对话，或者让 AI 应用自动查找资源。只要有列出实体并读取的需求，把它建模为资源就合理。资源通过 URI 唯一标识，可视为通用转换器，例如用 MCP 服务器解读用户输入的 URI。以 Zed 编辑器为例，它有一个提示库和 MCP 服务器交互填充提示，双方需就 URI 及数据格式达成一致，这是资源应用的很酷的交叉示例。&lt;/p&gt;
+&lt;p&gt;再回到应用开发者的角度，思考需求，把这种思路应用到实际中，比如，看看现有的应用功能，如果采用这种方式，哪些功能可以分离出来，由 MCP 服务器实现。基本上，任何有附件菜单的 IDE，自然都可以建模为资源。只是这些实现方式已经存在。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）： 是的，我在 Claude Desktop 中看到@符号时，立刻想到了这和 Cursor 的功能是一样的，现在其他用户也可以利用这个功能了。这个设计目标很棒，因为功能本身已经存在，人们可以很容易地理解并使用。我展示了那张图表，你们肯定也认同它的价值，我认为它非常有帮助，应该放在文档首页，这是一个很好的建议。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin&lt;/strong&gt;**：**&lt;br&gt;
+ &lt;br&gt;
+你愿意为此提交一个 PR（Pull Request）吗？我们非常喜欢这个建议。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+好的，我去提交。&lt;/p&gt;
+&lt;p&gt;作为一名开发者关系人员，我一直致力于为人们提供清晰的指引，比如先列出关键要点，然后再花两小时进行详细讲解。所以，用一张图来涵盖核心内容非常有帮助。我很欣赏你们对提示（Prompt）的重视。在 ChatGPT 和 Claude 发展的早期，很多人尝试创建类似 GitHub 上的提示库、提示管理器库，但最终都没有真正流行起来。&lt;/p&gt;
+&lt;p&gt;确实，在这个领域需要更多的创新。人们期望提示具有动态性，而你们提供了这种可能性。我非常认可你们提到的多步骤提示（multi-step prompt）概念，这说明有时为了让模型正常运行，需要采取多步骤的提示方式或是突破一些限制。提示不仅仅是单次的对话输入，有时它是一连串的对话过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我觉得这正是资源和工具概念存在一定融合的地方，因为你现在提到有时需要一定程度的用户控制或应用程序控制，而在其他时候又希望由模型来控制。所以，现在我们是否只是在选择工具的一个子集？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+ 是的，我认为这是一个合理的担忧。归根结底，这是 MCP 的一个核心设计原则，即工具这个概念实际上不仅仅是工具本身，它与客户端应用程序息息相关，进而也与用户紧密相连。通过 MCP 的操作，用户应该拥有完全的控制权。我们说&lt;strong&gt;工具由模型控制，指的是仅仅由模型来调用，而不是由用户主动指定使用某个工具&lt;/strong&gt;&lt;br&gt;
+（当然，出于提示目的的情况除外，但这不应该作为常规的用户界面功能）。&lt;/p&gt;
+&lt;p&gt;但我认为，客户端应用程序或用户决定对 MCP 服务器提供的内容进行筛选和优化是完全合理的，例如客户端应用可以从 MCP 服务器获取工具描述并进行优化展示。在 MCP 的范式下，客户端应用应该拥有完全的控制权。此外，我们还有一个初步的想法：在协议中添加功能，允许服务器开发者对提示、资源和工具这些基本元素进行逻辑分组。这些分组可以被视为不同的 MCP 服务器，然后由用户根据自己的需求将它们组合起来使用。&lt;/p&gt;
+&lt;h2 id=&#34;3mcp-与-openapi竞争还是互补&#34;&gt;&lt;strong&gt;3.MCP 与 OpenAPI：竞争还是互补？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;strong&gt;&lt;strong&gt;想&lt;/strong&gt;&lt;/strong&gt;谈谈 MCP 与开放&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;（Open API）的对比，毕竟这显然是大家非常关注的问题之一。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 从根本上讲，开放 API 规范是一个非常强大的工具，我在开发 API 及其客户端时经常使用。但是，对于大型语言模型（LLM）的应用场景而言，开放 API 规范显得过于细化，它没有充分体现更高级别的、针对 AI 的特定概念，比如我们刚才提到的 MCP 基本概念以及应用开发者的思维模式。与仅仅提供一个 REST API 让模型去自由发挥相比，模型能够从专门为其设计的工具、资源、提示以及其他基本概念中获得更多益处。&lt;/p&gt;
+&lt;p&gt;另一方面，在设计 MCP 协议时，我们刻意使其具有一定的状态性。这是因为 AI 应用和交互在本质上更倾向于 Statefulness（有状态）。尽管 Stateless（无状态） 在一定程度上始终有其用武之地，但随着交互模式（如视频、音频等）的不断增加，Statefulness 会变得越来越受欢迎，因此，Statefulness 的协议也显得尤为有用。&lt;/p&gt;
+&lt;p&gt;实际上，开放 API 和 MCP 并非相互对立，而是相辅相成的。它们各有强大之处，而且非常互补。我认为关键在于选择最适合特定任务的工具。如果&lt;strong&gt;目标是实现&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用之间丰富的交互，那么 MCP 就更适合&lt;/strong&gt;&lt;br&gt;
+；如果希望模型能够轻松读取和解释 API 规范，那么开放 API 会是更好的选择。早期已经有人在这两者之间搭建了桥梁，有一些工具可以将开放 API 规范转换为 MCP 形式进行发布，反之亦然，这很棒。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我在 AGI 工作室联合主持了一场黑客马拉松。作为个人 Agent 开发者，我看到有人构建了一个能够生成 MCP 服务器的个人 Agent：只需要输入&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;规范的 URL，它就可以生成对应的 MCP 服务器。你们如何看待这种现象？是不是意味着大多数 MCP 服务器仅仅是在现有 API 之上增加了一个层，而没有太多独特的设计？未来会一直是这样，主要依靠&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;来对接已有的 API，还是会出现全新的、前所未有的 MCP 体验？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为这两种情况都会存在。&lt;strong&gt;一方面，「通过连接器将数据引入应用程序」这类需求始终是有价值的。&lt;/strong&gt;&lt;br&gt;
+尽管目前更多的是默认使用工具调用，但未来其他的基本概念或许更适合解决这类问题。即使它仍然是一个连接器或适配器层，通过适配不同的概念也能增加其价值。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;另一方面，确实有机会出现一些有趣的应用场景，构建不仅仅充当适配器的 MCP 服务器。&lt;/strong&gt;&lt;br&gt;
+例如，一个内存 MCP 服务器可以让 LLM 在不同的对话中记住信息；一个顺序思维 MCP 服务器可以提升模型的推理能力。这些服务器并非与外部系统集成，而是为模型提供全新的思考方式。&lt;/p&gt;
+&lt;p&gt;无论如何，利用 AI 来构建服务器是完全可行的。即使需要实现的功能并非适配其他 API，而是具有&lt;strong&gt;源自&lt;/strong&gt; | 性，模型通常也能找到实现的途径。确实，很多 MCP 服务器将会是 API 封装器，这既合理又有效，能帮助你取得很大进展。但我们目前仍处于探索阶段，还在不断探索能够实现的可能性。&lt;/p&gt;
+&lt;p&gt;随着客户端对这些基本概念支持的不断完善，将会涌现出丰富的体验。例如，一个能够「总结 Reddit 版块内容」的 MCP 服务器，目前还没有人构建，但协议本身完全能够实现。我认为，当人们的需求从「我只是想把我关心的事物连接到 LLM 上」转变为「我想要一个真正的工作流程，一个真正更丰富、我希望模型能够深入互动的体验」时，你就会看到这些创新应用应运而生。不过，目前在客户端支持的能力与服务器开发者想要实现的功能之间，确实存在着一个「先有鸡还是先有蛋」的问题。&lt;/p&gt;
+&lt;h2 id=&#34;04怎么快速构建-mcp-服务器用-ai-编程&#34;&gt;&lt;strong&gt;04.怎么快速构建 MCP 服务器：用 AI 编程&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我觉得 MCP 还有一个方面人们讨论得相对较少，那就是服务器的构建。对于那些想要开始构建 MCP 服务器的开发者，你们有什么建议吗？作为服务器开发者，如何在提供详细描述（让模型理解）与直接获取原始数据（留给模型后续自动处理）之间找到一个最佳平衡点？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我有一些建议。MCP 的一个优点在于，构建一些简单的功能非常容易，大约半小时就能搭建好，虽然可能不完美，但足以满足基本需求。最好的入门方法是：选择你喜欢的编程语言，如果有相应的 SDK 就直接使用；构建一个你希望模型能与之交互的工具；搭建 MCP 服务器；将这个工具添加到服务器中；简单地编写一下工具的描述；通过标准输入输出协议将其连接到你喜欢的应用程序；然后观察模型能够如何使用它。&lt;/p&gt;
+&lt;p&gt;对于开发者来说，能够快速看到模型作用于他们所关注的事物上，这一点非常有吸引力，能够激发他们的热情，进而促使他们深入思考还需要哪些工具、资源和提示，以及如何评估效果并优化提示。这是一个可以不断深入探索的过程，但首先从简单的事情入手，看看模型如何与你关心的内容进行交互，这本身就充满了乐趣。MCP 为开发增添了趣味性，能够让模型快速发挥作用。&lt;/p&gt;
+&lt;p&gt;我还倾向于&lt;strong&gt;利用&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;辅助编码&lt;/strong&gt;&lt;br&gt;
+。在开发初期，我们就发现可以将 MCP SDK 的代码片段放入 LLM 的上下文窗口，让 LLM 帮助构建服务器，结果往往很不错，细节可以在后期进一步优化。这是一种快速实现基本功能并进行迭代的好方法。从一开始，我们就非常注重简化服务器的构建流程，以便于 LLM 能够参与进来。在过去几年里，启动一个 MCP 服务器可能只需要 100 到 200 行代码，确实非常简单。如果没有现成的 SDK，你也可以将相关的规范或其他 SDK 提供给模型，让它帮助你构建部分功能。在喜欢的语言中进行工具调用通常也非常直接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;strong&gt;&lt;strong&gt;我发现，服务器构建者在很大程度上决定了最终返回的数据格式和内容。比如在工具调用的例子中，像 Google Maps，返回哪些属性是由构建者决定的。如果缺少某种属性，用户就无法覆盖或修改它。这和我对一些 SDK 的不满之处类似：当人们构建&lt;/strong&gt;&lt;/strong&gt;API****封装的 SDK 时，如果他们遗漏了 API 新增的参数，我就无法使用这些新功能。你们如何看待这个问题？用户应该拥有多大的干预能力，还是完全由服务器设计者来决定？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+关于 Google Maps 的例子，我们或许有一定的责任，因为它是我们发布的一个参考服务器。一般来说，至少目前，对于工具调用的结果，我们有意设计它不一定是结构化的 JSON 数据，也不一定需要匹配特定的模式，而是以文本、图像这类可以直接输入 LLM 的消息形式呈现。也就是说，&lt;strong&gt;我们倾向于返回大量的数据，并相信 LLM 能够从中筛选并提取它所关心的信息。&lt;/strong&gt;&lt;br&gt;
+我们在这方面做了很多努力，旨在让模型能够灵活地获取所需信息，因为这正是它的强项。我们思考的是如何充分发挥 LLM 的潜力，而不是过度地限制或指定，从而避免随着模型的改进而变得难以扩展。因此，在示例服务器中，理想的状态是所有结果类型都能直接从被调用的 API 原封不动地传递过来，由 API 自动传递数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 在哪里划定这个界限确实是一个很难做出的决定。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;David：&lt;/strong&gt;&lt;br&gt;
+这里我可能需要稍微强调一下 AI 在其中的作用。很多示例服务器是由 Claude 编写的，这一点并不令人意外。目前，人们往往习惯于用传统的软件工程方法来处理问题，但实际上我们需要重新学习如何为 LLM 构建系统并信任它们的能力。随着 LLM 每年都取得显著的进步，现在将处理数据的任务交给擅长此道的模型是一个明智的选择。这意味着我们可能需要放下过去二三十年、甚至四十年的传统软件工程实践经验。&lt;/p&gt;
+&lt;p&gt;从另一个角度来看 MCP，AI 的发展速度令人惊叹，既令人兴奋又带着一丝担忧。&lt;strong&gt;对于模型下一波能力的提升，最大的瓶颈可能在于与外部世界交互的能力&lt;/strong&gt;&lt;br&gt;
+，比如读取外部数据源、采取 Statefulness 的行动。在 Anthropic 工作时，我们非常重视安全的交互，并采取了相应的控制和校准措施。随着 AI 的发展，人们会期望模型具备这些能力，而将模型与外部连接是提升 AI 生产力的关键。MCP 也正是我们对未来发展方向及其重要性的一种押注。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 说得对，我觉得任何带有「格式化」（formatted）字样的 API 属性都应该被移除。我们应该从所有接口获取原始数据。为什么需要预先格式化呢？模型肯定足够智能，能够自己对地址等信息进行格式化。所以这部分应该由终端用户来决定。&lt;/p&gt;
+&lt;h2 id=&#34;5怎么让-mcp-更好调用更多工具&#34;&gt;&lt;strong&gt;5.怎么让 MCP 更好调用更多工具？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）： 我还想问一个问题，一个 MCP 实现能够支持多少个相关功能？这涉及到广度与深度的问题，也与我们刚才讨论的 MCP 嵌套直接相关。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2024 年 4 月 Claude 推出首个百万 token 上下文示例时，曾表示能够支持 250 个工具，但在很多实际情况下，模型并不能真正有效地使用这么多工具。从某种意义上说，这是一个广度问题，因为没有工具调用工具的情况，只有模型和一层平铺的工具层级结构，这样很容易出现工具混淆。当工具的功能相似时，模型就可能调用错误的工具，导致结果不理想。对于在任何特定时间启用的 MCP 服务器的最大数量，你们有什么建议吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin：&lt;/strong&gt;&lt;br&gt;
+ 坦白说，这个问题没有一个绝对的答案。一方面取决于你使用的模型，另一方面取决于工具的命名和描述是否足够清晰，能够让模型准确理解，避免混淆。理想的状态是将所有信息提供&lt;br&gt;
+给 LLM，完全由它来处理一切，这也是 MCP 所设想的未来蓝图。但在现实应用中，客户端应用程序（即 AI 应用）可能需要做一些补充工作，比如筛选工具集，或者利用一个小型且快速的 LLM 先&lt;br&gt;
+筛选出最相关的工具，然后再传递给大型模型。此外，也可以通过将一些 MCP 服务器设置为其他 MCP 服务器的代理来进行筛选。&lt;/p&gt;
+&lt;p&gt;至少对于 Claude 来说，支持数百个工具是比较稳妥的。不过对于其他模型的情况，目前还不清楚。随着时间的推移，情况应该会越来越好，所以对待限制需要保持谨慎，以免阻碍这种发展。能够支持的工具数量在很大程度上取决于描述的重叠程度。如果服务器的功能各不相同，工具名称和描述清晰且独特，那么能够支持的工具数量可能就会多于存在相似功能服务器（比如同时连接 GitLab 和 GitHub 服务器）的情况。&lt;/p&gt;
+&lt;p&gt;此外，这也与 AI 应用的类型有关。在构建高度智能化的应用时，你可能会减少向用户提问以及界面的可配置性；但在构建像 IDE 或聊天应用这样的程序时，允许用户在不同的时刻选择他们想要的功能集，而不是始终启用全部功能，这是完全合理的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;strong&gt;&lt;strong&gt;最后，我们重点谈谈顺序思维服务器&lt;/strong&gt;&lt;/strong&gt;（Sequential Thinking MCP Server）****。它具备分支功能，还能提供「更多编写空间」的能力，这些都非常有趣。另外，Anthropic 上周发布了一篇新的工程博客，介绍了他们的思考工具（Thinking Tool），社区对于顺序思维服务器和这个思考工具之间是否存在重叠产生了一些疑惑。实际上，这只是不同团队以不同的方式在做类似的事情，毕竟实现方法多种多样。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 据我所知，顺序思维服务器与 Anthropic 的思考工具没有直接的共同渊源。但这确实反映了一个普遍现象：为了让 LLM 进行更周全的思考、减少幻觉或达成其他目标，存在着许多不同的策略，可以从多个维度更全面、更可靠地展现效果。这正是 MCP 的强大之处——你可以构建不同的服务器，或者在同一个服务器中设置不同的产品或工具来实现多样化的功能，让 LLM 应用特定的思维模式来获得不同的结果。&lt;/p&gt;
+&lt;p&gt;所以，并不存在一种理想的、规定好的 LLM 思考方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：我认为不同的应用会有不同的用途，而 MCP 正是允许你实现这种多样化，对吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 没错。我觉得一些 MCP 服务器所采用的方法，恰恰填补了模型在当时自身能力上的空白。模型训练、准备和研究需要耗费大量时间，才能逐步提升其能力。就拿顺序思维服务器来说，它看起来可能很简单，但实际上并非如此，而且它可以在短短几天内搭建好。然而，如果想在模型内部直接实现这种复杂的思考功能，那绝不是几天就能完成的事情。&lt;/p&gt;
+&lt;p&gt;打个比方，如果我使用的模型不太可靠，或者有人觉得当前模型生成的结果整体上不够可靠，我可以设想构建一个 MCP 服务器，让模型针对一个查询尝试生成三次结果，然后再从中挑出最佳的一个。借助 MCP，就能够实现这种递归且可组合的 LLM 交互方式。&lt;/p&gt;
+&lt;h2 id=&#34;06复杂的-mcp-和-agent-有什么区别&#34;&gt;&lt;strong&gt;06.复杂的 MCP 和 Agent 有什么区别？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 我接下来想问关于可组合性的问题。你们怎么看待将一个 MCP 引入另一个 MCP 的概念？对此有什么相关计划吗？比如，如果我想构建一个用于总结 Reddit 版块内容的 MCP，这可能需要调用一个对应 Reddit&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;的 MCP，以及一个提供总结功能的 MCP。那么，我该如何构建这样一个「超级 MCP」呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 这是一个非常有意思的话题，可以从两个方面来看。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;一方面，考虑构建像总结功能这样的组件&lt;/strong&gt;&lt;br&gt;
+。虽然它可能会调用 LLM，但我们希望它能够保持与具体的模型无关。这就涉及到了 MCP 的双向通信功能。以 Cursor 为例，它管理着与 LLM 的交互循环。服务器开发者可以通过 Cursor 向客户端（即用户所在的应用程序）请求执行某些任务，比如让客户端使用用户当前选择的模型进行总结，并将结果返回。这样，总结模型的选择就取决于 Cursor，而开发者无需在服务器端引入额外的 SDK 或 API 密钥，从而实现了与具体模型无关的构建。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;另一方面，利用 MCP 构建更复杂的系统是完全可能的&lt;/strong&gt;&lt;br&gt;
+。你可以设想一个 MCP 服务器，它为 Cursor 或 Windsurf 这样的服务提供支持，同时这个服务器自身也作为一个 MCP 客户端，调用其他的 MCP 服务器来创造更丰富的体验。这体现了一种递归特性，在规范的授权等方面也体现了这种模式。你可以将这些既是服务器又是客户端的应用程序串联起来，甚至利用 MCP 服务器构建有 DAG （Directed Acyclic Graph）来实现复杂的交互流程。智能的 MCP 服务器甚至可以利用整个 MCP 服务器生态系统的能力。对此，人们已经做过相关的实验。如果再考虑到自动选择、安装等功能，还有很多可以实现的可能性。&lt;/p&gt;
+&lt;p&gt;目前，我们的 SDK 还需要添加更多细节，以便开发者能够更轻松地构建既是客户端又是递归 MCP 服务器的应用，或者更方便地复用多个 MCP 服务器的行为。这些是未来有待完善的内容，但它们已经可以展示一些目前虽然可行但尚未被广泛采纳的应用场景。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）： 这听起来非常令人兴奋，我相信很多人会从中获得很多想法和灵感。那么，这种既是服务器又是客户端的 MCP，可以算作是一种 Agent 吗？从某种程度上说，Agent 是你发出一个请求，它会去执行一些你可能不完全清楚的底层操作。在你和最终的原始数据来源之间存在一层抽象。你们对于 Agent 有什么独到的见解吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为通过 MCP 的方式确实可以构建一个 Agent。这里需要区分的是，仅仅作为一个 Agent 的 MCP 服务器加上客户端，与一个真正的 Agent 之间的区别。例如，在一个 MCP 服务器内部，可以借助客户端提供的 sample loop（示例循环）来丰富体验，并让模型调用工具，这样来构建一个真正的 Agent，这种构建方式相对直接。&lt;/p&gt;
+&lt;p&gt;在 MCP 与 Agent 的关系方面，我们有几种不同的思考方向：&lt;/p&gt;
+&lt;p&gt;其一，MCP 可能是一种很好的方式来表达 Agent 的能力，但也许目前还缺少一些能够提升用户交互体验的特性或功能，这些应该被考虑纳入到 MCP 协议中。&lt;/p&gt;
+&lt;p&gt;其二，可以将 MCP 作为构建 Agent，或者让不同 Agent 之间相互组合的基础通信层。 当然，也存在其他可能性，比如认为 MCP 更应该专注于 AI 应用层面的集成，而不是过多地关注 Agent 的概念本身。 这仍然是一个正在探讨中的问题，每个方向都有其权衡之处。回到之前关于「万能盒子」的类比，在设计协议和管理生态系统时，我们需要特别小心的一点是避免功能过于繁杂，不能让协议试图包罗万象，否则可能导致其在各个方面都表现不佳。关键的问题在于，Agent 在多大程度上能够自然地融入现有的模型和范式框架内，又或者在多大程度上它应该作为一个独立的实体存在，这仍然是一个尚未完全解决的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+我认为，当实现双向通信，让客户端和服务器能够合二为一，并且可以将工作委托给其他的 MCP 服务器时，它就更像是 Agent 了。我很欣赏你们始终牢记简洁性的重要，不试图解决所有问题。&lt;/p&gt;
+&lt;h2 id=&#34;7mcp下一步如何让协议更可靠&#34;&gt;&lt;strong&gt;7.MCP下一步：如何让协议更可靠？&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）：近期关于从有状态服务器到无状态服务器的更新引起了大家的兴趣。你们选择服务器发送事件（SSE）作为发布协议和传输方式，并且支持 pluggable（可插拔，指更具灵活性）的传输层，这背后的原因是什么？是受到了&lt;strong&gt;&lt;strong&gt;Jared Palmer&lt;/strong&gt;&lt;/strong&gt;推文的影响，还是早已在筹备之中？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;J&lt;strong&gt;&lt;strong&gt;ustin&lt;/strong&gt;&lt;/strong&gt;/David：&lt;/strong&gt;&lt;br&gt;
+并不是，几个月前我们就在 GitHub 上公开讨论过 Statefulness 与 Stateless 相关的难题，并一直在权衡。&lt;strong&gt;我们认为&lt;strong&gt;&lt;strong&gt;AI&lt;/strong&gt;&lt;/strong&gt;应用、生态系统和 Agent 的未来发展方向倾向于 Statefulness&lt;/strong&gt;&lt;br&gt;
+。这是 MCP 核心团队内部最具争议的话题之一，经过了多次讨论和迭代。最终的结论是，&lt;strong&gt;尽管我们看好 Statefulness 的未来，但不能因此背离现有的范式，必须在 Statefulness 的理念和实际操作的复杂性之间找到平衡。&lt;/strong&gt;&lt;br&gt;
+因为如果要求 MCP 服务器保持长期持续连接，部署和运营的难度会非常大。最初的 SSE 传输设计，其基本理念是你部署一个 MCP 服务器后，客户端可以连接进来并保持近乎无限期的连接，这对任何需要进行大规模运营的人来说，都是一个很高的要求，不是一个理想的部署或运营模式。&lt;/p&gt;
+&lt;p&gt;因此，我们思考如何平衡 Statefulness 的重要性与操作维护的简便性。我们推出的可流式传输的 HTTP 传输方式，包括 SSE，其设计思路是循序渐进的。服务器可以是一个普通的 HTTP 服务器，通过 HTTP POST 请求获取结果。然后可以逐步增强功能，比如支持结果的流式传输，甚至允许服务器主动向客户端发出请求。只要服务器和客户端支持 Session Resumption（会话恢复，即可以在断开连接后重新连接并继续传输），就能够在兼顾 Statefulness 交互的同时，实现便捷的扩展，并能更好地应对网络不稳定等状况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）：&lt;strong&gt;&lt;strong&gt;是的，还包括会话 ID。关于未来的身份验证，你们有什么计划吗？目前，对于一些 MCP，我只需要在命令行中粘贴我的&lt;/strong&gt;&lt;/strong&gt;API****密钥。你们认为未来的发展方向是什么？会不会有类似于 MCP 专属的配置文件之类的东西来管理认证信息？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 在协议的下一版修订草案中，我们已经纳入了授权（authentication）规范。目前主要关注的是用户到服务器的授权，采用的是 OAuth 2.1 或其现代子集。这种方式的效果不错，大家也正在以此为基础进行构建。这能够解决不少问题，因为你肯定不希望用户随意粘贴 API 密钥，特别是考虑到未来大多数服务器会是远程服务器，它们之间需要进行安全的授权。&lt;/p&gt;
+&lt;p&gt;在本地环境下，由于授权信息定义在传输层，这意味着需要进行数据帧封装（设置请求头），而标准的输入输出（stdin/stdout）是无法直接实现的。不过，在本地运行使用标准输入输出的程序时，操作非常灵活，甚至可以打开浏览器来处理授权流程。&lt;strong&gt;关于在本地是否使用 HTTP 进行授权，我们内部目前尚未完全确定，贾斯汀倾向于支持，而我个人不太赞同，存在争议。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于授权设计，我认为和协议的其他内容一样，我们力求相当精简，解决实际痛点，功能先做到最简化，再根据实际需求和痛点逐步扩展，避免过度设计。设计协议需要非常谨慎，因为一旦犯错，基本上就无法挽回，否则会破坏向后兼容性。因此，我们只接受或添加那些经过充分考量和验证的内容，先让社区通过扩展机制进行临时尝试，直到有更广泛的共识表明某些功能确实应该添加到核心协议中，并且我们有能力在未来持续提供支持，这样做会更容易、更稳健。&lt;/p&gt;
+&lt;p&gt;以授权和 API 密钥为例，我们进行了大量头脑风暴。当前的授权方式（OAuth 2.1 子集）已经能够满足 API 密钥的使用场景。一个 MCP 服务器可以作为 OAuth 授权服务器并添加相关功能，但如果你访问其「/authorize」网页，它可能只是提供一个文本框让你输入 API 密钥。虽然这可能不是最理想的方式，但因为它确实符合现有的模式，并且在当下是可行的。我们担心如果添加过多其他选项，客户端和服务器都需要考虑和实现更多情况，反而增加了复杂性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 你们有没有考虑过 scopes（作用域）的概念？昨天我们和 Agent.ai 的创建人&lt;strong&gt;&lt;strong&gt;Dharmesh Shah&lt;/strong&gt;&lt;/strong&gt;做了一期节目。他举了一个关于电子邮件的例子：他拥有自己所有的电子邮件，希望能有更细粒度的 Scopes 控制，比如「你只能访问这些类型的邮件」，或者「只能访问发给这个人的邮件」。如今，大多数作用域通常是基于 REST&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;设计的，即你能访问哪些特定的端点。你们认为未来模型有可能理解并利用 Scopes 层，从而动态地限制传输的数据吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我们认识到 Scopes 存在潜在的需求，也进行过讨论，但&lt;strong&gt;将它添加到协议中需要非常谨慎&lt;/strong&gt;&lt;br&gt;
+。我们的标准是，首先要找到当前实现方式无法解决的实际问题，然后在 MCP 结构的可扩展性基础上进行原型构建，并且证明它能够带来良好的用户体验后，才会考虑将其正式纳入协议。授权（authentication）的情况有所不同，它更多是从顶层（top-down）设计的。&lt;/p&gt;
+&lt;p&gt;每次听到对 Scopes 的描述，我们都觉得很有道理，但我们需要具体的端到端用户案例来明确当前实现方式的不足之处，这样才能进一步展开讨论。考虑到可组合性和逻辑分组的设计理念，&lt;strong&gt;我们通常建议将 MCP 服务器设计得比较小巧，大量不同的功能最好由独立的、离散的服务器来实现，然后在应用层进行组合。&lt;/strong&gt;&lt;br&gt;
+也有人提出反对意见，不赞成让单个服务器承担对多个不同服务的授权任务，认为这些服务本身就应该对应各自独立的服务器，然后再在应用层面进行组合。&lt;/p&gt;
+&lt;h2 id=&#34;8mcp-服务器分发的安全问题&#34;&gt;&lt;strong&gt;8.MCP 服务器分发的安全问题&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;Alessio（主持人）：&lt;br&gt;
+ 我认为 MCP 一个很出色的设计是它的编程语言无关性。据我了解，Anthropic 没有官方的 Ruby SDK，OpenAI 也没有。尽管像 Alex Rudall 这样的开发者在构建这些工具包方面表现出色，但有了 MCP，我们不再需要为各种编程语言分别适配 SDK，只需要创建一个被 Anthropic 认可的标准接口就可以了，这一点非常棒。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+关于 MCP 的注册中心（MCP Registry），目前已经出现了五六个不同的注册中心，而且官方最初宣布的注册中心已经停止运营了。注册中心的服务模式，如提供下载量、点赞数、评价和信任机制等，很容易让人联想到传统的软件包仓库（比如 npm 或 PyPI），但这让我觉得不太可靠。因为即使有了社交证明，下一次更新也可能让一个原本受信赖的软件包面临安全威胁。这种滥用信任系统的情况，感觉就像是建立信任体系反而因为信任系统本身而遭受损害。因此，我更倾向于鼓励人们使用 MCP Inspector，因为它只需要查看通信流量，很多安全问题或许就能通过这种方式被发现并解决。你们如何看待注册中心的安全问题和供应链风险？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 没错，您说得完全正确。这确实是所有注册中心都可能面临的典型供应链安全问题。针对这个问题，行业内有不同的解决方案。比如，可以采取类似苹果 App Store 的模式，对软件进行严格审核，组建自动化系统和人工审核团队来完成这项工作。这确实是解决这类问题的一种方法，在某些特定的场景下是可行的。但我认为在开源生态系统中，这种模式可能不太适用，因为开源生态系统通常采用的是类似 MCP 注册中心、npm 包管理器和 PyPI（Python 包索引）这样的去中心化或社区驱动的方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 这些仓库本质上都面临着供应链攻击的问题。目前已经在官方代码库中发布的一些核心服务器，特别是像内存服务器、推理/思考服务器这类比较特殊的服务器。它们似乎不仅仅是简单地封装现有 API，而且使用起来可能比直接操作 API 更便捷。&lt;/p&gt;
+&lt;p&gt;以内存服务器为例，虽然市场上有一些专注于内存功能的初创公司，但使用这个 MCP 内存服务器，代码量大约只有 200 行，非常简单。当然，如果需要更复杂的扩展，可能需要采用更成熟的方案。但如果只是想快速引入内存功能，它提供了一个非常好的实现，可能就不需要依赖那些公司的产品了。&lt;strong&gt;对于这些非&lt;strong&gt;&lt;strong&gt;API&lt;/strong&gt;&lt;/strong&gt;封装型的特殊服务器，你们有没有什么特别的故事可以分享？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 其实没有太多特别的故事。很多这类服务器都源于我们之前提到的黑客马拉松。当时，人们对 MCP 的想法很感兴趣，Anthropic 内部一些想要实现内存功能或尝试相关概念的工程师，就可以借助 MCP 快速搭建出以往难以实现的原型。你不再需要成为某个领域的端到端专家，也不需要特定的资源或私有代码库，就能为你的应用或服务添加例如内存之类的功能。很多服务器就是这样诞生的。同时，我们在发布时也在考虑要展示多大范围的功能可能性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ 我完全同意。我认为这在一定程度上成就了你们发布的成功，&lt;strong&gt;提供了丰富的示例供人们直接复制粘贴并在此基础上进行扩展&lt;/strong&gt;&lt;br&gt;
+。我还想重点提一下文件系统 MCP 服务器，它提供了编辑文件的功能。我记得之前在播客中，Eric 曾展示过他出色的 bench 项目，社区对其中开源的文件编辑工具非常感兴趣。市面上有一些相关的库和方案将这种文件编辑能力视为核心知识产权，而你们直接将这个功能开源出来，这真的非常酷。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+文件系统服务器是我个人最喜欢的功能之一。它解决了我当时遇到的一个实际限制，我有一个业余的游戏项目，非常希望能将它与云服务以及 David 之前提到的「工件（artifacts）」关联起来。而能够让云服务与本地机器进行交互，这一点意义非常重大，我非常喜欢这个功能。&lt;/p&gt;
+&lt;p&gt;这是一个典型的例子，这个服务器的诞生源于我们在创建 MCP 过程中遇到的挫折以及对这种功能的需求。从遭遇问题，到开发出 MCP 和这个服务器，有着清晰直接的演进脉络，Justin 对此尤其有感触。所以，它在我们心中占有特殊的地位，可以被视为这个协议的一种精神起源点。&lt;/p&gt;
+&lt;h2 id=&#34;9mcp-现在已经是多家公司参与的大型项目了&#34;&gt;&lt;strong&gt;9.MCP 现在已经是多家公司参与的大型项目了&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;swyx（主持人）： 关于 MCP 的讨论非常热烈。如果人们想参与这些辩论和讨论，应该通过什么渠道呢？是直接在规范的代码库讨论页面上吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+在互联网上发表意见相对容易，但真正去付诸实践却需要付出努力。我和 Jason 都是传统的开源理念支持者，我们认为在开源项目中，实际的贡献至关重要。如果你通过实际工作，用具体的例子展示了你的成果，并且为你在软件开发工具包（SDK）中想要的扩展功能投入了精力，那么你的想法更有可能被项目采纳。如果只是停留在发表意见的层面，你的声音可能会被忽略。我们当然重视各种讨论，但考虑到有限的时间和精力，我们会优先关注那些投入了更多实际工作的人。&lt;/p&gt;
+&lt;p&gt;关于 MCP 相关的讨论和通知数量非常庞大，我们需要找到更具扩展性的架构来与社区进行互动，从而确保讨论是有价值和成效的。运营一个成功的开源项目，有时需要做出一些可能让部分人不满意的艰难决定。作为项目的维护者和管理者，必须明确项目的实际愿景，并坚定地朝着既定的方向推进，即使有人不认同也没有关系，因为总可能存在更适合他们理念的项目。&lt;/p&gt;
+&lt;p&gt;以 MCP 为例，它只是解决通用领域相关问题的众多方案之一。如果你不认可核心维护者所选择的方向，开源的优势就在于你有更多的选择，你可以选择「fork」项目。我们确实期望获得社区反馈，也努力让反馈机制更具扩展性，但同时我们也会凭直觉做出我们认为正确的抉择。这可能会在开源讨论中引发很多争议，但这有时也是这类开源项目，尤其是在快速发展领域项目的本质所在。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+幸运的是，你们对于做出艰难决定似乎并不陌生。Facebook 的开源项目提供了不少经验可以借鉴，即使没有直接参与，也能了解参与者的做法。我深度参与了 React 的生态系统，之前成立了一个工作小组，讨论过程是公开的。工作小组的每个成员都有发言权，而且都是有实际工作和重要贡献的人，这种模式在一段时间内很有帮助。关于 GraphQL，它的发展轨迹和早期热度与现在的 MCP 有些相似。我经历了 GraphQL 的发展过程，最终 Facebook 将其捐赠给了开源基金会。&lt;/p&gt;
+&lt;p&gt;这引出了一个问题：MCP 是否也应该这样做？这个问题并非简单的「是」或「否」，其中存在权衡。&lt;strong&gt;目前大多数人对 Anthropic 在 MCP 上的工作是满意的，毕竟是你们创造并管理着它。但当项目发展到一定规模时，可能会遇到瓶颈，意识到这是一个由公司主导的项目。人们最终会期望真正的开放标准由非营利组织来推动，具备多方利益相关者和良好的治理流程，例如由 Linux 基金会或 Apache 基金会管理的那些项目。我知道现在讨论这个问题可能为时尚早，但想听听你们对此的看法？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 开源领域的治理确实是一个有趣且复杂的问题。一方面，我们全力致力于将 MCP 打造成一个开放标准、开放协议和开放项目，欢迎所有有兴趣的人参与进来。目前进展顺利，例如可流式传输 HTTP 的很多想法就来自于 Shopify 等不同的公司，这种跨公司的合作非常有效。但我们确实担心官方标准化，尤其是通过传统的标准化机构或相关流程，在 AI 这样快速发展的领域，这些流程可能会显著拖慢项目的发展速度。因此，我们需要找到一个平衡点：如何在保持现有各方积极参与和贡献的同时，解决他们在治理模式方面可能存在的顾虑或问题，找到正确的未来方向，而无需经历反复的组织架构变动。&lt;/p&gt;
+&lt;p&gt;我们真心希望 MCP 是一个真正的开放项目。虽然它由 Anthropic 发起，并且我和 David 都在 Anthropic 工作，&lt;strong&gt;但我们不希望它仅仅被视为「Anthropic 的协议」。&lt;/strong&gt;&lt;br&gt;
+我们希望各个 AI 实验室和公司都能参与进来或者利用它。这非常有挑战性，需要努力平衡各方利益，避免陷入「委员会决策导致项目停滞」的困境。开源领域存在多种成功的管理模式，我认为其中大部分微妙之处都围绕着企业的赞助和企业在决策过程中的话语权。我们会妥善应对这些相关问题，我们绝对希望 MCP 最终成为一个真正的社区项目。&lt;/p&gt;
+&lt;p&gt;实际上，目前已经有很多非 Anthropic 的员工拥有 MCP 代码的提交和管理权限。例如，Pydantic 团队对 Python SDK 拥有提交权限；Block 等公司对规范做出了诸多贡献；Java、C#、Kotlin 等语言的 SDK 分别由 Microsoft、JetBrains、Spring AI 等不同的公司负责完成，并且这些团队拥有完全的管理权限。所以，如果你仔细观察，它实际上已经是一个由多家公司共同参与的大型项目，很多人都在其中贡献力量，不仅仅是我们两个人对项目拥有提交权限和相关权利。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alessio（主持人）： 对于未来的 MCP 服务器或客户端，你们有什么特别的「愿望清单」吗？有没有哪些你们特别希望人们能够构建，但目前还没有实现的功能？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Justin/David：&lt;/strong&gt;&lt;br&gt;
+ 我希望看到更多 Support for Sampling 的客户端。我也希望有人能构建一些特定的服务器，比如能够总结 Reddit 讨论线程内容的服务器，或者获取《星战前夜：晨曦》（EVE Online）上周动态的服务器。我特别希望前者（采样客户端）能够与模型无关——并不是说我不想用除了 Claude 之外的其他模型（因为目前 Claude 是最好的），而是纯粹希望有一个 Support for Sampling 的客户端框架。&lt;/p&gt;
+&lt;p&gt;更广泛地说，如果能有更多支持完整 MCP 规范的客户端就更好了。我们在设计时考虑了逐步采用的可能性，如果这些精心设计的基本概念能够得到广泛应用，那将非常棒。回想我最初参与 MCP 工作的动机，以及对文件系统服务器的兴奋点——&lt;/p&gt;
+&lt;p&gt;我在业余时间是一名游戏开发者，所以我非常希望能够看到一个与 Godot 引擎集成的 MCP 客户端或服务器（我当时就是用 Godot 引擎开发游戏）。这样一来，将 AI 集成到游戏中就会变得非常轻松，或者能够让 Claude 来运行和测试我的游戏。比如说，让 Claude 玩《宝可梦》游戏。现在已经有实现这个想法的基础了。再进一步，从现在开始，让 Claude 使用 Blender 为你构建 3D 模型，怎么样？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;swyx（主持人）：&lt;/strong&gt;&lt;br&gt;
+ &lt;br&gt;
+坦白说，甚至像着色器代码（shader code）之类的东西理论上都可以实现。这确实已经超出了我的专业领域了。但当你给予开发者们支持和工具后，他们能做到的事情真的非常惊人。我们正和 David Hersh 一起筹备一场「Claude 玩《宝可梦》」的黑客马拉松。本来我并没有将 MCP 融入其中的计划，但现在看来或许可以考虑了。&lt;/p&gt;
+&lt;p&gt;往期推荐&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764686&amp;amp;idx=1&amp;amp;sn=2f3571f51d06fee33492079ada3295b3&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;基于DeepSeek数据爬取新范式&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764674&amp;amp;idx=1&amp;amp;sn=6a1a612fb8701ededec975dc4e7566e6&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;不止ChatBI，数势科技SwiftAgent 3.0 重磅升级!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764692&amp;amp;idx=1&amp;amp;sn=76111663e132d1d218c0dc7037b903d1&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cursor AI客服戏精上身编造&amp;quot;单机政策&amp;quot;，程序员集体炸锅：这届GPT学会PUA用户了！&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764672&amp;amp;idx=1&amp;amp;sn=cc8bc52c2c2bb51d44083cd1600cc698&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;人形机器人半马冠军，为什么会选择全尺寸？&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764566&amp;amp;idx=1&amp;amp;sn=358852f5991598153683e65a088ba5c8&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;硅谷AI初创要让60亿人失业，网友痛批人类叛徒！Jeff Dean已投&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764523&amp;amp;idx=1&amp;amp;sn=a513b9e0df290f8c152eda40bf39bf97&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;干翻英伟达，总共分几步？&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764545&amp;amp;idx=1&amp;amp;sn=7005c6334372f304a22aa4b68060b350&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;杀疯了！Gemini 2.5狂飙「高尔顿板」测试，编码横扫所有OpenAI模型&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764523&amp;amp;idx=2&amp;amp;sn=41e4af204045e06cee33a2cd9753cb2f&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Chat2DB创始人姬朋飞：AI在 text2sql应用领域的实践&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764531&amp;amp;idx=1&amp;amp;sn=170a9e010897a37f87597c4aefdcd451&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;仅需0.4GB，参数只有0和±1！微软开源首个原生1 bit模型，CPU轻松跑&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&amp;amp;mid=2247764524&amp;amp;idx=1&amp;amp;sn=beac9e1ee61b847a0e3f50feb5531216&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;全球顶尖AI来考公，不会推理全翻车！致命缺陷曝光，被倒数5%人类碾压&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）</title>
+        <link>https://ai.programnotes.cn/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Tue, 22 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%B7%A8%E5%A4%B4%E7%9A%84%E6%96%B0%E6%88%98%E5%9C%BAai-%E7%BC%96%E7%A8%8B-ide%E6%9A%A8%E5%AD%97%E8%8A%82-trae-%E8%B0%83%E7%94%A8-mcp-%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other" alt="Featured image of post 巨头的新战场：AI 编程 IDE（暨字节 Trae 调用 MCP 教程）" /&gt;&lt;p&gt;核心内容点1:  AI编程IDE成为巨头竞争的新战场。
+核心内容点2: 字节跳动Trae IDE通过MCP调用扩展AI功能。
+核心内容点3: MCP协议简化了AI与外部应用的连接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt; |  阮一峰  阮一峰的网络日志   2025-04-22 15:11&lt;/p&gt;
+&lt;h2 id=&#34;一引言&#34;&gt;一、引言
+&lt;/h2&gt;&lt;p&gt;本周，我要加写一篇文章。&lt;/p&gt;
+&lt;p&gt;因为 AI 编程 IDE 突然成了热门，国内外都有大事发生。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/4913db0a11fa1ae3aabc45db299f8d8c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;先说国外，OpenAI 要用30亿美元收购 Windsurf[1]。&lt;/p&gt;
+&lt;p&gt;这个消息太惊人。Windsurf（前身叫做 Codeium）的历史很短，发布至今两年多，市场份额也不高，居然值这么多钱！&lt;/p&gt;
+&lt;p&gt;OpenAI 最新一轮融资（今年3月）不过400亿美元[2]，现在一下子要拿出30亿去收购，看中 Windsurf 哪一点呀！&lt;/p&gt;
+&lt;p&gt;OpenAI 自己没有编程助手，所以唯一的解释是，它要收购 IDE 打入 AI 编程市场，这个市场对它很重要。&lt;/p&gt;
+&lt;h2 id=&#34;二marscode-更名-trae&#34;&gt;二、MarsCode 更名 Trae
+&lt;/h2&gt;&lt;p&gt;再看国内，字节也有大动作。&lt;/p&gt;
+&lt;p&gt;它旗下的编程助手，最早是 MarsCode 插件，后来又多了一个独立的 AI IDE 产品Trae[3]。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/817a9bdeff2ea52ea60b4c0a3fc8de37.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本周，MarsCode 宣布改名为 Trae 插件[4]，不再作为独立品牌发展了。&lt;/p&gt;
+&lt;p&gt;以后，&lt;strong&gt;字节的 AI 编程助手，将只有 Trae 这一个品牌&lt;/strong&gt;，分成两种产品形态。&lt;/p&gt;
+&lt;p&gt;习惯传统 IDE 的用户，可以加装 Trae 插件；想要更好 AI 体验的用户，可以安装独立的 Trae IDE。&lt;/p&gt;
+&lt;p&gt;这个消息公布的同时，Trae 新版本也一起发布，加入了重磅的新功能（后面会详谈）。&lt;/p&gt;
+&lt;p&gt;可以看出，字节是下了决心，整合了产品，准备在 AI 编程工具上发力了。&lt;/p&gt;
+&lt;h2 id=&#34;三ai-ide--mcp&#34;&gt;三、AI IDE + MCP
+&lt;/h2&gt;&lt;p&gt;为什么国内外的巨头，在同一个时间，不约而同都看上了 AI IDE？&lt;/p&gt;
+&lt;p&gt;我猜想，答案是 MCP 的出现。&lt;/p&gt;
+&lt;p&gt;有了 MCP 以后，AI IDE 可以扩展外部能力，从而无所不能，这让它成为巨头的必争之地。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a90755c6b441ea16d6786f1201813415.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下面，我来解释 MCP 是什么，怎么在 Trae 里面调用。大家看了，就会理解为什么 MCP 这么重要。&lt;/p&gt;
+&lt;h2 id=&#34;四trae-的简介&#34;&gt;四、Trae 的简介
+&lt;/h2&gt;&lt;p&gt;我选择 Trae 来演示，主要因为它是国产软件，有中文界面和文档，并且完全免费（国外产品都需要付费）。&lt;/p&gt;
+&lt;p&gt;前面说过，Trae 分成插件和 IDE 两种形态，它的 IDE 又分成国内版和海外版。这些产品的功能基本一致，就是内置的 AI 模型不一样。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;国内版：内置 deepseek R1、V3、v3-0324 和 doubao 1.5 pro 模型&lt;br&gt;
+海外版：内置 Claude 3.5、3.7，Gemini 2.5 pro，GPT-4o、GPT-4.1 模型&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;我建议使用国内版，因为海外版的内置模型经常需要排队，很浪费时间，而且可能还会通信不畅。&lt;/p&gt;
+&lt;p&gt;不过，&lt;strong&gt;这两个版本都支持自定义模型&lt;/strong&gt;&lt;br&gt;
+，你可以提供密钥，接入你指定的模型。所以，版本的差别也不算很重要。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/1e8f395052f6d381a63769f44935955c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;顺便提一下，Trae 这个词的意思是“&lt;strong&gt;T&lt;/strong&gt;he&lt;strong&gt;R&lt;/strong&gt;eal&lt;strong&gt;A&lt;/strong&gt;I&lt;strong&gt;E&lt;/strong&gt;ngineer”（真正的 AI 工程师）。我以前总是以为 Trae 的意思是 True Ai。&lt;/p&gt;
+&lt;h2 id=&#34;五trae-的新版本&#34;&gt;五、Trae 的新版本
+&lt;/h2&gt;&lt;p&gt;Trae 的 MCP 调用功能，是从新版本 v0.5.0 开始加入的。&lt;/p&gt;
+&lt;p&gt;没安装的朋友，可以去官网[5]下载新版。已经安装的朋友，请检查一下版本。&lt;/p&gt;
+&lt;p&gt;它的界面这一次简化了，聊天框和 Builder（项目生成）合并成一个对话框（下图）。所有跟 AI 的对话，都在这里输入。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/39d4b2baa387a0a6b6f98762acbe0b0a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图中，左下角多了两个按钮：“@智能体”和“#上下文”。这就是本次新增的核心功能。&lt;/p&gt;
+&lt;p&gt;至于 Trae 的基本用法，这里就不提了，可以看&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://mp.weixin.qq.com/s?__biz=MzI4NjAxNjY4Nw==&amp;amp;mid=2650240097&amp;amp;idx=1&amp;amp;sn=52d38ba994d9f2a53f3c3c3a37b7632e&amp;amp;scene=21#wechat_redirect&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;以前的文章&lt;/a&gt;&lt;br&gt;
+[6]&lt;br&gt;
+。&lt;/p&gt;
+&lt;h2 id=&#34;六调用智能体&#34;&gt;六、调用智能体
+&lt;/h2&gt;&lt;p&gt;MCP 调用的入口，就是上图左下角的“@智能体”按钮。&lt;/p&gt;
+&lt;p&gt;如果想要扩展 AI 的功能，就要使用这个按钮。因为 AI 模型的本质只是语言模型，自身的功能是有限的，必须通过外部应用（智能体）来扩展功能。&lt;/p&gt;
+&lt;p&gt;点击“@智能体”（或者输入@），就会弹出一个对话框，显示目前可用的智能体（下图）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8433f0ebbc47c849b64075fea49b5ca1.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到，Trae 内置了两个智能体:“@Build” 和 “@Builder with MCP”。&lt;/p&gt;
+&lt;p&gt;其中，“@Build”用来让 AI 生成一个可运行的新项目。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;@Build 俄罗斯方块网页小游戏&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;输入上面的命令，就会生成一个 HTML 文件，打开就是俄罗斯方块小游戏。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/c566082f23c911a966b10dae9ce4b93c.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;另一个内置的智能体“@Build with MCP”，就是用来连接 MCP 服务器。&lt;/p&gt;
+&lt;h2 id=&#34;七mcp-是什么&#34;&gt;七、MCP 是什么
+&lt;/h2&gt;&lt;p&gt;我先解释一下，MCP 是什么，很容易理解。&lt;/p&gt;
+&lt;p&gt;我们知道，AI 模型通过连接外部应用，来扩展功能。每个外部应用的接口，都不一样，如果要接入10个应用，就要写10种接入代码，非常麻烦。而且，要是换一个模型，可能所有接入代码都要重写。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/8ebb4a7c1bf369a9f8951723e9ac6a1a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;有鉴于此，Anthropic 公司在2024年11月提出了 MCP 协议。外部应用只需要支持这个协议，提供一个 MCP 接口（又称 MCP 服务器），那么 AI 模型就可以用统一的格式接入，不需要了解外部应用的接入细节。&lt;/p&gt;
+&lt;p&gt;所以，&lt;strong&gt;MCP 可以理解成一个 AI 与外部应用之间的适配层&lt;/strong&gt;&lt;br&gt;
+。对于 AI 来说，只要安装某个应用的 MCP 服务器，就能接入该应用，不用写任何代码（除了少数的配置项）。&lt;/p&gt;
+&lt;p&gt;由于 MCP 解决了 AI 应用的接入痛点，诞生至今仅半年，已经变得极其流行，就连 Anthropic 的竞争对手 OpenAI 公司都公开支持，网上开源的 MCP 服务器项目已经有上万个。&lt;/p&gt;
+&lt;h2 id=&#34;八调用-mcp&#34;&gt;八、调用 MCP
+&lt;/h2&gt;&lt;p&gt;现在就来看 Trae 怎么调用 MCP。&lt;/p&gt;
+&lt;p&gt;点击 AI 标签栏右上角的齿轮图标，弹出一个菜单，选择菜单项 MCP。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/95d790b14f49dd853e2f0274e2a50f95.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;它会跳出一个 MCP 的标签页（下图），点击底部的“+ 添加 MCP Servers”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/80c615c2c464fb950ed11a36b52dea32.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Trae 内置了 MCP 市场，提供一些常用的 MCP 服务器。如果里面没有你需要的，可以点击“手动配置”，添加你自己的 MCP。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/66a90b1d282cf6f0ccac3a4624fd97db.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;为了便于演示，我选择第一个服务器 Puppeteer，让 AI 可以调用无头浏览器。&lt;/p&gt;
+&lt;p&gt;鼠标点击 Puppeteer 的名字，会进入该开源项目的主页，可以查看一下它提供的内部命令（即能力）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/43b6887c7626ebd40187072f791be58e.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图中可以看到，这个 MCP 服务器提供 puppeteer_navigator（打开指定网址）、puppeteer_screenshot（截图）、puppeteer_select（选中页面元素）等内部命令，供 AI 模型调用。&lt;/p&gt;
+&lt;p&gt;用户不需要记住这些命令，只需了解它有哪些能力就可以了。&lt;/p&gt;
+&lt;p&gt;接着，点击它后面的加号，添加该 MCP 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/673d55b11f39472c853aa7a0dd114c95.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这个 MCP 带有“轻松配置”标签，表示不需要任何设置，可以直接运行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/3f73910dabb2bceb86c0e21b6032b08a.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所有自己添加的 MCP，默认都放在内置的智能体“@Build with MCP”，所以可以通过这个智能体来使用。&lt;/p&gt;
+&lt;p&gt;在 AI 对话框里面，选中智能体“@Build with MCP”，然后输入下面的命令“打开 &lt;a class=&#34;link&#34; href=&#34;https://www.baidu.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.baidu.com&lt;/a&gt;”，试试看新安装的 Puppeteer 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/b72e0a122699ca9a4be359dc21952d39.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;正常情况下，Trae 会让你选择一个项目文件夹，然后就会打开一个浏览器窗口，显示百度的首页。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/6c0b16eb30d28f673d1f58dd057c59bd.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这就是 MCP 的作用。AI 本来没有能力控制浏览器，但是现在就可以通过 MCP 来控制。&lt;/p&gt;
+&lt;p&gt;接着，可以给出一些更复杂的命令，比如生成截图，也能顺利完成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/51b1fd49d521b796e1b26ad0107e1f24.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这就是调用 MCP 的基本流程。你还可以把添加的 MCP 服务器保存成智能体（下图）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/010226efcb2481a5074dd5ba4082d5a7.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后，通过你起的名字，调用该智能体（下图），从而连接指定的 MCP 服务器。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/f3b76874b4cfcad32e6c2c0ec0e99507.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;九上下文功能&#34;&gt;九、上下文功能
+&lt;/h2&gt;&lt;p&gt;除了 MCP 调用，Trae 的本次更新，还加强了上下文功能，这里也简单提一下。&lt;/p&gt;
+&lt;p&gt;所谓上下文，就是额外提供的信息，帮助 AI 模型思考，来完成任务。&lt;/p&gt;
+&lt;p&gt;通过#&lt;br&gt;
+号，可以调出上下文菜单。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/133a2029fccbd09a280d2be3fb3849a7.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;从上图可以看到，可以提供的上下文，包括额外的代码（code）、文件（file）、目录（folder）、工作区（workspace）。&lt;/p&gt;
+&lt;p&gt;本次更新多了两个选项，“Doc”表示额外的文档。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/39c9a33ecf31a6962252f2c03b0d4e6e.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击“添加文档集”，就可以添加文档目录，作为 AI 模型的上下文。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/a93287d06e89ae97e9b45b1601064996.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;另一个选项“Web”，表示用网上信息作为上下文。这为 AI 提供了实时联网能力。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/317a2550c56cec9fa8274fe183e96317.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/0a96b866ae4bb321153f42a2fe0b0ece.other&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图的实时天气问题，AI 只有具有联网能力，才能回答。&lt;/p&gt;
+&lt;h2 id=&#34;十总结&#34;&gt;十、总结
+&lt;/h2&gt;&lt;p&gt;有了 MCP 调用和联网能力，AI IDE 就具备了巨大的想象空间，不仅仅是编程工具，而成了一个无所不能的 AI 控制台。&lt;/p&gt;
+&lt;p&gt;那些大公司一定是看到了这一点，所以才愿意投入大量资源，去做这个产品。&lt;/p&gt;
+&lt;p&gt;我认为，在 AI IDE 里面调用 MCP 服务器，将成为近期软件业的热点，值得大家重点关注。&lt;/p&gt;
+&lt;p&gt;（完）&lt;/p&gt;
+&lt;h3 id=&#34;references&#34;&gt;References
+&lt;/h3&gt;&lt;p&gt;[1]收购 Windsurf:https://www.jiemian.com/article/12627036.html&lt;br&gt;
+[2]400亿美元:https://www.cnbc.com/2025/03/31/openai-closes-40-billion-in-funding-the-largest-private-fundraise-in-history-softbank-chatgpt.html&lt;br&gt;
+[3]Trae:https://sourl.cn/dLaMpy&lt;br&gt;
+[4]改名为 Trae 插件:https://docs.trae.com.cn/plugin/faq&lt;br&gt;
+[5]官网:https://sourl.cn/dLaMpy&lt;br&gt;
+[6]以前的文章: http://www.ruanyifeng.com/blog/2025/03/trae.html&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>“开源版coze”爆火，融资超 4.6 亿！如今 Docker 拉取量超 1 亿，斩获 77.5k star</title>
+        <link>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</link>
+        <pubDate>Fri, 11 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://ai.programnotes.cn/p/%E5%BC%80%E6%BA%90%E7%89%88coze%E7%88%86%E7%81%AB%E8%9E%8D%E8%B5%84%E8%B6%85-4.6-%E4%BA%BF%E5%A6%82%E4%BB%8A-docker-%E6%8B%89%E5%8F%96%E9%87%8F%E8%B6%85-1-%E4%BA%BF%E6%96%A9%E8%8E%B7-77.5k-star/</guid>
+        <description>&lt;p&gt;&lt;strong&gt;核心内容:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;n8n 是一个开源的工作流程自动化工具，通过拖放方式连接不同的应用程序和服务，支持 400+ 应用和服务集成。&lt;/li&gt;
+&lt;li&gt;n8n 采用节点式架构，用户可以轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/li&gt;
+&lt;li&gt;n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管，保护商业利益，又让用户能自主部署。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;源自&lt;/strong&gt;| INFOQ 作者｜冬梅  &lt;/p&gt;
+&lt;p&gt;77.5k star GitHub 项目官宣融资&lt;/p&gt;
+&lt;p&gt;此轮融资由 Highland Europe 领投，HV Capital 以及之前的投资者 Sequoia、Felicis 和 Harpoon 也参与其中。&lt;/p&gt;
+&lt;p&gt;n8n 是一个开源的、可扩展的工作流程自动化工具，它提供了直观的界面，让用户可以通过拖放方式连接不同的应用程序和服务，从而创建自定义的自动化流程。n8n 支持 400+ 应用和服务集成，包括各种常见的应用程序和服务，如 Google、Slack、GitHub、Trello 等。&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼首席执行官 Jan Oberhauser 表示：“自动化不应是一个黑匣子——企业需要透明度、定制化和成本效益。通过 n8n，我们构建的不仅仅是一个平台；我们还建立了一个热爱我们并信赖我们的社区。从个人贡献者到全球企业，n8n 让每个人都拥有 10 倍开发者的能力，这在人工智能在职场爆炸式增长的今天至关重要。”&lt;/p&gt;
+&lt;p&gt;过去一年，n8n 经历了一年的爆炸式增长，去年活跃用户已超过 20 万，年度经常性收入 (ARR) 增长了 5 倍。&lt;/p&gt;
+&lt;p&gt;目前，n8n 已经在 GitHub 平台斩获 77.5k star。那么，这款开源软件为何如此受欢迎？&lt;/p&gt;
+&lt;p&gt;GitHub 项目地址：https://github.com/n8n-io&lt;/p&gt;
+&lt;p&gt;n8n 什么来头？&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 于 2019 年创立了工作流自动化平台 n8n。该平台通过将 AI 功能与业务流程自动化相结合，为技术团队提供了兼具代码级灵活性和无代码操作速度的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/e054ef704f5ec886bfb9953df59a489c.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;n8n 创始人兼 CEO Jan Oberhauser&lt;/p&gt;
+&lt;h2 id=&#34;解决个人痛点的私人项目&#34;&gt;解决个人痛点的私人项目
+&lt;/h2&gt;&lt;p&gt;和许多创始人一样，Jan Oberhauser 最初创建 n8n 是为了解决自身遇到的技术卡点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/504b1d7908959c4aa42ae5b1c0b2c1fe.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;2018 年 9 月 n8n（预发布版本）&lt;/p&gt;
+&lt;p&gt;Jan Oberhauser 曾在视觉效果行业工作多年，职责是通过自动化技术帮助艺术家摆脱繁琐的重复性任务，提升工作效率。这段经历让他发现了一个长期被忽视的问题：自动化工具的高度依赖性。每当团队遇到工作流问题时，必须等待工程师开发定制解决方案，而真正需要自动化的人却无法自主解决问题。&lt;/p&gt;
+&lt;p&gt;这一洞察让他萌生了创业想法。&lt;/p&gt;
+&lt;p&gt;2018 年，Jan 开始启动了这个项目，初衷是为了解决自己遇到的实际问题。当时他调研了现有解决方案，发现都不太理想，于是决定按照自己的需求来设计工具。在接下来的一年半里，他利用业余时间进行开发——白天仍在其他创业公司工作，同时兼职另一份工作来维持收入。&lt;/p&gt;
+&lt;p&gt;2019 年 6 月，他将最初的解决方案命名为“Nodemation”——一个允许用户通过可视化界面（而非代码）自动化任务的平台。但由于域名被占用，他最终将其简化为 n8n（即“Nodemation”的缩写），并正式推出。&lt;/p&gt;
+&lt;p&gt;2020 年初，n8n 完成了首轮 150 万美元的融资，同年 4 月迎来了第一批四位团队成员加入。在拿到这笔融资之前，Jan 一直一个人维持着这个项目。&lt;/p&gt;
+&lt;p&gt;2021 年，n8n 在 A 轮融资中又筹集了 1200 万美元。本轮融资由 Felicis Ventures 领投，红杉资本、firstminute Capital 和 Harpoon Ventures 也参与了投资。据称，谷歌和 Zendesk 的一些未透露姓名的早期员工也参与了本轮融资。这家初创公司截至 2021 年已融资约 1400 万美元，但未披露估值。&lt;/p&gt;
+&lt;p&gt;据 n8n 分析，当前价值 221 亿欧元的工作流自动化领域中，大多数工具难以应对复杂且大容量的工作流程。这一局限性迫使企业团队依赖耗时且维护困难的内部开发和自定义脚本，而 n8n 正是为解决这一问题而生。&lt;/p&gt;
+&lt;p&gt;n8n 本质上是一个可视化工作流自动化工具（类似 Zapier 或 Make.com，但侧重点不同）。它采用节点编辑器模式：每个节点代表一个独立操作，用户可以通过连线将数据在不同节点间传递。举个例子：当 PipeDrive CRM 中有新线索时，自动发送邮件通知。这些工作流可以非常简单，也能构建包含条件分支、数据合并等复杂逻辑的自动化流程，让用户快速完成各种复杂任务的自动化。&lt;/p&gt;
+&lt;p&gt;据 Jan 介绍，节点式设计正是 n8n 在自动化领域的独特创新。与其他工具相比：Zapier 采用线性流程适合初学者，Make（原 Integromat）虽然支持分支但仍非真正的可视化编程。而 n8n 通过完整的“if-else”条件节点实现了真正的可视化编程范式，这种更高阶的抽象能力既是最突出的优势，也确实提高了使用门槛。&lt;/p&gt;
+&lt;p&gt;关于目标用户群体，Jan 表示在最初立项时自己就确立了“双向适配”的设计哲学：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;对业务人员：保留拖拽式操作的易用性，满足基础自动化需求；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对开发者：开放 JavaScript 自定义节点、API 调用等高级功能；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种设计源于 Jan 在影视行业的工作观察——最有效的工具应该既能满足艺术家快速操作，又能让工程师深度定制。n8n 本质上是在尝试解决这个普世矛盾：如何平衡“易用性”与“灵活性”。&lt;/p&gt;
+&lt;p&gt;如今，n8n 为 3000 多家企业提供关键任务工作流程支持，使其能够无缝集成任何语言模型（包括 DeepSeek 在内的最先进的模型），将其与自定义代码步骤相结合，并融入人机交互机制，以保持控制力和合规性。n8n 表示，这种方法使企业能够完全掌控其自动化和 AI 基础设施。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/34ceac13aced943e4d8c23ca72a6f868.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;从沮丧到迎来快速增长&#34;&gt;从沮丧到迎来快速增长
+&lt;/h2&gt;&lt;p&gt;早期的日子充满挑战——Jan 时常写代码写到深夜，甚至一度怀疑自己正在开发的东西是否会有人想要。但后来人们开始使用 n8n，分享工作流程，并在该项目的基础上进行开发。社区自然而然地发展壮大，用户数量不断增长。&lt;/p&gt;
+&lt;p&gt;至于为何会迎来快速增长？原因很简单：能用简单操作应对复杂场景。&lt;/p&gt;
+&lt;p&gt;n8n 采用节点式架构让用户能够轻松连接各类系统、云服务、数据库和应用程序，构建定制化的自动化流程。&lt;/p&gt;
+&lt;p&gt;在这个平台上，每个节点都代表一个独立的功能模块，可以执行诸如读取文件、发送邮件、触发通知等具体操作。这些节点既可以单独运行，也可以通过可视化界面相互连接，形成完整的自动化工作流。这种设计使得 n8n 既能处理简单的日常任务自动化，又能胜任复杂的业务场景整合。&lt;/p&gt;
+&lt;p&gt;还具备丰富的功能与灵活的扩展性。&lt;/p&gt;
+&lt;p&gt;具体而言，n8n 平台内置了 600 多个预定义工作流模板，覆盖了绝大多数常见的业务自动化场景，让团队能够快速实现流程自动化，显著提升工作效率。&lt;/p&gt;
+&lt;p&gt;采用 JSON 格式保存工作流配置，这种设计不仅方便用户复用和分享自己的自动化方案，还能充分利用开源社区的海量模板资源。&lt;/p&gt;
+&lt;p&gt;在集成能力方面，n8n 已经原生支持 350 多个主流应用程序，但其真正的优势在于近乎无限的扩展性。即使某些工具不在官方支持列表中，用户仍然可以通过 HTTP 请求节点连接其 API 接口，实现自定义集成。这意味着无论是小众工具还是企业内部系统，只要提供 API 接口，n8n 都能实现无缝对接。&lt;/p&gt;
+&lt;p&gt;更重要的是，n8n 不仅仅是一个简单的自动化工具，它更是一个完整的工作流开发平台。平台采用直观的可视化操作界面，降低了使用门槛，让非技术人员也能快速上手。同时，它又保留了足够的灵活性，支持通过 JavaScript 编写自定义逻辑，满足开发者的高级需求。&lt;/p&gt;
+&lt;p&gt;平台还提供流程快照功能，可以完整保存工作流配置，避免重复搭建。在企业级应用方面，n8n 能够支持高并发和复杂业务逻辑的处理，满足规模化部署的需求。&lt;/p&gt;
+&lt;p&gt;如今，n8n 这支团队已经扩展到拥有 80 多位成员，已发展到拥有超过 20 万用户、全球 Docker 拉取量达到 1 亿多，在 GitHub 代码库也跻身史上排名前 150 的项目之列。&lt;/p&gt;
+&lt;p&gt;根据 Sifted 的数据，n8n 是 2024 年欧洲增长最快的第 25 家初创企业。该公司的年增长率高达 378%。&lt;/p&gt;
+&lt;p&gt;网友怎么看？&lt;/p&gt;
+&lt;p&gt;如今在 GitHub 上声名鹊起的开源项目，在实际部署中，开发者对它的评价也是褒贬不一。&lt;/p&gt;
+&lt;p&gt;在 Hacker News 上，有正在使用 n8n 工具的用户称，&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们团队目前在一些项目中使用了这个工具。虽然我们经理没有任何编程基础，但他却用它构建了一个相当复杂的后端系统——整合了Postgres数据库和若干REST API，还能处理计划任务和Webhook触发的任务，这让我感到非常 impressive。不过这个工具存在一些明显缺点，比如偶尔会出现随机错误，现阶段我们只能通过重试机制来应对。好在听说这个问题近期可能会被修复。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;也有用户表示虽然它并非是最佳选择，但也会因为其开源、免费的属性而使用它。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我们将其部署在自建的Kubernetes集群上，这对我来说没什么技术门槛。免费版确实存在诸多限制，比如用户管理功能简陋，甚至缺乏OIDC集成这种基础功能。但考虑到我们严格控制软件采购预算，有总比没有强。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;有用户认为，它更倾向于基础薄弱的技术人员使用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“就个人偏好而言，我更倾向于使用正统的编程技术栈。但对于编程基础薄弱的人员（需要具备SQL、数据库原理和HTTP等基础知识），我还是会推荐这个工具。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;作为一款自动化管理平台，它难免被拿来与其他工具相比较。不少用户就拿它与 Zapier 进行了对比，但发现它的表现不如 Zapier。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我发现 n8n 的一个主要问题是，许多集成功能似乎还不够成熟。不到一年前，我们曾尝试用它替代 Zapier，但遇到了一些明显的限制：FTP 节点 不支持 TLS 加密传输（安全性不足）、AWS SES 节点 无法附加文件到邮件（功能缺失）、Salesforce 节点 可用选项极少（集成深度不足）。虽然只列举了几个例子，但这些限制让我们当时非常失望。n8n 本身是一款设计精良的优秀软件，但某些集成节点似乎只是为了凑数（比如标榜“支持 N 个集成”），而没有真正打磨可用性。或许现在情况有所改善，但无论如何，他们确实需要在这些集成功能上投入更多精力。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;但也有用户将 Zapier 和 n8n 两者比较仍然觉得 n8n 是个不错的选择，该用户称：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我已经使用 n8n 超过一年了。相比流行的 Zapier，我更喜欢 n8n 提供的灵活性和自托管能力。虽然它存在一些小问题，但这些问题通常只有在深度使用并查阅社区论坛后才能发现。我唯一不太推荐的是他们的云服务版本——相比我的自托管实例，云服务似乎存在更多漏洞和不稳定情况（比如频繁超时，可能是由于共享资源限制）。不过对于寻找 Zapier 经济实惠的开源替代方案的用户，我仍然会推荐 n8n。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;事实上，除了国际上知名的同类工具 Zapier 和 Make.com 这类工具外，其实国内类似于 n8n 的工具 Coze 也备受欢迎。&lt;/p&gt;
+&lt;p&gt;Coze 是字节跳动于 2023 年推出的新型自动化平台，其最大特色是深度整合了大语言模型等 AI 能力。Coze 目前已经由完全免费转为专业业务收费模式。&lt;/p&gt;
+&lt;p&gt;在技术架构上，Coze 强调低代码和自然语言交互，大大降低了使用门槛，使其特别适合快速搭建 AI 客服等简单自动化场景。不过需要注意的是，Coze 目前仅提供云端服务，不支持私有化部署。&lt;/p&gt;
+&lt;p&gt;也有一些用户将 n8n 与字节跳动 Coze 进行了对比。Coze 把自己定位为”任何人都能使用的 AI 聊天机器人平台”。它提供现成模板和拖放界面来定义机器人的对话逻辑。对于不懂代码的营销人员或客服人员，Coze 让他们可以像搭积木一样设计问答流程、训练聊天内容，然后通过集成测试实时试用效果。这种设计使得构建聊天机器人像制作幻灯片一样简单：选择一个模板（例如 FAQ 机器人），修改问题和回答，配置一点触发渠道，就可以上线。&lt;/p&gt;
+&lt;p&gt;该用户称，在易用性上，Coze 与 n8n 是不相上下的，coze 基本达到了”傻瓜式操作”的程度。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“新手通常可以在短时间内创建出一个简单的聊天机器人。需要指出的是，由于产品仍在完善中，一些用户反馈 Coze 当前的界面和体验存在不足，可能需要摸索。”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;n8n-的代码公平理念&#34;&gt;n8n 的“代码公平”理念
+&lt;/h2&gt;&lt;p&gt;据 n8n 团队称，他们的目标是让工具平民化。不过 Jan 认“平民化”应该是个过渡阶段，最终要走向完全无代码。这点和 Bubble 很像——虽然入门曲线陡峭，但能实现强大功能。&lt;/p&gt;
+&lt;p&gt;从 n8n 的产品定位中可见，虽然 n8n 追求平民化，但内核始终保留专业组件。&lt;/p&gt;
+&lt;p&gt;Jan 表示：“作为程序员，我始终为‘同类人’设计产品——很多重复代码根本没必要重写。我们内置代码模块，用户随时可以回退到代码层，这解决了开发者在使用无代码工具时的束缚感。”&lt;/p&gt;
+&lt;p&gt;就像 Excel 无处不在一样，n8n 的通用性让它适用于聊天机器人、安全自动化、电商等各类场景。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ai.programnotes.cn/img/ai/bbf63714fee480bc699694486b6a50d8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不可否认，在构建现代化软件中，这种部署灵活性确实非常关键。但与此同时，另一个需要关注的问题是代码的透明、可观测性。在这个方向上，Jan 提出了“公平代码”（Fair Code）的理念。&lt;/p&gt;
+&lt;p&gt;Jan 表示，目前很多开源项目都处于这样一种困境——传统开源模式容易被谷歌这种大型云厂商套利，他们直接用开源代码做托管服务盈利，而原团队却要免费维护。Elasticsearch 等公司被迫转向“开放核心”（open core），但这等于人为阉割产品。&lt;/p&gt;
+&lt;p&gt;而 n8n 采用 Apache 2.0+Commons Clause 协议，代码完全开放但禁止商业托管。这样既保护商业利益，又让用户能自主部署。就像 GitLab 有社区版 / 企业版，但 n8n 不会把用户管理这类基础功能设为付费墙。&lt;/p&gt;
+&lt;p&gt;合作伙伴通过授权协议将 n8n 集成到他们的 SaaS 产品中，这种模式让技术价值和商业回报真正对齐。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那么问题又来了，这种模式会对融资造成受影响吗？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Jan 看来，这种模式不仅不会造成影响，反而会更加吸引资本。Jan 表示：“实际上 VC 现在很看好开源模式。不过开源项目的用户规模很难量化——我们每天 Docker 拉取量从 2 万到 100 万波动，这些数据参考价值有限。”&lt;/p&gt;
+&lt;h2 id=&#34;参考链接&#34;&gt;&lt;strong&gt;参考链接：&lt;/strong&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://thepixeljets.com/blog/n8n/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;http://thepixeljets.com/blog/n8n/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ncwr.fm/episode/5-in-berlin-jan-tells-me-the-story-of-the-automation-tool-n8n-that-he-created&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.n8n.io/series-b/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.n8n.io/series-b/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.threads.net/@genius_pill/post/DH-2TU6NOnf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

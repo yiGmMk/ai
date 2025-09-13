@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="The Claude desktop application is a powerful desktop application that interacts with Claude AI through a model context protocol.">
+<title>MCP Client | Claude Desktop Application</title>
+
+<link rel='canonical' href='https://ai.programnotes.cn/en/p/mcp-client-claude-desktop-application/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="MCP Client | Claude Desktop Application">
+<meta property='og:description' content="The Claude desktop application is a powerful desktop application that interacts with Claude AI through a model context protocol.">
+<meta property='og:url' content='https://ai.programnotes.cn/en/p/mcp-client-claude-desktop-application/'>
+<meta property='og:site_name' content='AI News'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Claude' /><meta property='article:tag' content='Desktop Application' /><meta property='article:tag' content='AI Assistant' /><meta property='article:tag' content='MCP' /><meta property='article:tag' content='Anthropic' /><meta property='article:published_time' content='2024-05-16T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-05-16T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="MCP Client | Claude Desktop Application">
+<meta name="twitter:description" content="The Claude desktop application is a powerful desktop application that interacts with Claude AI through a model context protocol.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGCNFWCDTR"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KGCNFWCDTR');
+        }
+      </script><meta name="msvalidate.01" content="B6FE76A783A1770409EC903DE2C7AC6A">
+<meta name="baidu-site-verification" content="codeva-1aWsoaZLwH" />
+<meta name="shenma-site-verification" content="9266d91a096820488e830bfe1e237090_1731993487">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+    crossorigin="anonymous"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ace0f5f1-8f36-4d8b-a122-801a30143f39"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c0725a632d5dc26d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">AI News</a></h1>
+            <h2 class="site-description">Share AI News daily</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/en/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://ai.programnotes.cn/" >中文</option>
+                                
+                                    <option value="https://ai.programnotes.cn/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#detailed-explanation-of-core-functions">Detailed explanation of core functions</a>
+      <ol>
+        <li><a href="#model-context-protocol-mcp-support">Model Context Protocol (MCP) Support</a></li>
+        <li><a href="#multi-model-support">Multi-model support</a></li>
+        <li><a href="#file-processing-capability">File processing capability</a></li>
+      </ol>
+    </li>
+    <li><a href="#installation-and-setup-guide">Installation and Setup Guide</a>
+      <ol>
+        <li><a href="#download-and-install">Download and install</a></li>
+        <li><a href="#configure-the-mcp-server">Configure the MCP server</a>
+          <ol>
+            <li><a href="#file-system-server-example-configuration">File system server example configuration</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#advanced-usage-tips">Advanced usage tips</a>
+      <ol>
+        <li><a href="#tool-call">Tool call</a></li>
+        <li><a href="#session-management">Session Management</a></li>
+        <li><a href="#shortcut-key-optimization">Shortcut key optimization</a></li>
+      </ol>
+    </li>
+    <li><a href="#application-scenario-example">Application Scenario Example</a>
+      <ol>
+        <li><a href="#development-assistant">Development Assistant</a></li>
+        <li><a href="#content-creation">Content creation</a></li>
+        <li><a href="#data-analysis">Data Analysis</a></li>
+        <li><a href="#learning-assistance">Learning Assistance</a></li>
+      </ol>
+    </li>
+    <li><a href="#system-requirements">System Requirements</a>
+      <ol>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#development-environment-requirements-for-mcp-server">Development Environment Requirements (for MCP Server)</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/ai/" >
+                AI
+            </a>
+        
+            <a href="/en/categories/mcp/" >
+                MCP
+            </a>
+        
+            <a href="/en/categories/efficiency-tool/" >
+                Efficiency Tool
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/mcp-client-claude-desktop-application/">MCP Client | Claude Desktop Application</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            The Claude desktop application is a powerful desktop application that interacts with Claude AI through a model context protocol.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 16, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://ai.programnotes.cn/p/mcp%E5%AE%A2%E6%88%B7%E7%AB%AFclaude-%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><strong>Core content points:</strong></p>
+<ul>
+<li>Seamless interaction with Claude AI models through Model Context Protocol (MCP).</li>
+<li>Supports a variety of advanced functions to help users improve efficiency in their daily work.</li>
+<li>You can configure MCP server extension functions, such as file operations, data processing, etc.</li>
+</ul>
+<p>A powerful desktop application that interacts with Claude AI through a model context protocol.</p>
+<p>The Claude desktop application is the official client software launched by Anthropic, which enables seamless interaction with the Claude AI model through the Model Context Protocol (MCP). As a powerful AI assistant tool, it not only provides a native desktop experience, but also supports a variety of advanced features to help users improve efficiency in their daily work.</p>
+<p><img src="https://mcp.programnotes.cn/images/claude-desktop-ui.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Claude Desktop UI"
+	
+	
+></p>
+<h2 id="detailed-explanation-of-core-functions">Detailed explanation of core functions
+</h2><p>###Native desktop experience</p>
+<p>The Claude desktop application is specially optimized for different operating systems, providing a smoother user experience than the web version:</p>
+<ul>
+<li><strong>Keyboard shortcut key support</strong>: Provides rich shortcut key combinations, such as creating new conversations, searching content, undoing operations, etc.</li>
+<li><strong>System integration</strong>: In-depth integration with the operating system, supporting system functions such as notification push, clipboard operation, etc.</li>
+<li><strong>Offline session storage</strong>: The conversation history is saved locally to ensure data security and fast access</li>
+</ul>
+<h3 id="model-context-protocol-mcp-support">Model Context Protocol (MCP) Support
+</h3><p>As the official implementation client of MCP, Claude desktop applications support the ability to extend AI through protocols:</p>
+<ul>
+<li><strong>Server Connection</strong>: Can be configured to connect to various MCP servers to extend the functionality of Claude</li>
+<li><strong>Tool usage</strong>: Supports calling various tools through the MCP protocol, such as file system operations, network search, etc.</li>
+<li><strong>Context Management</strong>: Can effectively manage dialogue context and improve model understanding ability</li>
+</ul>
+<h3 id="multi-model-support">Multi-model support
+</h3><p>The Claude desktop application provides access to the full range of Anthropic models:</p>
+<ul>
+<li><strong>Claude 3 Opus</strong>: The most powerful model for complex reasoning and creative work</li>
+<li><strong>Claude 3 Sonnet</strong>: Model that balances performance and speed</li>
+<li><strong>Claude 3 Haiku</strong>: The fastest responsive model, suitable for daily conversations</li>
+</ul>
+<h3 id="file-processing-capability">File processing capability
+</h3><p>The Claude desktop application supports processing of multiple file formats:</p>
+<ul>
+<li><strong>Document Reading</strong>: Supports uploading and analysis of PDF, Word, Excel and other documents</li>
+<li><strong>Image Processing</strong>: Be able to understand and describe uploaded image content</li>
+<li><strong>Code Analysis</strong>: Supports code understanding and optimization in multiple programming languages</li>
+<li><strong>Batch processing</strong>: Multiple files can be uploaded at the same time for analysis</li>
+</ul>
+<h2 id="installation-and-setup-guide">Installation and Setup Guide
+</h2><h3 id="download-and-install">Download and install
+</h3><ol>
+<li>Visit [official download page] (<a class="link" href="https://claude.ai/download"  target="_blank" rel="noopener"
+    >https://claude.ai/download</a>) to get the installer</li>
+<li>Select the corresponding version according to your operating system:
+<ul>
+<li><strong>Windows</strong>: Download and run the .exe installation file</li>
+<li><strong>macOS</strong>: Download the .dmg file and drag the app to the application folder</li>
+</ul>
+</li>
+<li>When starting for the first time, follow the wizard to complete the account login and initial settings.</li>
+</ol>
+<h3 id="configure-the-mcp-server">Configure the MCP server
+</h3><p>The unique advantage of Claude desktop applications is that they can be extended by configuring the MCP server:</p>
+<ol>
+<li>Open the Claude menu and select Settings</li>
+<li>Select &ldquo;Developer&rdquo; on the left side of the settings panel</li>
+<li>Click &ldquo;Edit Configuration&rdquo; to open the configuration file</li>
+<li>Configuration file location:
+<ul>
+<li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+<li>Windows: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="file-system-server-example-configuration">File system server example configuration
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;filesystem&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;-y&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;@modelcontextprotocol/server-filesystem&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;/Users/Users/Desktop&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;/Users/Users/Download&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>After the configuration is complete, restart the Claude desktop application. You will see the tool icon in the lower right corner of the input box, indicating that the server has been connected successfully.</p>
+<h2 id="advanced-usage-tips">Advanced usage tips
+</h2><h3 id="tool-call">Tool call
+</h3><p>After enabling the MCP server, Claude can perform various actions:</p>
+<ul>
+<li><strong>File Operation</strong>: Read, create, move or delete files</li>
+<li><strong>File Search</strong>: Find specific files in a specified directory</li>
+<li><strong>Code Generation</strong>: Save the generated code directly to the file</li>
+<li><strong>Data Processing</strong>: Analyze data in local files and generate reports</li>
+</ul>
+<p>Before each tool call, Claude will request your confirmation to ensure security.</p>
+<h3 id="session-management">Session Management
+</h3><p>The Claude desktop application provides efficient session management capabilities:</p>
+<ul>
+<li><strong>Multiple session support</strong>: Maintain multiple independent conversations simultaneously</li>
+<li><strong>Session export</strong>: Export conversation content into multiple formats</li>
+<li><strong>Historical Search</strong>: Quickly retrieve historical dialogue content</li>
+<li><strong>Session Continue</strong>: Recover the previous conversation context at any time</li>
+</ul>
+<h3 id="shortcut-key-optimization">Shortcut key optimization
+</h3><p>Mastering the following shortcut keys can improve usage efficiency:</p>
+<ul>
+<li><strong>Ctrl+N</strong>: Create a new conversation</li>
+<li><strong>Ctrl+S</strong>: Save the current conversation</li>
+<li><strong>Ctrl+F</strong>: Search for dialogue content</li>
+<li><strong>Ctrl+Z</strong>: Undo the previous operation</li>
+<li><strong>Ctrl+/+?</strong>: Show shortcut key help</li>
+</ul>
+<h2 id="application-scenario-example">Application Scenario Example
+</h2><h3 id="development-assistant">Development Assistant
+</h3><ul>
+<li>Code review and optimization</li>
+<li>API Document Generation</li>
+<li>Debugging problem analysis</li>
+<li>Project Architecture Design</li>
+</ul>
+<h3 id="content-creation">Content creation
+</h3><ul>
+<li>Article writing and editing</li>
+<li>Creative conception and brainstorming</li>
+<li>Content translation and localization</li>
+<li>Market copywriting</li>
+</ul>
+<h3 id="data-analysis">Data Analysis
+</h3><ul>
+<li>Local data file analysis</li>
+<li>Data visualization suggestions</li>
+<li>Report generation and summary</li>
+<li>Data Insight Extraction</li>
+</ul>
+<h3 id="learning-assistance">Learning Assistance
+</h3><ul>
+<li>Concept explanation and learning tutoring</li>
+<li>Summary of research materials</li>
+<li>Study plan formulation</li>
+<li>Knowledge graph construction</li>
+</ul>
+<h2 id="system-requirements">System Requirements
+</h2><h3 id="windows">Windows
+</h3><ul>
+<li>Windows 10 or later (64-bit)</li>
+<li>4GB RAM (recommended above 8GB)</li>
+<li>500MB of available storage space</li>
+<li>Broadband network connection</li>
+</ul>
+<h3 id="macos">macOS
+</h3><ul>
+<li>macOS 11 (Big Sur) or later</li>
+<li>4GB RAM (recommended above 8GB)</li>
+<li>500MB of available storage space</li>
+<li>Broadband network connection</li>
+</ul>
+<h3 id="development-environment-requirements-for-mcp-server">Development Environment Requirements (for MCP Server)
+</h3><ul>
+<li>Node.js environment</li>
+<li>NPM Package Manager</li>
+</ul>
+<h2 id="conclusion">Conclusion
+</h2><p>Claude desktop applications seamlessly integrate AI assistant capabilities with local systems by implementing model context protocols, providing users with a powerful and flexible intelligent assistant tool. Whether it is daily work, development programming, or creative writing, it can significantly improve efficiency and experience. By placing and using MCP servers reasonably, you can further expand Claude&rsquo;s capabilities to create more possibilities according to your needs.</p>
+
+</section>
+
+
+<div class="article-adsense">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3614504270218797"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-layout="in-article" 
+            data-ad-format="fluid" 
+            data-ad-client="ca-pub-3614504270218797"
+        data-ad-slot="7868694184"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/claude/">Claude</a>
+        
+            <a href="/en/tags/desktop-application/">Desktop Application</a>
+        
+            <a href="/en/tags/ai-assistant/">AI Assistant</a>
+        
+            <a href="/en/tags/mcp/">MCP</a>
+        
+            <a href="/en/tags/anthropic/">Anthropic</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/en/p/jina-ai-remote-mcp-server/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jina AI Remote MCP Server</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/en/p/introducing-mcp-scan-protecting-mcp-with-invariant/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Introducing MCP-Scan: Protecting MCP with Invariant</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/ai-agent-breaks-the-mold-mcp-and-a2a-define-new-boundaries-for-security/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/20f50849770f0d97a8a7bc701d3f4dc7.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI Agent Breaks the Mold: MCP and A2A Define New Boundaries for Security</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-clientapify-beta/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png" loading="lazy" data-key="" data-hash="https://raw.githubusercontent.com/apify/tester-mcp-client/refs/heads/main/docs/chat-ui.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Client|Apify Beta</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/en/p/mcp-ultimate-guide/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://ai.programnotes.cn/img/ai/MCP.png" loading="lazy" data-key="" data-hash="https://ai.programnotes.cn/img/ai/MCP.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP Ultimate Guide</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="yiGmMk/comment_blog"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxOTcyMTY4NDA="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOC8FKSM4CAcFc"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 AI News
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
